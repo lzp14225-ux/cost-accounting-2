@@ -1,0 +1,424 @@
+"""
+InteractionAgent - 用户交互Agent (LangGraph 版本)
+负责人：人员B2
+
+基于 LangGraph 框架实现，提供：
+- 状态管理
+- 条件路由
+- 可选的 LLM 智能提示
+- 完整的交互历史
+
+纯业务逻辑层，不依赖 API Gateway
+负责检查参数完整性和生成交互需求
+"""
+from typing import Dict, Any, List, TypedDict, Annotated, Optional
+from .base_agent import BaseAgent, OpResult
+import logging
+import os
+import operator
+
+logger = logging.getLogger(__name__)
+
+# 尝试导入 LangGraph（可选依赖）
+try:
+    from langgraph.graph import StateGraph, END
+    from langchain_core.messages import HumanMessage, AIMessage
+    from langchain_openai import ChatOpenAI
+    LANGGRAPH_AVAILABLE = True
+except ImportError:
+    LANGGRAPH_AVAILABLE = False
+    logger.warning("⚠️  LangGraph 未安装，使用简化版本")
+
+
+class InteractionState(TypedDict):
+    """交互状态定义"""
+    job_id: str
+    features: List[Dict[str, Any]]
+    missing_params: List[Dict[str, Any]]
+    messages: Annotated[List, operator.add]
+    status: str
+    user_input: Dict[str, Any]
+
+
+class InteractionAgent(BaseAgent):
+    """
+    用户交互Agent (LangGraph 版本)
+    
+    职责：
+    1. 检查参数完整性
+    2. 识别缺失的参数
+    3. 生成交互需求（不负责推送）
+    4. 管理交互状态
+    
+    支持两种模式：
+    - 简单模式：模板化提示（默认，推荐生产环境）
+    - AI 模式：LLM 生成友好提示（需要 OPENAI_API_KEY）
+    """
+    
+    def __init__(self, use_llm: bool = False):
+        """
+        初始化 InteractionAgent
+        
+        Args:
+            use_llm: 是否使用 LLM 生成友好提示（需要配置 OPENAI_API_KEY）
+        """
+        super().__init__("InteractionAgent")
+        
+        self.use_llm = use_llm
+        self.llm = None
+        
+        # 如果启用 LLM 且 LangGraph 可用
+        if use_llm and LANGGRAPH_AVAILABLE:
+            api_key = os.getenv("OPENAI_API_KEY")
+            if api_key:
+                try:
+                    self.llm = ChatOpenAI(
+                        model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
+                        temperature=0,
+                        api_key=api_key
+                    )
+                    logger.info("✅ LLM 已启用")
+                except Exception as e:
+                    logger.warning(f"⚠️  LLM 初始化失败: {e}")
+            else:
+                logger.warning("⚠️  未配置 OPENAI_API_KEY，使用简单模式")
+        
+        # 构建工作流（如果 LangGraph 可用）
+        if LANGGRAPH_AVAILABLE:
+            self.graph = self._build_graph()
+        else:
+            self.graph = None
+        
+        logger.info(f"✅ InteractionAgent 初始化完成 (LLM={'启用' if self.llm else '禁用'})")
+    
+    def _build_graph(self) -> Optional[StateGraph]:
+        """构建 LangGraph 工作流"""
+        if not LANGGRAPH_AVAILABLE:
+            return None
+        
+        workflow = StateGraph(InteractionState)
+        
+        # 添加节点
+        workflow.add_node("check_params", self._check_params_node)
+        workflow.add_node("generate_prompt", self._generate_prompt_node)
+        workflow.add_node("validate_input", self._validate_input_node)
+        workflow.add_node("complete", self._complete_node)
+        
+        # 设置入口
+        workflow.set_entry_point("check_params")
+        
+        # 添加条件边
+        workflow.add_conditional_edges(
+            "check_params",
+            self._should_request_input,
+            {
+                "need_input": "generate_prompt",
+                "complete": "complete"
+            }
+        )
+        
+        workflow.add_edge("generate_prompt", END)
+        workflow.add_edge("validate_input", "check_params")
+        workflow.add_edge("complete", END)
+        
+        return workflow.compile()
+    
+    async def process(self, context: Dict[str, Any]) -> OpResult:
+        """
+        处理用户交互
+        
+        Args:
+            context: 执行上下文，包含：
+                - job_id: 任务ID
+                - features: 特征列表
+                - user_input: 用户输入（可选）
+        
+        Returns:
+            OpResult: 处理结果
+                - status: "ok" 或 "need_input"
+                - data: {"missing_params": [...], "prompt": "..."} 如果需要输入
+        """
+        logger.info(f"🔍 InteractionAgent 开始处理: job_id={context.get('job_id')}")
+        
+        try:
+            # 如果 LangGraph 可用，使用工作流
+            if self.graph:
+                result = await self._process_with_graph(context)
+            else:
+                result = await self._process_simple(context)
+            
+            return result
+        
+        except Exception as e:
+            logger.error(f"❌ InteractionAgent 处理失败: {e}", exc_info=True)
+            return OpResult(
+                status="error",
+                message=f"处理失败: {str(e)}"
+            )
+    
+    async def _process_with_graph(self, context: Dict[str, Any]) -> OpResult:
+        """使用 LangGraph 工作流处理"""
+        # 初始化状态
+        initial_state = {
+            "job_id": context["job_id"],
+            "features": context["features"],
+            "missing_params": [],
+            "messages": [],
+            "status": "checking",
+            "user_input": context.get("user_input", {})
+        }
+        
+        # 如果有用户输入，先验证
+        if initial_state["user_input"]:
+            initial_state = self._validate_input_node(initial_state)
+        
+        # 执行工作流
+        result = self.graph.invoke(initial_state)
+        
+        # 提取提示信息
+        prompt = ""
+        if result["messages"]:
+            last_message = result["messages"][-1]
+            if isinstance(last_message, AIMessage):
+                prompt = last_message.content
+        
+        # 转换为 OpResult
+        if result["status"] == "complete":
+            return OpResult(
+                status="ok",
+                message="参数完整，无需用户交互",
+                data={"features": result["features"]}
+            )
+        else:
+            return OpResult(
+                status="need_input",
+                message=f"需要用户输入 {len(result['missing_params'])} 个参数",
+                data={
+                    "missing_params": result["missing_params"],
+                    "prompt": prompt
+                }
+            )
+    
+    async def _process_simple(self, context: Dict[str, Any]) -> OpResult:
+        """简化版本处理（不使用 LangGraph）"""
+        features = context["features"]
+        user_input = context.get("user_input", {})
+        
+        # 如果有用户输入，先合并
+        if user_input:
+            for feature in features:
+                subgraph_id = feature["subgraph_id"]
+                if subgraph_id in user_input:
+                    feature.update(user_input[subgraph_id])
+        
+        # 检查参数
+        missing_params = self.check_missing_params({"features": features})
+        
+        if not missing_params:
+            return OpResult(
+                status="ok",
+                message="参数完整，无需用户交互",
+                data={"features": features}
+            )
+        
+        # 生成提示
+        prompt = self._generate_simple_prompt(missing_params)
+        
+        return OpResult(
+            status="need_input",
+            message=f"需要用户输入 {len(missing_params)} 个参数",
+            data={
+                "missing_params": missing_params,
+                "prompt": prompt
+            }
+        )
+    
+    def _check_params_node(self, state: InteractionState) -> InteractionState:
+        """检查参数完整性（LangGraph 节点）"""
+        logger.info(f"🔍 检查参数完整性: job_id={state['job_id']}")
+        
+        missing = []
+        features = state.get("features", [])
+        
+        for feature in features:
+            subgraph_id = feature.get("subgraph_id")
+            
+            # 检查厚度
+            if not feature.get("thickness_mm"):
+                missing.append({
+                    "subgraph_id": subgraph_id,
+                    "param_name": "thickness_mm",
+                    "param_label": "厚度(mm)",
+                    "param_type": "number",
+                    "required": True
+                })
+            
+            # 检查材质
+            if not feature.get("material"):
+                missing.append({
+                    "subgraph_id": subgraph_id,
+                    "param_name": "material",
+                    "param_label": "材质",
+                    "param_type": "select",
+                    "options": ["P20", "718", "NAK80", "S136"],
+                    "required": True
+                })
+            
+            # 检查线割长度
+            if feature.get("needs_wire_cut") and not feature.get("wire_length_mm"):
+                missing.append({
+                    "subgraph_id": subgraph_id,
+                    "param_name": "wire_length_mm",
+                    "param_label": "线割长度(mm)",
+                    "param_type": "number",
+                    "required": True
+                })
+        
+        state["missing_params"] = missing
+        state["status"] = "need_input" if missing else "complete"
+        
+        logger.info(f"✅ 参数检查完成: 缺失={len(missing)}")
+        
+        return state
+    
+    def _should_request_input(self, state: InteractionState) -> str:
+        """判断是否需要请求用户输入"""
+        return "need_input" if state["missing_params"] else "complete"
+    
+    def _generate_prompt_node(self, state: InteractionState) -> InteractionState:
+        """生成用户提示（LangGraph 节点）"""
+        missing = state["missing_params"]
+        
+        # 如果配置了 LLM，使用 AI 生成友好的提示
+        if self.llm:
+            prompt = self._generate_ai_prompt(missing)
+        else:
+            prompt = self._generate_simple_prompt(missing)
+        
+        state["messages"].append(AIMessage(content=prompt))
+        
+        logger.info(f"📝 生成用户提示: {len(missing)} 个参数")
+        
+        return state
+    
+    def _generate_ai_prompt(self, missing: List[Dict]) -> str:
+        """使用 LLM 生成友好的提示"""
+        system_prompt = """你是一个模具报价系统的助手。
+用户上传了CAD文件，但缺少一些必要参数。
+请生成一个友好、专业的提示，要求用户补充这些参数。
+
+要求：
+1. 语气友好、专业
+2. 清晰说明每个参数的含义
+3. 按子图分组显示
+4. 中文输出
+"""
+        
+        params_text = "\n".join([
+            f"- {p['subgraph_id']}: {p['param_label']} ({p['param_name']})"
+            for p in missing
+        ])
+        
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": f"缺失参数：\n{params_text}"}
+        ]
+        
+        try:
+            response = self.llm.invoke(messages)
+            return response.content
+        except Exception as e:
+            logger.error(f"❌ LLM 生成提示失败: {e}")
+            return self._generate_simple_prompt(missing)
+    
+    def _generate_simple_prompt(self, missing: List[Dict]) -> str:
+        """生成简单提示（不使用 LLM）"""
+        grouped = {}
+        for param in missing:
+            subgraph_id = param["subgraph_id"]
+            if subgraph_id not in grouped:
+                grouped[subgraph_id] = []
+            grouped[subgraph_id].append(param)
+        
+        lines = ["⚠️ 检测到以下参数缺失，请补充：\n"]
+        
+        for subgraph_id, params in grouped.items():
+            lines.append(f"📦 子图 {subgraph_id}:")
+            for param in params:
+                lines.append(f"  • {param['param_label']}")
+            lines.append("")
+        
+        return "\n".join(lines)
+    
+    def _validate_input_node(self, state: InteractionState) -> InteractionState:
+        """验证用户输入（LangGraph 节点）"""
+        user_input = state.get("user_input", {})
+        
+        logger.info(f"✅ 验证用户输入: {len(user_input)} 个参数")
+        
+        # 将用户输入合并到 features
+        features = state["features"]
+        for feature in features:
+            subgraph_id = feature["subgraph_id"]
+            if subgraph_id in user_input:
+                feature.update(user_input[subgraph_id])
+        
+        state["features"] = features
+        state["user_input"] = {}
+        
+        return state
+    
+    def _complete_node(self, state: InteractionState) -> InteractionState:
+        """完成交互（LangGraph 节点）"""
+        logger.info(f"✅ 参数收集完成: job_id={state['job_id']}")
+        
+        state["status"] = "complete"
+        state["messages"].append(AIMessage(content="✅ 所有参数已收集完成！"))
+        
+        return state
+    
+    def check_missing_params(self, context: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        检查缺失的参数（兼容旧接口）
+        
+        Args:
+            context: 执行上下文，包含 features 列表
+        
+        Returns:
+            缺失参数列表
+        """
+        missing = []
+        features = context.get("features", [])
+        
+        for feature in features:
+            subgraph_id = feature.get("subgraph_id")
+            
+            # 检查厚度
+            if not feature.get("thickness_mm"):
+                missing.append({
+                    "subgraph_id": subgraph_id,
+                    "param_name": "thickness_mm",
+                    "param_label": "厚度(mm)",
+                    "param_type": "number"
+                })
+            
+            # 检查材质
+            if not feature.get("material"):
+                missing.append({
+                    "subgraph_id": subgraph_id,
+                    "param_name": "material",
+                    "param_label": "材质",
+                    "param_type": "select",
+                    "options": ["P20", "718", "NAK80", "S136"]
+                })
+            
+            # 检查线割长度
+            if feature.get("needs_wire_cut") and not feature.get("wire_length_mm"):
+                missing.append({
+                    "subgraph_id": subgraph_id,
+                    "param_name": "wire_length_mm",
+                    "param_label": "线割长度(mm)",
+                    "param_type": "number"
+                })
+        
+        return missing

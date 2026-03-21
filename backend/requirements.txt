@@ -1,0 +1,36 @@
+# Web
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+flask==2.3.3
+
+# Database
+sqlalchemy[asyncio]==2.0.25
+asyncpg==0.29.0
+psycopg2-binary==2.9.7
+alembic==1.13.1
+
+# Queue / cache / storage
+aio-pika==9.3.1
+redis[hiredis]==5.3.1
+minio==7.2.3
+
+# Auth / config
+PyJWT==2.8.0
+passlib[bcrypt]==1.7.4
+cryptography==42.0.0
+python-dotenv==1.0.0
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# HTTP / logging
+httpx==0.26.0
+aiohttp==3.9.1
+python-json-logger==2.0.7
+python-dateutil==2.8.2
+
+# AI
+langchain>=1.0,<2.0
+langgraph>=1.0,<2.0
+langchain-openai>=0.1.0,<1.0
+openai>=1.0,<2.0

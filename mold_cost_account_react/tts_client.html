@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CosyVoice TTS 客户端</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        select, textarea, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        select:focus, textarea:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        .controls-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 8px;
+        }
+
+        .speed-control input[type="range"] {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .speed-control input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .speed-control input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .speed-value {
+            min-width: 50px;
+            text-align: center;
+            font-weight: 700;
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .status.loading {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-left: 4px solid #1976d2;
+        }
+
+        .status.success {
+            background: #e8f5e9;
+            color: #388e3c;
+            border-left: 4px solid #388e3c;
+        }
+
+        .status.error {
+            background: #ffebee;
+            color: #d32f2f;
+            border-left: 4px solid #d32f2f;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid #1976d2;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .audio-player {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .audio-player.show {
+            display: block;
+        }
+
+        .audio-player h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+
+        .server-config {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .server-config input {
+            background: white;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .info-box p {
+            margin: 5px 0;
+            color: #1565c0;
+            font-size: 13px;
+        }
+
+        .stream-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4caf50;
+            margin-left: 10px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎙️ CosyVoice TTS</h1>
+        <p class="subtitle">基于 Gradio API 的文字转语音客户端</p>
+
+        <!-- 服务器配置 -->
+        <div class="server-config">
+            <label for="apiUrl">🌐 Gradio 服务器地址</label>
+            <input type="text" id="apiUrl" value="" placeholder="请在 .env 中配置 VITE_TTS_BASE_URL">
+        </div>
+
+        <!-- 信息提示 -->
+        <div class="info-box">
+            <p>💡 提示：启用流式推理可以更快地开始播放音频</p>
+            <p>⚡ 快捷键：Ctrl + Enter 快速生成</p>
+        </div>
+
+        <!-- 音色选择 -->
+        <div class="form-group">
+            <label for="speaker">🎵 选择音色</label>
+            <select id="speaker">
+                <option value="中文女">中文女</option>
+                <option value="中文男">中文男</option>
+                <option value="日语男">日语男</option>
+                <option value="粤语女">粤语女</option>
+                <option value="英文女">英文女</option>
+                <option value="英文男">英文男</option>
+                <option value="韩语女">韩语女</option>
+            </select>
+        </div>
+
+        <!-- 文本输入 -->
+        <div class="form-group">
+            <label for="text">📝 输入合成文本</label>
+            <textarea id="text" placeholder="请输入要合成的文本...">我是通义实验室语音团队全新推出的生成式语音大模型，提供舒适自然的语音合成能力。</textarea>
+        </div>
+
+        <!-- 控制选项 -->
+        <div class="controls-row">
+            <div class="form-group">
+                <label>⚡ 语速调节</label>
+                <div class="speed-control">
+                    <span>慢</span>
+                    <input type="range" id="speed" min="0.5" max="2.0" step="0.1" value="1.0">
+                    <span>快</span>
+                    <span class="speed-value" id="speedValue">1.0x</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>🔄 流式推理</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="streamMode" checked>
+                    <label for="streamMode">启用流式推理（推荐）</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 按钮组 -->
+        <div class="button-group">
+            <button class="btn-primary" id="generateBtn">
+                🎤 生成语音
+            </button>
+            <button class="btn-secondary" id="downloadBtn" disabled>
+                💾 下载音频
+            </button>
+        </div>
+
+        <!-- 状态提示 -->
+        <div id="status" class="status"></div>
+
+        <!-- 音频播放器 -->
+        <div id="audioPlayer" class="audio-player">
+            <h3>🔊 播放音频</h3>
+            <audio id="audio" controls></audio>
+        </div>
+    </div>
+
+    <script>
+        // 配置
+        // 自动检测使用本地还是局域网地址
+        const defaultApiUrl = '%VITE_TTS_BASE_URL%';
+        
+        // 设置默认值
+        document.getElementById('apiUrl').value =
+            defaultApiUrl && defaultApiUrl !== '%VITE_TTS_BASE_URL%' ? defaultApiUrl : '';
+        let API_BASE_URL = defaultApiUrl;
+        let currentAudioUrl = null;
+
+        // DOM 元素
+        const elements = {
+            apiUrl: document.getElementById('apiUrl'),
+            speaker: document.getElementById('speaker'),
+            text: document.getElementById('text'),
+            speed: document.getElementById('speed'),
+            speedValue: document.getElementById('speedValue'),
+            streamMode: document.getElementById('streamMode'),
+            generateBtn: document.getElementById('generateBtn'),
+            downloadBtn: document.getElementById('downloadBtn'),
+            status: document.getElementById('status'),
+            audioPlayer: document.getElementById('audioPlayer'),
+            audio: document.getElementById('audio')
+        };
+
+        // 显示状态
+        function showStatus(message, type) {
+            elements.status.innerHTML = message;
+            elements.status.className = `status show ${type}`;
+        }
+
+        // 隐藏状态
+        function hideStatus() {
+            elements.status.className = 'status';
+        }
+
+        // 生成语音
+        async function generateSpeech() {
+            const text = elements.text.value.trim();
+            const speaker = elements.speaker.value;
+            const speed = parseFloat(elements.speed.value);
+            const streamMode = elements.streamMode.checked;
+
+            // 验证输入
+            if (!text) {
+                showStatus('❌ 请输入文本', 'error');
+                return;
+            }
+
+            // 禁用按钮
+            elements.generateBtn.disabled = true;
+            elements.generateBtn.innerHTML = '<span class="spinner"></span>生成中...';
+            
+            if (streamMode) {
+                showStatus('🔄 正在生成语音（流式模式）<span class="stream-indicator"></span>', 'loading');
+            } else {
+                showStatus('⏳ 正在生成语音，请稍候...', 'loading');
+            }
+
+            try {
+                // 调用 Gradio API
+                const response = await fetch(`${API_BASE_URL}/gradio_api/call/generate_audio`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        data: [
+                            text,              // tts_text
+                            "预训练音色",       // mode_checkbox_group
+                            speaker,           // sft_dropdown
+                            "",                // prompt_text
+                            null,              // prompt_wav_upload
+                            null,              // prompt_wav_record
+                            "",                // instruct_text
+                            0,                 // seed
+                            streamMode,        // stream (boolean: true/false)
+                            speed              // speed
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                const eventId = result.event_id;
+
+                // 获取结果
+                if (streamMode) {
+                    await handleStreamResult(eventId);
+                } else {
+                    await handleNormalResult(eventId);
+                }
+
+            } catch (error) {
+                showStatus(`❌ ${error.message}`, 'error');
+                console.error('生成失败:', error);
+            } finally {
+                elements.generateBtn.disabled = false;
+                elements.generateBtn.innerHTML = '🎤 生成语音';
+            }
+        }
+
+        // 处理流式结果
+        async function handleStreamResult(eventId) {
+            console.log('开始处理流式结果, eventId:', eventId);
+            
+            const maxAttempts = 60;
+            let lastAudioUrl = null;
+            
+            for (let attempt = 0; attempt < maxAttempts; attempt++) {
+                try {
+                    const url = `${API_BASE_URL}/gradio_api/call/generate_audio/${eventId}`;
+                    const response = await fetch(url);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+                    let isCompleted = false;
+                    
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        
+                        if (done) break;
+                        
+                        buffer += decoder.decode(value, { stream: true });
+                        const lines = buffer.split('\n');
+                        buffer = lines.pop() || '';
+                        
+                        for (const line of lines) {
+                            // 检查事件类型
+                            if (line.startsWith('event: complete')) {
+                                isCompleted = true;
+                                console.log('检测到完成事件');
+                            }
+                            
+                            if (line.startsWith('data: ')) {
+                                try {
+                                    const data = JSON.parse(line.substring(6));
+                                    console.log('收到数据:', data);
+                                    
+                                    // 处理数组格式
+                                    if (Array.isArray(data) && data.length > 0 && data[0].url) {
+                                        lastAudioUrl = data[0].url;
+                                        console.log('收到音频 URL:', lastAudioUrl);
+                                        showStatus('✨ 正在生成音频...', 'loading');
+                                    }
+                                    // 处理标准格式
+                                    else if (data.msg === 'process_completed') {
+                                        isCompleted = true;
+                                        if (data.output && data.output.data && data.output.data[0]) {
+                                            lastAudioUrl = data.output.data[0].url;
+                                        }
+                                    }
+                                    else if (data.msg === 'error') {
+                                        throw new Error(data.output || '生成失败');
+                                    }
+                                } catch (e) {
+                                    console.error('解析数据失败:', e, '原始行:', line);
+                                }
+                            }
+                        }
+                    }
+                    
+                    // 如果检测到完成且有音频 URL
+                    if (isCompleted && lastAudioUrl) {
+                        console.log('生成完成, 原始 URL:', lastAudioUrl);
+                        
+                        // 修复 URL 路径 - 移除错误的 /gradio_a/ 前缀
+                        if (lastAudioUrl.includes('/gradio_a/gradio_api/')) {
+                            lastAudioUrl = lastAudioUrl.replace('/gradio_a/gradio_api/', '/gradio_api/');
+                        }
+                        
+                        // 确保 URL 是完整的
+                        if (!lastAudioUrl.startsWith('http')) {
+                            lastAudioUrl = `${API_BASE_URL}${lastAudioUrl.startsWith('/') ? '' : '/'}${lastAudioUrl}`;
+                        }
+                        
+                        console.log('修复后 URL:', lastAudioUrl);
+                        
+                        currentAudioUrl = lastAudioUrl;
+                        elements.audio.src = lastAudioUrl;
+                        elements.audioPlayer.classList.add('show');
+                        elements.downloadBtn.disabled = false;
+                        
+                        showStatus('✅ 生成成功！', 'success');
+                        
+                        // 监听音频加载错误
+                        elements.audio.onerror = (e) => {
+                            console.error('音频加载失败:', e);
+                            console.error('音频 URL:', lastAudioUrl);
+                            showStatus('❌ 音频加载失败，URL: ' + lastAudioUrl, 'error');
+                        };
+                        
+                        elements.audio.onloadeddata = () => {
+                            console.log('音频加载成功');
+                        };
+                        
+                        // 自动播放
+                        setTimeout(() => {
+                            elements.audio.play().catch(err => {
+                                console.log('自动播放被阻止:', err);
+                            });
+                        }, 100);
+                        
+                        return;
+                    }
+                    
+                } catch (error) {
+                    console.error('尝试', attempt + 1, '失败:', error);
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            
+            throw new Error('生成超时');
+        }
+
+        // 处理普通结果
+        async function handleNormalResult(eventId) {
+            console.log('开始处理非流式结果, eventId:', eventId);
+            const maxAttempts = 60;
+            let lastAudioData = null;
+            
+            for (let attempt = 0; attempt < maxAttempts; attempt++) {
+                try {
+                    const url = `${API_BASE_URL}/gradio_api/call/generate_audio/${eventId}`;
+                    console.log('轮询 URL:', url, '尝试:', attempt + 1);
+                    
+                    const response = await fetch(url);
+                    
+                    if (!response.ok) {
+                        console.error('HTTP 错误:', response.status);
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const text = await response.text();
+                    console.log('收到响应:', text.substring(0, 200));
+                    
+                    // 解析 SSE 流
+                    const lines = text.trim().split('\n');
+                    let isCompleted = false;
+                    
+                    for (const line of lines) {
+                        // 检查事件类型
+                        if (line.startsWith('event: complete')) {
+                            isCompleted = true;
+                            console.log('检测到完成事件');
+                        }
+                        
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.substring(6));
+                                console.log('解析数据:', data);
+                                
+                                // 处理标准格式
+                                if (data.msg === 'process_completed') {
+                                    console.log('生成完成（标准格式）!');
+                                    const audioData = data.output.data[0];
+                                    let audioUrl = audioData.url;
+                                    
+                                    console.log('原始 URL:', audioUrl);
+                                    
+                                    // 修复 URL 路径
+                                    // 1. 移除错误的 /gradio_a/ 前缀
+                                    if (audioUrl.includes('/gradio_a/gradio_api/')) {
+                                        audioUrl = audioUrl.replace('/gradio_a/gradio_api/', '/gradio_api/');
+                                    }
+                                    
+                                    // 2. 确保 URL 是完整的
+                                    if (audioUrl && !audioUrl.startsWith('http')) {
+                                        audioUrl = `${API_BASE_URL}${audioUrl.startsWith('/') ? '' : '/'}${audioUrl}`;
+                                    }
+                                    
+                                    console.log('修复后 URL:', audioUrl);
+                                    
+                                    currentAudioUrl = audioUrl;
+                                    elements.audio.src = audioUrl;
+                                    elements.audioPlayer.classList.add('show');
+                                    elements.downloadBtn.disabled = false;
+                                    
+                                    showStatus('✅ 生成成功！', 'success');
+                                    
+                                    // 自动播放
+                                    setTimeout(() => {
+                                        elements.audio.play().catch(err => {
+                                            console.log('自动播放被阻止:', err);
+                                        });
+                                    }, 100);
+                                    
+                                    return;
+                                }
+                                // 处理数组格式（实际返回的格式）
+                                else if (Array.isArray(data) && data.length > 0 && data[0].url) {
+                                    lastAudioData = data[0];
+                                    console.log('收到音频数据（数组格式）:', lastAudioData);
+                                    
+                                    // 如果是完成事件，立即使用
+                                    if (isCompleted) {
+                                        let audioUrl = lastAudioData.url;
+                                        
+                                        console.log('原始 URL:', audioUrl);
+                                        
+                                        // 修复 URL 路径
+                                        // 1. 移除错误的 /gradio_a/ 前缀
+                                        if (audioUrl.includes('/gradio_a/gradio_api/')) {
+                                            audioUrl = audioUrl.replace('/gradio_a/gradio_api/', '/gradio_api/');
+                                        }
+                                        
+                                        // 2. 确保 URL 是完整的
+                                        if (audioUrl && !audioUrl.startsWith('http')) {
+                                            audioUrl = `${API_BASE_URL}${audioUrl.startsWith('/') ? '' : '/'}${audioUrl}`;
+                                        }
+                                        
+                                        console.log('修复后 URL:', audioUrl);
+                                        
+                                        currentAudioUrl = audioUrl;
+                                        elements.audio.src = audioUrl;
+                                        elements.audioPlayer.classList.add('show');
+                                        elements.downloadBtn.disabled = false;
+                                        
+                                        showStatus('✅ 生成成功！', 'success');
+                                        
+                                        // 监听音频加载错误
+                                        elements.audio.onerror = (e) => {
+                                            console.error('音频加载失败:', e);
+                                            console.error('音频 URL:', audioUrl);
+                                            showStatus('❌ 音频加载失败，URL: ' + audioUrl, 'error');
+                                        };
+                                        
+                                        elements.audio.onloadeddata = () => {
+                                            console.log('音频加载成功');
+                                        };
+                                        
+                                        // 自动播放
+                                        setTimeout(() => {
+                                            elements.audio.play().catch(err => {
+                                                console.log('自动播放被阻止:', err);
+                                            });
+                                        }, 100);
+                                        
+                                        return;
+                                    }
+                                    
+                                    showStatus('⏳ 正在生成音频，请稍候...', 'loading');
+                                }
+                                else if (data.msg === 'process_generating') {
+                                    console.log('正在生成...');
+                                    showStatus('⏳ 正在生成音频，请稍候...', 'loading');
+                                } 
+                                else if (data.msg === 'error') {
+                                    throw new Error(data.output || '生成失败');
+                                }
+                            } catch (e) {
+                                console.error('解析失败:', e, '行:', line);
+                            }
+                        }
+                    }
+                    
+                    // 如果检测到完成事件且有音频数据
+                    if (isCompleted && lastAudioData) {
+                        let audioUrl = lastAudioData.url;
+                        
+                        console.log('使用最后的音频数据, 原始 URL:', audioUrl);
+                        
+                        // 修复 URL 路径
+                        // 1. 移除错误的 /gradio_a/ 前缀
+                        if (audioUrl.includes('/gradio_a/gradio_api/')) {
+                            audioUrl = audioUrl.replace('/gradio_a/gradio_api/', '/gradio_api/');
+                        }
+                        
+                        // 2. 确保 URL 是完整的
+                        if (audioUrl && !audioUrl.startsWith('http')) {
+                            audioUrl = `${API_BASE_URL}${audioUrl.startsWith('/') ? '' : '/'}${audioUrl}`;
+                        }
+                        
+                        console.log('修复后 URL:', audioUrl);
+                        
+                        currentAudioUrl = audioUrl;
+                        elements.audio.src = audioUrl;
+                        elements.audioPlayer.classList.add('show');
+                        elements.downloadBtn.disabled = false;
+                        
+                        showStatus('✅ 生成成功！', 'success');
+                        
+                        // 自动播放
+                        setTimeout(() => {
+                            elements.audio.play().catch(err => {
+                                console.log('自动播放被阻止:', err);
+                            });
+                        }, 100);
+                        
+                        return;
+                    }
+                    
+                } catch (error) {
+                    console.error('尝试', attempt + 1, '失败:', error);
+                    if (attempt === maxAttempts - 1) {
+                        throw error;
+                    }
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+
+            throw new Error('生成超时');
+        }
+
+        // 下载音频
+        function downloadAudio() {
+            if (!currentAudioUrl) return;
+
+            const link = document.createElement('a');
+            link.href = currentAudioUrl;
+            link.download = `speech_${Date.now()}.wav`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showStatus('✅ 下载成功！', 'success');
+            setTimeout(hideStatus, 2000);
+        }
+
+        // 更新语速显示
+        elements.speed.addEventListener('input', (e) => {
+            elements.speedValue.textContent = `${e.target.value}x`;
+        });
+
+        // API URL 变化
+        elements.apiUrl.addEventListener('change', (e) => {
+            API_BASE_URL = e.target.value;
+            showStatus('✅ 服务器地址已更新', 'success');
+            setTimeout(hideStatus, 2000);
+        });
+
+        // 生成按钮
+        elements.generateBtn.addEventListener('click', generateSpeech);
+
+        // 下载按钮
+        elements.downloadBtn.addEventListener('click', downloadAudio);
+
+        // 回车键生成
+        elements.text.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                generateSpeech();
+            }
+        });
+
+        // 清理资源
+        window.addEventListener('beforeunload', () => {
+            if (elements.audio.src) {
+                URL.revokeObjectURL(elements.audio.src);
+            }
+        });
+
+        // 页面加载完成提示
+        window.addEventListener('load', () => {
+            showStatus('✅ 准备就绪，可以开始使用！', 'success');
+            setTimeout(hideStatus, 3000);
+        });
+    </script>
+</body>
+</html>

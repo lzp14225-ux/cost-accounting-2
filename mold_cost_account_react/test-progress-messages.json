@@ -1,0 +1,81 @@
+[
+  {
+    "type": "progress",
+    "job_id": "test-job-redis-123",
+    "timestamp": "2026-01-14T13:23:32.323264",
+    "data": {
+      "stage": "initializing",
+      "progress": 0,
+      "message": "任务初始化...",
+      "details": {
+        "status": "starting"
+      }
+    }
+  },
+  {
+    "type": "progress",
+    "job_id": "test-job-redis-123",
+    "timestamp": "2026-01-14T13:23:34.325113",
+    "data": {
+      "stage": "cad_parsing",
+      "progress": 20,
+      "message": "正在解析CAD文件...",
+      "details": {
+        "file": "mold_part_001.dwg"
+      }
+    }
+  },
+  {
+    "type": "progress",
+    "job_id": "test-job-redis-123",
+    "timestamp": "2026-01-14T13:23:36.327247",
+    "data": {
+      "stage": "feature_recognition",
+      "progress": 50,
+      "message": "正在识别特征...",
+      "details": {
+        "subgraphs_found": 5
+      }
+    }
+  },
+  {
+    "type": "progress",
+    "job_id": "test-job-redis-123",
+    "timestamp": "2026-01-14T13:23:38.328864",
+    "data": {
+      "stage": "decision",
+      "progress": 70,
+      "message": "正在进行工艺决策...",
+      "details": {
+        "wire_mode": "mid"
+      }
+    }
+  },
+  {
+    "type": "progress",
+    "job_id": "test-job-redis-123",
+    "timestamp": "2026-01-14T13:23:40.331137",
+    "data": {
+      "stage": "pricing",
+      "progress": 85,
+      "message": "正在计算价格...",
+      "details": {
+        "total_cost": 12345.67
+      }
+    }
+  },
+  {
+    "type": "progress",
+    "job_id": "test-job-redis-123",
+    "timestamp": "2026-01-14T13:23:42.333743",
+    "data": {
+      "stage": "completed",
+      "progress": 100,
+      "message": "任务完成！",
+      "details": {
+        "total_cost": 12345.67,
+        "report_url": "https://example.com/report.xlsx"
+      }
+    }
+  }
+]
