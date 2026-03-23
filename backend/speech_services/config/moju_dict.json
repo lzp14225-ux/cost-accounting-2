@@ -1,0 +1,99 @@
+{
+    "version": "0.1.0",
+    "description": "模具工业领域术语字典",
+    "category": "mold",
+    "terms": {
+        "慢丝割一刀": {
+            "correct": "慢丝割一刀",
+            "description": "慢走丝线切割加工的第一刀切割",
+            "variants": [
+                {
+                    "wrong": "慢丝割一道",
+                    "description": "同音误识别"
+                },
+                {
+                    "wrong": "慢丝割1刀",
+                    "description": "数字形式"
+                },
+                {
+                    "wrong": "慢思割一刀",
+                    "description": "音韵误识别"
+                }
+            ]
+        },
+        "慢丝割一修一": {
+            "correct": "慢丝割一修一",
+            "description": "慢走丝线切割加工的第一次修刀",
+            "variants": [
+                {
+                    "wrong": "慢丝割一修1",
+                    "description": "数字形式"
+                },
+                {
+                    "wrong": "慢思割一修一",
+                    "description": "音韵误识别"
+                }
+            ]
+        },
+        "慢丝割一修二": {
+            "correct": "慢丝割一修二",
+            "description": "慢走丝线切割加工的第二次修刀",
+            "variants": [
+                {
+                    "wrong": "慢丝割一修2",
+                    "description": "数字形式"
+                },
+                {
+                    "wrong": "慢思割一修二",
+                    "description": "音韵误识别"
+                }
+            ]
+        },
+        "慢丝割一修三": {
+            "correct": "慢丝割一修三",
+            "description": "慢走丝线切割加工的第三次修刀",
+            "variants": [
+                {
+                    "wrong": "慢丝割一修3",
+                    "description": "数字形式"
+                },
+                {
+                    "wrong": "慢思割一修三",
+                    "description": "音韵误识别"
+                }
+            ]
+        },
+        "快丝割一刀": {
+            "correct": "快丝割一刀",
+            "description": "快走丝线切割加工的第一刀切割",
+            "variants": [
+                {
+                    "wrong": "快丝割一道",
+                    "description": "同音误识别"
+                },
+                {
+                    "wrong": "快丝割1刀",
+                    "description": "数字形式"
+                },
+                {
+                    "wrong": "快思割一刀",
+                    "description": "音韵误识别"
+                }
+            ]
+        },
+        "中丝割一修一": {
+            "correct": "中丝割一修一",
+            "description": "中走丝线切割加工的第一次修刀",
+            "variants": [
+                {
+                    "wrong": "中丝割一修1",
+                    "description": "数字形式"
+                },
+                {
+                    "wrong": "中思割一修一",
+                    "description": "音韵误识别"
+                }
+            ]
+        }
+    }
+}

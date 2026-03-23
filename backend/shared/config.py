@@ -26,6 +26,8 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     RELOAD: bool = True
     CORS_ORIGINS: str = ""
+    START_EMBEDDED_WORKER: bool = True
+    EMBEDDED_WORKER_ENTRY: str = "workers/orchestrator_worker.py"
 
     DB_HOST: str = "127.0.0.1"
     DB_PORT: int = 5432
@@ -74,6 +76,11 @@ class Settings(BaseSettings):
     NC_AGENT_URL: str = ""
     NC_AGENT_TIMEOUT: int = 7200
     SPEECH_SERVICE_URL: str = ""
+    SPEECH_DEFAULT_MODEL: str = "small"
+    SPEECH_DEFAULT_LANGUAGE: str = "zh"
+    SPEECH_MODEL_DIR: str = ""
+    SPEECH_HOST: str = "0.0.0.0"
+    SPEECH_PORT: int = 8888
     API_TIMEOUT: float = 60.0
 
     PRICE_WG_RULE_WEIGHT_UNIT: str = "g"
@@ -95,6 +102,18 @@ class Settings(BaseSettings):
     @property
     def CORS_ORIGINS_LIST(self) -> List[str]:
         return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
+
+    @property
+    def ALLOWED_EXTENSIONS_LIST(self) -> List[str]:
+        return [
+            ext.strip().lower()
+            for ext in self.ALLOWED_FILE_EXTENSIONS.split(",")
+            if ext.strip()
+        ]
+
+    @property
+    def MAX_FILE_SIZE_BYTES(self) -> int:
+        return int(self.MAX_FILE_SIZE_MB) * 1024 * 1024
 
     @property
     def UNIFIED_PORT(self) -> int:

@@ -4,7 +4,7 @@ import { sseService, SSECallbacks, ChatMessage as SSEChatMessage } from './sseSe
 import { reviewService } from './reviewService'
 import config from '../config/env'
 import axios from 'axios'
-import { AUTH_STORAGE_KEYS } from '../constants/auth'
+import { getValidToken } from '../utils/auth'
 
 export interface ChatMessage {
   content: string
@@ -189,7 +189,7 @@ export const chatService = {
   async continueCalculation(jobId: string) {
     try {
       // 使用独立的 axios 实例调用 continue 接口
-      const token = localStorage.getItem(AUTH_STORAGE_KEYS.TOKEN)
+      const token = getValidToken()
       const response = await axios.post(
         `${config.CONTINUE_API_URL}/jobs/${jobId}/continue`,
         {},
@@ -339,7 +339,7 @@ export const chatService = {
    */
   async getJobDetail(jobId: string) {
     try {
-      const token = localStorage.getItem(AUTH_STORAGE_KEYS.TOKEN)
+      const token = getValidToken()
       const response = await axios.get(
         `${config.AUTH_BASE_URL}/api/jobs/${jobId}`,
         {

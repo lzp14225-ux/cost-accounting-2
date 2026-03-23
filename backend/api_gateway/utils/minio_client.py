@@ -55,6 +55,15 @@ class MinIOClient:
             logger.error(f"❌ 创建MinIO bucket失败: {e}")
             raise
     
+    def ensure_bucket(self, bucket_name: str):
+        try:
+            if not self.client.bucket_exists(bucket_name):
+                self.client.make_bucket(bucket_name)
+                logger.info("MinIO bucket created: %s", bucket_name)
+        except S3Error as e:
+            logger.error("MinIO ensure bucket failed: %s", e)
+            raise Exception(f"MinIO bucket 初始化失败: {str(e)}")
+
     async def upload_file(
         self,
         file: UploadFile,
@@ -191,3 +200,37 @@ class MinIOClient:
 
 # 全局MinIO客户端实例
 minio_client = MinIOClient()
+
+
+def upload_file_to_minio(
+    bucket_name: str,
+    object_name: str,
+    file_data: BinaryIO,
+    content_type: str = "application/octet-stream",
+):
+    minio_client.ensure_bucket(bucket_name)
+    file_data.seek(0)
+    file_data.seek(0, 2)
+    file_size = file_data.tell()
+    file_data.seek(0)
+    try:
+        result = minio_client.client.put_object(
+            bucket_name=bucket_name,
+            object_name=object_name,
+            data=file_data,
+            length=file_size,
+            content_type=content_type,
+        )
+        logger.info("MinIO uploaded object: %s/%s", bucket_name, object_name)
+        return result
+    except S3Error as e:
+        logger.error("MinIO upload failed: %s", e)
+        raise Exception(f"文件上传失败: {str(e)}")
+
+
+def get_file_url(bucket_name: str, object_name: str, expires: int = 86400) -> str:
+    return minio_client.generate_presigned_url(
+        object_name=object_name,
+        expires=timedelta(seconds=expires),
+        bucket=bucket_name,
+    )

@@ -1,58 +1,129 @@
 """
-消息队列模块
-负责人：人员B1
+RabbitMQ message queue wrapper.
 """
-import aio_pika
+
+import asyncio
 import json
-from typing import Dict, Any, Callable
+from typing import Any, Callable, Dict
+
+import aio_pika
+
 from shared.config import settings
 
-RABBITMQ_URL = settings.RABBITMQ_URL
+
+QUEUE_JOB_PROCESSING = settings.RABBITMQ_QUEUE_JOB_PROCESSING or "job_processing"
+QUEUE_PRICING_RECALCULATE = "pricing_recalculate"
+QUEUE_RECALCULATION = "recalculation_queue"
+QUEUE_DEAD_LETTER = settings.RABBITMQ_QUEUE_DLX or "job_processing_dlx"
+
 
 class MessageQueue:
-    """RabbitMQ消息队列封装"""
-    
+    """Minimal RabbitMQ wrapper used by workers."""
+
     def __init__(self):
         self.connection = None
         self.channel = None
-    
+
     async def connect(self):
-        """建立连接"""
-        self.connection = await aio_pika.connect_robust(RABBITMQ_URL)
+        """Create a robust RabbitMQ connection."""
+        if self.connection and not self.connection.is_closed:
+            return
+
+        self.connection = await aio_pika.connect_robust(
+            settings.RABBITMQ_URL,
+            heartbeat=86400,
+            client_properties={"connection_name": "mold_main_worker"},
+        )
         self.channel = await self.connection.channel()
-        await self.channel.set_qos(prefetch_count=2)  # 每个Worker并发2个任务
-    
+        await self.channel.set_qos(prefetch_count=10)
+
+    async def _declare_queue(self, queue_name: str):
+        if self.channel is None:
+            await self.connect()
+
+        return await self.channel.declare_queue(
+            queue_name,
+            durable=True,
+            arguments={
+                "x-message-ttl": 86400000,
+                "x-dead-letter-exchange": f"{QUEUE_DEAD_LETTER}_exchange",
+                "x-dead-letter-routing-key": QUEUE_DEAD_LETTER,
+            },
+        )
+
     async def publish(self, queue_name: str, message: Dict[str, Any]):
-        """发布消息"""
-        queue = await self.channel.declare_queue(queue_name, durable=True)
+        """Publish a message to a durable queue."""
+        await self._declare_queue(queue_name)
         await self.channel.default_exchange.publish(
             aio_pika.Message(
-                body=json.dumps(message).encode(),
-                delivery_mode=aio_pika.DeliveryMode.PERSISTENT
+                body=json.dumps(message, ensure_ascii=False).encode("utf-8"),
+                delivery_mode=aio_pika.DeliveryMode.PERSISTENT,
             ),
-            routing_key=queue_name
+            routing_key=queue_name,
         )
-    
+
     async def consume(
         self,
         queue_name: str,
-        callback: Callable
+        callback: Callable,
+        early_ack: bool = False,
+        max_concurrent: int = 1,
     ):
-        """消费消息"""
-        queue = await self.channel.declare_queue(queue_name, durable=True)
-        
+        """
+        Consume messages from a queue.
+
+        `early_ack=True` acknowledges the message before callback execution.
+        `max_concurrent` controls how many callbacks run at once.
+        """
+        queue = await self._declare_queue(queue_name)
+        semaphore = asyncio.Semaphore(max(1, max_concurrent))
+        tasks = set()
+
+        async def process_message(message: aio_pika.abc.AbstractIncomingMessage):
+            async with semaphore:
+                if early_ack:
+                    try:
+                        data = json.loads(message.body.decode("utf-8"))
+                        await message.ack()
+                        await callback(data)
+                    except json.JSONDecodeError:
+                        try:
+                            await message.ack()
+                        except Exception:
+                            pass
+                    except Exception:
+                        try:
+                            if not message.processed:
+                                await message.ack()
+                        except Exception:
+                            pass
+                else:
+                    try:
+                        data = json.loads(message.body.decode("utf-8"))
+                        result = await callback(data)
+                        if result is False:
+                            await message.reject(requeue=False)
+                        else:
+                            await message.ack()
+                    except json.JSONDecodeError:
+                        await message.reject(requeue=False)
+                    except Exception:
+                        await message.reject(requeue=True)
+
         async with queue.iterator() as queue_iter:
             async for message in queue_iter:
-                async with message.process():
-                    data = json.loads(message.body.decode())
-                    await callback(data)
-    
-    async def close(self):
-        """关闭连接"""
-        if self.connection:
-            await self.connection.close()
+                task = asyncio.create_task(process_message(message))
+                tasks.add(task)
+                task.add_done_callback(tasks.discard)
 
-# 队列名称常量
-QUEUE_JOB_PROCESSING = "job_processing"
-QUEUE_RECALCULATION = "recalculation_queue"
-QUEUE_DEAD_LETTER = "dead_letter_queue"
+                if len(tasks) >= max(1, max_concurrent):
+                    done, pending = await asyncio.wait(
+                        tasks,
+                        return_when=asyncio.FIRST_COMPLETED,
+                    )
+                    tasks = pending
+
+    async def close(self):
+        """Close the RabbitMQ connection."""
+        if self.connection and not self.connection.is_closed:
+            await self.connection.close()

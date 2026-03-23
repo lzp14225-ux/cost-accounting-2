@@ -28,10 +28,16 @@ class ProgressPublisher:
             from api_gateway.utils.redis_client import redis_client
 
             async def _publish() -> None:
-                await redis_client.publish(
-                    f"job:{job_id}:progress",
-                    json.dumps({"type": "progress", "data": payload}, ensure_ascii=False),
-                )
+                try:
+                    if not redis_client.client:
+                        await redis_client.connect()
+
+                    await redis_client.publish(
+                        f"job:{job_id}:progress",
+                        json.dumps(payload, ensure_ascii=False),
+                    )
+                except Exception as exc:
+                    logger.warning("Skip progress publish for job %s: %s", job_id, exc)
 
             asyncio.get_running_loop().create_task(_publish())
         except Exception:

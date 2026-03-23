@@ -1,6 +1,8 @@
 // 语音识别配置 - 使用环境变量
+import config from '../config/env'
+
 const SPEECH_CONFIG = {
-  apiUrl: `${import.meta.env.VITE_SPEECH_RECOGNITION_BASE_URL}/api/transcribe/stream`,
+  apiUrl: `${config.SPEECH_RECOGNITION_BASE_URL}/api/transcribe/stream`,
   model: 'small',
   language: 'zh',
   fixTerms: true,

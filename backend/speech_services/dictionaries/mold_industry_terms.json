@@ -1,0 +1,810 @@
+{
+    "version": "1.0.0",
+    "description": "模具成本核算系统 - 行业术语字典（基于USER_MODIFICATION_EXAMPLES.md优化）",
+    "categories": {
+        "wire_cutting_process": {
+            "name": "线切割工艺",
+            "description": "线切割加工工艺相关术语",
+            "terms": {
+                "慢丝割一刀": {
+                    "correct": "慢丝割一刀",
+                    "description": "慢走丝线切割加工的第一刀切割",
+                    "variants": [
+                        {
+                            "wrong": "慢丝割一道",
+                            "description": "同音误识别"
+                        },
+                        {
+                            "wrong": "慢丝割1刀",
+                            "description": "数字形式"
+                        },
+                        {
+                            "wrong": "慢思割一刀",
+                            "description": "音韵误识别"
+                        }
+                    ]
+                },
+                "慢丝割一修一": {
+                    "correct": "慢丝割一修一",
+                    "description": "慢走丝线切割加工的第一次修刀",
+                    "variants": [
+                        {
+                            "wrong": "慢丝割一修1",
+                            "description": "数字形式"
+                        },
+                        {
+                            "wrong": "慢思割一修一",
+                            "description": "音韵误识别"
+                        },
+                        {
+                            "wrong": "慢丝割一秀一",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "慢丝割一修二": {
+                    "correct": "慢丝割一修二",
+                    "description": "慢走丝线切割加工的第二次修刀",
+                    "variants": [
+                        {
+                            "wrong": "慢丝割一修2",
+                            "description": "数字形式"
+                        },
+                        {
+                            "wrong": "慢思割一修二",
+                            "description": "音韵误识别"
+                        }
+                    ]
+                },
+                "慢丝割一修三": {
+                    "correct": "慢丝割一修三",
+                    "description": "慢走丝线切割加工的第三次修刀",
+                    "variants": [
+                        {
+                            "wrong": "慢丝割一修3",
+                            "description": "数字形式"
+                        },
+                        {
+                            "wrong": "慢思割一修三",
+                            "description": "音韵误识别"
+                        }
+                    ]
+                },
+                "快丝割一刀": {
+                    "correct": "快丝割一刀",
+                    "description": "快走丝线切割加工的第一刀切割",
+                    "variants": [
+                        {
+                            "wrong": "快丝割一道",
+                            "description": "同音误识别"
+                        },
+                        {
+                            "wrong": "快丝割1刀",
+                            "description": "数字形式"
+                        },
+                        {
+                            "wrong": "快思割一刀",
+                            "description": "音韵误识别"
+                        }
+                    ]
+                },
+                "中丝割一修一": {
+                    "correct": "中丝割一修一",
+                    "description": "中走丝线切割加工的第一次修刀",
+                    "variants": [
+                        {
+                            "wrong": "中丝割一修1",
+                            "description": "数字形式"
+                        },
+                        {
+                            "wrong": "中思割一修一",
+                            "description": "音韵误识别"
+                        }
+                    ]
+                },
+                "中丝割一修二": {
+                    "correct": "中丝割一修二",
+                    "description": "中走丝线切割加工的第二次修刀",
+                    "variants": [
+                        {
+                            "wrong": "中丝割一修2",
+                            "description": "数字形式"
+                        },
+                        {
+                            "wrong": "中思割一修二",
+                            "description": "音韵误识别"
+                        }
+                    ]
+                },
+                "中丝割二修二": {
+                    "correct": "中丝割二修二",
+                    "description": "中走丝线切割加工的第二刀第二次修刀",
+                    "variants": [
+                        {
+                            "wrong": "中丝割2修2",
+                            "description": "数字形式"
+                        },
+                        {
+                            "wrong": "中思割二修二",
+                            "description": "音韵误识别"
+                        }
+                    ]
+                }
+            }
+        },
+        "materials": {
+            "name": "材料材质",
+            "description": "模具材料相关术语",
+            "terms": {
+                "Cr12MoV": {
+                    "correct": "Cr12MoV",
+                    "description": "铬钼钒合金工具钢",
+                    "variants": [
+                        {
+                            "wrong": "CR12MOV",
+                            "description": "全大写形式"
+                        },
+                        {
+                            "wrong": "cr12mov",
+                            "description": "全小写形式"
+                        },
+                        {
+                            "wrong": "CR12MoV",
+                            "description": "大小写混合"
+                        }
+                    ]
+                },
+                "SKD11": {
+                    "correct": "SKD11",
+                    "description": "日本标准冷作模具钢",
+                    "variants": [
+                        {
+                            "wrong": "skd11",
+                            "description": "小写形式"
+                        },
+                        {
+                            "wrong": "SKD 11",
+                            "description": "带空格"
+                        }
+                    ]
+                },
+                "P20": {
+                    "correct": "P20",
+                    "description": "预硬塑料模具钢",
+                    "variants": [
+                        {
+                            "wrong": "p20",
+                            "description": "小写形式"
+                        },
+                        {
+                            "wrong": "P 20",
+                            "description": "带空格"
+                        }
+                    ]
+                },
+                "718": {
+                    "correct": "718",
+                    "description": "718模具钢",
+                    "variants": [
+                        {
+                            "wrong": "七一八",
+                            "description": "数字中文化"
+                        }
+                    ]
+                },
+                "S136": {
+                    "correct": "S136",
+                    "description": "瑞典一胜百不锈钢",
+                    "variants": [
+                        {
+                            "wrong": "s136",
+                            "description": "小写形式"
+                        }
+                    ]
+                },
+                "45#": {
+                    "correct": "45#",
+                    "description": "45号钢",
+                    "variants": [
+                        {
+                            "wrong": "45号",
+                            "description": "井号变号"
+                        },
+                        {
+                            "wrong": "四五号",
+                            "description": "数字中文化"
+                        }
+                    ]
+                },
+                "T00L0X44": {
+                    "correct": "T00L0X44",
+                    "description": "特殊材料编号",
+                    "variants": [
+                        {
+                            "wrong": "t00l0x44",
+                            "description": "小写形式"
+                        },
+                        {
+                            "wrong": "TOOLOX44",
+                            "description": "数字0识别为字母O"
+                        }
+                    ]
+                },
+                "T00L0X33": {
+                    "correct": "T00L0X33",
+                    "description": "特殊材料编号",
+                    "variants": [
+                        {
+                            "wrong": "t00l0x33",
+                            "description": "小写形式"
+                        },
+                        {
+                            "wrong": "TOOLOX33",
+                            "description": "数字0识别为字母O"
+                        }
+                    ]
+                }
+            }
+        },
+        "part_types": {
+            "name": "零件类型",
+            "description": "模具零件类型相关术语",
+            "terms": {
+                "上模板": {
+                    "correct": "上模板",
+                    "description": "模具上模板",
+                    "variants": [
+                        {
+                            "wrong": "上模版",
+                            "description": "版字误识别"
+                        }
+                    ]
+                },
+                "下模板": {
+                    "correct": "下模板",
+                    "description": "模具下模板",
+                    "variants": [
+                        {
+                            "wrong": "下模版",
+                            "description": "版字误识别"
+                        }
+                    ]
+                },
+                "导柱": {
+                    "correct": "导柱",
+                    "description": "模具导向柱",
+                    "variants": [
+                        {
+                            "wrong": "导住",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "导套": {
+                    "correct": "导套",
+                    "description": "模具导向套",
+                    "variants": [
+                        {
+                            "wrong": "导头",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "冲头": {
+                    "correct": "冲头",
+                    "description": "冲压模具冲头",
+                    "variants": [
+                        {
+                            "wrong": "充头",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "镶件": {
+                    "correct": "镶件",
+                    "description": "模具镶件",
+                    "variants": [
+                        {
+                            "wrong": "香件",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "滑块": {
+                    "correct": "滑块",
+                    "description": "模具滑块",
+                    "variants": [
+                        {
+                            "wrong": "滑快",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "斜顶": {
+                    "correct": "斜顶",
+                    "description": "模具斜顶",
+                    "variants": [
+                        {
+                            "wrong": "斜丁",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "下夹板": {
+                    "correct": "下夹板",
+                    "description": "模具下夹板",
+                    "variants": [
+                        {
+                            "wrong": "下夹版",
+                            "description": "版字误识别"
+                        }
+                    ]
+                },
+                "下模座": {
+                    "correct": "下模座",
+                    "description": "模具下模座",
+                    "variants": [
+                        {
+                            "wrong": "下摸座",
+                            "description": "模字误识别"
+                        }
+                    ]
+                }
+            }
+        },
+        "part_codes": {
+            "name": "零件编号",
+            "description": "零件编号相关术语",
+            "terms": {
+                "UP01": {
+                    "correct": "UP01",
+                    "description": "上模板编号",
+                    "variants": [
+                        {
+                            "wrong": "up01",
+                            "description": "小写形式"
+                        }
+                    ]
+                },
+                "UP02": {
+                    "correct": "UP02",
+                    "description": "上模板编号",
+                    "variants": [
+                        {
+                            "wrong": "up02",
+                            "description": "小写形式"
+                        }
+                    ]
+                },
+                "UP03": {
+                    "correct": "UP03",
+                    "description": "上模板编号",
+                    "variants": [
+                        {
+                            "wrong": "up03",
+                            "description": "小写形式"
+                        }
+                    ]
+                },
+                "DIE-03": {
+                    "correct": "DIE-03",
+                    "description": "模具零件编号",
+                    "variants": [
+                        {
+                            "wrong": "die-03",
+                            "description": "小写形式"
+                        }
+                    ]
+                },
+                "DIE-04": {
+                    "correct": "DIE-04",
+                    "description": "模具零件编号",
+                    "variants": [
+                        {
+                            "wrong": "die-04",
+                            "description": "小写形式"
+                        }
+                    ]
+                },
+                "LP-02": {
+                    "correct": "LP-02",
+                    "description": "零件编号",
+                    "variants": [
+                        {
+                            "wrong": "lp-02",
+                            "description": "小写形式"
+                        }
+                    ]
+                },
+                "PH2-04": {
+                    "correct": "PH2-04",
+                    "description": "零件编号",
+                    "variants": [
+                        {
+                            "wrong": "ph2-04",
+                            "description": "小写形式"
+                        }
+                    ]
+                }
+            }
+        },
+        "dimensions": {
+            "name": "尺寸单位",
+            "description": "尺寸和单位相关术语",
+            "terms": {
+                "mm": {
+                    "correct": "mm",
+                    "description": "毫米单位",
+                    "variants": [
+                        {
+                            "wrong": "MM",
+                            "description": "大写形式"
+                        }
+                    ]
+                },
+                "长度": {
+                    "correct": "长度",
+                    "description": "零件长度",
+                    "variants": [
+                        {
+                            "wrong": "常度",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "宽度": {
+                    "correct": "宽度",
+                    "description": "零件宽度",
+                    "variants": [
+                        {
+                            "wrong": "款度",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "厚度": {
+                    "correct": "厚度",
+                    "description": "零件厚度",
+                    "variants": [
+                        {
+                            "wrong": "后度",
+                            "description": "同音误识别"
+                        }
+                    ]
+                }
+            }
+        },
+        "modification_actions": {
+            "name": "修改动作",
+            "description": "修改操作相关术语",
+            "terms": {
+                "改成": {
+                    "correct": "改成",
+                    "description": "修改为",
+                    "variants": [
+                        {
+                            "wrong": "改称",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "改为": {
+                    "correct": "改为",
+                    "description": "修改为",
+                    "variants": [
+                        {
+                            "wrong": "改围",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "修改": {
+                    "correct": "修改",
+                    "description": "修改",
+                    "variants": [
+                        {
+                            "wrong": "休改",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "调整": {
+                    "correct": "调整",
+                    "description": "调整",
+                    "variants": [
+                        {
+                            "wrong": "条整",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "设置": {
+                    "correct": "设置",
+                    "description": "设置",
+                    "variants": [
+                        {
+                            "wrong": "设制",
+                            "description": "同音误识别"
+                        }
+                    ]
+                }
+            }
+        },
+        "query_keywords": {
+            "name": "查询关键词",
+            "description": "查询计算过程相关术语",
+            "terms": {
+                "怎么算": {
+                    "correct": "怎么算",
+                    "description": "询问计算方法",
+                    "variants": [
+                        {
+                            "wrong": "怎么蒜",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "详情": {
+                    "correct": "详情",
+                    "description": "查询详细信息",
+                    "variants": [
+                        {
+                            "wrong": "祥情",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "明细": {
+                    "correct": "明细",
+                    "description": "查询明细信息",
+                    "variants": [
+                        {
+                            "wrong": "名细",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "计算过程": {
+                    "correct": "计算过程",
+                    "description": "计算过程",
+                    "variants": [
+                        {
+                            "wrong": "计蒜过程",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "NC": {
+                    "correct": "NC",
+                    "description": "数控加工",
+                    "variants": [
+                        {
+                            "wrong": "nc",
+                            "description": "小写形式"
+                        }
+                    ]
+                },
+                "NC开粗": {
+                    "correct": "NC开粗",
+                    "description": "NC开粗加工",
+                    "variants": [
+                        {
+                            "wrong": "NC开初",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "NC精铣": {
+                    "correct": "NC精铣",
+                    "description": "NC精铣加工",
+                    "variants": [
+                        {
+                            "wrong": "NC精洗",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "NC钻床": {
+                    "correct": "NC钻床",
+                    "description": "NC钻床加工",
+                    "variants": [
+                        {
+                            "wrong": "NC钻创",
+                            "description": "同音误识别"
+                        }
+                    ]
+                }
+            }
+        },
+        "concept_keywords": {
+            "name": "概念词",
+            "description": "零件类型概念词（用于批量修改）",
+            "terms": {
+                "冲头类": {
+                    "correct": "冲头类",
+                    "description": "冲头类零件",
+                    "variants": [
+                        {
+                            "wrong": "冲头累",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "刀口入块": {
+                    "correct": "刀口入块",
+                    "description": "刀口入块类零件",
+                    "variants": [
+                        {
+                            "wrong": "刀口入快",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "模架": {
+                    "correct": "模架",
+                    "description": "模架类零件",
+                    "variants": [
+                        {
+                            "wrong": "摸架",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "切边冲头": {
+                    "correct": "切边冲头",
+                    "description": "切边冲头",
+                    "variants": [
+                        {
+                            "wrong": "切边充头",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "废料刀": {
+                    "correct": "废料刀",
+                    "description": "废料刀",
+                    "variants": [
+                        {
+                            "wrong": "废料到",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "刀口入子": {
+                    "correct": "刀口入子",
+                    "description": "刀口入子",
+                    "variants": [
+                        {
+                            "wrong": "刀口入字",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "切边入子": {
+                    "correct": "切边入子",
+                    "description": "切边入子",
+                    "variants": [
+                        {
+                            "wrong": "切边入字",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "冲孔入子": {
+                    "correct": "冲孔入子",
+                    "description": "冲孔入子",
+                    "variants": [
+                        {
+                            "wrong": "冲孔入字",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "凹模": {
+                    "correct": "凹模",
+                    "description": "凹模",
+                    "variants": [
+                        {
+                            "wrong": "凹摸",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "模座": {
+                    "correct": "模座",
+                    "description": "模座",
+                    "variants": [
+                        {
+                            "wrong": "摸座",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "垫脚": {
+                    "correct": "垫脚",
+                    "description": "垫脚",
+                    "variants": [
+                        {
+                            "wrong": "垫角",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "托板": {
+                    "correct": "托板",
+                    "description": "托板",
+                    "variants": [
+                        {
+                            "wrong": "托版",
+                            "description": "同音误识别"
+                        }
+                    ]
+                }
+            }
+        },
+        "price_terms": {
+            "name": "价格术语",
+            "description": "价格相关术语",
+            "terms": {
+                "单价": {
+                    "correct": "单价",
+                    "description": "单位价格",
+                    "variants": [
+                        {
+                            "wrong": "单家",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "价格": {
+                    "correct": "价格",
+                    "description": "价格",
+                    "variants": [
+                        {
+                            "wrong": "家格",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "按重量计算": {
+                    "correct": "按重量计算",
+                    "description": "按重量计算价格",
+                    "variants": [
+                        {
+                            "wrong": "按重量计蒜",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "重量计算": {
+                    "correct": "重量计算",
+                    "description": "重量计算",
+                    "variants": [
+                        {
+                            "wrong": "重量计蒜",
+                            "description": "同音误识别"
+                        }
+                    ]
+                },
+                "0.0018": {
+                    "correct": "0.0018",
+                    "description": "价格数值（常见的单价）",
+                    "variants": [
+                        {
+                            "wrong": "0.001吧",
+                            "description": "语气词误识别"
+                        },
+                        {
+                            "wrong": "0.001 吧",
+                            "description": "语气词误识别（带空格）"
+                        },
+                        {
+                            "wrong": "零点零零一吧",
+                            "description": "数字中文化+语气词"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

@@ -78,6 +78,8 @@ class Job(Base):
     error_message = Column(Text)
     meta_data = Column("metadata", JSONB)
 
+    subgraphs = relationship("Subgraph", back_populates="job", lazy="select")
+
 class Subgraph(Base):
     """子图?- 存储业务数据和成本数?"""""
     __tablename__ = "subgraphs"
@@ -176,6 +178,8 @@ class Subgraph(Base):
     nc_z_view_fee = Column(DECIMAL(10, 2))
     nc_b_view_fee = Column(DECIMAL(10, 2))
 
+    job = relationship("Job", back_populates="subgraphs")
+
 class Feature(Base):
     """特征表- 存储从CAD提取的原始特征数据,支持历史版本"""
     __tablename__ = "features"
@@ -219,6 +223,14 @@ class Feature(Base):
     created_by = Column(String(50))
     created_at = Column(TIMESTAMP, nullable=False, default=now_shanghai)
     meta_data = Column("metadata", JSONB)
+
+    @property
+    def volume_mm3(self):
+        if isinstance(self.meta_data, dict):
+            value = self.meta_data.get("volume_mm3")
+            if value is not None:
+                return value
+        return None
 
 class PriceItem(Base):
     """价格项表(全局模板)"""

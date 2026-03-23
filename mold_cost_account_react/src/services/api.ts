@@ -2,6 +2,7 @@ import axios from 'axios'
 import { message } from 'antd'
 import config from '../config/env'
 import { AUTH_STORAGE_KEYS } from '../constants/auth'
+import { getValidToken } from '../utils/auth'
 
 // 创建axios实例
 const api = axios.create({
@@ -16,7 +17,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     // 添加认证token
-    const token = localStorage.getItem(AUTH_STORAGE_KEYS.TOKEN)
+    const token = getValidToken()
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }

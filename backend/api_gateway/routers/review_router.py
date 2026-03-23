@@ -16,7 +16,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel, Field
 
-from shared.database import get_db
+from shared.database import get_db, AsyncSessionLocal
 from ..auth import get_current_user
 from agents.interaction_agent import InteractionAgent
 from api_gateway.utils.chat_logger import (
@@ -29,6 +29,48 @@ from api_gateway.utils.chat_logger import (
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1/review", tags=["review"])
+
+
+async def _persist_chat_messages(
+    session_id: str,
+    job_id: str,
+    user_id: str,
+    action: str,
+    user_content: Optional[str] = None,
+    assistant_content: Optional[str] = None,
+    assistant_metadata: Optional[dict] = None,
+):
+    """Use a short-lived session for chat logging to avoid blocking the main review flow."""
+    async with AsyncSessionLocal() as chat_db:
+        try:
+            await ensure_session_exists(
+                chat_db,
+                session_id=session_id,
+                job_id=job_id,
+                user_id=user_id,
+                metadata={"action": action}
+            )
+
+            if user_content is not None:
+                await log_user_message(
+                    chat_db,
+                    session_id=session_id,
+                    content=user_content,
+                    metadata={"user_id": user_id, "action": action}
+                )
+
+            if assistant_content is not None:
+                await log_assistant_message(
+                    chat_db,
+                    session_id=session_id,
+                    content=assistant_content,
+                    metadata=assistant_metadata or {"action": action}
+                )
+
+            await chat_db.commit()
+        except Exception:
+            await chat_db.rollback()
+            raise
 
 
 # ========== 请求模型 ==========
@@ -263,24 +305,15 @@ async def modify_review(
         logger.debug(f"修改内容: {request.modification_text}")
         
         # 1. 确保会话存在
-        await ensure_session_exists(
-            db,
+        logger.info(f"开始写入修改会话消息: job_id={job_id}")
+        await _persist_chat_messages(
             session_id=job_id,
             job_id=job_id,
             user_id=current_user["user_id"],
-            metadata={"action": "modify"}
+            action="modify",
+            user_content=request.modification_text
         )
-        
-        # 2. 记录用户消息
-        await log_user_message(
-            db,
-            session_id=job_id,
-            content=request.modification_text,
-            metadata={"user_id": current_user["user_id"], "action": "modify"}
-        )
-        
-        # 🆕 2.5. 提交事务（确保历史推断能查到当前消息）
-        await db.commit()
+        logger.info(f"修改会话消息写入完成: job_id={job_id}")
         
         # 🆕 2.5.5. 数字选择检测（检查是否是选择澄清选项的数字）
         logger.info(f"🔍 步骤2.5.5: 数字选择检测")
@@ -514,19 +547,18 @@ async def modify_review(
                 )
         
         # 7. 记录助手回复
-        await log_assistant_message(
-            db,
+        await _persist_chat_messages(
             session_id=job_id,
-            content=result.message,
-            metadata={
+            job_id=job_id,
+            user_id=current_user["user_id"],
+            action="modify_response",
+            assistant_content=result.message,
+            assistant_metadata={
                 "intent": result.data.get('intent') if result.data else None,
                 "requires_confirmation": result.data.get('requires_confirmation') if result.data else False,
                 "action": "modify_response"
             }
         )
-        
-        # 7. 提交数据库事务（保存消息）
-        await db.commit()
         
         logger.info(f"✅ 修改处理成功: job_id={job_id}, intent={result.data.get('intent')}")
         

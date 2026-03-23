@@ -5,7 +5,7 @@
 提供密码加密、Token生成、Token验证等安全相关功能
 基于JWT_GUIDE.md标准实现
 """
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional, Dict, Any
 from passlib.context import CryptContext
 import os
@@ -30,6 +30,8 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 SECRET_KEY = settings.JWT_SECRET_KEY
 ALGORITHM = settings.JWT_ALGORITHM
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+def now_utc() -> datetime:
+    return datetime.now(timezone.utc)
 REFRESH_TOKEN_EXPIRE_DAYS = 7  # 7天
 
 

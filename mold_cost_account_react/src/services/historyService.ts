@@ -279,7 +279,7 @@ class HistoryService {
       if (originalWsMessage) {
         // 处理进度消息
         if (originalWsMessage.type === 'progress' && originalWsMessage.data) {
-          const progressData = originalWsMessage.data
+          const progressData = this.normalizeProgressPayload(originalWsMessage.data)
           
           // 检查是否是审核数据展示消息
           if (progressData.type === 'review_display_view' && progressData.data) {
@@ -447,15 +447,16 @@ class HistoryService {
         }
         
         // 进度消息
-        if (msg.metadata.message_type === 'progress' && msg.metadata.stage) {
+        const metadataProgress = this.normalizeProgressPayload(msg.metadata.original_ws_message?.data)
+        if (msg.metadata.message_type === 'progress' && (msg.metadata.stage || metadataProgress?.stage)) {
           return {
             ...baseMessage,
             type: 'progress' as const,
             progressData: {
-              stage: msg.metadata.stage,
-              progress: msg.metadata.progress || 0,
-              message: msg.content,
-              details: msg.metadata.original_ws_message?.data?.details,
+              stage: msg.metadata.stage || metadataProgress?.stage || 'processing',
+              progress: msg.metadata.progress || metadataProgress?.progress || 0,
+              message: metadataProgress?.message || msg.content,
+              details: metadataProgress?.details,
             },
           }
         }
@@ -491,6 +492,22 @@ class HistoryService {
     }
   }
 
+  private normalizeProgressPayload(data: any): any {
+    if (!data || typeof data !== 'object') {
+      return data
+    }
+
+    if (data.stage) {
+      return data
+    }
+
+    if (data.data && typeof data.data === 'object' && data.data.stage) {
+      return data.data
+    }
+
+    return data
+  }
+
   /**
    * 从消息metadata中提取进度数据
    */
@@ -503,12 +520,14 @@ class HistoryService {
         msg.content.includes('失败')) {
       
       // 尝试从metadata中提取进度信息
-      if (msg.metadata?.progress !== undefined) {
+      const metadataProgress = this.normalizeProgressPayload(msg.metadata?.original_ws_message?.data)
+
+      if (msg.metadata?.progress !== undefined || metadataProgress?.progress !== undefined) {
         return {
-          stage: msg.metadata.stage || 'processing',
-          progress: msg.metadata.progress || 0,
-          message: msg.content,
-          details: msg.metadata.details,
+          stage: msg.metadata.stage || metadataProgress?.stage || 'processing',
+          progress: msg.metadata.progress || metadataProgress?.progress || 0,
+          message: metadataProgress?.message || msg.content,
+          details: msg.metadata.details || metadataProgress?.details,
         }
       }
       

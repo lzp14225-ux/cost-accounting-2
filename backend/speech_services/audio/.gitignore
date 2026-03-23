@@ -1,0 +1,8 @@
+# 忽略所有音频文件
+*
+
+# 但保留 .gitignore 文件本身
+!.gitignore
+
+# 保留 README.md（如果有）
+!README.md

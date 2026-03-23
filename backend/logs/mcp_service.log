@@ -1,0 +1,416 @@
+2026-03-23 08:49:00 | INFO     | __main__:<module>:77 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
+2026-03-23 08:49:00 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 08:49:00 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 08:49:00 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 08:49:02 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 08:49:02 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 08:49:02 | INFO     | cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 08:49:02 | INFO     | cad_chaitu.main:init_managers:101 - ✅ 管理器初始化完成
+2026-03-23 08:49:02 | INFO     | __main__:<module>:101 - [OK] CAD 处理模块导入成功
+2026-03-23 08:49:02 | INFO     | __main__:<module>:162 - [OK] 进度发布器初始化成功
+2026-03-23 08:49:02 | INFO     | __main__:<module>:793 - ============================================================
+2026-03-23 08:49:02 | INFO     | __main__:<module>:794 - CAD 和价格搜索 MCP 服务启动中...
+2026-03-23 08:49:02 | INFO     | __main__:<module>:795 - ============================================================
+2026-03-23 08:49:02 | INFO     | __main__:<module>:796 - 地址: http://0.0.0.0:8200
+2026-03-23 08:49:02 | INFO     | __main__:<module>:797 - 调用端点: http://0.0.0.0:8200/call_tool
+2026-03-23 08:49:02 | INFO     | __main__:<module>:799 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
+2026-03-23 08:49:02 | INFO     | __main__:<module>:803 - ============================================================
+2026-03-23 09:13:49 | INFO     | __main__:<module>:77 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
+2026-03-23 09:13:50 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 09:13:50 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 09:13:50 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 09:13:50 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 09:13:50 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 09:13:50 | INFO     | cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 09:13:50 | INFO     | cad_chaitu.main:init_managers:101 - ✅ 管理器初始化完成
+2026-03-23 09:13:50 | INFO     | __main__:<module>:101 - [OK] CAD 处理模块导入成功
+2026-03-23 09:13:50 | INFO     | __main__:<module>:162 - [OK] 进度发布器初始化成功
+2026-03-23 09:13:50 | INFO     | __main__:<module>:793 - ============================================================
+2026-03-23 09:13:50 | INFO     | __main__:<module>:794 - CAD 和价格搜索 MCP 服务启动中...
+2026-03-23 09:13:50 | INFO     | __main__:<module>:795 - ============================================================
+2026-03-23 09:13:50 | INFO     | __main__:<module>:796 - 地址: http://0.0.0.0:8200
+2026-03-23 09:13:50 | INFO     | __main__:<module>:797 - 调用端点: http://0.0.0.0:8200/call_tool
+2026-03-23 09:13:50 | INFO     | __main__:<module>:799 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
+2026-03-23 09:13:50 | INFO     | __main__:<module>:803 - ============================================================
+2026-03-23 10:16:09 | INFO     | __main__:<module>:77 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
+2026-03-23 10:16:09 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 10:16:09 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 10:16:09 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 10:16:09 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 10:16:09 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 10:16:10 | INFO     | cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 10:16:10 | INFO     | cad_chaitu.main:init_managers:101 - ✅ 管理器初始化完成
+2026-03-23 10:16:10 | INFO     | __main__:<module>:101 - [OK] CAD 处理模块导入成功
+2026-03-23 10:16:10 | INFO     | __main__:<module>:162 - [OK] 进度发布器初始化成功
+2026-03-23 10:16:10 | INFO     | __main__:<module>:793 - ============================================================
+2026-03-23 10:16:10 | INFO     | __main__:<module>:794 - CAD 和价格搜索 MCP 服务启动中...
+2026-03-23 10:16:10 | INFO     | __main__:<module>:795 - ============================================================
+2026-03-23 10:16:10 | INFO     | __main__:<module>:796 - 地址: http://0.0.0.0:8201
+2026-03-23 10:16:10 | INFO     | __main__:<module>:797 - 调用端点: http://0.0.0.0:8201/call_tool
+2026-03-23 10:16:10 | INFO     | __main__:<module>:799 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
+2026-03-23 10:16:10 | INFO     | __main__:<module>:803 - ============================================================
+2026-03-23 10:21:14 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: cad_chaitu
+2026-03-23 10:21:14 | INFO     | __main__:handle_cad_chaitu:467 - [DEBUG] 准备发布拆图开始进度: job_id=8a5a6e93-0160-4d27-94a8-f5ba8156ee76
+2026-03-23 10:21:14 | INFO     | __main__:handle_cad_chaitu:475 - [SEND] 发布进度: 拆图开始 (job_id=8a5a6e93-0160-4d27-94a8-f5ba8156ee76)
+2026-03-23 10:21:14 | INFO     | cad_chaitu.main:chaitu_process:156 - 未提供 dwg_url，从数据库查询 job_id=8a5a6e93-0160-4d27-94a8-f5ba8156ee76 的 dwg_file_path
+2026-03-23 10:21:15 | INFO     | cad_chaitu.database:get_dwg_file_path:66 - ✅ 从数据库查询到 dwg_file_path: dwg/2026/03/447ead73-960b-4825-b7c9-450c6a187cfe.dwg
+2026-03-23 10:21:15 | INFO     | cad_chaitu.main:chaitu_process:164 - 从数据库查询到 dwg_file_path: dwg/2026/03/447ead73-960b-4825-b7c9-450c6a187cfe.dwg
+2026-03-23 10:21:15 | INFO     | cad_chaitu.main:chaitu_process:177 - 收到拆图请求: dwg_source=dwg/2026/03/447ead73-960b-4825-b7c9-450c6a187cfe.dwg, job_id=8a5a6e93-0160-4d27-94a8-f5ba8156ee76, use_minio=True
+2026-03-23 10:21:15 | INFO     | cad_chaitu.main:chaitu_process:178 - 源文件名: 447ead73-960b-4825-b7c9-450c6a187cfe, 模型代码: 447ead73-960b-4825-b7c9-450c6a187cfe
+2026-03-23 10:21:15 | INFO     | cad_chaitu.storage:get_file:38 - 从 MinIO 获取文件: dwg/2026/03/447ead73-960b-4825-b7c9-450c6a187cfe.dwg
+2026-03-23 10:21:15 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dwg/2026/03/447ead73-960b-4825-b7c9-450c6a187cfe.dwg
+2026-03-23 10:21:15 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\chaidan_cad_vius01i_\input.dwg
+2026-03-23 10:21:17 | INFO     | cad_chaitu.main:chaitu_process:195 - ✅ DXF 转换成功: C:\Users\lzp\AppData\Local\Temp\chaidan_cad_vius01i_\input.dxf
+2026-03-23 10:21:17 | INFO     | cad_chaitu.main:chaitu_process:206 - MinIO 基础路径: dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76
+2026-03-23 10:21:17 | INFO     | cad_chaitu.main:chaitu_process:207 - 开始流式分析和处理 DXF 文件...
+2026-03-23 10:21:17 | INFO     | cad_chaitu.main:chaitu_process:219 - 步骤1: 开始识别所有子图...
+2026-03-23 10:21:19 | INFO     | cad_chaitu.block_analyzer:analyze_cad_file_streaming:83 - 提取图层颜色...
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:analyze_cad_file_streaming:97 - ✅ 识别出 15 个子图
+2026-03-23 10:21:20 | INFO     | cad_chaitu.main:chaitu_process:227 - ✅ 识别到 15 个子图
+2026-03-23 10:21:20 | INFO     | cad_chaitu.main:chaitu_process:231 - ✅ 子图识别完成，共 15 个子图 (耗时: 3.37s)
+2026-03-23 10:21:20 | INFO     | cad_chaitu.main:chaitu_process:237 - 步骤2: 识别各子图的编号、品名和编号...
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='上托板', 编号='U1-01'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='上模板', 编号='DIE2-10'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下垫板', 编号='LB-01'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模板', 编号='DIE-08'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模板', 编号='DIE-17'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模板', 编号='DIE-19'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='上脱板', 编号='PS-09'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='上脱板', 编号='PS-10'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_code:490 - ✅ 从加工说明中提取编号（带括号）: 'PS-BL1'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='冲头拼料板', 编号='PU-BL2'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_code:490 - ✅ 从加工说明中提取编号（带括号）: 'DIE2-BL2'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_code:490 - ✅ 从加工说明中提取编号（带括号）: 'PU-BL1'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模刀口拼料板', 编号='DIE-BL2'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='冲头拼料板', 编号='PU-BL1'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.main:chaitu_process:270 -    检测到重复编号 PU-BL1，添加后缀: PU-BL1B
+2026-03-23 10:21:20 | INFO     | cad_chaitu.block_analyzer:extract_part_code:490 - ✅ 从加工说明中提取编号（带括号）: 'DIE2-BL1'
+2026-03-23 10:21:20 | INFO     | cad_chaitu.main:chaitu_process:292 - ✅ 编号、品名和编号识别完成，成功识别 15 个子图，失败 0 个
+2026-03-23 10:21:20 | INFO     | cad_chaitu.main:chaitu_process:298 - 步骤3: 开始导出所有子图...
+2026-03-23 10:21:20 | INFO     | cad_chaitu.main:chaitu_process:316 - 使用并发方案导出 15 个子图 (并发数: 5)
+2026-03-23 10:21:20 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:178 - 🚀 开始导出 15 个子图（顺序处理，共享文档对象）
+2026-03-23 10:21:20 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:181 - 📖 读取源文件...
+2026-03-23 10:21:23 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:188 - ✅ 文件读取完成 (耗时: 3.20s)
+2026-03-23 10:21:23 | INFO     | scripts.cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 10:21:23 | INFO     | scripts.cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 10:21:23 | INFO     | scripts.cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 10:21:24 | INFO     | scripts.cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 10:21:24 | INFO     | scripts.cad_chaitu.main:init_managers:101 - ✅ 管理器初始化完成
+2026-03-23 10:21:29 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:221 - 📊 导出进度: 10/15 (平均: 0.6s/个, 预计剩余: 3s)
+2026-03-23 10:21:31 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:240 - ✅ 导出完成: 15/15 成功, 总耗时: 8.0s, 平均: 0.5s/个
+2026-03-23 10:21:31 | INFO     | cad_chaitu.main:chaitu_process:349 - ✅ 子图导出完成，成功导出 15 个文件，失败 0 个 (耗时: 11.21s)
+2026-03-23 10:21:31 | INFO     | cad_chaitu.main:chaitu_process:355 - 步骤4: 开始并发上传所有子图到MinIO...
+2026-03-23 10:21:31 | INFO     | minio_client:batch_upload_files:316 - ✅ [10/15] 已上传 10 个文件
+2026-03-23 10:21:31 | INFO     | minio_client:batch_upload_files:347 - 上传完成: 15/15 成功, 12.6MB, 0.4s, 35.5MB/s
+2026-03-23 10:21:31 | INFO     | cad_chaitu.main:chaitu_process:370 - 步骤5: 保存数据到数据库...
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:415 - ✅ 数据库保存完成，成功保存 15 条记录，上传失败 0 个，数据库失败 0 个 (耗时: 0.55s)
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:430 - ✅ 拆图完成！成功处理 15 个子图
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:431 - ================================================================================
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:432 - 📊 处理流程统计:
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:433 -    步骤1 - 识别图框: 15 个
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:434 -    步骤2 - 识别编号品名: 15 个 (失败 0 个)
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:435 -    步骤3 - 导出子图: 15 个 (失败 0 个)
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:436 -    步骤4 - 上传MinIO: 15 个 (失败 0 个)
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:437 -    步骤5 - 保存数据库: 15 个 (失败 0 个)
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:438 -    最终结果: 15 个子图成功
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:439 - ================================================================================
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:440 - 📊 性能统计: 识别=3.37s, 导出=11.21s, 上传=0.36s, 数据库=0.55s, 总耗时=15.51s, 平均=1.03s/个
+2026-03-23 10:21:32 | INFO     | cad_chaitu.main:chaitu_process:449 - 📁 MinIO 路径: dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76
+2026-03-23 10:21:32 | INFO     | __main__:handle_cad_chaitu:495 - [SEND] 发布进度: 拆图完成 (job_id=8a5a6e93-0160-4d27-94a8-f5ba8156ee76, 子图数=15)
+2026-03-23 10:21:32 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: cad_chaitu
+2026-03-23 10:21:32 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:32 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:32 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/DIE-08.dxf
+2026-03-23 10:21:32 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmphlc433k8\447ead73-960b-4825-b7c9-450c6a187cfe_DIE-08.dxf
+2026-03-23 10:21:32 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_DIE-08 (0.73MB, 0.04s)
+2026-03-23 10:21:32 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.73MB, 总耗时 0.04s, 平均速度 16.42MB/s
+2026-03-23 10:21:33 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:33 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:34 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:34 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/DIE-17.dxf
+2026-03-23 10:21:34 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpz3c9q84s\447ead73-960b-4825-b7c9-450c6a187cfe_DIE-17.dxf
+2026-03-23 10:21:34 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_DIE-17 (0.71MB, 0.04s)
+2026-03-23 10:21:34 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.71MB, 总耗时 0.05s, 平均速度 15.41MB/s
+2026-03-23 10:21:34 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:34 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:34 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:34 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/DIE-19.dxf
+2026-03-23 10:21:34 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpqau6pt63\447ead73-960b-4825-b7c9-450c6a187cfe_DIE-19.dxf
+2026-03-23 10:21:34 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_DIE-19 (0.67MB, 0.03s)
+2026-03-23 10:21:34 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.03s, 平均速度 21.81MB/s
+2026-03-23 10:21:35 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:35 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:35 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:35 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/DIE2-10.dxf
+2026-03-23 10:21:35 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp536e9exm\447ead73-960b-4825-b7c9-450c6a187cfe_DIE2-10.dxf
+2026-03-23 10:21:35 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_DIE2-10 (0.79MB, 0.03s)
+2026-03-23 10:21:35 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.79MB, 总耗时 0.04s, 平均速度 22.36MB/s
+2026-03-23 10:21:36 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:36 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:36 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:36 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/DIE2-BL1.dxf
+2026-03-23 10:21:36 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp81isvh9g\447ead73-960b-4825-b7c9-450c6a187cfe_DIE2-BL1.dxf
+2026-03-23 10:21:36 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_DIE2-BL1 (0.84MB, 0.03s)
+2026-03-23 10:21:36 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.84MB, 总耗时 0.03s, 平均速度 30.17MB/s
+2026-03-23 10:21:36 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:36 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:37 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:37 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/DIE2-BL2.dxf
+2026-03-23 10:21:37 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpha3ac45m\447ead73-960b-4825-b7c9-450c6a187cfe_DIE2-BL2.dxf
+2026-03-23 10:21:37 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_DIE2-BL2 (0.68MB, 0.03s)
+2026-03-23 10:21:37 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.68MB, 总耗时 0.03s, 平均速度 23.11MB/s
+2026-03-23 10:21:37 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:37 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:37 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:37 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/DIE-BL2.dxf
+2026-03-23 10:21:37 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpessr6_zp\447ead73-960b-4825-b7c9-450c6a187cfe_DIE-BL2.dxf
+2026-03-23 10:21:37 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_DIE-BL2 (1.15MB, 0.03s)
+2026-03-23 10:21:37 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.15MB, 总耗时 0.03s, 平均速度 35.21MB/s
+2026-03-23 10:21:39 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:39 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:39 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:39 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/LB-01.dxf
+2026-03-23 10:21:39 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmphva9105h\447ead73-960b-4825-b7c9-450c6a187cfe_LB-01.dxf
+2026-03-23 10:21:39 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_LB-01 (0.89MB, 0.03s)
+2026-03-23 10:21:39 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.89MB, 总耗时 0.03s, 平均速度 29.56MB/s
+2026-03-23 10:21:40 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:40 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:40 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:40 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/PS-09.dxf
+2026-03-23 10:21:40 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp9xlrghcp\447ead73-960b-4825-b7c9-450c6a187cfe_PS-09.dxf
+2026-03-23 10:21:40 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_PS-09 (0.83MB, 0.04s)
+2026-03-23 10:21:40 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.83MB, 总耗时 0.04s, 平均速度 21.73MB/s
+2026-03-23 10:21:41 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:41 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:41 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:41 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/PS-10.dxf
+2026-03-23 10:21:41 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpdc_wsv0f\447ead73-960b-4825-b7c9-450c6a187cfe_PS-10.dxf
+2026-03-23 10:21:41 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_PS-10 (0.84MB, 0.03s)
+2026-03-23 10:21:41 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.84MB, 总耗时 0.03s, 平均速度 25.06MB/s
+2026-03-23 10:21:42 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:42 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:42 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:42 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/PS-BL1.dxf
+2026-03-23 10:21:42 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp9ve86i28\447ead73-960b-4825-b7c9-450c6a187cfe_PS-BL1.dxf
+2026-03-23 10:21:42 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_PS-BL1 (0.74MB, 0.03s)
+2026-03-23 10:21:42 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.74MB, 总耗时 0.03s, 平均速度 23.33MB/s
+2026-03-23 10:21:42 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:42 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:43 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:43 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/PU-BL1.dxf
+2026-03-23 10:21:43 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp8rkds384\447ead73-960b-4825-b7c9-450c6a187cfe_PU-BL1.dxf
+2026-03-23 10:21:43 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_PU-BL1 (0.70MB, 0.03s)
+2026-03-23 10:21:43 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.70MB, 总耗时 0.03s, 平均速度 20.49MB/s
+2026-03-23 10:21:43 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:43 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:43 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:43 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/PU-BL1B.dxf
+2026-03-23 10:21:43 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpml1_erzs\447ead73-960b-4825-b7c9-450c6a187cfe_PU-BL1B.dxf
+2026-03-23 10:21:43 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_PU-BL1B (1.53MB, 0.04s)
+2026-03-23 10:21:43 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.53MB, 总耗时 0.04s, 平均速度 35.54MB/s
+2026-03-23 10:21:44 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:44 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:44 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:44 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/PU-BL2.dxf
+2026-03-23 10:21:44 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmplng_te3a\447ead73-960b-4825-b7c9-450c6a187cfe_PU-BL2.dxf
+2026-03-23 10:21:44 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_PU-BL2 (0.65MB, 0.03s)
+2026-03-23 10:21:44 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.65MB, 总耗时 0.03s, 平均速度 22.61MB/s
+2026-03-23 10:21:45 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:21:45 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:21:45 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:21:45 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8a5a6e93-0160-4d27-94a8-f5ba8156ee76/U1-01.dxf
+2026-03-23 10:21:45 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpsqzidmrv\447ead73-960b-4825-b7c9-450c6a187cfe_U1-01.dxf
+2026-03-23 10:21:45 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 447ead73-960b-4825-b7c9-450c6a187cfe_U1-01 (0.85MB, 0.03s)
+2026-03-23 10:21:45 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.85MB, 总耗时 0.03s, 平均速度 25.43MB/s
+2026-03-23 10:21:45 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:31:12 | INFO     | __main__:<module>:77 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
+2026-03-23 10:31:12 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 10:31:12 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 10:31:12 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 10:31:13 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 10:31:13 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 10:31:14 | INFO     | cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 10:31:14 | INFO     | cad_chaitu.main:init_managers:101 - ✅ 管理器初始化完成
+2026-03-23 10:31:14 | INFO     | __main__:<module>:101 - [OK] CAD 处理模块导入成功
+2026-03-23 10:31:14 | INFO     | __main__:<module>:162 - [OK] 进度发布器初始化成功
+2026-03-23 10:31:14 | INFO     | __main__:<module>:793 - ============================================================
+2026-03-23 10:31:14 | INFO     | __main__:<module>:794 - CAD 和价格搜索 MCP 服务启动中...
+2026-03-23 10:31:14 | INFO     | __main__:<module>:795 - ============================================================
+2026-03-23 10:31:14 | INFO     | __main__:<module>:796 - 地址: http://0.0.0.0:8201
+2026-03-23 10:31:14 | INFO     | __main__:<module>:797 - 调用端点: http://0.0.0.0:8201/call_tool
+2026-03-23 10:31:14 | INFO     | __main__:<module>:799 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
+2026-03-23 10:31:14 | INFO     | __main__:<module>:803 - ============================================================
+2026-03-23 10:34:39 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: cad_chaitu
+2026-03-23 10:34:39 | INFO     | __main__:handle_cad_chaitu:467 - [DEBUG] 准备发布拆图开始进度: job_id=39cbed42-2e3a-4ea8-851e-f79b72dc077e
+2026-03-23 10:34:39 | INFO     | __main__:handle_cad_chaitu:475 - [SEND] 发布进度: 拆图开始 (job_id=39cbed42-2e3a-4ea8-851e-f79b72dc077e)
+2026-03-23 10:34:39 | INFO     | cad_chaitu.main:chaitu_process:156 - 未提供 dwg_url，从数据库查询 job_id=39cbed42-2e3a-4ea8-851e-f79b72dc077e 的 dwg_file_path
+2026-03-23 10:34:39 | INFO     | cad_chaitu.database:get_dwg_file_path:66 - ✅ 从数据库查询到 dwg_file_path: dwg/2026/03/97e5190f-1800-467e-80c1-af6a250373f8.dwg
+2026-03-23 10:34:40 | INFO     | cad_chaitu.main:chaitu_process:164 - 从数据库查询到 dwg_file_path: dwg/2026/03/97e5190f-1800-467e-80c1-af6a250373f8.dwg
+2026-03-23 10:34:40 | INFO     | cad_chaitu.main:chaitu_process:177 - 收到拆图请求: dwg_source=dwg/2026/03/97e5190f-1800-467e-80c1-af6a250373f8.dwg, job_id=39cbed42-2e3a-4ea8-851e-f79b72dc077e, use_minio=True
+2026-03-23 10:34:40 | INFO     | cad_chaitu.main:chaitu_process:178 - 源文件名: 97e5190f-1800-467e-80c1-af6a250373f8, 模型代码: 97e5190f-1800-467e-80c1-af6a250373f8
+2026-03-23 10:34:40 | INFO     | cad_chaitu.storage:get_file:38 - 从 MinIO 获取文件: dwg/2026/03/97e5190f-1800-467e-80c1-af6a250373f8.dwg
+2026-03-23 10:34:40 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dwg/2026/03/97e5190f-1800-467e-80c1-af6a250373f8.dwg
+2026-03-23 10:34:40 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\chaidan_cad_vx2lfogr\input.dwg
+2026-03-23 10:34:41 | INFO     | cad_chaitu.main:chaitu_process:195 - ✅ DXF 转换成功: C:\Users\lzp\AppData\Local\Temp\chaidan_cad_vx2lfogr\input.dxf
+2026-03-23 10:34:41 | INFO     | cad_chaitu.main:chaitu_process:206 - MinIO 基础路径: dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e
+2026-03-23 10:34:41 | INFO     | cad_chaitu.main:chaitu_process:207 - 开始流式分析和处理 DXF 文件...
+2026-03-23 10:34:41 | INFO     | cad_chaitu.main:chaitu_process:219 - 步骤1: 开始识别所有子图...
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:analyze_cad_file_streaming:83 - 提取图层颜色...
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:analyze_cad_file_streaming:97 - ✅ 识别出 15 个子图
+2026-03-23 10:34:44 | INFO     | cad_chaitu.main:chaitu_process:227 - ✅ 识别到 15 个子图
+2026-03-23 10:34:44 | INFO     | cad_chaitu.main:chaitu_process:231 - ✅ 子图识别完成，共 15 个子图 (耗时: 3.65s)
+2026-03-23 10:34:44 | INFO     | cad_chaitu.main:chaitu_process:237 - 步骤2: 识别各子图的编号、品名和编号...
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='上托板', 编号='U1-01'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='上模板', 编号='DIE2-10'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下垫板', 编号='LB-01'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模板', 编号='DIE-08'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模板', 编号='DIE-17'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模板', 编号='DIE-19'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='上脱板', 编号='PS-09'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='上脱板', 编号='PS-10'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_code:490 - ✅ 从加工说明中提取编号（带括号）: 'PS-BL1'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='冲头拼料板', 编号='PU-BL2'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_code:490 - ✅ 从加工说明中提取编号（带括号）: 'DIE2-BL2'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_code:490 - ✅ 从加工说明中提取编号（带括号）: 'PU-BL1'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模刀口拼料板', 编号='DIE-BL2'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='冲头拼料板', 编号='PU-BL1'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.main:chaitu_process:270 -    检测到重复编号 PU-BL1，添加后缀: PU-BL1B
+2026-03-23 10:34:44 | INFO     | cad_chaitu.block_analyzer:extract_part_code:490 - ✅ 从加工说明中提取编号（带括号）: 'DIE2-BL1'
+2026-03-23 10:34:44 | INFO     | cad_chaitu.main:chaitu_process:292 - ✅ 编号、品名和编号识别完成，成功识别 15 个子图，失败 0 个
+2026-03-23 10:34:44 | INFO     | cad_chaitu.main:chaitu_process:298 - 步骤3: 开始导出所有子图...
+2026-03-23 10:34:44 | INFO     | cad_chaitu.main:chaitu_process:316 - 使用并发方案导出 15 个子图 (并发数: 5)
+2026-03-23 10:34:44 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:178 - 🚀 开始导出 15 个子图（顺序处理，共享文档对象）
+2026-03-23 10:34:44 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:181 - 📖 读取源文件...
+2026-03-23 10:34:48 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:188 - ✅ 文件读取完成 (耗时: 3.41s)
+2026-03-23 10:34:48 | INFO     | scripts.cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 10:34:48 | INFO     | scripts.cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 10:34:48 | INFO     | scripts.cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 10:34:49 | INFO     | scripts.cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 10:34:49 | INFO     | scripts.cad_chaitu.main:init_managers:101 - ✅ 管理器初始化完成
+2026-03-23 10:34:54 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:221 - 📊 导出进度: 10/15 (平均: 0.6s/个, 预计剩余: 3s)
+2026-03-23 10:34:57 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:240 - ✅ 导出完成: 15/15 成功, 总耗时: 8.7s, 平均: 0.6s/个
+2026-03-23 10:34:57 | INFO     | cad_chaitu.main:chaitu_process:349 - ✅ 子图导出完成，成功导出 15 个文件，失败 0 个 (耗时: 12.16s)
+2026-03-23 10:34:57 | INFO     | cad_chaitu.main:chaitu_process:355 - 步骤4: 开始并发上传所有子图到MinIO...
+2026-03-23 10:34:57 | INFO     | minio_client:batch_upload_files:316 - ✅ [10/15] 已上传 10 个文件
+2026-03-23 10:34:57 | INFO     | minio_client:batch_upload_files:347 - 上传完成: 15/15 成功, 12.6MB, 0.4s, 32.0MB/s
+2026-03-23 10:34:57 | INFO     | cad_chaitu.main:chaitu_process:370 - 步骤5: 保存数据到数据库...
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:415 - ✅ 数据库保存完成，成功保存 15 条记录，上传失败 0 个，数据库失败 0 个 (耗时: 30.26s)
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:430 - ✅ 拆图完成！成功处理 15 个子图
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:431 - ================================================================================
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:432 - 📊 处理流程统计:
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:433 -    步骤1 - 识别图框: 15 个
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:434 -    步骤2 - 识别编号品名: 15 个 (失败 0 个)
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:435 -    步骤3 - 导出子图: 15 个 (失败 0 个)
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:436 -    步骤4 - 上传MinIO: 15 个 (失败 0 个)
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:437 -    步骤5 - 保存数据库: 15 个 (失败 0 个)
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:438 -    最终结果: 15 个子图成功
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:439 - ================================================================================
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:440 - 📊 性能统计: 识别=3.65s, 导出=12.16s, 上传=0.39s, 数据库=30.26s, 总耗时=46.48s, 平均=3.10s/个
+2026-03-23 10:35:27 | INFO     | cad_chaitu.main:chaitu_process:449 - 📁 MinIO 路径: dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e
+2026-03-23 10:35:27 | INFO     | __main__:handle_cad_chaitu:495 - [SEND] 发布进度: 拆图完成 (job_id=39cbed42-2e3a-4ea8-851e-f79b72dc077e, 子图数=15)
+2026-03-23 10:35:27 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: cad_chaitu
+2026-03-23 10:35:42 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:36:02 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:36:02 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/DIE-08.dxf
+2026-03-23 10:36:02 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpz0rw9vl_\97e5190f-1800-467e-80c1-af6a250373f8_DIE-08.dxf
+2026-03-23 10:36:02 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_DIE-08 (0.73MB, 0.03s)
+2026-03-23 10:36:02 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.73MB, 总耗时 0.03s, 平均速度 27.38MB/s
+2026-03-23 10:36:08 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:36:08 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:36:10 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:36:10 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/DIE-17.dxf
+2026-03-23 10:36:10 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpi_6uswe4\97e5190f-1800-467e-80c1-af6a250373f8_DIE-17.dxf
+2026-03-23 10:36:10 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_DIE-17 (0.71MB, 0.03s)
+2026-03-23 10:36:10 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.71MB, 总耗时 0.03s, 平均速度 26.87MB/s
+2026-03-23 10:36:11 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:36:11 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:36:12 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:36:12 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/DIE-19.dxf
+2026-03-23 10:36:12 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmppsadbdvg\97e5190f-1800-467e-80c1-af6a250373f8_DIE-19.dxf
+2026-03-23 10:36:12 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_DIE-19 (0.67MB, 0.03s)
+2026-03-23 10:36:12 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.03s, 平均速度 23.10MB/s
+2026-03-23 10:36:17 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:36:17 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:36:19 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:36:19 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/DIE2-10.dxf
+2026-03-23 10:36:19 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpv63ss7ca\97e5190f-1800-467e-80c1-af6a250373f8_DIE2-10.dxf
+2026-03-23 10:36:19 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_DIE2-10 (0.79MB, 0.03s)
+2026-03-23 10:36:19 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.79MB, 总耗时 0.03s, 平均速度 23.29MB/s
+2026-03-23 10:36:22 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:36:22 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:36:23 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:36:23 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/DIE2-BL1.dxf
+2026-03-23 10:36:23 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpdcj_pn18\97e5190f-1800-467e-80c1-af6a250373f8_DIE2-BL1.dxf
+2026-03-23 10:36:23 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_DIE2-BL1 (0.84MB, 0.03s)
+2026-03-23 10:36:23 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.84MB, 总耗时 0.03s, 平均速度 27.87MB/s
+2026-03-23 10:36:26 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:36:26 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:36:29 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:36:29 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/DIE2-BL2.dxf
+2026-03-23 10:36:29 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp69awclyx\97e5190f-1800-467e-80c1-af6a250373f8_DIE2-BL2.dxf
+2026-03-23 10:36:29 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_DIE2-BL2 (0.68MB, 0.03s)
+2026-03-23 10:36:29 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.68MB, 总耗时 0.03s, 平均速度 23.70MB/s
+2026-03-23 10:36:32 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:36:32 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:36:33 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:36:33 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/DIE-BL2.dxf
+2026-03-23 10:36:33 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpntkq0ycw\97e5190f-1800-467e-80c1-af6a250373f8_DIE-BL2.dxf
+2026-03-23 10:36:33 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_DIE-BL2 (1.15MB, 0.05s)
+2026-03-23 10:36:33 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.15MB, 总耗时 0.05s, 平均速度 22.30MB/s
+2026-03-23 10:36:42 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:36:42 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:36:44 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:36:44 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/LB-01.dxf
+2026-03-23 10:36:44 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp7iv8we44\97e5190f-1800-467e-80c1-af6a250373f8_LB-01.dxf
+2026-03-23 10:36:44 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_LB-01 (0.89MB, 0.03s)
+2026-03-23 10:36:44 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.89MB, 总耗时 0.03s, 平均速度 27.16MB/s
+2026-03-23 10:36:50 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:36:50 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:36:51 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:36:51 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/PS-09.dxf
+2026-03-23 10:36:51 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpscvoi80o\97e5190f-1800-467e-80c1-af6a250373f8_PS-09.dxf
+2026-03-23 10:36:51 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_PS-09 (0.83MB, 0.03s)
+2026-03-23 10:36:51 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.83MB, 总耗时 0.03s, 平均速度 29.98MB/s
+2026-03-23 10:36:54 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:36:54 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:36:56 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:36:56 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/PS-10.dxf
+2026-03-23 10:36:56 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp28vv1v1k\97e5190f-1800-467e-80c1-af6a250373f8_PS-10.dxf
+2026-03-23 10:36:56 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_PS-10 (0.84MB, 0.03s)
+2026-03-23 10:36:56 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.84MB, 总耗时 0.03s, 平均速度 29.71MB/s
+2026-03-23 10:37:00 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:37:00 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:37:01 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:37:01 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/PS-BL1.dxf
+2026-03-23 10:37:01 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpg14lor2h\97e5190f-1800-467e-80c1-af6a250373f8_PS-BL1.dxf
+2026-03-23 10:37:01 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_PS-BL1 (0.74MB, 0.03s)
+2026-03-23 10:37:01 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.74MB, 总耗时 0.03s, 平均速度 25.65MB/s
+2026-03-23 10:37:04 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:37:04 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:37:05 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:37:05 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/PU-BL1.dxf
+2026-03-23 10:37:05 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp_nz8ngsz\97e5190f-1800-467e-80c1-af6a250373f8_PU-BL1.dxf
+2026-03-23 10:37:05 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_PU-BL1 (0.70MB, 0.04s)
+2026-03-23 10:37:05 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.70MB, 总耗时 0.04s, 平均速度 16.01MB/s
+2026-03-23 10:37:07 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:37:07 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:37:09 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:37:09 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/PU-BL1B.dxf
+2026-03-23 10:37:09 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpa9n34bmh\97e5190f-1800-467e-80c1-af6a250373f8_PU-BL1B.dxf
+2026-03-23 10:37:09 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_PU-BL1B (1.53MB, 0.04s)
+2026-03-23 10:37:09 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.53MB, 总耗时 0.04s, 平均速度 38.60MB/s
+2026-03-23 10:37:11 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:37:11 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:37:13 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:37:13 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/PU-BL2.dxf
+2026-03-23 10:37:13 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmprzlmuvdb\97e5190f-1800-467e-80c1-af6a250373f8_PU-BL2.dxf
+2026-03-23 10:37:13 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_PU-BL2 (0.65MB, 0.03s)
+2026-03-23 10:37:13 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.65MB, 总耗时 0.03s, 平均速度 24.02MB/s
+2026-03-23 10:37:20 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 10:37:20 | INFO     | __main__:call_tool_http:836 - [HTTP] 调用工具: feature_recognition
+2026-03-23 10:37:27 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 10:37:27 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/39cbed42-2e3a-4ea8-851e-f79b72dc077e/U1-01.dxf
+2026-03-23 10:37:27 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpsygw1fjc\97e5190f-1800-467e-80c1-af6a250373f8_U1-01.dxf
+2026-03-23 10:37:27 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 97e5190f-1800-467e-80c1-af6a250373f8_U1-01 (0.85MB, 0.03s)
+2026-03-23 10:37:27 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.85MB, 总耗时 0.03s, 平均速度 24.95MB/s
+2026-03-23 10:37:32 | INFO     | __main__:call_tool_http:848 - [HTTP] 工具执行完成: feature_recognition

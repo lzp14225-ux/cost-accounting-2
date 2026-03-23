@@ -4,13 +4,17 @@
 负责人：ZZH
 """
 import logging
+import asyncio
+import uuid
 from typing import Optional
 from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
 from fastapi.responses import StreamingResponse, Response
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 import io
 
 from shared.database import get_db
+from shared.models import Job
 from ..auth import get_current_user
 from ..services.job_service import JobService
 from ..services.file_service import FileService
@@ -18,6 +22,16 @@ from ..services.file_service import FileService
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/jobs", tags=["jobs"])
+
+
+async def _execute_continue_job(orchestrator, job_id: str):
+    """Run continue_job in the background so HTTP can return immediately."""
+    try:
+        logger.info(f"后台继续核算任务开始: job_id={job_id}")
+        result = await orchestrator.continue_job(job_id)
+        logger.info(f"后台继续核算任务完成: job_id={job_id}, status={result.get('status')}")
+    except Exception as e:
+        logger.error(f"后台继续核算任务失败: job_id={job_id}, error={e}", exc_info=True)
 
 
 @router.post("/upload")
@@ -111,6 +125,58 @@ async def get_job_status(
                 "error": "INTERNAL_SERVER_ERROR",
                 "message": f"查询失败: {str(e)}"
             }
+        )
+
+
+@router.post("/{job_id}/continue")
+async def continue_job(
+    job_id: str,
+    current_user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Continue calculation after the user confirms the review data."""
+    try:
+        logger.info(f"收到继续核算请求: job_id={job_id}, user_id={current_user['user_id']}")
+
+        try:
+            job_uuid = uuid.UUID(job_id)
+        except (ValueError, AttributeError):
+            raise HTTPException(status_code=400, detail={"message": f"无效的 job_id: {job_id}"})
+
+        result = await db.execute(
+            select(Job.status).where(Job.job_id == job_uuid)
+        )
+        row = result.first()
+
+        if not row:
+            raise HTTPException(status_code=404, detail={"message": f"任务不存在: {job_id}"})
+
+        job_status = row[0]
+        if job_status != "awaiting_confirm":
+            raise HTTPException(
+                status_code=400,
+                detail={"message": f"任务当前状态为 {job_status}，不能开始核算，期望 awaiting_confirm"}
+            )
+
+        from agents import get_orchestrator_agent
+
+        orchestrator = get_orchestrator_agent()
+        asyncio.create_task(_execute_continue_job(orchestrator, job_id))
+
+        logger.info(f"继续核算任务已调度: job_id={job_id}")
+        return {
+            "status": "accepted",
+            "message": "任务已开始继续核算，请通过 WebSocket 查看进度",
+            "job_id": job_id
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"继续核算失败: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=500,
+            detail={"message": f"继续核算失败: {str(e)}"}
         )
 
 

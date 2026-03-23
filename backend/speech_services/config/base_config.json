@@ -1,0 +1,9 @@
+{
+  "prompt_prefix": "模具成本核算系统用户：",
+  "user_dict_path": "config/user_dict.json",
+  "base_dict_path": "config/base_dict.json",
+  "max_user_terms": 30,
+  "prompt_total_terms": 15,
+  "prompt_base_terms": 10,
+  "user_term_min_freq": 2
+}

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import config from '../config/env'
-import { AUTH_STORAGE_KEYS } from '../constants/auth'
+import { getValidToken } from '../utils/auth'
 
 export interface SessionItem {
   session_id: string
@@ -34,7 +34,7 @@ class SessionService {
     
     try {
       // 使用独立的 axios 实例调用获取会话列表接口
-      const token = localStorage.getItem(AUTH_STORAGE_KEYS.TOKEN)
+      const token = getValidToken()
       const response = await axios.get(
         `${config.AUTH_BASE_URL}/api/chat-sessions/`,
         {
@@ -94,7 +94,7 @@ class SessionService {
   async deleteSession(jobId: string): Promise<void> {
     try {
       // 使用独立的 axios 实例调用删除接口
-      const token = localStorage.getItem(AUTH_STORAGE_KEYS.TOKEN)
+      const token = getValidToken()
       const response = await axios.delete(
         `${config.AUTH_BASE_URL}/api/chat-sessions/delete-by-job`,
         {
@@ -122,7 +122,7 @@ class SessionService {
   async renameSession(jobId: string, name: string): Promise<void> {
     try {
       // 使用独立的 axios 实例调用重命名接口
-      const token = localStorage.getItem(AUTH_STORAGE_KEYS.TOKEN)
+      const token = getValidToken()
       const response = await axios.put(
         `${config.AUTH_BASE_URL}/api/chat-sessions/update-name`,
         {
@@ -176,7 +176,7 @@ class SessionService {
       }
 
       // 使用独立的 axios 实例调用批量删除接口
-      const token = localStorage.getItem(AUTH_STORAGE_KEYS.TOKEN)
+      const token = getValidToken()
       const response = await axios.post(
         `${config.AUTH_BASE_URL}/api/chat-sessions/batch-delete-by-job`,
         {

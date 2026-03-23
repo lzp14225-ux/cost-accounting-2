@@ -1,0 +1,9 @@
+# 忽略所有模型文件（体积太大）
+*.pt
+*.pth
+*.bin
+*.onnx
+
+# 但保留 .gitignore 和 README
+!.gitignore
+!README.md

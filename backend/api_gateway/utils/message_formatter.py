@@ -76,6 +76,8 @@ def format_interaction_card(ws_message: dict) -> str:
         - UP01 - 材质
     """
     data = ws_message.get('data', {})
+    if isinstance(data, dict) and isinstance(data.get('data'), dict):
+        data = data.get('data', {})
     title = data.get('title', '系统请求')
     fields = data.get('fields', [])
     
@@ -493,6 +495,8 @@ def build_metadata(ws_message: dict) -> dict:
     
     elif message_type == 'progress':
         data = ws_message.get('data', {})
+        if isinstance(data, dict) and isinstance(data.get('data'), dict):
+            data = data.get('data', {})
         metadata['stage'] = data.get('stage')
         metadata['progress'] = data.get('progress', 0)
     
