@@ -727,8 +727,12 @@ async def handle_price_tool(name: str, arguments: dict) -> list[TextContent]:
         else:
             logger.info(f"[MCP] calculate_final_total_cost: job_id={job_id}, subgraph_ids={subgraph_ids}")
         
+        base_data = await base_itemcode_search.search_by_job_id(job_id, subgraph_ids)
         subgraphs_cost_data = await search.search_by_job_id(job_id, subgraph_ids)
-        search_data = {"subgraphs_cost": subgraphs_cost_data}
+        search_data = {
+            "base_itemcode": base_data,
+            "subgraphs_cost": subgraphs_cost_data
+        }
         result = await price_total.calculate(search_data, job_id, subgraph_ids)
         logger.info(f"[MCP] calculate_final_total_cost completed")
     

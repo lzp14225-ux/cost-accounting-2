@@ -208,3 +208,35 @@ Traceback (most recent call last):
                              ^^
 NameError: name 'os' is not defined
 2026-03-23 10:48:59 - shared.logging_middleware - ERROR - ❌ 响应完成: POST /api/v1/review/39cbed42-2e3a-4ea8-851e-f79b72dc077e/confirm | 状态=500 | IP=192.168.1.152 | 耗时=0.783s
+2026-03-23 10:54:42 - agents.input_validator - ERROR - ❌ 验证失败: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\input_validator.py", line 170, in validate
+    if "field" in extracted_entities and "unit_price" in extracted_entities.get("field", ""):
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2026-03-23 14:48:15 - agents.input_validator - ERROR - ❌ 验证失败: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\input_validator.py", line 170, in validate
+    if "field" in extracted_entities and "unit_price" in extracted_entities.get("field", ""):
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2026-03-23 14:59:58 - agents.input_validator - ERROR - ❌ 验证失败: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\input_validator.py", line 170, in validate
+    if "field" in extracted_entities and "unit_price" in extracted_entities.get("field", ""):
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2026-03-23 15:04:37 - agents.input_validator - ERROR - ❌ 验证失败: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\input_validator.py", line 170, in validate
+    if "field" in extracted_entities and "unit_price" in extracted_entities.get("field", ""):
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2026-03-23 15:05:52 - shared.logging_middleware - ERROR - ❌ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/refresh | 状态=500 | IP=192.168.1.152 | 耗时=0.019s
+2026-03-23 15:05:52 - shared.logging_middleware - ERROR - ❌ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/refresh | 状态=500 | IP=192.168.1.152 | 耗时=0.017s
+2026-03-23 15:07:55 - agents.input_validator - ERROR - ❌ 验证失败: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\input_validator.py", line 170, in validate
+    field_value = extracted_entities.get("field") or ""
+                                         ^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable

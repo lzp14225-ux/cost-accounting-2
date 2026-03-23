@@ -919,7 +919,11 @@ class NCTimeAgent(BaseAgent):
             
             # 如果有体积数据，也一起更新
             if "volume_mm3" in time_data:
-                update_values["volume_mm3"] = float(time_data["volume_mm3"]) if isinstance(time_data["volume_mm3"], Decimal) else time_data["volume_mm3"]
+                update_values["volume_mm3"] = (
+                    float(time_data["volume_mm3"])
+                    if isinstance(time_data["volume_mm3"], Decimal)
+                    else time_data["volume_mm3"]
+                )
             
             # 更新 features 表（nc_time_cost 和 volume_mm3 字段）
             await db.execute(

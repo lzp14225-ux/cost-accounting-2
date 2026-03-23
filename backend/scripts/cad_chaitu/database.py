@@ -8,6 +8,7 @@ import os
 import uuid
 import psycopg2
 from psycopg2 import pool
+from psycopg2 import OperationalError, InterfaceError
 from typing import Optional
 from loguru import logger
 
@@ -39,47 +40,80 @@ class DatabaseManager:
         except Exception as e:
             logger.error(f"❌ 数据库连接池初始化失败: {e}")
             return False
+
+    def _reset_pool(self) -> bool:
+        """连接异常后重建数据库连接池。"""
+        try:
+            if self.db_pool:
+                try:
+                    self.db_pool.closeall()
+                except Exception:
+                    pass
+            self.db_pool = None
+            logger.warning("数据库连接池失效，正在重建连接池")
+            return self.init_pool()
+        except Exception as e:
+            logger.error(f"❌ 重建数据库连接池失败: {e}")
+            return False
     
     def get_dwg_file_path(self, job_id: str) -> Optional[str]:
         """从数据库中根据 job_id 查询 dwg_file_path"""
         if not self.db_pool:
             logger.warning("数据库连接池未初始化")
             return None
-        
-        conn = None
-        cursor = None
+
         try:
+            job_uuid = uuid.UUID(job_id)
+        except (ValueError, AttributeError):
+            logger.error(f"❌ job_id 格式错误（不是有效的 UUID）: {job_id}")
+            return None
+
+        for attempt in range(2):
+            conn = None
+            cursor = None
             try:
-                job_uuid = uuid.UUID(job_id)
-            except (ValueError, AttributeError) as e:
-                logger.error(f"❌ job_id 格式错误（不是有效的 UUID）: {job_id}")
-                return None
-            
-            conn = self.db_pool.getconn()
-            cursor = conn.cursor()
-            
-            cursor.execute("SELECT dwg_file_path FROM jobs WHERE job_id = %s", (str(job_uuid),))
-            result = cursor.fetchone()
-            
-            if result and result[0]:
-                dwg_file_path = result[0]
-                logger.info(f"✅ 从数据库查询到 dwg_file_path: {dwg_file_path}")
-                return dwg_file_path
-            else:
+                conn = self.db_pool.getconn()
+                cursor = conn.cursor()
+
+                cursor.execute("SELECT dwg_file_path FROM jobs WHERE job_id = %s", (str(job_uuid),))
+                result = cursor.fetchone()
+
+                if result and result[0]:
+                    dwg_file_path = result[0]
+                    logger.info(f"✅ 从数据库查询到 dwg_file_path: {dwg_file_path}")
+                    return dwg_file_path
+
                 logger.warning(f"⚠️ 未找到 job_id={job_id} 对应的 dwg_file_path")
                 return None
-                
-        except Exception as e:
-            logger.error(f"❌ 从数据库查询 dwg_file_path 失败: {e}")
-            return None
-        finally:
-            if cursor:
-                try:
-                    cursor.close()
-                except:
-                    pass
-            if conn:
-                self.db_pool.putconn(conn)
+
+            except (OperationalError, InterfaceError) as e:
+                logger.error(f"❌ 从数据库查询 dwg_file_path 失败: {e}")
+                if conn and self.db_pool:
+                    try:
+                        self.db_pool.putconn(conn, close=True)
+                    except Exception:
+                        pass
+                    conn = None
+                if attempt == 0 and self._reset_pool():
+                    logger.warning(f"数据库连接已重建，重试查询 dwg_file_path: job_id={job_id}")
+                    continue
+                return None
+            except Exception as e:
+                logger.error(f"❌ 从数据库查询 dwg_file_path 失败: {e}")
+                return None
+            finally:
+                if cursor:
+                    try:
+                        cursor.close()
+                    except Exception:
+                        pass
+                if conn and self.db_pool:
+                    try:
+                        self.db_pool.putconn(conn, close=False)
+                    except Exception:
+                        pass
+
+        return None
     
     def save_subgraph(self, sub_code: str, file_url: str, source_file: str, job_id: str, part_name: str = None, part_code: str = None) -> bool:
         """保存子图信息到数据库"""

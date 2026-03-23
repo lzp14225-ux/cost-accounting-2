@@ -136,6 +136,17 @@ class ColoredFormatter(logging.Formatter):
         return log_message
 
 
+class ModuleFilter(logging.Filter):
+    """Route records to a dedicated file by logger name prefix."""
+
+    def __init__(self, module_prefix: str):
+        super().__init__()
+        self.module_prefix = module_prefix
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        return record.name.startswith(self.module_prefix)
+
+
 # ========== 日志配置函数 ==========
 
 def setup_logging(
@@ -144,6 +155,7 @@ def setup_logging(
     enable_console: bool = True,
     enable_file: bool = True,
     enable_json: bool = False,
+    enable_module_logs: bool = True,
     max_bytes: int = 10 * 1024 * 1024,  # 10MB
     backup_count: int = 5
 ):
@@ -218,6 +230,27 @@ def setup_logging(
         error_handler.setFormatter(file_formatter)
         
         root_logger.addHandler(error_handler)
+
+        if enable_module_logs:
+            module_configs = [
+                ("api_gateway", "api_gateway.log"),
+                ("workers", "workers.log"),
+                ("agents", "agents.log"),
+                ("scripts", "scripts.log"),
+                ("shared", "shared.log"),
+            ]
+
+            for module_prefix, filename in module_configs:
+                module_handler = logging.handlers.RotatingFileHandler(
+                    filename=log_path / filename,
+                    maxBytes=max_bytes,
+                    backupCount=backup_count,
+                    encoding="utf-8"
+                )
+                module_handler.setLevel(log_level)
+                module_handler.setFormatter(file_formatter)
+                module_handler.addFilter(ModuleFilter(module_prefix))
+                root_logger.addHandler(module_handler)
     
     # ========== JSON 格式日志 ==========
     if enable_json:
@@ -236,7 +269,10 @@ def setup_logging(
         root_logger.addHandler(json_handler)
     
     # 记录初始化信息
-    root_logger.info(f"✅ 日志系统初始化完成: level={level}, console={enable_console}, file={enable_file}, json={enable_json}")
+    root_logger.info(
+        f"✅ 日志系统初始化完成: level={level}, console={enable_console}, "
+        f"file={enable_file}, json={enable_json}, module_logs={enable_module_logs}"
+    )
 
 
 # ========== 获取 Logger ==========

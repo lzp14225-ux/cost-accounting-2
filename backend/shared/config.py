@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     RELOAD: bool = True
     CORS_ORIGINS: str = ""
     START_EMBEDDED_WORKER: bool = True
-    EMBEDDED_WORKER_ENTRY: str = "workers/orchestrator_worker.py"
+    EMBEDDED_WORKER_ENTRY: str = "workers/all_tasks_worker.py"
 
     DB_HOST: str = "127.0.0.1"
     DB_PORT: int = 5432

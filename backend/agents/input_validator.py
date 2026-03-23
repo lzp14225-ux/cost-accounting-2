@@ -106,6 +106,7 @@ class InputValidator:
                     user_input=user_input,
                     available_fields=available_fields
                 )
+                extracted_entities = extracted_entities or {}
                 
                 logger.info(f"✅ LLM 提取的实体: {extracted_entities}")
                 
@@ -113,6 +114,8 @@ class InputValidator:
                 logger.error(f"❌ LLM 实体提取失败: {llm_error}, 使用简单提取")
                 # Fallback: 使用简单的正则提取
                 extracted_entities = self._extract_entities_simple(user_input)
+            
+            extracted_entities = extracted_entities or {}
             
             # 3. 验证零件代码
             if "part_code" in extracted_entities and extracted_entities["part_code"]:
@@ -167,7 +170,8 @@ class InputValidator:
                         extracted_entities["value"] = value_result.matched_value
             
             # 🆕 5.5. 特殊验证：价格修改时，验证工艺/材质是否存在于数据中
-            if "field" in extracted_entities and "unit_price" in extracted_entities.get("field", ""):
+            field_value = extracted_entities.get("field") or ""
+            if field_value and "unit_price" in field_value:
                 # 从 reasoning 中提取工艺/材质名称
                 reasoning = extracted_entities.get("reasoning", "")
                 process_exists = self._check_process_exists_in_data(reasoning, display_view)
@@ -175,7 +179,7 @@ class InputValidator:
                 if not process_exists:
                     issues.append(ValidationIssue(
                         type=ValidationIssueType.INVALID_VALUE,
-                        field=extracted_entities["field"],
+                        field=field_value,
                         message=f"当前数据中不存在该工艺",
                         severity=ValidationSeverity.ERROR
                     ))

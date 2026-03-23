@@ -260,7 +260,7 @@ def _calculate_part_total(summary: Dict, nc_time_cost: Any = None) -> tuple[Dict
         processing_items.append("大水磨")
         processing_values.append(f"{float(large_grinding_cost):.2f}")
     if float(small_grinding_cost) > 0:
-        processing_items.append("小磨床")
+        processing_items.append("小水磨")
         processing_values.append(f"{float(small_grinding_cost):.2f}")
     if float(slow_wire_cost) > 0:
         processing_items.append("慢丝")

@@ -196,7 +196,7 @@ class Feature(Base):
     quantity = Column(Integer, default=1)
     material = Column(String(50))  # 添加缺失的 material 字段
     heat_treatment = Column(String(100))
-    # volume_mm3 = Column(DECIMAL(15, 3))  # 数据库表中不存在，注释掉
+    volume_mm3 = Column(DECIMAL(15, 3))
     calculated_weight_kg = Column(DECIMAL(10, 3))
     
     # 三个视图的线割长?
@@ -208,6 +208,7 @@ class Feature(Base):
     has_auto_material = Column(Boolean, default=False)
     needs_heat_treatment = Column(Boolean, default=False)
     boring_length_mm = Column(DECIMAL(10, 3))
+    nc_time_cost = Column(JSONB)
     
     # 加工说明(JSON格式,包含所有提取到的加工说明)
     processing_instructions = Column(JSONB)
@@ -223,14 +224,6 @@ class Feature(Base):
     created_by = Column(String(50))
     created_at = Column(TIMESTAMP, nullable=False, default=now_shanghai)
     meta_data = Column("metadata", JSONB)
-
-    @property
-    def volume_mm3(self):
-        if isinstance(self.meta_data, dict):
-            value = self.meta_data.get("volume_mm3")
-            if value is not None:
-                return value
-        return None
 
 class PriceItem(Base):
     """价格项表(全局模板)"""

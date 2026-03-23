@@ -124,6 +124,14 @@ app.include_router(reports.router)
 app.include_router(weight_price.router)
 app.include_router(account_router)
 
+try:
+    from speech_services.main import router as speech_router
+
+    app.include_router(speech_router)
+    logger.info("Speech services router mounted into unified backend")
+except Exception as exc:
+    logger.warning("Speech services router skipped: %s", exc)
+
 
 @app.get("/")
 async def root():

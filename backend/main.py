@@ -15,21 +15,20 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 
 def start_worker_process() -> Optional[subprocess.Popen]:
     if not settings.START_EMBEDDED_WORKER:
-        logger.info("已关闭内嵌 worker 启动，当前仅启动 API 服务")
+        logger.info("Embedded worker disabled; starting API only")
         return None
 
     worker_entry = settings.EMBEDDED_WORKER_ENTRY.strip()
-    worker_path = PROJECT_ROOT / worker_entry
-
     if not worker_entry:
-        logger.warning("未配置 EMBEDDED_WORKER_ENTRY，跳过 worker 启动")
+        logger.warning("EMBEDDED_WORKER_ENTRY is empty; skipping embedded worker startup")
         return None
 
+    worker_path = PROJECT_ROOT / worker_entry
     if not worker_path.exists():
-        logger.error("worker 启动文件不存在: %s", worker_path)
+        logger.error("Embedded worker entry not found: %s", worker_path)
         return None
 
-    logger.info("启动内嵌 worker: %s", worker_path)
+    logger.info("Starting embedded worker: %s", worker_path)
     return subprocess.Popen(
         [sys.executable, str(worker_path)],
         cwd=str(PROJECT_ROOT),
@@ -37,19 +36,16 @@ def start_worker_process() -> Optional[subprocess.Popen]:
 
 
 def stop_worker_process(worker_process: Optional[subprocess.Popen]) -> None:
-    if worker_process is None:
+    if worker_process is None or worker_process.poll() is not None:
         return
 
-    if worker_process.poll() is not None:
-        return
-
-    logger.info("正在停止内嵌 worker，pid=%s", worker_process.pid)
+    logger.info("Stopping embedded worker pid=%s", worker_process.pid)
     worker_process.terminate()
 
     try:
         worker_process.wait(timeout=10)
     except subprocess.TimeoutExpired:
-        logger.warning("worker 超时未退出，强制结束，pid=%s", worker_process.pid)
+        logger.warning("Embedded worker did not exit in time; killing pid=%s", worker_process.pid)
         worker_process.kill()
         worker_process.wait(timeout=5)
 
@@ -64,7 +60,9 @@ if __name__ == "__main__":
     reload_enabled = settings.RELOAD
 
     if settings.START_EMBEDDED_WORKER and reload_enabled:
-        logger.warning("检测到启用内嵌 worker，main.py 已自动关闭 uvicorn reload 以避免重复启动 worker")
+        logger.warning(
+            "Embedded worker is enabled; uvicorn reload is disabled to avoid duplicate worker processes"
+        )
         reload_enabled = False
 
     try:
