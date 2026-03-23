@@ -79,6 +79,7 @@ class Settings(BaseSettings):
     SPEECH_DEFAULT_MODEL: str = "small"
     SPEECH_DEFAULT_LANGUAGE: str = "zh"
     SPEECH_MODEL_DIR: str = ""
+    FFMPEG_PATH: str = ""
     SPEECH_HOST: str = "0.0.0.0"
     SPEECH_PORT: int = 8888
     API_TIMEOUT: float = 60.0

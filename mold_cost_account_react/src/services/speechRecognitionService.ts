@@ -6,7 +6,7 @@ const SPEECH_CONFIG = {
   model: 'small',
   language: 'zh',
   fixTerms: true,
-  format: 'wav',
+  format: 'webm',
 };
 
 interface SpeechRecognitionCallbacks {

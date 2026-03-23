@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import base64
+import os
+import sys
 import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
+import shutil
 
 import torch
 import uvicorn
@@ -12,12 +15,14 @@ from fastapi import APIRouter, FastAPI, File, Form, HTTPException, UploadFile, W
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+SERVICE_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = SERVICE_ROOT.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 from shared.config import settings
 from speech_services.core.transcriber import CodeWhisper
 
-
-SERVICE_ROOT = Path(__file__).resolve().parent
-PROJECT_ROOT = SERVICE_ROOT.parent
 AUDIO_STORAGE_DIR = SERVICE_ROOT / "audio"
 AUDIO_STORAGE_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -419,9 +424,16 @@ app = create_app()
 
 
 def main() -> None:
+    if settings.FFMPEG_PATH:
+        ffmpeg_target = Path(settings.FFMPEG_PATH)
+        ffmpeg_dir = ffmpeg_target.parent if ffmpeg_target.is_file() else ffmpeg_target
+        if ffmpeg_dir.exists():
+            os.environ["PATH"] = str(ffmpeg_dir) + os.pathsep + os.environ.get("PATH", "")
+    print(f"FFmpeg: {shutil.which('ffmpeg') or 'NOT FOUND'}")
     get_whisper_instance(settings.SPEECH_DEFAULT_MODEL)
+    run_target = "speech_services.main:app" if settings.RELOAD else app
     uvicorn.run(
-        app,
+        run_target,
         host=settings.SPEECH_HOST,
         port=settings.SPEECH_PORT,
         reload=settings.RELOAD,

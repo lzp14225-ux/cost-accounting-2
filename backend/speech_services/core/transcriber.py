@@ -6,6 +6,7 @@ import whisper
 import torch
 import re
 import os
+import shutil
 from pathlib import Path
 from typing import Dict, Optional, Tuple, List
 
@@ -14,6 +15,7 @@ from .dict_manager import DictionaryManager
 from .prompt_engine import PromptEngine
 from .utils import convert_to_simplified_chinese, normalize_zh_punctuation
 from .console import info, debug
+from shared.config import settings
 
 
 class CodeWhisper:
@@ -28,6 +30,7 @@ class CodeWhisper:
             download_root: 模型下载/缓存目录，默认使用项目目录下的 models 文件夹
         """
         info(f"📦 Whisper 模型: {model_name}")
+        self._configure_ffmpeg_path()
 
         # 设置模型下载目录
         if download_root is None:
@@ -69,6 +72,23 @@ class CodeWhisper:
         info(f"💡 当前提示词: {self.programmer_prompt}")
 
         info("✅ CodeWhisper 初始化完成")
+
+    def _configure_ffmpeg_path(self) -> None:
+        ffmpeg_path = (settings.FFMPEG_PATH or "").strip()
+        if ffmpeg_path:
+            ffmpeg_target = Path(ffmpeg_path)
+            ffmpeg_dir = ffmpeg_target.parent if ffmpeg_target.is_file() else ffmpeg_target
+            if ffmpeg_dir.exists():
+                os.environ["PATH"] = str(ffmpeg_dir) + os.pathsep + os.environ.get("PATH", "")
+                info(f"🎬 FFmpeg 路径已注入: {ffmpeg_dir}")
+            else:
+                info(f"⚠️ FFmpeg 路径不存在: {ffmpeg_path}")
+
+        resolved = shutil.which("ffmpeg")
+        if resolved:
+            info(f"✅ FFmpeg 可用: {resolved}")
+        else:
+            info("⚠️ 未找到 ffmpeg，可在 .env 中设置 FFMPEG_PATH")
 
     def _audio_level_stats(self, audio_file: str) -> Tuple[float, float, float]:
         """

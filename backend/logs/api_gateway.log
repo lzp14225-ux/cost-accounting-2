@@ -2293,3 +2293,91 @@ ModuleNotFoundError: No module named 'redis'
 2026-03-23 19:31:36 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
 2026-03-23 19:31:36 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, 当前连接数=1
 2026-03-23 19:31:36 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=63064179-d7f2-4f14-b9b1-1beb72290374
+2026-03-23 19:32:06 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=1
+2026-03-23 19:32:36 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=2
+2026-03-23 19:33:06 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=3
+2026-03-23 19:33:36 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=4
+2026-03-23 19:34:06 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=5
+2026-03-23 19:34:36 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=6
+2026-03-23 19:35:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=7
+2026-03-23 19:36:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=8
+2026-03-23 19:37:36 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=9
+2026-03-23 19:38:06 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=10
+2026-03-23 19:38:36 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=11
+2026-03-23 19:39:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=12
+2026-03-23 19:40:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=13
+2026-03-23 19:41:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=14
+2026-03-23 19:52:09 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=63064179-d7f2-4f14-b9b1-1beb72290374
+2026-03-23 19:52:09 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=63064179-d7f2-4f14-b9b1-1beb72290374
+2026-03-23 19:52:09 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=63064179-d7f2-4f14-b9b1-1beb72290374
+2026-03-23 19:52:09 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-03-23 19:52:09 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-03-23 19:52:09 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-03-23 19:52:09 - api_gateway.main - INFO - Unified backend stopped
+2026-03-23 19:52:18 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-03-23 19:52:18 - api_gateway.main - INFO - Unified backend starting
+2026-03-23 19:52:18 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
+2026-03-23 19:52:18 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-03-23 19:52:18 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-03-23 19:52:18 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-03-23 19:52:18 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-03-23 19:52:18 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-03-23 19:52:18 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-03-23 19:52:18 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-03-23 19:52:18 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-03-23 19:52:18 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-03-23 19:52:18 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-03-23 19:53:18 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, 当前连接数=1
+2026-03-23 19:53:18 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:53:48 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=1
+2026-03-23 19:54:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=2
+2026-03-23 19:54:48 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=3
+2026-03-23 19:55:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=4
+2026-03-23 19:55:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=5
+2026-03-23 19:55:52 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:55:52 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:55:52 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:56:08 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, 当前连接数=1
+2026-03-23 19:56:09 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:56:39 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=1
+2026-03-23 19:57:09 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=2
+2026-03-23 19:57:39 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=3
+2026-03-23 19:58:09 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=4
+2026-03-23 19:58:17 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:58:17 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:58:17 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:58:24 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, 当前连接数=1
+2026-03-23 19:58:24 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:58:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=1
+2026-03-23 19:59:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=2
+2026-03-23 19:59:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=3
+2026-03-23 20:00:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=4
+2026-03-23 20:00:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=5
+2026-03-23 20:01:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=6
+2026-03-23 20:01:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=7
+2026-03-23 20:02:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=8
+2026-03-23 20:03:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=9
+2026-03-23 20:03:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=10
+2026-03-23 20:04:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=11
+2026-03-23 20:04:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=12
+2026-03-23 20:05:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=13
+2026-03-23 20:05:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=14
+2026-03-23 20:06:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=15
+2026-03-23 20:06:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=16
+2026-03-23 20:07:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=17
+2026-03-23 20:08:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=18
+2026-03-23 20:09:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=19
+2026-03-23 20:10:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=20
+2026-03-23 20:11:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=21
+2026-03-23 20:12:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=22
+2026-03-23 20:13:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=23
+2026-03-23 20:14:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=24
+2026-03-23 20:14:54 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=25
+2026-03-23 20:15:24 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=26
+2026-03-23 20:15:54 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=27
+2026-03-23 20:16:24 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=28
+2026-03-23 20:16:54 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=29
+2026-03-23 20:17:24 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=30
+2026-03-23 20:17:54 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=31
+2026-03-23 20:18:24 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=32
+2026-03-23 20:18:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=33

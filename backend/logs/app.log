@@ -18603,3 +18603,356 @@ ModuleNotFoundError: No module named 'openai'
 2026-03-23 19:31:36 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/63064179-d7f2-4f14-b9b1-1beb72290374 | 状态=200 | IP=192.168.1.152 | 耗时=0.087s
 2026-03-23 19:31:36 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/63064179-d7f2-4f14-b9b1-1beb72290374 | IP=192.168.1.152
 2026-03-23 19:31:36 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/63064179-d7f2-4f14-b9b1-1beb72290374 | 状态=200 | IP=192.168.1.152 | 耗时=0.109s
+2026-03-23 19:32:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE470> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:32:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:32:06 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=1
+2026-03-23 19:32:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5D9F6830> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:32:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:32:36 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=2
+2026-03-23 19:33:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE980> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:33:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:33:06 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=3
+2026-03-23 19:33:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:33:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEAD0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:33:36 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=4
+2026-03-23 19:34:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:34:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE9B0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:34:06 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=5
+2026-03-23 19:34:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEB00> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:34:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:34:36 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=6
+2026-03-23 19:35:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDC250> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:35:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:35:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDC5E0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:35:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:35:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=7
+2026-03-23 19:36:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEA40> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:36:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:36:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:36:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE9E0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:36:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=8
+2026-03-23 19:37:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:37:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDC3A0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:37:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEAD0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:37:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:37:36 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=9
+2026-03-23 19:38:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDC580> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:38:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:38:06 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=10
+2026-03-23 19:38:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE9E0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:38:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:38:36 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=11
+2026-03-23 19:39:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE470> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:39:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:39:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEA10> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:39:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:39:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=12
+2026-03-23 19:40:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDC3A0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:40:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:40:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:40:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEB00> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:40:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=13
+2026-03-23 19:41:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:41:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE500> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:41:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:41:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE980> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:41:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=63064179-d7f2-4f14-b9b1-1beb72290374, sequence=14
+2026-03-23 19:42:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEA10> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:42:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:42:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDCB20> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:42:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:43:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEAD0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:43:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:43:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDC580> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:43:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:44:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDECB0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:44:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:44:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEA10> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:44:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:45:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE9E0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:45:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:45:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEAD0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:45:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:46:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDC580> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:46:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:46:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDECB0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:46:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:47:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEA10> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:47:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:47:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE9E0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:47:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:48:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEAD0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:48:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:48:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE470> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:48:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:49:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDC250> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:49:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:49:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:49:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEA10> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:50:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE9E0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:50:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:50:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEAD0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:50:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:51:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDE470> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:51:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:51:33 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:51:33 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDC250> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:52:03 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000001DB5EEDEA10> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:52:03 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:52:09 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=63064179-d7f2-4f14-b9b1-1beb72290374
+2026-03-23 19:52:09 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=63064179-d7f2-4f14-b9b1-1beb72290374
+2026-03-23 19:52:09 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=63064179-d7f2-4f14-b9b1-1beb72290374
+2026-03-23 19:52:09 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-03-23 19:52:09 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-03-23 19:52:09 - aiormq.connection - DEBUG - Closing connection <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0> cause: <class 'asyncio.exceptions.CancelledError'>
+2026-03-23 19:52:09 - aiormq.connection - DEBUG - Sending <Connection.Close object at 0x1db5d983880> to <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:52:09 - aiormq.connection - DEBUG - Reader exited for <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:52:09 - aiormq.connection - DEBUG - Writer on connection amqp://admin:******@192.168.1.152:5672/ closed
+2026-03-23 19:52:09 - aiormq.connection - DEBUG - Writer exited for <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x1db3d7d22a0>
+2026-03-23 19:52:09 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-03-23 19:52:09 - api_gateway.main - INFO - Unified backend stopped
+2026-03-23 19:52:09 - __main__ - INFO - Stopping embedded worker pid=23068
+2026-03-23 19:52:14 - root - INFO - ✅ 日志系统初始化完成: level=DEBUG, console=True, file=True, json=False, module_logs=True
+2026-03-23 19:52:18 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-03-23 19:52:18 - api_gateway.main - INFO - Unified backend starting
+2026-03-23 19:52:18 - aio_pika.robust_connection - DEBUG - Starting connection factory for <RobustConnection: "amqp://admin:******@192.168.1.152:5672/" 0 channels>
+2026-03-23 19:52:18 - aio_pika.robust_connection - DEBUG - Waiting for connection close event for <RobustConnection: "amqp://admin:******@192.168.1.152:5672/" 0 channels>
+2026-03-23 19:52:18 - aio_pika.robust_connection - DEBUG - Connection attempt for <RobustConnection: "amqp://admin:******@192.168.1.152:5672/" 0 channels>
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Connecting to: amqp://admin:******@192.168.1.152:5672/
+2026-03-23 19:52:18 - aio_pika.robust_connection - DEBUG - Connection made on <RobustConnection: "amqp://admin:******@192.168.1.152:5672/" 0 channels>
+2026-03-23 19:52:18 - aio_pika.connection - DEBUG - Creating AMQP channel for connection: <RobustConnection: "amqp://admin:******@192.168.1.152:5672/" 0 channels>
+2026-03-23 19:52:18 - aio_pika.connection - DEBUG - Channel created: <aio_pika.robust_channel.RobustChannel object at 0x00000294531BA590>
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x01\x00\x01\x00\x00\x00\x06\x00\x14\x00\n\x010\xce', should_close=False, drain_future=None)
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Received frame <Channel.OpenOk object at 0x294531bf6c0> in channel #1 weight=16 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x01\x00\x01\x00\x00\x00\x05\x00U\x00\n\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Received frame <Confirm.SelectOk object at 0x294531bb5b0> in channel #1 weight=12 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x01\x00\x01\x00\x00\x00\x0b\x00<\x00\n\x00\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Received frame <Basic.QosOk object at 0x294531bb6a0> in channel #1 weight=12 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x01\x00\x01\x00\x00\x00\x0b\x00<\x00\n\x00\x00\x00\x00\x00\n\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Received frame <Basic.QosOk object at 0x294531bac50> in channel #1 weight=12 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x01\x00\x01\x00\x00\x00.\x00(\x00\n\x00\x00\x1bjob_processing_dlx_exchange\x06direct\x02\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Received frame <Exchange.DeclareOk object at 0x294531bb490> in channel #1 weight=12 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:52:18 - aio_pika.channel - DEBUG - Exchange declared <RobustExchange(job_processing_dlx_exchange): auto_delete=False, durable=True, arguments={})>
+2026-03-23 19:52:18 - aio_pika.queue - DEBUG - Declaring queue: <RobustQueue(job_processing_dlx): auto_delete=False, durable=True, exclusive=False, arguments=None
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x01\x00\x01\x00\x00\x00\x1e\x002\x00\n\x00\x00\x12job_processing_dlx\x02\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Received frame <Queue.DeclareOk object at 0x294531f0090> in channel #1 weight=39 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:52:18 - aio_pika.queue - DEBUG - Binding queue <RobustQueue(job_processing_dlx): auto_delete=False, durable=True, exclusive=False, arguments=None: exchange=<RobustExchange(job_processing_dlx_exchange): auto_delete=False, durable=True, arguments={})>, routing_key='job_processing_dlx', arguments=None
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x01\x00\x01\x00\x00\x00M\x002\x00\x14\x00\x00\x12job_processing_dlx\x1bjob_processing_dlx_exchange\x12job_processing_dlx\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Received frame <Queue.BindOk object at 0x294531bb5b0> in channel #1 weight=12 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:52:18 - aio_pika.queue - DEBUG - Declaring queue: <RobustQueue(job_processing): auto_delete=False, durable=True, exclusive=False, arguments={'x-dead-letter-exchange': 'job_processing_dlx_exchange', 'x-dead-letter-routing-key': 'job_processing_dlx', 'x-message-ttl': 86400000}
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x01\x00\x01\x00\x00\x00\x95\x002\x00\n\x00\x00\x0ejob_processing\x02\x00\x00\x00{\x16x-dead-letter-exchangeS\x00\x00\x00\x1bjob_processing_dlx_exchange\x19x-dead-letter-routing-keyS\x00\x00\x00\x12job_processing_dlx\rx-message-ttlI\x05&\\\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:52:18 - aiormq.connection - DEBUG - Received frame <Queue.DeclareOk object at 0x294531fa5c0> in channel #1 weight=35 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:52:18 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
+2026-03-23 19:52:18 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-03-23 19:52:18 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-03-23 19:52:18 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-03-23 19:52:18 - agents.action_handlers.data_modification_handler - INFO - ✅ DataModificationHandler 初始化完成
+2026-03-23 19:52:18 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: DATA_MODIFICATION -> DataModificationHandler
+2026-03-23 19:52:18 - agents.action_handlers.feature_recognition_handler - INFO - ✅ FeatureRecognitionHandler 初始化完成
+2026-03-23 19:52:18 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: FEATURE_RECOGNITION -> FeatureRecognitionHandler
+2026-03-23 19:52:18 - agents.action_handlers.price_calculation_handler - INFO - ✅ PriceCalculationHandler 初始化完成
+2026-03-23 19:52:18 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: PRICE_CALCULATION -> PriceCalculationHandler
+2026-03-23 19:52:18 - agents.action_handlers.query_details_handler - INFO - ✅ QueryDetailsHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-03-23 19:52:18 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: QUERY_DETAILS -> QueryDetailsHandler
+2026-03-23 19:52:18 - agents.action_handlers.general_chat_handler - INFO - ✅ GeneralChatHandler 初始化完成
+2026-03-23 19:52:18 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: GENERAL_CHAT -> GeneralChatHandler
+2026-03-23 19:52:18 - agents.action_handlers.weight_price_calculation_handler - INFO - ✅ WeightPriceCalculationHandler 初始化完成
+2026-03-23 19:52:18 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_CALCULATION -> WeightPriceCalculationHandler
+2026-03-23 19:52:18 - agents.action_handlers.weight_price_query_handler - INFO - ✅ WeightPriceQueryHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-03-23 19:52:18 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_QUERY -> WeightPriceQueryHandler
+2026-03-23 19:52:18 - agents.action_handlers.confirmation_response_handler - INFO - ✅ ConfirmationResponseHandler 初始化完成
+2026-03-23 19:52:18 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: CONFIRMATION_RESPONSE -> ConfirmationResponseHandler
+2026-03-23 19:52:18 - agents.action_handlers.base_handler - INFO - ✅ 所有 Handler 已注册，共 8 个
+2026-03-23 19:52:18 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-03-23 19:52:18 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-03-23 19:52:18 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-03-23 19:52:18 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-03-23 19:52:18 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-03-23 19:52:18 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-03-23 19:52:18 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-03-23 19:52:23 - aio_pika.robust_connection - DEBUG - Waiting for connection close event for <RobustConnection: "amqp://admin:******@192.168.1.152:5672/" 1 channels>
+2026-03-23 19:52:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294531BB9D0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:52:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:53:16 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-23 19:53:16 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=0.038s
+2026-03-23 19:53:18 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/8cc81afb-f23f-456a-b652-b563378f27a7/history | IP=192.168.1.152
+2026-03-23 19:53:18 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/8cc81afb-f23f-456a-b652-b563378f27a7/history | 状态=200 | IP=192.168.1.152 | 耗时=0.021s
+2026-03-23 19:53:18 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, 当前连接数=1
+2026-03-23 19:53:18 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:53:18 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/8cc81afb-f23f-456a-b652-b563378f27a7 | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-23 19:53:18 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.232s
+2026-03-23 19:53:18 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | IP=192.168.1.152
+2026-03-23 19:53:18 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.026s
+2026-03-23 19:53:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965E740> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:53:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:53:48 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=1
+2026-03-23 19:53:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945969A740> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:53:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:54:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=2
+2026-03-23 19:54:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945969B3D0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:54:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:54:48 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=3
+2026-03-23 19:54:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945969ABF0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:54:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:55:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=4
+2026-03-23 19:55:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945969A380> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:55:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:55:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596984F0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:55:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:55:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=5
+2026-03-23 19:55:52 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:55:52 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:55:52 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:55:56 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-23 19:55:56 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=0.027s
+2026-03-23 19:56:07 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-23 19:56:07 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=0.027s
+2026-03-23 19:56:08 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/8cc81afb-f23f-456a-b652-b563378f27a7/history | IP=192.168.1.152
+2026-03-23 19:56:08 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/8cc81afb-f23f-456a-b652-b563378f27a7/history | 状态=200 | IP=192.168.1.152 | 耗时=0.017s
+2026-03-23 19:56:08 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, 当前连接数=1
+2026-03-23 19:56:09 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/8cc81afb-f23f-456a-b652-b563378f27a7 | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-23 19:56:09 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:56:09 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.063s
+2026-03-23 19:56:09 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | IP=192.168.1.152
+2026-03-23 19:56:09 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.009s
+2026-03-23 19:56:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945969AE60> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:56:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:56:39 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=1
+2026-03-23 19:56:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945969A860> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:56:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:57:09 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=2
+2026-03-23 19:57:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x0000029459698790> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:57:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:57:39 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=3
+2026-03-23 19:57:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945969ADA0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:57:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:58:09 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=4
+2026-03-23 19:58:17 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:58:17 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:58:17 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:58:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945969B1F0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:58:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:58:21 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-23 19:58:21 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=0.039s
+2026-03-23 19:58:24 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/8cc81afb-f23f-456a-b652-b563378f27a7/history | IP=192.168.1.152
+2026-03-23 19:58:24 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/8cc81afb-f23f-456a-b652-b563378f27a7/history | 状态=200 | IP=192.168.1.152 | 耗时=0.021s
+2026-03-23 19:58:24 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, 当前连接数=1
+2026-03-23 19:58:24 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/8cc81afb-f23f-456a-b652-b563378f27a7 | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-23 19:58:24 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 19:58:24 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.079s
+2026-03-23 19:58:24 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | IP=192.168.1.152
+2026-03-23 19:58:24 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.012s
+2026-03-23 19:58:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965EB00> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:58:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:58:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=1
+2026-03-23 19:59:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965F190> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:59:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:59:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=2
+2026-03-23 19:59:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E78B0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 19:59:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 19:59:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=3
+2026-03-23 20:00:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E4070> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:00:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:00:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=4
+2026-03-23 20:00:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965F130> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:00:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:00:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=5
+2026-03-23 20:01:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E43A0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:01:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:01:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=6
+2026-03-23 20:01:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965EB00> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:01:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:01:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=7
+2026-03-23 20:02:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E4070> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:02:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:02:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965EBC0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:02:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:02:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=8
+2026-03-23 20:03:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965EB00> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:03:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:03:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=9
+2026-03-23 20:03:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E78B0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:03:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:03:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=10
+2026-03-23 20:04:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E5300> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:04:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:04:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=11
+2026-03-23 20:04:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965F100> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:04:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:04:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=12
+2026-03-23 20:05:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E78B0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:05:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:05:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=13
+2026-03-23 20:05:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965EBC0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:05:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:05:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=14
+2026-03-23 20:06:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E5300> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:06:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:06:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=15
+2026-03-23 20:06:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965ED70> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:06:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:06:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=16
+2026-03-23 20:07:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E78B0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:07:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:07:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965F190> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:07:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:07:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=17
+2026-03-23 20:08:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965ED70> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:08:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:08:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965E8F0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:08:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:08:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=18
+2026-03-23 20:09:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965F190> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:09:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:09:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E7A00> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:09:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:09:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=19
+2026-03-23 20:10:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965E8F0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:10:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:10:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E78B0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:10:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:10:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=20
+2026-03-23 20:11:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965EE60> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:11:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:11:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E4070> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:11:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:11:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=21
+2026-03-23 20:12:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965EB00> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:12:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:12:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E7430> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:12:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:12:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=22
+2026-03-23 20:13:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965F0D0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:13:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:13:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E40D0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:13:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:13:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=23
+2026-03-23 20:14:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965F100> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:14:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:14:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=24
+2026-03-23 20:14:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E7A00> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:14:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:14:54 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=25
+2026-03-23 20:15:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E78B0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:15:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:15:24 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=26
+2026-03-23 20:15:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E5270> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:15:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:15:54 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=27
+2026-03-23 20:16:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965ED70> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:16:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:16:24 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=28
+2026-03-23 20:16:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E7A00> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:16:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:16:54 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=29
+2026-03-23 20:17:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965F190> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:17:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:17:24 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=30
+2026-03-23 20:17:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E76D0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:17:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:17:54 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=31
+2026-03-23 20:18:18 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x000002945965EB00> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:18:18 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
+2026-03-23 20:18:24 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, sequence=32
+2026-03-23 20:18:48 - aiormq.connection - DEBUG - Received frame <pamqp.heartbeat.Heartbeat object at 0x00000294596E78B0> in channel #0 weight=8 on <Connection: "amqp://admin:******@192.168.1.152:5672/" at 0x294512f0720>
+2026-03-23 20:18:48 - aiormq.connection - DEBUG - Prepare to send ChannelFrame(payload=b'\x08\x00\x00\x00\x00\x00\x00\xce', should_close=False, drain_future=None)
