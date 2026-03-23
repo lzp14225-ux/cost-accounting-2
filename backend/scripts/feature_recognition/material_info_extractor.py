@@ -331,6 +331,73 @@ def extract_material_from_text(text: str) -> Optional[str]:
         return None
 
 
+def extract_material_from_text_safe(text: str) -> Optional[str]:
+    """
+    从文本中安全提取材质信息（排除工艺编号干扰）
+    
+    改进点：
+    1. 优先匹配标签格式
+    2. 排除工艺编号格式（如 "D2 :1 -..."）
+    3. 使用材质字典匹配
+    
+    Args:
+        text: 文本内容
+    
+    Returns:
+        材质字符串或 None
+    """
+    if not text:
+        return None
+    
+    try:
+        # 策略1: 标签格式匹配（优先级最高）
+        labeled_material = extract_labeled_value(text, ['材料', '材质'])
+        if labeled_material:
+            logging.debug(f"从标签格式提取到材质: {labeled_material}")
+            return normalize_material(labeled_material)
+        
+        # 策略2: 排除工艺编号后的字典匹配
+        # 检查是否为工艺编号格式：字母+数字 :数字 -...
+        # 例如：D2 :1 -V型导板槽...
+        process_code_pattern = r'^[A-Z]\d*\s*:\s*\d+\s*-'
+        if re.match(process_code_pattern, text.strip()):
+            logging.debug(f"跳过工艺编号格式文本: {text[:50]}")
+            return None
+        
+        # 策略3: 材质字典匹配（排除工艺编号后）
+        text_upper = text.upper()
+        sorted_keywords = sorted(MATERIAL_KEYWORDS, key=len, reverse=True)
+        
+        for keyword in sorted_keywords:
+            keyword_upper = keyword.upper()
+            pos = text_upper.find(keyword_upper)
+            
+            if pos != -1:
+                # 额外验证：确保不是工艺编号的一部分
+                # 检查匹配位置前后的字符
+                before_char = text_upper[pos-1] if pos > 0 else ' '
+                after_char = text_upper[pos+len(keyword)] if pos+len(keyword) < len(text_upper) else ' '
+                
+                # 如果前面是字母，后面是空格+冒号，很可能是工艺编号
+                # 例如：D2 :1 中的 D2
+                if before_char.isalpha() and after_char in [' ', ':']:
+                    # 检查是否符合工艺编号模式
+                    snippet = text[max(0, pos-5):min(len(text), pos+len(keyword)+10)]
+                    if re.search(r'[A-Z]\d*\s*:\s*\d+', snippet):
+                        logging.debug(f"跳过疑似工艺编号: {snippet}")
+                        continue
+                
+                matched_text = text[pos:pos + len(keyword)]
+                logging.debug(f"从材质字典提取到材质: {matched_text}")
+                return normalize_material(matched_text)
+        
+        return None
+        
+    except Exception as e:
+        logging.debug(f"提取材质失败: {e}")
+        return None
+
+
 def parse_quantity_from_text(text: str) -> Optional[int]:
     """
     从文本中提取数量（简化规则 + 标签格式）
@@ -589,7 +656,12 @@ def check_auto_material(dxf_file_path: str) -> bool:
 
 def parse_material_info_from_texts(texts: List[str]) -> Dict:
     """
-    从预提取的文本列表中解析材质信息（优化版，避免重复读取文件）
+    从预提取的文本列表中解析材质信息（优化版，三层级策略）
+    
+    策略优先级：
+    1. 标准格式精确匹配（xxxL*xxxW*xxxT xxxPCS 材料）- 最可靠
+    2. 排除工艺编号后的字典匹配 - 避免误匹配
+    3. 标签格式匹配（材料：xxx）- 兜底
     
     Args:
         texts: 文本内容列表
@@ -611,43 +683,62 @@ def parse_material_info_from_texts(texts: List[str]) -> Dict:
     }
     
     try:
-        # 遍历所有文本
+        # ========== 第一轮：优先处理标准格式（最可靠） ==========
         for content in texts:
             if not content:
                 continue
             
-            # 策略1: 使用简化规则提取数量（优先级最高）
+            # 尝试从标准格式中提取（xxxL*xxxW*xxxT xxxPCS 材料 热处理）
+            dimension_info = parse_dimension_line(content)
+            if dimension_info:
+                if result['quantity'] is None:
+                    result['quantity'] = dimension_info.get('quantity')
+                    logging.info(f"✅ [标准格式] 找到数量: {result['quantity']} PCS")
+                
+                if result['material'] is None:
+                    result['material'] = dimension_info.get('material')
+                    logging.info(f"✅ [标准格式] 找到材质: {result['material']}")
+                
+                if result['heat_treatment'] is None:
+                    result['heat_treatment'] = dimension_info.get('heat_treatment')
+                    if result['heat_treatment']:
+                        logging.info(f"✅ [标准格式] 找到热处理: {result['heat_treatment']}")
+        
+        # ========== 第二轮：处理其他信息 ==========
+        for content in texts:
+            if not content:
+                continue
+            
+            # 提取数量（如果第一轮没找到）
             if result['quantity'] is None:
                 quantity = parse_quantity_from_text(content)
                 if quantity is not None:
                     result['quantity'] = quantity
-                    logging.info(f"✅ 找到数量: {quantity} PCS")
+                    logging.info(f"✅ [简化规则] 找到数量: {quantity} PCS")
             
-            # 策略2: 使用材质字典提取材质（新增，优先级高）
+            # 提取材质（如果第一轮没找到）
             if result['material'] is None:
-                material = extract_material_from_text(content)
+                # 使用改进的材质提取函数（排除工艺编号）
+                material = extract_material_from_text_safe(content)
                 if material is not None:
                     result['material'] = material
-                    logging.info(f"✅ 找到材质: {material}")
+                    logging.info(f"✅ [字典匹配] 找到材质: {material}")
             
-            # 策略3: 使用热处理字典提取热处理（新增，优先级高）
+            # 提取热处理（如果第一轮没找到）
             if result['heat_treatment'] is None:
                 heat_treatment_info = extract_heat_treatment_from_text(content)
                 if heat_treatment_info is not None:
                     result['heat_treatment'] = heat_treatment_info['heat_treatment']
-                    logging.info(f"✅ 找到热处理: {heat_treatment_info['heat_treatment']} (类型: {heat_treatment_info['heat_treatment_type']})")
+                    logging.info(f"✅ [字典匹配] 找到热处理: {result['heat_treatment']} (类型: {heat_treatment_info['heat_treatment_type']})")
             
-            # 策略4: 尝试从完整格式中提取材质信息（保持向后兼容）
-            info = extract_material_info_from_text(content)
-            
-            # 更新结果（优先使用非空值）
-            # 注意：数量、材质、热处理已经在策略1、2、3中处理，这里不再更新
-            
-            if info['weight_kg'] is not None and result['weight_kg'] is None:
-                result['weight_kg'] = info['weight_kg']
-                logging.debug(f"找到重量: {info['weight_kg']} KG")
+            # 提取重量
+            if result['weight_kg'] is None:
+                weight = parse_weight_line(content)
+                if weight is not None:
+                    result['weight_kg'] = weight
+                    logging.debug(f"找到重量: {weight} KG")
         
-        # 如果没有找到数量，使用默认值1
+        # 默认值处理
         if result['quantity'] is None:
             result['quantity'] = 1
             logging.info(f"⚠️ 未找到数量信息，使用默认值: 1")

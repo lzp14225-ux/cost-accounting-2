@@ -64,6 +64,10 @@ class MinIOClient:
             return False
         
         try:
+            # 规范化对象名：去除前后空白，替换反斜线，去掉前导斜杠
+            file_path = (file_path or "").strip().replace('\\', '/')
+            if file_path.startswith('/'):
+                file_path = file_path.lstrip('/')
             # 确保保存目录存在
             save_dir = Path(save_path).parent
             save_dir.mkdir(parents=True, exist_ok=True)
@@ -80,7 +84,40 @@ class MinIOClient:
             return True
             
         except S3Error as e:
-            logger.error(f"❌ MinIO 下载失败 (S3Error): {e}")
+            if getattr(e, 'code', None) == 'NoSuchKey':
+                # 文件不存在，提供更详细的错误信息
+                logger.error(f"❌ MinIO 文件不存在: {file_path}")
+
+                # 额外尝试 stat_object 以获取更明确的错误提示（如果支持）
+                try:
+                    self.client.stat_object(self.bucket_files, file_path)
+                except Exception:
+                    # 忽略，这里只是为了触发更详细的 S3Error 日志（如果有）
+                    pass
+
+                # 尝试列出同目录下的文件，帮助排查问题
+                try:
+                    prefix = '/'.join(file_path.split('/')[:-1])
+                    if prefix and not prefix.endswith('/'):
+                        prefix = prefix + '/'
+                    logger.info(f"📂 列出目录 '{prefix}' 下的文件（前10个）:")
+                    objects = self.client.list_objects(
+                        self.bucket_files,
+                        prefix=prefix,
+                        recursive=False
+                    )
+                    file_list = list(objects)
+                    if file_list:
+                        for i, obj in enumerate(file_list[:10], 1):
+                            logger.info(f"   {i}. {obj.object_name}")
+                        if len(file_list) > 10:
+                            logger.info(f"   ... 还有 {len(file_list) - 10} 个文件")
+                    else:
+                        logger.warning(f"⚠️ 目录 '{prefix}' 为空或不存在")
+                except Exception as list_error:
+                    logger.warning(f"⚠️ 无法列出目录内容: {list_error}")
+            else:
+                logger.error(f"❌ MinIO 下载失败 (S3Error): {e}")
             return False
         except Exception as e:
             logger.error(f"❌ MinIO 下载失败: {e}")

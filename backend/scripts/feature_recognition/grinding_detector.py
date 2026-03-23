@@ -1,4 +1,3 @@
-      
 # -*- coding: utf-8 -*-
 """
 研磨识别模块
@@ -812,5 +811,3 @@ def find_similar_group(triangles: list) -> int:
     except Exception as e:
         logging.debug(f"查找相似组失败: {e}")
         return 0
-
-    

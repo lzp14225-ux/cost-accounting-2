@@ -77,6 +77,157 @@ storage_manager = None
 _minio_client = None
 
 
+def _export_xt_from_prt(prt_local: str, export_files: list, temp_dir: str,
+                         xt_minio_base: str, minio_client) -> dict:
+    """
+    用 NXOpen ParasolidExporter 从总装 PRT 中按 part_code 导出各子组件的 .x_t 文件，
+    上传到 MinIO，返回 {sub_code: minio_xt_path} 映射。
+
+    匹配规则：
+      遍历总装的 ComponentAssembly，对每个 Component 取 Prototype（子 Part），
+      用 Part.Leaf（文件名不含路径和扩展名）与 part_code 做大小写不敏感匹配。
+      匹配成功后用 ParasolidExporter 以 ExistingPart 模式导出该 Part。
+    """
+    import NXOpen
+    import NXOpen.UF
+
+    xt_url_map = {}
+    session = NXOpen.Session.GetSession()
+
+    try:
+        opened = session.Parts.Open(prt_local)
+        asm_part = opened[0] if isinstance(opened, tuple) else opened
+        session.Parts.SetDisplay(asm_part, False, False)
+        session.Parts.SetWork(asm_part)
+    except Exception as e:
+        logger.warning(f"步骤6: 打开 PRT 失败: {e}")
+        return xt_url_map
+
+    try:
+        # 构建 leaf_name -> Component 映射（大小写不敏感）
+        comp_map = {}  # {leaf_lower: (comp, proto)}
+
+        def _collect_components(parent_comp):
+            """递归收集所有子组件"""
+            try:
+                children = parent_comp.GetChildren()
+            except Exception:
+                return
+            for comp in children:
+                try:
+                    proto = comp.Prototype
+                    if proto is None:
+                        continue
+                    leaf = Path(proto.FullPath).stem.lower()
+                    comp_map[leaf] = (comp, proto)
+                except Exception:
+                    pass
+                _collect_components(comp)
+
+        # 方式1：装配体 ComponentAssembly 遍历
+        try:
+            root = asm_part.ComponentAssembly.RootComponent
+            if root is not None:
+                _collect_components(root)
+                logger.info(f"步骤6: 装配体模式，找到 {len(comp_map)} 个子组件")
+            else:
+                logger.info("步骤6: RootComponent 为 None，切换为实体(Bodies)模式")
+        except Exception as e:
+            logger.warning(f"步骤6: 装配体遍历失败: {e}，切换为实体模式")
+
+        # 方式2：单 Part 文件 —— 按 body.Name 匹配，用 ParasolidExporter 按选择集导出
+        if not comp_map:
+            # 构建 body_name -> body 映射
+            body_map = {}  # {name_lower: body}
+            try:
+                for body in asm_part.Bodies:
+                    bname = (body.Name or '').strip()
+                    if bname:
+                        body_map[bname.lower()] = body
+                logger.info(f"步骤6: 实体模式，找到 {len(body_map)} 个命名实体")
+            except Exception as e:
+                logger.warning(f"步骤6: 遍历实体失败: {e}")
+
+            for file_info in export_files:
+                sub_code = file_info['sub_code']
+                part_code = (file_info.get('part_code') or sub_code)
+                xt_local = os.path.join(temp_dir, f"{part_code}.x_t")
+                xt_minio = f"{xt_minio_base}/{part_code}.x_t"
+
+                # 精确匹配，再尝试前缀匹配
+                body = body_map.get(part_code.lower())
+                if body is None:
+                    for bname, b in body_map.items():
+                        if bname.startswith(part_code.lower()) or part_code.lower().startswith(bname):
+                            body = b
+                            break
+
+                if body is None:
+                    logger.debug(f"[{sub_code}] 实体模式未找到匹配实体 '{part_code}'，跳过")
+                    continue
+
+                try:
+                    exporter = session.DexManager.CreateParasolidExporter()
+                    exporter.OutputFile = xt_local
+                    exporter.ExportSelectionBlock.SelectionScope = NXOpen.ObjectSelector.Scope.SelectedObjects
+                    exporter.ExportSelectionBlock.SelectionComp.Add([body])
+                    exporter.Commit()
+                    exporter.Destroy()
+
+                    if os.path.exists(xt_local) and minio_client and minio_client.upload_file(xt_local, xt_minio):
+                        xt_url_map[sub_code] = xt_minio
+                        logger.info(f"[{sub_code}] .x_t 上传成功(实体模式): {xt_minio}")
+                    else:
+                        logger.warning(f"[{sub_code}] .x_t 文件不存在或上传失败(实体模式)")
+                except Exception as xe:
+                    logger.warning(f"[{sub_code}] .x_t 导出失败(实体模式): {xe}")
+        else:
+            # 装配体模式导出
+            for file_info in export_files:
+                sub_code = file_info['sub_code']
+                part_code = (file_info.get('part_code') or sub_code).lower()
+                xt_local = os.path.join(temp_dir, f"{file_info.get('part_code') or sub_code}.x_t")
+                xt_minio = f"{xt_minio_base}/{file_info.get('part_code') or sub_code}.x_t"
+
+                matched = comp_map.get(part_code)
+                if matched is None:
+                    for leaf, val in comp_map.items():
+                        if leaf.startswith(part_code) or part_code.startswith(leaf):
+                            matched = val
+                            break
+
+                if matched is None:
+                    logger.debug(f"[{sub_code}] 未找到匹配组件 '{part_code}'，跳过")
+                    continue
+
+                _comp, proto_part = matched
+
+                try:
+                    exporter = session.DexManager.CreateParasolidExporter()
+                    exporter.ExportFrom = NXOpen.ParasolidExporter.ExportFromOption.ExistingPart
+                    exporter.InputFile = proto_part.FullPath
+                    exporter.OutputFile = xt_local
+                    exporter.FlattenAssembly = True
+                    exporter.Commit()
+                    exporter.Destroy()
+
+                    if os.path.exists(xt_local) and minio_client and minio_client.upload_file(xt_local, xt_minio):
+                        xt_url_map[sub_code] = xt_minio
+                        logger.info(f"[{sub_code}] .x_t 上传成功: {xt_minio}")
+                    else:
+                        logger.warning(f"[{sub_code}] .x_t 文件不存在或上传失败")
+                except Exception as xe:
+                    logger.warning(f"[{sub_code}] .x_t 导出失败: {xe}")
+
+    finally:
+        try:
+            asm_part.Close(NXOpen.BasePart.CloseWholeTree.TrueValue, None)
+        except Exception:
+            pass
+
+    return xt_url_map
+
+
 def init_managers(minio_client=None):
     """初始化管理器"""
     global db_manager, storage_manager, _minio_client
@@ -101,7 +252,7 @@ def init_managers(minio_client=None):
     logger.info("✅ 管理器初始化完成")
 
 
-async def chaitu_process(dwg_url: Optional[str], job_id: str, minio_client=None) -> Dict:
+async def chaitu_process(dwg_url: Optional[str], job_id: str, minio_client=None, prt_url: Optional[str] = None) -> Dict:
     """
     拆图处理函数
     
@@ -184,7 +335,10 @@ async def chaitu_process(dwg_url: Optional[str], job_id: str, minio_client=None)
 
         # 2. 获取 DWG 文件
         if not await storage_manager.get_file(dwg_source, temp_dwg, use_minio=use_minio):
-            return {"status": "error", "message": "获取 DWG 文件失败"}
+            error_msg = f"获取 DWG 文件失败: {dwg_source}"
+            if use_minio:
+                error_msg += " (文件在 MinIO 中不存在，请检查数据库记录是否正确)"
+            return {"status": "error", "message": error_msg}
 
         # 3. 转换 DWG -> DXF
         converter = DWGConverter(ODA_FILE_CONVERTER_PATH)
@@ -372,7 +526,42 @@ async def chaitu_process(dwg_url: Optional[str], job_id: str, minio_client=None)
             db_success_count = 0
             failed_upload_count = 0
             failed_db_count = 0
-            
+
+            # 步骤6: 导出 .x_t 并上传 MinIO（NX 环境可用时执行）
+            # PRT 来源：优先用传入的 prt_url，否则从数据库查 jobs.prt_file_path
+            # MinIO 路径规则与 DXF 保持一致：xt/{year}/{month}/{job_id}/{part_code}.x_t
+            xt_minio_base = f"xt/{year}/{month}/{job_id}"
+            xt_url_map = {}  # {sub_code: minio_xt_path}
+            try:
+                import NXOpen as _NXOpen
+
+                # 确定 PRT 来源
+                _prt_source = prt_url
+                _prt_use_minio = False
+                if not _prt_source:
+                    _prt_source = db_manager.get_prt_file_path(job_id)
+                    _prt_use_minio = bool(_prt_source)
+                if not _prt_source:
+                    logger.info("步骤6: 未提供 PRT 文件，跳过 .x_t 导出")
+                else:
+                    logger.info(f"步骤6: 检测到 NX 环境，开始从 PRT 导出 .x_t 文件: {_prt_source}")
+                    _prt_local = os.path.join(temp_dir, "source.prt")
+                    _prt_ok = await storage_manager.get_file(_prt_source, _prt_local, use_minio=_prt_use_minio)
+                    if not _prt_ok:
+                        logger.warning(f"步骤6: 下载 PRT 文件失败: {_prt_source}，跳过 .x_t 导出")
+                    else:
+                        xt_url_map = _export_xt_from_prt(
+                            prt_local=_prt_local,
+                            export_files=export_files,
+                            temp_dir=temp_dir,
+                            xt_minio_base=xt_minio_base,
+                            minio_client=_minio_client,
+                        )
+            except ImportError:
+                logger.info("步骤6: 非 NX 环境，跳过 .x_t 导出")
+            except Exception as _nxe:
+                logger.warning(f"步骤6 .x_t 导出异常（不影响主流程）: {_nxe}")
+
             for file_info in export_files:
                 sub_code = file_info['sub_code']
                 
@@ -383,15 +572,29 @@ async def chaitu_process(dwg_url: Optional[str], job_id: str, minio_client=None)
                     logger.warning(f"⚠️ 上传失败 [{failed_upload_count}]: {sub_code} - {upload_error}")
                     continue
                 
+                # 二次验证：确认文件在 MinIO 中确实存在
+                minio_path = file_info['minio_path']
+                if not _minio_client.file_exists(minio_path):
+                    failed_upload_count += 1
+                    logger.error(f"❌ 上传验证失败 [{failed_upload_count}]: {sub_code} - 文件在 MinIO 中不存在: {minio_path}")
+                    continue
+                
                 try:
-                    db_manager.save_subgraph(
+                    # 只有在文件确实存在的情况下才保存到数据库
+                    success = db_manager.save_subgraph(
                         sub_code,
                         file_info['minio_path'],
                         source_filename,
                         job_id,
                         file_info['part_name'],
-                        file_info.get('part_code')
+                        file_info.get('part_code'),
+                        xt_url_map.get(sub_code)  # .x_t MinIO 路径，无则 None
                     )
+                    
+                    if not success:
+                        failed_db_count += 1
+                        logger.error(f"❌ 数据库保存失败 [{failed_db_count}]: {sub_code}")
+                        continue
                     
                     result_files.append({
                         "path": file_info['minio_path'],

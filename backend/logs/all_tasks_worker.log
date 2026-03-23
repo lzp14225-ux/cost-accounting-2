@@ -68,3 +68,919 @@
 2026-03-23 15:42:28 | INFO     | __main__:handle_pricing_message:226 - [价格重算] 计算成功: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, 总成本=15536.97
 2026-03-23 15:43:37 | INFO     | __main__:<module>:253 - 
 收到中断信号，Worker 正在关闭...
+2026-03-23 15:46:40 | INFO     | __main__:<module>:61 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用 loguru，支持轮转和压缩)
+2026-03-23 15:46:40 | INFO     | __main__:__init__:90 - AllTasksWorker 初始化
+2026-03-23 15:46:40 | INFO     | __main__:start:95 - ================================================================================
+2026-03-23 15:46:40 | INFO     | __main__:start:96 - 全任务Worker启动中...
+2026-03-23 15:46:40 | INFO     | __main__:start:97 - ================================================================================
+2026-03-23 15:46:40 | INFO     | __main__:start:100 - 连接 RabbitMQ...
+2026-03-23 15:46:40 | INFO     | __main__:start:102 - ✅ RabbitMQ 连接成功
+2026-03-23 15:46:40 | INFO     | __main__:start:105 - 初始化 OrchestratorAgent...
+2026-03-23 15:46:40 | INFO     | __main__:start:107 - ✅ OrchestratorAgent 初始化成功
+2026-03-23 15:46:40 | INFO     | __main__:start:109 - 初始化 PricingAgent...
+2026-03-23 15:46:40 | INFO     | __main__:start:111 - ✅ PricingAgent 初始化成功
+2026-03-23 15:46:40 | INFO     | __main__:start:113 - ================================================================================
+2026-03-23 15:46:40 | INFO     | __main__:start:114 - 开始监听队列:
+2026-03-23 15:46:40 | INFO     | __main__:start:115 -   1. job_processing - 新任务编排 (并发数: 1)
+2026-03-23 15:46:40 | INFO     | __main__:start:116 -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-03-23 15:46:40 | INFO     | __main__:start:117 - ================================================================================
+2026-03-23 15:46:40 | INFO     | __main__:_consume_job_processing_queue:134 - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-03-23 15:46:40 | INFO     | __main__:_consume_pricing_queue:144 - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-03-23 16:27:17 | INFO     | __main__:<module>:253 - 
+收到中断信号，Worker 正在关闭...
+2026-03-23 17:02:40,110 - __main__ - INFO - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用标准 logging，无轮转功能)
+2026-03-23 17:02:40,112 - __main__ - INFO - AllTasksWorker 初始化
+2026-03-23 17:02:40,112 - __main__ - INFO - ================================================================================
+2026-03-23 17:02:40,112 - __main__ - INFO - 全任务Worker启动中...
+2026-03-23 17:02:40,112 - __main__ - INFO - ================================================================================
+2026-03-23 17:02:40,112 - __main__ - INFO - 连接 RabbitMQ...
+2026-03-23 17:02:40,140 - __main__ - INFO - ✅ RabbitMQ 连接成功
+2026-03-23 17:02:40,140 - __main__ - INFO - 初始化 OrchestratorAgent...
+2026-03-23 17:02:40,141 - shared.mcp_client - INFO - MCP Client initialized: http://192.168.1.152:8201, timeout=7200s, pool=30, retries=3
+2026-03-23 17:02:40,141 - agents.cad_agent - INFO - CAD Agent 初始化完成 (MCP 模式)
+2026-03-23 17:02:40,142 - agent.NCTimeAgent - INFO - [NCTimeAgent] 初始化完成: url=http://192.168.1.223:8001, timeout=10秒
+2026-03-23 17:02:40,142 - __main__ - INFO - ✅ OrchestratorAgent 初始化成功
+2026-03-23 17:02:40,142 - __main__ - INFO - 初始化 PricingAgent...
+2026-03-23 17:02:40,142 - __main__ - INFO - ✅ PricingAgent 初始化成功
+2026-03-23 17:02:40,142 - __main__ - INFO - ================================================================================
+2026-03-23 17:02:40,143 - __main__ - INFO - 开始监听队列:
+2026-03-23 17:02:40,143 - __main__ - INFO -   1. job_processing - 新任务编排 (并发数: 1)
+2026-03-23 17:02:40,143 - __main__ - INFO -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-03-23 17:02:40,143 - __main__ - INFO - ================================================================================
+2026-03-23 17:02:40,144 - __main__ - INFO - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-03-23 17:02:40,144 - __main__ - INFO - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-03-23 17:02:57,310 - __main__ - INFO - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用标准 logging，无轮转功能)
+2026-03-23 17:02:57,312 - __main__ - INFO - AllTasksWorker 初始化
+2026-03-23 17:02:57,312 - __main__ - INFO - ================================================================================
+2026-03-23 17:02:57,312 - __main__ - INFO - 全任务Worker启动中...
+2026-03-23 17:02:57,313 - __main__ - INFO - ================================================================================
+2026-03-23 17:02:57,313 - __main__ - INFO - 连接 RabbitMQ...
+2026-03-23 17:02:57,327 - __main__ - INFO - ✅ RabbitMQ 连接成功
+2026-03-23 17:02:57,327 - __main__ - INFO - 初始化 OrchestratorAgent...
+2026-03-23 17:02:57,328 - shared.mcp_client - INFO - MCP Client initialized: http://192.168.1.152:8201, timeout=7200s, pool=30, retries=3
+2026-03-23 17:02:57,329 - agents.cad_agent - INFO - CAD Agent 初始化完成 (MCP 模式)
+2026-03-23 17:02:57,329 - agent.NCTimeAgent - INFO - [NCTimeAgent] 初始化完成: url=http://192.168.1.223:8001, timeout=10秒
+2026-03-23 17:02:57,329 - __main__ - INFO - ✅ OrchestratorAgent 初始化成功
+2026-03-23 17:02:57,330 - __main__ - INFO - 初始化 PricingAgent...
+2026-03-23 17:02:57,330 - __main__ - INFO - ✅ PricingAgent 初始化成功
+2026-03-23 17:02:57,330 - __main__ - INFO - ================================================================================
+2026-03-23 17:02:57,330 - __main__ - INFO - 开始监听队列:
+2026-03-23 17:02:57,330 - __main__ - INFO -   1. job_processing - 新任务编排 (并发数: 1)
+2026-03-23 17:02:57,331 - __main__ - INFO -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-03-23 17:02:57,331 - __main__ - INFO - ================================================================================
+2026-03-23 17:02:57,331 - __main__ - INFO - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-03-23 17:02:57,331 - __main__ - INFO - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-03-23 17:03:13,179 - __main__ - INFO - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用标准 logging，无轮转功能)
+2026-03-23 17:03:13,180 - __main__ - INFO - AllTasksWorker 初始化
+2026-03-23 17:03:13,180 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:13,180 - __main__ - INFO - 全任务Worker启动中...
+2026-03-23 17:03:13,180 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:13,181 - __main__ - INFO - 连接 RabbitMQ...
+2026-03-23 17:03:13,198 - __main__ - INFO - ✅ RabbitMQ 连接成功
+2026-03-23 17:03:13,199 - __main__ - INFO - 初始化 OrchestratorAgent...
+2026-03-23 17:03:13,199 - shared.mcp_client - INFO - MCP Client initialized: http://192.168.1.152:8201, timeout=7200s, pool=30, retries=3
+2026-03-23 17:03:13,199 - agents.cad_agent - INFO - CAD Agent 初始化完成 (MCP 模式)
+2026-03-23 17:03:13,199 - agent.NCTimeAgent - INFO - [NCTimeAgent] 初始化完成: url=http://192.168.1.223:8001, timeout=10秒
+2026-03-23 17:03:13,199 - __main__ - INFO - ✅ OrchestratorAgent 初始化成功
+2026-03-23 17:03:13,200 - __main__ - INFO - 初始化 PricingAgent...
+2026-03-23 17:03:13,200 - __main__ - INFO - ✅ PricingAgent 初始化成功
+2026-03-23 17:03:13,200 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:13,200 - __main__ - INFO - 开始监听队列:
+2026-03-23 17:03:13,200 - __main__ - INFO -   1. job_processing - 新任务编排 (并发数: 1)
+2026-03-23 17:03:13,200 - __main__ - INFO -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-03-23 17:03:13,200 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:13,201 - __main__ - INFO - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-03-23 17:03:13,201 - __main__ - INFO - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-03-23 17:03:29,692 - __main__ - INFO - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用标准 logging，无轮转功能)
+2026-03-23 17:03:29,696 - __main__ - INFO - AllTasksWorker 初始化
+2026-03-23 17:03:29,697 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:29,698 - __main__ - INFO - 全任务Worker启动中...
+2026-03-23 17:03:29,699 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:29,701 - __main__ - INFO - 连接 RabbitMQ...
+2026-03-23 17:03:29,720 - __main__ - INFO - ✅ RabbitMQ 连接成功
+2026-03-23 17:03:29,721 - __main__ - INFO - 初始化 OrchestratorAgent...
+2026-03-23 17:03:29,721 - shared.mcp_client - INFO - MCP Client initialized: http://192.168.1.152:8201, timeout=7200s, pool=30, retries=3
+2026-03-23 17:03:29,721 - agents.cad_agent - INFO - CAD Agent 初始化完成 (MCP 模式)
+2026-03-23 17:03:29,722 - agent.NCTimeAgent - INFO - [NCTimeAgent] 初始化完成: url=http://192.168.1.223:8001, timeout=10秒
+2026-03-23 17:03:29,722 - __main__ - INFO - ✅ OrchestratorAgent 初始化成功
+2026-03-23 17:03:29,722 - __main__ - INFO - 初始化 PricingAgent...
+2026-03-23 17:03:29,722 - __main__ - INFO - ✅ PricingAgent 初始化成功
+2026-03-23 17:03:29,722 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:29,723 - __main__ - INFO - 开始监听队列:
+2026-03-23 17:03:29,723 - __main__ - INFO -   1. job_processing - 新任务编排 (并发数: 1)
+2026-03-23 17:03:29,723 - __main__ - INFO -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-03-23 17:03:29,723 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:29,723 - __main__ - INFO - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-03-23 17:03:29,724 - __main__ - INFO - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-03-23 17:03:42,987 - __main__ - INFO - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用标准 logging，无轮转功能)
+2026-03-23 17:03:42,989 - __main__ - INFO - AllTasksWorker 初始化
+2026-03-23 17:03:42,989 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:42,989 - __main__ - INFO - 全任务Worker启动中...
+2026-03-23 17:03:42,990 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:42,990 - __main__ - INFO - 连接 RabbitMQ...
+2026-03-23 17:03:43,004 - __main__ - INFO - ✅ RabbitMQ 连接成功
+2026-03-23 17:03:43,004 - __main__ - INFO - 初始化 OrchestratorAgent...
+2026-03-23 17:03:43,005 - shared.mcp_client - INFO - MCP Client initialized: http://192.168.1.152:8201, timeout=7200s, pool=30, retries=3
+2026-03-23 17:03:43,005 - agents.cad_agent - INFO - CAD Agent 初始化完成 (MCP 模式)
+2026-03-23 17:03:43,005 - agent.NCTimeAgent - INFO - [NCTimeAgent] 初始化完成: url=http://192.168.1.223:8001, timeout=10秒
+2026-03-23 17:03:43,006 - __main__ - INFO - ✅ OrchestratorAgent 初始化成功
+2026-03-23 17:03:43,006 - __main__ - INFO - 初始化 PricingAgent...
+2026-03-23 17:03:43,006 - __main__ - INFO - ✅ PricingAgent 初始化成功
+2026-03-23 17:03:43,006 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:43,006 - __main__ - INFO - 开始监听队列:
+2026-03-23 17:03:43,006 - __main__ - INFO -   1. job_processing - 新任务编排 (并发数: 1)
+2026-03-23 17:03:43,007 - __main__ - INFO -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-03-23 17:03:43,007 - __main__ - INFO - ================================================================================
+2026-03-23 17:03:43,007 - __main__ - INFO - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-03-23 17:03:43,007 - __main__ - INFO - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-03-23 17:12:49,591 - __main__ - INFO - [任务处理] 收到消息: job_id=556f49de-9e42-4b69-96d4-e4b45a41a082, action=start
+2026-03-23 17:12:49,591 - agent.OrchestratorAgent - INFO - [编排器] 开始处理任务: job_id=556f49de-9e42-4b69-96d4-e4b45a41a082
+2026-03-23 17:12:50,270 - shared.progress_publisher - INFO - Progress update: {"job_id": "556f49de-9e42-4b69-96d4-e4b45a41a082", "stage": "initializing", "progress": 0, "message": "任务初始化...", "details": {}}
+2026-03-23 17:12:50,274 - agent.OrchestratorAgent - INFO - [编排器] 阶段1: CADAgent 拆图
+2026-03-23 17:12:50,278 - agent.OrchestratorAgent - INFO - [编排器] 调用 CADAgent.split()
+2026-03-23 17:12:50,279 - Agent.CADAgent - INFO - [MCP模式] 调用 cad_chaitu 工具
+2026-03-23 17:12:50,280 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.cad_chaitu
+2026-03-23 17:12:50,316 - shared.mcp_client - INFO - Tool call success: cad_chaitu (34ms)
+2026-03-23 17:12:50,317 - Agent.CADAgent - ERROR - 拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\cad_agent.py", line 147, in split
+    result = await self.mcp_client.call_tool(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\mcp_client.py", line 60, in call_tool
+    raise RuntimeError(f"Unable to call MCP tool {tool_name} on {self.base_url}: {detail}")
+RuntimeError: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+2026-03-23 17:12:50,442 - agent.OrchestratorAgent - INFO - [编排器] CADAgent.split() 执行完成: status=error, duration=43ms
+2026-03-23 17:12:50,442 - shared.progress_publisher - INFO - Progress update: {"job_id": "556f49de-9e42-4b69-96d4-e4b45a41a082", "stage": "cad_split_failed", "progress": 5, "message": "拆图失败: 拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包", "details": {"error": "拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包", "error_code": "SPLIT_ERROR"}}
+2026-03-23 17:12:50,501 - agent.OrchestratorAgent - ERROR - [编排器] 任务失败: job_id=556f49de-9e42-4b69-96d4-e4b45a41a082, stage=cad_split, error=拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+2026-03-23 17:12:50,502 - __main__ - ERROR - [任务处理] 任务处理失败: job_id=556f49de-9e42-4b69-96d4-e4b45a41a082, message=拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+2026-03-23 17:13:18,571 - __main__ - ERROR - Worker 启动失败: Channel closed by RPC timeout
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 126, in start
+    await asyncio.gather(*tasks)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 145, in _consume_pricing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:13:18,606 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-13' coro=<AllTasksWorker._consume_pricing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:142> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 246, in main
+    await worker.start()
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 126, in start
+    await asyncio.gather(*tasks)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 145, in _consume_pricing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:13:18,611 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-1' coro=<main() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:243> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 246, in main
+    await worker.start()
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 126, in start
+    await asyncio.gather(*tasks)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 145, in _consume_pricing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:13:18,618 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-12' coro=<AllTasksWorker._consume_job_processing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:132> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 237, in __anext__
+    await coroutine
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\locks.py", line 214, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 135, in _consume_job_processing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:13:18,641 - aio_pika.robust_connection - INFO - Connection to amqp://admin:******@192.168.1.152:5672/ closed. Reconnecting after 5 seconds.
+2026-03-23 17:13:18,643 - __main__ - INFO - 
+收到中断信号，Worker 正在关闭...
+2026-03-23 17:16:46,595 - __main__ - INFO - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用标准 logging，无轮转功能)
+2026-03-23 17:16:46,596 - __main__ - INFO - AllTasksWorker 初始化
+2026-03-23 17:16:46,596 - __main__ - INFO - ================================================================================
+2026-03-23 17:16:46,596 - __main__ - INFO - 全任务Worker启动中...
+2026-03-23 17:16:46,596 - __main__ - INFO - ================================================================================
+2026-03-23 17:16:46,597 - __main__ - INFO - 连接 RabbitMQ...
+2026-03-23 17:16:46,610 - __main__ - INFO - ✅ RabbitMQ 连接成功
+2026-03-23 17:16:46,611 - __main__ - INFO - 初始化 OrchestratorAgent...
+2026-03-23 17:16:46,611 - shared.mcp_client - INFO - MCP Client initialized: http://192.168.1.152:8201, timeout=7200s, pool=30, retries=3
+2026-03-23 17:16:46,611 - agents.cad_agent - INFO - CAD Agent 初始化完成 (MCP 模式)
+2026-03-23 17:16:46,612 - agent.NCTimeAgent - INFO - [NCTimeAgent] 初始化完成: url=http://192.168.1.223:8001, timeout=10秒
+2026-03-23 17:16:46,612 - __main__ - INFO - ✅ OrchestratorAgent 初始化成功
+2026-03-23 17:16:46,612 - __main__ - INFO - 初始化 PricingAgent...
+2026-03-23 17:16:46,612 - __main__ - INFO - ✅ PricingAgent 初始化成功
+2026-03-23 17:16:46,612 - __main__ - INFO - ================================================================================
+2026-03-23 17:16:46,612 - __main__ - INFO - 开始监听队列:
+2026-03-23 17:16:46,612 - __main__ - INFO -   1. job_processing - 新任务编排 (并发数: 1)
+2026-03-23 17:16:46,613 - __main__ - INFO -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-03-23 17:16:46,613 - __main__ - INFO - ================================================================================
+2026-03-23 17:16:46,613 - __main__ - INFO - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-03-23 17:16:46,613 - __main__ - INFO - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-03-23 17:17:42,605 - __main__ - INFO - [任务处理] 收到消息: job_id=183ba16f-9ddc-4b03-b7a0-11c61883be04, action=start
+2026-03-23 17:17:42,606 - agent.OrchestratorAgent - INFO - [编排器] 开始处理任务: job_id=183ba16f-9ddc-4b03-b7a0-11c61883be04
+2026-03-23 17:17:43,194 - shared.progress_publisher - INFO - Progress update: {"job_id": "183ba16f-9ddc-4b03-b7a0-11c61883be04", "stage": "initializing", "progress": 0, "message": "任务初始化...", "details": {}}
+2026-03-23 17:17:43,553 - agent.OrchestratorAgent - INFO - [编排器] 阶段1: CADAgent 拆图
+2026-03-23 17:17:43,553 - agent.OrchestratorAgent - INFO - [编排器] 调用 CADAgent.split()
+2026-03-23 17:17:43,554 - Agent.CADAgent - INFO - [MCP模式] 调用 cad_chaitu 工具
+2026-03-23 17:17:43,554 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.cad_chaitu
+2026-03-23 17:17:43,561 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-03-23 17:17:43,562 - shared.mcp_client - INFO - Tool call success: cad_chaitu (8ms)
+2026-03-23 17:17:43,563 - Agent.CADAgent - ERROR - 拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\cad_agent.py", line 147, in split
+    result = await self.mcp_client.call_tool(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\mcp_client.py", line 60, in call_tool
+    raise RuntimeError(f"Unable to call MCP tool {tool_name} on {self.base_url}: {detail}")
+RuntimeError: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+2026-03-23 17:17:43,657 - agent.OrchestratorAgent - INFO - [编排器] CADAgent.split() 执行完成: status=error, duration=11ms
+2026-03-23 17:17:43,657 - shared.progress_publisher - INFO - Progress update: {"job_id": "183ba16f-9ddc-4b03-b7a0-11c61883be04", "stage": "cad_split_failed", "progress": 5, "message": "拆图失败: 拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包", "details": {"error": "拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包", "error_code": "SPLIT_ERROR"}}
+2026-03-23 17:17:43,736 - agent.OrchestratorAgent - ERROR - [编排器] 任务失败: job_id=183ba16f-9ddc-4b03-b7a0-11c61883be04, stage=cad_split, error=拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+2026-03-23 17:17:43,737 - __main__ - ERROR - [任务处理] 任务处理失败: job_id=183ba16f-9ddc-4b03-b7a0-11c61883be04, message=拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+2026-03-23 17:18:38,693 - __main__ - ERROR - Worker 启动失败: Channel closed by RPC timeout
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 126, in start
+    await asyncio.gather(*tasks)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 145, in _consume_pricing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:18:38,699 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-13' coro=<AllTasksWorker._consume_pricing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:142> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 246, in main
+    await worker.start()
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 126, in start
+    await asyncio.gather(*tasks)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 145, in _consume_pricing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:18:38,702 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-1' coro=<main() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:243> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 246, in main
+    await worker.start()
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 126, in start
+    await asyncio.gather(*tasks)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 145, in _consume_pricing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:18:38,704 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-12' coro=<AllTasksWorker._consume_job_processing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:132> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 237, in __anext__
+    await coroutine
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\locks.py", line 214, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 135, in _consume_job_processing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:18:38,707 - aio_pika.robust_connection - INFO - Connection to amqp://admin:******@192.168.1.152:5672/ closed. Reconnecting after 5 seconds.
+2026-03-23 17:18:38,709 - __main__ - INFO - 
+收到中断信号，Worker 正在关闭...
+2026-03-23 17:19:25,641 - __main__ - INFO - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用标准 logging，无轮转功能)
+2026-03-23 17:19:25,642 - __main__ - INFO - AllTasksWorker 初始化
+2026-03-23 17:19:25,642 - __main__ - INFO - ================================================================================
+2026-03-23 17:19:25,642 - __main__ - INFO - 全任务Worker启动中...
+2026-03-23 17:19:25,643 - __main__ - INFO - ================================================================================
+2026-03-23 17:19:25,643 - __main__ - INFO - 连接 RabbitMQ...
+2026-03-23 17:19:25,655 - __main__ - INFO - ✅ RabbitMQ 连接成功
+2026-03-23 17:19:25,655 - __main__ - INFO - 初始化 OrchestratorAgent...
+2026-03-23 17:19:25,655 - shared.mcp_client - INFO - MCP Client initialized: http://192.168.1.152:8201, timeout=7200s, pool=30, retries=3
+2026-03-23 17:19:25,656 - agents.cad_agent - INFO - CAD Agent 初始化完成 (MCP 模式)
+2026-03-23 17:19:25,656 - agent.NCTimeAgent - INFO - [NCTimeAgent] 初始化完成: url=http://192.168.1.223:8001, timeout=10秒
+2026-03-23 17:19:25,656 - __main__ - INFO - ✅ OrchestratorAgent 初始化成功
+2026-03-23 17:19:25,656 - __main__ - INFO - 初始化 PricingAgent...
+2026-03-23 17:19:25,656 - __main__ - INFO - ✅ PricingAgent 初始化成功
+2026-03-23 17:19:25,656 - __main__ - INFO - ================================================================================
+2026-03-23 17:19:25,657 - __main__ - INFO - 开始监听队列:
+2026-03-23 17:19:25,657 - __main__ - INFO -   1. job_processing - 新任务编排 (并发数: 1)
+2026-03-23 17:19:25,657 - __main__ - INFO -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-03-23 17:19:25,657 - __main__ - INFO - ================================================================================
+2026-03-23 17:19:25,657 - __main__ - INFO - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-03-23 17:19:25,658 - __main__ - INFO - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-03-23 17:20:00,032 - __main__ - INFO - [任务处理] 收到消息: job_id=27475c73-2514-4c54-98a8-77af278eca67, action=start
+2026-03-23 17:20:00,033 - agent.OrchestratorAgent - INFO - [编排器] 开始处理任务: job_id=27475c73-2514-4c54-98a8-77af278eca67
+2026-03-23 17:20:00,535 - shared.progress_publisher - INFO - Progress update: {"job_id": "27475c73-2514-4c54-98a8-77af278eca67", "stage": "initializing", "progress": 0, "message": "任务初始化...", "details": {}}
+2026-03-23 17:20:00,923 - agent.OrchestratorAgent - INFO - [编排器] 阶段1: CADAgent 拆图
+2026-03-23 17:20:00,923 - agent.OrchestratorAgent - INFO - [编排器] 调用 CADAgent.split()
+2026-03-23 17:20:00,923 - Agent.CADAgent - INFO - [MCP模式] 调用 cad_chaitu 工具
+2026-03-23 17:20:00,924 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.cad_chaitu
+2026-03-23 17:20:00,933 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-03-23 17:20:00,934 - shared.mcp_client - INFO - Tool call success: cad_chaitu (10ms)
+2026-03-23 17:20:00,935 - Agent.CADAgent - ERROR - 拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\cad_agent.py", line 147, in split
+    result = await self.mcp_client.call_tool(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\mcp_client.py", line 60, in call_tool
+    raise RuntimeError(f"Unable to call MCP tool {tool_name} on {self.base_url}: {detail}")
+RuntimeError: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+2026-03-23 17:20:00,984 - agent.OrchestratorAgent - INFO - [编排器] CADAgent.split() 执行完成: status=error, duration=13ms
+2026-03-23 17:20:00,984 - shared.progress_publisher - INFO - Progress update: {"job_id": "27475c73-2514-4c54-98a8-77af278eca67", "stage": "cad_split_failed", "progress": 5, "message": "拆图失败: 拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包", "details": {"error": "拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包", "error_code": "SPLIT_ERROR"}}
+2026-03-23 17:20:01,031 - agent.OrchestratorAgent - ERROR - [编排器] 任务失败: job_id=27475c73-2514-4c54-98a8-77af278eca67, stage=cad_split, error=拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+2026-03-23 17:20:01,031 - __main__ - ERROR - [任务处理] 任务处理失败: job_id=27475c73-2514-4c54-98a8-77af278eca67, message=拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:8201: CAD 处理功能不可用，请安装 ezdxf 和 minio 依赖包
+2026-03-23 17:21:02,246 - __main__ - ERROR - Worker 启动失败: Channel closed by RPC timeout
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 126, in start
+    await asyncio.gather(*tasks)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 145, in _consume_pricing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:21:02,252 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-13' coro=<AllTasksWorker._consume_pricing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:142> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 246, in main
+    await worker.start()
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 126, in start
+    await asyncio.gather(*tasks)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 145, in _consume_pricing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:21:02,254 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-1' coro=<main() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:243> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 246, in main
+    await worker.start()
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 126, in start
+    await asyncio.gather(*tasks)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 145, in _consume_pricing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:21:02,257 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-12' coro=<AllTasksWorker._consume_job_processing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:132> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
+    event_list = self._selector.select(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
+    self._poll(timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 237, in __anext__
+    await coroutine
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\locks.py", line 214, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 135, in _consume_job_processing_queue
+    await self.mq.consume(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
+    async for message in queue_iter:
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
+    await close_coro
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
+    await self._on_close(self._amqp_queue, None)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
+    await self._amqp_queue.cancel(consumer_tag)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
+    result = await super().cancel(consumer_tag, timeout, nowait)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
+    return await channel.basic_cancel(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
+    return await self.rpc(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
+    return await self.task
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
+    raise ChannelInvalidStateError("Channel closed by RPC timeout")
+aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
+2026-03-23 17:21:02,265 - aio_pika.robust_connection - INFO - Connection to amqp://admin:******@192.168.1.152:5672/ closed. Reconnecting after 5 seconds.
+2026-03-23 17:21:02,265 - __main__ - INFO - 
+收到中断信号，Worker 正在关闭...
+2026-03-23 17:25:12 | INFO     | __main__:<module>:61 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用 loguru，支持轮转和压缩)
+2026-03-23 17:25:12 | INFO     | __main__:__init__:90 - AllTasksWorker 初始化
+2026-03-23 17:25:12 | INFO     | __main__:start:95 - ================================================================================
+2026-03-23 17:25:12 | INFO     | __main__:start:96 - 全任务Worker启动中...
+2026-03-23 17:25:12 | INFO     | __main__:start:97 - ================================================================================
+2026-03-23 17:25:12 | INFO     | __main__:start:100 - 连接 RabbitMQ...
+2026-03-23 17:25:12 | INFO     | __main__:start:102 - ✅ RabbitMQ 连接成功
+2026-03-23 17:25:12 | INFO     | __main__:start:105 - 初始化 OrchestratorAgent...
+2026-03-23 17:25:12 | INFO     | __main__:start:107 - ✅ OrchestratorAgent 初始化成功
+2026-03-23 17:25:12 | INFO     | __main__:start:109 - 初始化 PricingAgent...
+2026-03-23 17:25:12 | INFO     | __main__:start:111 - ✅ PricingAgent 初始化成功
+2026-03-23 17:25:12 | INFO     | __main__:start:113 - ================================================================================
+2026-03-23 17:25:12 | INFO     | __main__:start:114 - 开始监听队列:
+2026-03-23 17:25:12 | INFO     | __main__:start:115 -   1. job_processing - 新任务编排 (并发数: 1)
+2026-03-23 17:25:12 | INFO     | __main__:start:116 -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-03-23 17:25:12 | INFO     | __main__:start:117 - ================================================================================
+2026-03-23 17:25:12 | INFO     | __main__:_consume_job_processing_queue:134 - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-03-23 17:25:12 | INFO     | __main__:_consume_pricing_queue:144 - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-03-23 17:25:48 | INFO     | __main__:handle_job_processing_message:166 - [任务处理] 收到消息: job_id=feb15256-892a-4a05-a724-4040d977a0b2, action=start
+2026-03-23 17:26:13 | INFO     | scripts.minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 17:26:13 | INFO     | scripts.minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 17:26:13 | INFO     | scripts.minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 17:26:13 | INFO     | scripts.minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 17:26:13 | INFO     | scripts.minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dwg/2026/03/19342ca4-fa9d-4887-9114-4dce55bbf312.dwg
+2026-03-23 17:26:13 | INFO     | scripts.minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\nc_agent\feb15256-892a-4a05-a724-4040d977a0b2\dwg.dwg
+2026-03-23 17:26:13 | INFO     | scripts.minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 17:26:13 | INFO     | scripts.minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 17:26:13 | INFO     | scripts.minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=prt/2026/03/22b39287-5c6e-4af8-a9a4-04b2d722ddf5.prt
+2026-03-23 17:26:14 | INFO     | scripts.minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\nc_agent\feb15256-892a-4a05-a724-4040d977a0b2\prt.prt
+2026-03-23 17:26:52 | INFO     | __main__:handle_job_processing_message:182 - [任务处理] 任务处理成功: job_id=feb15256-892a-4a05-a724-4040d977a0b2
+2026-03-23 17:30:32 | ERROR    | __main__:start:129 - Worker 启动失败: Channel closed by RPC timeout
+2026-03-23 17:30:32 | INFO     | __main__:<module>:253 - 
+收到中断信号，Worker 正在关闭...
+2026-03-23 17:56:50 | INFO     | __main__:<module>:61 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用 loguru，支持轮转和压缩)
+2026-03-23 17:56:50 | INFO     | __main__:__init__:90 - AllTasksWorker 初始化
+2026-03-23 17:56:50 | INFO     | __main__:start:95 - ================================================================================
+2026-03-23 17:56:50 | INFO     | __main__:start:96 - 全任务Worker启动中...
+2026-03-23 17:56:50 | INFO     | __main__:start:97 - ================================================================================
+2026-03-23 17:56:50 | INFO     | __main__:start:100 - 连接 RabbitMQ...
+2026-03-23 17:56:50 | INFO     | __main__:start:102 - ✅ RabbitMQ 连接成功
+2026-03-23 17:56:50 | INFO     | __main__:start:105 - 初始化 OrchestratorAgent...
+2026-03-23 17:56:50 | INFO     | __main__:start:107 - ✅ OrchestratorAgent 初始化成功
+2026-03-23 17:56:50 | INFO     | __main__:start:109 - 初始化 PricingAgent...
+2026-03-23 17:56:50 | INFO     | __main__:start:111 - ✅ PricingAgent 初始化成功
+2026-03-23 17:56:50 | INFO     | __main__:start:113 - ================================================================================
+2026-03-23 17:56:50 | INFO     | __main__:start:114 - 开始监听队列:
+2026-03-23 17:56:50 | INFO     | __main__:start:115 -   1. job_processing - 新任务编排 (并发数: 1)
+2026-03-23 17:56:50 | INFO     | __main__:start:116 -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-03-23 17:56:50 | INFO     | __main__:start:117 - ================================================================================
+2026-03-23 17:56:50 | INFO     | __main__:_consume_job_processing_queue:134 - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-03-23 17:56:50 | INFO     | __main__:_consume_pricing_queue:144 - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-03-23 17:57:13 | INFO     | __main__:handle_job_processing_message:166 - [任务处理] 收到消息: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, action=start
+2026-03-23 17:58:27 | INFO     | scripts.minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 17:58:27 | INFO     | scripts.minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 17:58:27 | INFO     | scripts.minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 17:58:27 | INFO     | scripts.minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 17:58:27 | INFO     | scripts.minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dwg/2026/03/a993861d-f596-4b8d-ad4c-d9aad5d0e38f.dwg
+2026-03-23 17:58:27 | INFO     | scripts.minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\nc_agent\8cc81afb-f23f-456a-b652-b563378f27a7\dwg.dwg
+2026-03-23 17:58:27 | INFO     | scripts.minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 17:58:27 | INFO     | scripts.minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 17:58:27 | INFO     | scripts.minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=prt/2026/03/f575a371-4a63-493a-aa28-3e0e0c370095.prt
+2026-03-23 17:58:27 | INFO     | scripts.minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\nc_agent\8cc81afb-f23f-456a-b652-b563378f27a7\prt.prt
+2026-03-23 17:59:25 | INFO     | __main__:handle_job_processing_message:182 - [任务处理] 任务处理成功: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 18:05:33 | ERROR    | __main__:start:129 - Worker 启动失败: Channel closed by RPC timeout
+2026-03-23 18:05:33 | INFO     | __main__:<module>:253 - 
+收到中断信号，Worker 正在关闭...
+2026-03-23 19:22:22 | INFO     | __main__:<module>:61 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用 loguru，支持轮转和压缩)
+2026-03-23 19:22:22 | INFO     | __main__:__init__:90 - AllTasksWorker 初始化
+2026-03-23 19:22:22 | INFO     | __main__:start:95 - ================================================================================
+2026-03-23 19:22:22 | INFO     | __main__:start:96 - 全任务Worker启动中...
+2026-03-23 19:22:22 | INFO     | __main__:start:97 - ================================================================================
+2026-03-23 19:22:22 | INFO     | __main__:start:100 - 连接 RabbitMQ...
+2026-03-23 19:22:22 | INFO     | __main__:start:102 - ✅ RabbitMQ 连接成功
+2026-03-23 19:22:22 | INFO     | __main__:start:105 - 初始化 OrchestratorAgent...
+2026-03-23 19:22:22 | INFO     | __main__:start:107 - ✅ OrchestratorAgent 初始化成功
+2026-03-23 19:22:22 | INFO     | __main__:start:109 - 初始化 PricingAgent...
+2026-03-23 19:22:22 | INFO     | __main__:start:111 - ✅ PricingAgent 初始化成功
+2026-03-23 19:22:22 | INFO     | __main__:start:113 - ================================================================================
+2026-03-23 19:22:22 | INFO     | __main__:start:114 - 开始监听队列:
+2026-03-23 19:22:22 | INFO     | __main__:start:115 -   1. job_processing - 新任务编排 (并发数: 1)
+2026-03-23 19:22:22 | INFO     | __main__:start:116 -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-03-23 19:22:22 | INFO     | __main__:start:117 - ================================================================================
+2026-03-23 19:22:22 | INFO     | __main__:_consume_job_processing_queue:134 - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-03-23 19:22:22 | INFO     | __main__:_consume_pricing_queue:144 - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-03-23 19:28:54 | ERROR    | __main__:start:129 - Worker 启动失败: Channel closed by RPC timeout
+2026-03-23 19:28:54 | INFO     | __main__:<module>:253 - 
+收到中断信号，Worker 正在关闭...

@@ -240,3 +240,127 @@ Traceback (most recent call last):
     field_value = extracted_entities.get("field") or ""
                                          ^^^^^^^^^^^^^^^
 TypeError: argument of type 'NoneType' is not iterable
+2026-03-23 17:12:49 - shared.logging_middleware - ERROR - ❌ 请求异常: GET /ws/556f49de-9e42-4b69-96d4-e4b45a41a082/history | IP=192.168.1.152 | 耗时=0.008s | 错误=No module named 'redis'
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\logging_middleware.py", line 115, in dispatch
+    response = await call_next(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\websocket_router.py", line 102, in get_message_history
+    from ..utils.redis_client import redis_client
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\utils\redis_client.py", line 5, in <module>
+    import redis.asyncio as redis
+ModuleNotFoundError: No module named 'redis'
+2026-03-23 17:12:49 - api_gateway.main - ERROR - Unhandled error: No module named 'redis'
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\logging_middleware.py", line 115, in dispatch
+    response = await call_next(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\websocket_router.py", line 102, in get_message_history
+    from ..utils.redis_client import redis_client
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\utils\redis_client.py", line 5, in <module>
+    import redis.asyncio as redis
+ModuleNotFoundError: No module named 'redis'
+2026-03-23 19:23:02 - agents.llm_entity_extractor - ERROR - ❌ LLM 实体提取失败: No module named 'openai'
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 71, in extract_entities
+    response = await self.llm_client.chat.completions.create(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 27, in llm_client
+    from openai import AsyncOpenAI
+ModuleNotFoundError: No module named 'openai'
+2026-03-23 19:23:38 - agents.action_handlers.query_details_handler - ERROR - ❌ LLM API 请求超时: 
+2026-03-23 19:23:38 - agents.action_handlers.query_details_handler - ERROR - ❌ LLM 格式化失败: ，降级到规则格式化
+2026-03-23 19:25:21 - agents.llm_entity_extractor - ERROR - ❌ LLM 实体提取失败: No module named 'openai'
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 71, in extract_entities
+    response = await self.llm_client.chat.completions.create(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 27, in llm_client
+    from openai import AsyncOpenAI
+ModuleNotFoundError: No module named 'openai'
+2026-03-23 19:25:58 - agents.action_handlers.query_details_handler - ERROR - ❌ LLM API 请求超时: 
+2026-03-23 19:25:58 - agents.action_handlers.query_details_handler - ERROR - ❌ LLM 格式化失败: ，降级到规则格式化
+2026-03-23 19:29:22 - agents.llm_entity_extractor - ERROR - ❌ LLM 实体提取失败: No module named 'openai'
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 71, in extract_entities
+    response = await self.llm_client.chat.completions.create(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 27, in llm_client
+    from openai import AsyncOpenAI
+ModuleNotFoundError: No module named 'openai'
+2026-03-23 19:30:22 - agents.llm_entity_extractor - ERROR - ❌ LLM 实体提取失败: No module named 'openai'
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 71, in extract_entities
+    response = await self.llm_client.chat.completions.create(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 27, in llm_client
+    from openai import AsyncOpenAI
+ModuleNotFoundError: No module named 'openai'

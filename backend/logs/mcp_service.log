@@ -1810,3 +1810,1069 @@
 2026-03-23 15:42:28 | INFO     | __main__:handle_price_tool:737 - [MCP] calculate_final_total_cost completed
 2026-03-23 15:42:28 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_final_total_cost
 2026-03-23 15:42:28 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_final_total_cost
+2026-03-23 15:46:31 | INFO     | __main__:<module>:77 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
+2026-03-23 15:46:32 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 15:46:32 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 15:46:32 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 15:46:32 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 15:46:32 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 15:46:33 | INFO     | cad_chaitu.database:init_pool:38 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 15:46:33 | INFO     | cad_chaitu.main:init_managers:101 - ✅ 管理器初始化完成
+2026-03-23 15:46:33 | INFO     | __main__:<module>:101 - [OK] CAD 处理模块导入成功
+2026-03-23 15:46:33 | INFO     | __main__:<module>:162 - [OK] 进度发布器初始化成功
+2026-03-23 15:46:33 | INFO     | __main__:<module>:797 - ============================================================
+2026-03-23 15:46:33 | INFO     | __main__:<module>:798 - CAD 和价格搜索 MCP 服务启动中...
+2026-03-23 15:46:33 | INFO     | __main__:<module>:799 - ============================================================
+2026-03-23 15:46:33 | INFO     | __main__:<module>:800 - 地址: http://0.0.0.0:8201
+2026-03-23 15:46:33 | INFO     | __main__:<module>:801 - 调用端点: http://0.0.0.0:8201/call_tool
+2026-03-23 15:46:33 | INFO     | __main__:<module>:803 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
+2026-03-23 15:46:33 | INFO     | __main__:<module>:807 - ============================================================
+2026-03-23 15:54:27 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:27 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:27 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE2-10.dxf
+2026-03-23 15:54:27 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpgceamgex\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10.dxf
+2026-03-23 15:54:27 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10 (0.79MB, 0.14s)
+2026-03-23 15:54:27 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.79MB, 总耗时 0.14s, 平均速度 5.62MB/s
+2026-03-23 15:54:28 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:28 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:28 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:28 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/LB-01.dxf
+2026-03-23 15:54:28 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpy5y1m45k\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01.dxf
+2026-03-23 15:54:28 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01 (0.89MB, 0.04s)
+2026-03-23 15:54:28 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.89MB, 总耗时 0.04s, 平均速度 21.88MB/s
+2026-03-23 15:54:29 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:29 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:29 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:29 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE-BL2.dxf
+2026-03-23 15:54:30 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmphw2f3cai\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2.dxf
+2026-03-23 15:54:30 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2 (1.15MB, 0.05s)
+2026-03-23 15:54:30 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.15MB, 总耗时 0.05s, 平均速度 23.71MB/s
+2026-03-23 15:54:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:31 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:31 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE2-BL1.dxf
+2026-03-23 15:54:31 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpfn6fp35z\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1.dxf
+2026-03-23 15:54:31 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1 (0.84MB, 0.04s)
+2026-03-23 15:54:31 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.84MB, 总耗时 0.04s, 平均速度 21.18MB/s
+2026-03-23 15:54:32 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:32 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:32 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:32 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/U1-01.dxf
+2026-03-23 15:54:32 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpchuoinfz\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01.dxf
+2026-03-23 15:54:32 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01 (0.85MB, 0.05s)
+2026-03-23 15:54:32 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.85MB, 总耗时 0.05s, 平均速度 18.48MB/s
+2026-03-23 15:54:33 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:33 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:33 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:33 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PS-10.dxf
+2026-03-23 15:54:33 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpk66iejba\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10.dxf
+2026-03-23 15:54:33 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10 (0.84MB, 0.05s)
+2026-03-23 15:54:33 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.84MB, 总耗时 0.05s, 平均速度 16.50MB/s
+2026-03-23 15:54:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:34 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:34 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:34 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE-08.dxf
+2026-03-23 15:54:34 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp379oxutq\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08.dxf
+2026-03-23 15:54:34 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08 (0.73MB, 0.03s)
+2026-03-23 15:54:34 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.73MB, 总耗时 0.03s, 平均速度 23.05MB/s
+2026-03-23 15:54:35 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:35 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:35 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE-17.dxf
+2026-03-23 15:54:35 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp0chq3hb9\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17.dxf
+2026-03-23 15:54:35 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17 (0.71MB, 0.05s)
+2026-03-23 15:54:35 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.71MB, 总耗时 0.05s, 平均速度 14.76MB/s
+2026-03-23 15:54:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:36 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:36 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE2-BL2.dxf
+2026-03-23 15:54:36 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpr31ju85g\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2.dxf
+2026-03-23 15:54:36 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2 (0.68MB, 0.04s)
+2026-03-23 15:54:36 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.68MB, 总耗时 0.04s, 平均速度 17.13MB/s
+2026-03-23 15:54:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:36 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:36 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PU-BL1.dxf
+2026-03-23 15:54:36 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmphw_v849k\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1.dxf
+2026-03-23 15:54:36 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1 (0.70MB, 0.07s)
+2026-03-23 15:54:36 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.70MB, 总耗时 0.07s, 平均速度 10.66MB/s
+2026-03-23 15:54:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:37 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:37 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:37 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PS-09.dxf
+2026-03-23 15:54:37 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp65u7wnz5\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-09.dxf
+2026-03-23 15:54:37 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-09 (0.83MB, 0.04s)
+2026-03-23 15:54:37 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.83MB, 总耗时 0.04s, 平均速度 19.25MB/s
+2026-03-23 15:54:38 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:38 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:38 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:38 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE-19.dxf
+2026-03-23 15:54:38 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpic9f6eam\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-19.dxf
+2026-03-23 15:54:38 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-19 (0.67MB, 0.03s)
+2026-03-23 15:54:38 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.03s, 平均速度 20.09MB/s
+2026-03-23 15:54:39 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:39 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:39 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:39 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PU-BL1B.dxf
+2026-03-23 15:54:39 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpdrl419ig\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1B.dxf
+2026-03-23 15:54:39 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1B (1.53MB, 0.05s)
+2026-03-23 15:54:39 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.53MB, 总耗时 0.06s, 平均速度 27.09MB/s
+2026-03-23 15:54:40 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:40 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:40 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:40 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PU-BL2.dxf
+2026-03-23 15:54:40 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmppzqlu_ac\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL2.dxf
+2026-03-23 15:54:40 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL2 (0.65MB, 0.04s)
+2026-03-23 15:54:40 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.65MB, 总耗时 0.04s, 平均速度 15.37MB/s
+2026-03-23 15:54:40 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 15:54:40 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 15:54:40 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 15:54:40 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PS-BL1.dxf
+2026-03-23 15:54:40 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpswnh_ffs\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-BL1.dxf
+2026-03-23 15:54:40 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-BL1 (0.74MB, 0.05s)
+2026-03-23 15:54:40 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.74MB, 总耗时 0.05s, 平均速度 15.41MB/s
+2026-03-23 15:54:41 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:23 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:23 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:23 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE2-10.dxf
+2026-03-23 16:03:23 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpr832_3ik\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10.dxf
+2026-03-23 16:03:23 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10 (0.79MB, 0.08s)
+2026-03-23 16:03:23 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.79MB, 总耗时 0.09s, 平均速度 9.11MB/s
+2026-03-23 16:03:24 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:24 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:24 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:24 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/LB-01.dxf
+2026-03-23 16:03:24 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpqbx9nq5s\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01.dxf
+2026-03-23 16:03:24 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01 (0.89MB, 0.05s)
+2026-03-23 16:03:24 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.89MB, 总耗时 0.05s, 平均速度 16.57MB/s
+2026-03-23 16:03:25 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:25 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:25 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:25 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE-BL2.dxf
+2026-03-23 16:03:25 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpb4_q979l\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2.dxf
+2026-03-23 16:03:25 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2 (1.15MB, 0.04s)
+2026-03-23 16:03:25 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.15MB, 总耗时 0.04s, 平均速度 29.20MB/s
+2026-03-23 16:03:27 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:27 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:27 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:27 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE2-BL1.dxf
+2026-03-23 16:03:27 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpa21t54j2\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1.dxf
+2026-03-23 16:03:27 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1 (0.84MB, 0.03s)
+2026-03-23 16:03:27 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.84MB, 总耗时 0.04s, 平均速度 23.34MB/s
+2026-03-23 16:03:28 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:28 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:28 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:28 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/U1-01.dxf
+2026-03-23 16:03:28 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp74x6tt7m\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01.dxf
+2026-03-23 16:03:28 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01 (0.85MB, 0.04s)
+2026-03-23 16:03:28 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.85MB, 总耗时 0.05s, 平均速度 18.55MB/s
+2026-03-23 16:03:29 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:29 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:29 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:29 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PS-10.dxf
+2026-03-23 16:03:29 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpe0ydvobh\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10.dxf
+2026-03-23 16:03:29 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10 (0.84MB, 0.04s)
+2026-03-23 16:03:29 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.84MB, 总耗时 0.04s, 平均速度 22.12MB/s
+2026-03-23 16:03:30 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:30 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:30 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:30 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE-08.dxf
+2026-03-23 16:03:30 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpwx2tyf_a\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08.dxf
+2026-03-23 16:03:30 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08 (0.73MB, 0.04s)
+2026-03-23 16:03:30 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.73MB, 总耗时 0.04s, 平均速度 16.98MB/s
+2026-03-23 16:03:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:31 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:31 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE-17.dxf
+2026-03-23 16:03:31 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpaci99b7h\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17.dxf
+2026-03-23 16:03:31 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17 (0.71MB, 0.03s)
+2026-03-23 16:03:31 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.71MB, 总耗时 0.03s, 平均速度 20.61MB/s
+2026-03-23 16:03:32 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:32 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:32 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:32 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE2-BL2.dxf
+2026-03-23 16:03:32 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp5x6y97jy\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2.dxf
+2026-03-23 16:03:32 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2 (0.68MB, 0.03s)
+2026-03-23 16:03:32 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.68MB, 总耗时 0.03s, 平均速度 21.23MB/s
+2026-03-23 16:03:32 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:32 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:33 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:33 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PU-BL1.dxf
+2026-03-23 16:03:33 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpbljuum4z\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1.dxf
+2026-03-23 16:03:33 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1 (0.70MB, 0.04s)
+2026-03-23 16:03:33 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.70MB, 总耗时 0.04s, 平均速度 18.85MB/s
+2026-03-23 16:03:33 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:33 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:33 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:33 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PS-09.dxf
+2026-03-23 16:03:34 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpauyfe_n3\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-09.dxf
+2026-03-23 16:03:34 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-09 (0.83MB, 0.03s)
+2026-03-23 16:03:34 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.83MB, 总耗时 0.04s, 平均速度 22.91MB/s
+2026-03-23 16:03:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:34 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:34 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:34 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/DIE-19.dxf
+2026-03-23 16:03:34 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmped1w6rh_\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-19.dxf
+2026-03-23 16:03:34 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-19 (0.67MB, 0.04s)
+2026-03-23 16:03:34 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.04s, 平均速度 17.31MB/s
+2026-03-23 16:03:35 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:35 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:35 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PU-BL1B.dxf
+2026-03-23 16:03:35 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp_thzvbs2\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1B.dxf
+2026-03-23 16:03:35 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1B (1.53MB, 0.04s)
+2026-03-23 16:03:35 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.53MB, 总耗时 0.04s, 平均速度 37.82MB/s
+2026-03-23 16:03:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:36 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:36 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PU-BL2.dxf
+2026-03-23 16:03:36 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp5je7zgmc\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL2.dxf
+2026-03-23 16:03:36 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL2 (0.65MB, 0.03s)
+2026-03-23 16:03:36 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.65MB, 总耗时 0.03s, 平均速度 18.69MB/s
+2026-03-23 16:03:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:03:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 16:03:36 | INFO     | minio_client:batch_get_files:385 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 16:03:36 | INFO     | minio_client:get_file:72 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/PS-BL1.dxf
+2026-03-23 16:03:36 | INFO     | minio_client:get_file:79 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp3m2z6k9b\03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-BL1.dxf
+2026-03-23 16:03:36 | INFO     | minio_client:batch_get_files:411 - ✅ [1/1] 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-BL1 (0.74MB, 0.04s)
+2026-03-23 16:03:36 | INFO     | minio_client:batch_get_files:434 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.74MB, 总耗时 0.04s, 平均速度 19.19MB/s
+2026-03-23 16:03:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 16:58:15,897 - __main__ - INFO - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用标准 logging，无轮转功能)
+2026-03-23 16:58:15,900 - __main__ - WARNING - [WARN] CAD 处理模块导入失败: No module named 'loguru'
+2026-03-23 16:58:15,900 - __main__ - WARNING -        CAD 功能将不可用，但价格计算功能仍可正常使用
+2026-03-23 16:58:37,901 - __main__ - INFO - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用标准 logging，无轮转功能)
+2026-03-23 16:58:37,903 - __main__ - WARNING - [WARN] CAD 处理模块导入失败: No module named 'loguru'
+2026-03-23 16:58:37,904 - __main__ - WARNING -        CAD 功能将不可用，但价格计算功能仍可正常使用
+2026-03-23 16:58:38,241 - __main__ - INFO - [OK] 进度发布器初始化成功
+2026-03-23 16:58:38,242 - __main__ - INFO - ============================================================
+2026-03-23 16:58:38,242 - __main__ - INFO - CAD 和价格搜索 MCP 服务启动中...
+2026-03-23 16:58:38,242 - __main__ - INFO - ============================================================
+2026-03-23 16:58:38,242 - __main__ - INFO - 地址: http://0.0.0.0:8201
+2026-03-23 16:58:38,243 - __main__ - INFO - 调用端点: http://0.0.0.0:8201/call_tool
+2026-03-23 16:58:38,243 - __main__ - INFO - 包含工具: 12个搜索工具 + 23个计算工具 = 35个工具
+2026-03-23 16:58:38,243 - __main__ - INFO - 注意: CAD 功能不可用（缺少依赖包）
+2026-03-23 16:58:38,243 - __main__ - INFO - ============================================================
+2026-03-23 17:12:50,313 - __main__ - INFO - [HTTP] 调用工具: cad_chaitu
+2026-03-23 17:12:50,314 - __main__ - INFO - [HTTP] 工具执行完成: cad_chaitu
+2026-03-23 17:17:43,560 - __main__ - INFO - [HTTP] 调用工具: cad_chaitu
+2026-03-23 17:17:43,561 - __main__ - INFO - [HTTP] 工具执行完成: cad_chaitu
+2026-03-23 17:19:19,852 - __main__ - INFO - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用标准 logging，无轮转功能)
+2026-03-23 17:19:19,854 - __main__ - WARNING - [WARN] CAD 处理模块导入失败: No module named 'loguru'
+2026-03-23 17:19:19,854 - __main__ - WARNING -        CAD 功能将不可用，但价格计算功能仍可正常使用
+2026-03-23 17:19:20,002 - __main__ - INFO - [OK] 进度发布器初始化成功
+2026-03-23 17:19:20,003 - __main__ - INFO - ============================================================
+2026-03-23 17:19:20,003 - __main__ - INFO - CAD 和价格搜索 MCP 服务启动中...
+2026-03-23 17:19:20,003 - __main__ - INFO - ============================================================
+2026-03-23 17:19:20,003 - __main__ - INFO - 地址: http://0.0.0.0:8201
+2026-03-23 17:19:20,003 - __main__ - INFO - 调用端点: http://0.0.0.0:8201/call_tool
+2026-03-23 17:19:20,003 - __main__ - INFO - 包含工具: 12个搜索工具 + 23个计算工具 = 35个工具
+2026-03-23 17:19:20,004 - __main__ - INFO - 注意: CAD 功能不可用（缺少依赖包）
+2026-03-23 17:19:20,004 - __main__ - INFO - ============================================================
+2026-03-23 17:20:00,932 - __main__ - INFO - [HTTP] 调用工具: cad_chaitu
+2026-03-23 17:20:00,933 - __main__ - INFO - [HTTP] 工具执行完成: cad_chaitu
+2026-03-23 17:25:03 | INFO     | __main__:<module>:77 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
+2026-03-23 17:25:03 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 17:25:03 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 17:25:03 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 17:25:03 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 17:25:03 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 17:25:04 | INFO     | cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 17:25:04 | INFO     | cad_chaitu.main:init_managers:252 - ✅ 管理器初始化完成
+2026-03-23 17:25:04 | INFO     | __main__:<module>:101 - [OK] CAD 处理模块导入成功
+2026-03-23 17:25:04 | INFO     | __main__:<module>:162 - [OK] 进度发布器初始化成功
+2026-03-23 17:25:04 | INFO     | __main__:<module>:797 - ============================================================
+2026-03-23 17:25:04 | INFO     | __main__:<module>:798 - CAD 和价格搜索 MCP 服务启动中...
+2026-03-23 17:25:04 | INFO     | __main__:<module>:799 - ============================================================
+2026-03-23 17:25:04 | INFO     | __main__:<module>:800 - 地址: http://0.0.0.0:8201
+2026-03-23 17:25:04 | INFO     | __main__:<module>:801 - 调用端点: http://0.0.0.0:8201/call_tool
+2026-03-23 17:25:04 | INFO     | __main__:<module>:803 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
+2026-03-23 17:25:04 | INFO     | __main__:<module>:807 - ============================================================
+2026-03-23 17:25:49 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: cad_chaitu
+2026-03-23 17:25:49 | INFO     | __main__:handle_cad_chaitu:467 - [DEBUG] 准备发布拆图开始进度: job_id=feb15256-892a-4a05-a724-4040d977a0b2
+2026-03-23 17:25:49 | INFO     | __main__:handle_cad_chaitu:475 - [SEND] 发布进度: 拆图开始 (job_id=feb15256-892a-4a05-a724-4040d977a0b2)
+2026-03-23 17:25:49 | INFO     | cad_chaitu.main:chaitu_process:307 - 未提供 dwg_url，从数据库查询 job_id=feb15256-892a-4a05-a724-4040d977a0b2 的 dwg_file_path
+2026-03-23 17:25:49 | INFO     | cad_chaitu.database:get_dwg_file_path:66 - ✅ 从数据库查询到 dwg_file_path: dwg/2026/03/19342ca4-fa9d-4887-9114-4dce55bbf312.dwg
+2026-03-23 17:25:49 | INFO     | cad_chaitu.main:chaitu_process:315 - 从数据库查询到 dwg_file_path: dwg/2026/03/19342ca4-fa9d-4887-9114-4dce55bbf312.dwg
+2026-03-23 17:25:49 | INFO     | cad_chaitu.main:chaitu_process:328 - 收到拆图请求: dwg_source=dwg/2026/03/19342ca4-fa9d-4887-9114-4dce55bbf312.dwg, job_id=feb15256-892a-4a05-a724-4040d977a0b2, use_minio=True
+2026-03-23 17:25:49 | INFO     | cad_chaitu.main:chaitu_process:329 - 源文件名: 19342ca4-fa9d-4887-9114-4dce55bbf312, 模型代码: 19342ca4-fa9d-4887-9114-4dce55bbf312
+2026-03-23 17:25:49 | INFO     | cad_chaitu.storage:get_file:38 - 从 MinIO 获取文件: dwg/2026/03/19342ca4-fa9d-4887-9114-4dce55bbf312.dwg
+2026-03-23 17:25:49 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dwg/2026/03/19342ca4-fa9d-4887-9114-4dce55bbf312.dwg
+2026-03-23 17:25:49 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\chaidan_cad_fmn3e6zk\input.dwg
+2026-03-23 17:25:50 | INFO     | cad_chaitu.main:chaitu_process:349 - ✅ DXF 转换成功: C:\Users\lzp\AppData\Local\Temp\chaidan_cad_fmn3e6zk\input.dxf
+2026-03-23 17:25:50 | INFO     | cad_chaitu.main:chaitu_process:360 - MinIO 基础路径: dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2
+2026-03-23 17:25:50 | INFO     | cad_chaitu.main:chaitu_process:361 - 开始流式分析和处理 DXF 文件...
+2026-03-23 17:25:50 | INFO     | cad_chaitu.main:chaitu_process:373 - 步骤1: 开始识别所有子图...
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:analyze_cad_file_streaming:83 - 提取图层颜色...
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:analyze_cad_file_streaming:97 - ✅ 识别出 20 个子图
+2026-03-23 17:25:53 | INFO     | cad_chaitu.main:chaitu_process:381 - ✅ 识别到 20 个子图
+2026-03-23 17:25:53 | INFO     | cad_chaitu.main:chaitu_process:385 - ✅ 子图识别完成，共 20 个子图 (耗时: 3.15s)
+2026-03-23 17:25:53 | INFO     | cad_chaitu.main:chaitu_process:391 - 步骤2: 识别各子图的编号、品名和编号...
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-01'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-03'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-05'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-06'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-07'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模板拼料板', 编号='DIE-BL2'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模板拼料板', 编号='DIE-BL1'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-10'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-11'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-12'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-13'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-18'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-19'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-14'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-15'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-17'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-23'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-02'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-04'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-26'
+2026-03-23 17:25:53 | INFO     | cad_chaitu.main:chaitu_process:446 - ✅ 编号、品名和编号识别完成，成功识别 20 个子图，失败 0 个
+2026-03-23 17:25:53 | INFO     | cad_chaitu.main:chaitu_process:452 - 步骤3: 开始导出所有子图...
+2026-03-23 17:25:53 | INFO     | cad_chaitu.main:chaitu_process:470 - 使用并发方案导出 20 个子图 (并发数: 5)
+2026-03-23 17:25:53 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:178 - 🚀 开始导出 20 个子图（顺序处理，共享文档对象）
+2026-03-23 17:25:53 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:181 - 📖 读取源文件...
+2026-03-23 17:25:56 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:188 - ✅ 文件读取完成 (耗时: 2.80s)
+2026-03-23 17:25:56 | INFO     | scripts.cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 17:25:56 | INFO     | scripts.cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 17:25:56 | INFO     | scripts.cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 17:25:56 | INFO     | scripts.cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 17:25:56 | INFO     | scripts.cad_chaitu.main:init_managers:252 - ✅ 管理器初始化完成
+2026-03-23 17:26:03 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:221 - 📊 导出进度: 10/20 (平均: 0.7s/个, 预计剩余: 7s)
+2026-03-23 17:26:10 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:221 - 📊 导出进度: 20/20 (平均: 0.7s/个, 预计剩余: 0s)
+2026-03-23 17:26:10 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:240 - ✅ 导出完成: 20/20 成功, 总耗时: 13.5s, 平均: 0.7s/个
+2026-03-23 17:26:10 | INFO     | cad_chaitu.main:chaitu_process:503 - ✅ 子图导出完成，成功导出 20 个文件，失败 0 个 (耗时: 16.29s)
+2026-03-23 17:26:10 | INFO     | cad_chaitu.main:chaitu_process:509 - 步骤4: 开始并发上传所有子图到MinIO...
+2026-03-23 17:26:10 | INFO     | minio_client:batch_upload_files:353 - ✅ [10/20] 已上传 10 个文件
+2026-03-23 17:26:10 | INFO     | minio_client:batch_upload_files:353 - ✅ [20/20] 已上传 20 个文件
+2026-03-23 17:26:10 | INFO     | minio_client:batch_upload_files:384 - 上传完成: 20/20 成功, 15.7MB, 0.6s, 28.4MB/s
+2026-03-23 17:26:10 | INFO     | cad_chaitu.main:chaitu_process:524 - 步骤5: 保存数据到数据库...
+2026-03-23 17:26:10 | INFO     | cad_chaitu.main:chaitu_process:561 - 步骤6: 非 NX 环境，跳过 .x_t 导出
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:618 - ✅ 数据库保存完成，成功保存 20 条记录，上传失败 0 个，数据库失败 0 个 (耗时: 2.29s)
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:633 - ✅ 拆图完成！成功处理 20 个子图
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:634 - ================================================================================
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:635 - 📊 处理流程统计:
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:636 -    步骤1 - 识别图框: 20 个
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:637 -    步骤2 - 识别编号品名: 20 个 (失败 0 个)
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:638 -    步骤3 - 导出子图: 20 个 (失败 0 个)
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:639 -    步骤4 - 上传MinIO: 20 个 (失败 0 个)
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:640 -    步骤5 - 保存数据库: 20 个 (失败 0 个)
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:641 -    最终结果: 20 个子图成功
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:642 - ================================================================================
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:643 - 📊 性能统计: 识别=3.15s, 导出=16.29s, 上传=0.55s, 数据库=2.29s, 总耗时=22.32s, 平均=1.12s/个
+2026-03-23 17:26:12 | INFO     | cad_chaitu.main:chaitu_process:652 - 📁 MinIO 路径: dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2
+2026-03-23 17:26:12 | INFO     | __main__:handle_cad_chaitu:495 - [SEND] 发布进度: 拆图完成 (job_id=feb15256-892a-4a05-a724-4040d977a0b2, 子图数=20)
+2026-03-23 17:26:12 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: cad_chaitu
+2026-03-23 17:26:14 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:14 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:14 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-01.dxf
+2026-03-23 17:26:14 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmptmetlgms\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01.dxf
+2026-03-23 17:26:14 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01 (0.72MB, 0.05s)
+2026-03-23 17:26:14 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.72MB, 总耗时 0.05s, 平均速度 13.33MB/s
+2026-03-23 17:26:18 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:18 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:18 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:18 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-03.dxf
+2026-03-23 17:26:18 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpgkjldw3c\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03.dxf
+2026-03-23 17:26:18 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03 (0.69MB, 0.04s)
+2026-03-23 17:26:18 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.69MB, 总耗时 0.04s, 平均速度 17.73MB/s
+2026-03-23 17:26:18 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:18 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:18 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:18 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-05.dxf
+2026-03-23 17:26:18 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpcq43lh48\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05.dxf
+2026-03-23 17:26:18 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05 (0.69MB, 0.03s)
+2026-03-23 17:26:18 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.69MB, 总耗时 0.03s, 平均速度 21.71MB/s
+2026-03-23 17:26:19 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:19 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:19 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:19 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-06.dxf
+2026-03-23 17:26:19 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp56p_9ppl\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06.dxf
+2026-03-23 17:26:19 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06 (0.67MB, 0.03s)
+2026-03-23 17:26:19 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.03s, 平均速度 22.28MB/s
+2026-03-23 17:26:20 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:20 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:20 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:20 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-23.dxf
+2026-03-23 17:26:20 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpy8uezmoz\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23.dxf
+2026-03-23 17:26:20 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23 (0.71MB, 0.03s)
+2026-03-23 17:26:20 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.71MB, 总耗时 0.03s, 平均速度 20.44MB/s
+2026-03-23 17:26:21 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:21 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:21 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:21 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-07.dxf
+2026-03-23 17:26:21 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpq6_g_m0p\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07.dxf
+2026-03-23 17:26:21 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07 (0.74MB, 0.03s)
+2026-03-23 17:26:21 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.74MB, 总耗时 0.03s, 平均速度 24.06MB/s
+2026-03-23 17:26:22 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:22 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:22 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:22 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-02.dxf
+2026-03-23 17:26:22 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmptbzsv7u9\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02.dxf
+2026-03-23 17:26:22 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02 (0.68MB, 0.03s)
+2026-03-23 17:26:22 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.68MB, 总耗时 0.03s, 平均速度 21.36MB/s
+2026-03-23 17:26:22 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:22 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:22 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:22 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-BL2.dxf
+2026-03-23 17:26:23 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpqefwyuk9\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2.dxf
+2026-03-23 17:26:23 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2 (0.69MB, 0.03s)
+2026-03-23 17:26:23 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.69MB, 总耗时 0.03s, 平均速度 24.55MB/s
+2026-03-23 17:26:23 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:23 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:23 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:23 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-04.dxf
+2026-03-23 17:26:23 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp1vt1fbfj\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04.dxf
+2026-03-23 17:26:23 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04 (0.68MB, 0.03s)
+2026-03-23 17:26:23 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.68MB, 总耗时 0.03s, 平均速度 24.19MB/s
+2026-03-23 17:26:24 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:24 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:24 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:24 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-BL1.dxf
+2026-03-23 17:26:24 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp2szk6m59\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1.dxf
+2026-03-23 17:26:24 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1 (0.74MB, 0.04s)
+2026-03-23 17:26:24 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.74MB, 总耗时 0.04s, 平均速度 20.14MB/s
+2026-03-23 17:26:25 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:25 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:25 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:25 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-26.dxf
+2026-03-23 17:26:25 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpgh3xd7js\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26.dxf
+2026-03-23 17:26:25 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26 (0.81MB, 0.03s)
+2026-03-23 17:26:25 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.81MB, 总耗时 0.04s, 平均速度 22.99MB/s
+2026-03-23 17:26:25 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:25 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:25 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:25 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-10.dxf
+2026-03-23 17:26:25 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpnxz1qlxb\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10.dxf
+2026-03-23 17:26:25 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10 (0.67MB, 0.03s)
+2026-03-23 17:26:25 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.03s, 平均速度 21.34MB/s
+2026-03-23 17:26:26 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:26 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:26 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:26 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-11.dxf
+2026-03-23 17:26:26 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp5xi4vvya\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11.dxf
+2026-03-23 17:26:26 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11 (0.72MB, 0.04s)
+2026-03-23 17:26:26 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.72MB, 总耗时 0.04s, 平均速度 18.11MB/s
+2026-03-23 17:26:27 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:27 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:27 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:27 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-12.dxf
+2026-03-23 17:26:27 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpan7gbufk\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12.dxf
+2026-03-23 17:26:27 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12 (1.47MB, 0.04s)
+2026-03-23 17:26:27 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.47MB, 总耗时 0.04s, 平均速度 35.02MB/s
+2026-03-23 17:26:28 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:28 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:28 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:28 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-13.dxf
+2026-03-23 17:26:28 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpvsahayf0\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13.dxf
+2026-03-23 17:26:28 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13 (0.83MB, 0.04s)
+2026-03-23 17:26:28 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.83MB, 总耗时 0.04s, 平均速度 21.99MB/s
+2026-03-23 17:26:29 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:29 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:30 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:30 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-18.dxf
+2026-03-23 17:26:30 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpwl1nalns\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18.dxf
+2026-03-23 17:26:30 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18 (0.81MB, 0.03s)
+2026-03-23 17:26:30 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.81MB, 总耗时 0.03s, 平均速度 24.31MB/s
+2026-03-23 17:26:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:31 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:31 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-19.dxf
+2026-03-23 17:26:31 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpebez6am7\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19.dxf
+2026-03-23 17:26:31 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19 (0.67MB, 0.05s)
+2026-03-23 17:26:31 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.05s, 平均速度 12.91MB/s
+2026-03-23 17:26:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:32 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:32 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-14.dxf
+2026-03-23 17:26:32 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpujans_kv\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14.dxf
+2026-03-23 17:26:32 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14 (0.99MB, 0.05s)
+2026-03-23 17:26:32 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.99MB, 总耗时 0.05s, 平均速度 18.85MB/s
+2026-03-23 17:26:32 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:32 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:32 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:32 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-15.dxf
+2026-03-23 17:26:32 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp5j63dghw\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15.dxf
+2026-03-23 17:26:32 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15 (0.67MB, 0.03s)
+2026-03-23 17:26:32 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.03s, 平均速度 21.48MB/s
+2026-03-23 17:26:33 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:26:33 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:26:33 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:26:33 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/feb15256-892a-4a05-a724-4040d977a0b2/DIE-17.dxf
+2026-03-23 17:26:33 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp3o95mekv\19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17.dxf
+2026-03-23 17:26:33 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] 19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17 (1.09MB, 0.05s)
+2026-03-23 17:26:33 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.09MB, 总耗时 0.05s, 平均速度 21.63MB/s
+2026-03-23 17:26:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_base_itemcode
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_base_itemcode, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_material
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_material, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_density
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_density, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_heat
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_heat, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_tooth_hole
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_tooth_hole, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_water_mill
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_water_mill, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_wire_base
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_wire_base, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_wire_special
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_wire_special, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_wire_standard
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_wire_standard, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_nc
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_nc, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_material
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_material
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_base_itemcode
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_base_itemcode
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_density
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_density
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_heat
+2026-03-23 17:28:35 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_heat
+2026-03-23 17:28:35 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_tooth_hole
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_tooth_hole
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_wire_standard
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_wire_standard
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_nc
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_nc
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_water_mill
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_water_mill
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_wire_base
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_wire_base
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_wire_special
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_wire_special
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_material_cost
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_material_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_heat_treatment_cost
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_heat_treatment_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_weight
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_weight, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_tooth_hole_cost
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_tooth_hole_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_wire_base_price
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_wire_base_price, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_wire_special_price
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_wire_special_price, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_wire_standard_price
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_wire_standard_price, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_add_auto_material_cost
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_add_auto_material_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_nc_base_cost
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_nc_base_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_nc_time_cost
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_nc_time_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_nc_total_cost
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_nc_total_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_bevel_cost
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_bevel_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_chamfer_cost
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_chamfer_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_component_price
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_component_price, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_hanging_table_price
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_hanging_table_price, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_high_cost
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_high_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_bevel_cost
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_bevel_cost
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_long_strip_price
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_long_strip_price, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_tooth_hole_cost
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_tooth_hole_cost
+2026-03-23 17:28:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_oil_tank_cost
+2026-03-23 17:28:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_oil_tank_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_high_cost
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_high_cost
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_plate_price
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_plate_price, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_hanging_table_price
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_hanging_table_price
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_thread_ends_price
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_thread_ends_price, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_chamfer_cost
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_chamfer_cost
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_wire_base_price
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_wire_base_price
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_component_price
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_component_price
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_material_cost
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_material_cost
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_heat_treatment_cost
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_heat_treatment_cost
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_wire_special_price
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_wire_special_price
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_wire_standard_price
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_wire_standard_price
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_weight
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_weight
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_add_auto_material_cost
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_add_auto_material_cost
+2026-03-23 17:28:37 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_oil_tank_cost
+2026-03-23 17:28:37 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_oil_tank_cost
+2026-03-23 17:28:38 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_nc_base_cost
+2026-03-23 17:28:38 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_nc_base_cost
+2026-03-23 17:28:38 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_long_strip_price
+2026-03-23 17:28:38 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_long_strip_price
+2026-03-23 17:28:38 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_nc_total_cost
+2026-03-23 17:28:38 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_nc_total_cost
+2026-03-23 17:28:38 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_thread_ends_price
+2026-03-23 17:28:38 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_thread_ends_price
+2026-03-23 17:28:38 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_plate_price
+2026-03-23 17:28:38 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_plate_price
+2026-03-23 17:28:38 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_nc_time_cost
+2026-03-23 17:28:38 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_nc_time_cost
+2026-03-23 17:28:38 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_total
+2026-03-23 17:28:38 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_total, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:38 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_total
+2026-03-23 17:28:38 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_total
+2026-03-23 17:28:38 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_wire_total_cost
+2026-03-23 17:28:38 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_wire_total_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:38 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_total_cost
+2026-03-23 17:28:38 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_total_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:38 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_subgraphs_cost
+2026-03-23 17:28:38 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_subgraphs_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:39 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_subgraphs_cost
+2026-03-23 17:28:39 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_subgraphs_cost
+2026-03-23 17:28:39 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_wire_total_cost
+2026-03-23 17:28:39 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_wire_total_cost
+2026-03-23 17:28:39 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_total_cost
+2026-03-23 17:28:39 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_total_cost
+2026-03-23 17:28:39 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: judgment_cleanup
+2026-03-23 17:28:39 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: judgment_cleanup, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:39 | INFO     | __main__:handle_price_tool:743 - [MCP] judgment_cleanup: job_id=feb15256-892a-4a05-a724-4040d977a0b2
+2026-03-23 17:28:39 | INFO     | __main__:handle_price_tool:745 - [MCP] judgment_cleanup completed
+2026-03-23 17:28:39 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: judgment_cleanup
+2026-03-23 17:28:39 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: judgment_cleanup
+2026-03-23 17:28:39 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_final_total_cost
+2026-03-23 17:28:39 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_final_total_cost, job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:39 | INFO     | __main__:handle_price_tool:728 - [MCP] calculate_final_total_cost: job_id=feb15256-892a-4a05-a724-4040d977a0b2, subgraph_ids=['19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-05', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL2', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-BL1', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-11', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-12', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-13', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-18', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-19', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-14', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-17', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-23', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-02', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-04', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-26', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-01', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-15', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-07', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-03', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-06', '19342ca4-fa9d-4887-9114-4dce55bbf312_DIE-10']
+2026-03-23 17:28:40 | INFO     | __main__:handle_price_tool:737 - [MCP] calculate_final_total_cost completed
+2026-03-23 17:28:40 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_final_total_cost
+2026-03-23 17:28:40 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_final_total_cost
+2026-03-23 17:56:32 | INFO     | __main__:<module>:77 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
+2026-03-23 17:56:32 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 17:56:32 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 17:56:32 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 17:56:33 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 17:56:33 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 17:56:33 | INFO     | cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 17:56:33 | INFO     | cad_chaitu.main:init_managers:252 - ✅ 管理器初始化完成
+2026-03-23 17:56:33 | INFO     | __main__:<module>:101 - [OK] CAD 处理模块导入成功
+2026-03-23 17:56:33 | INFO     | __main__:<module>:162 - [OK] 进度发布器初始化成功
+2026-03-23 17:56:33 | INFO     | __main__:<module>:797 - ============================================================
+2026-03-23 17:56:33 | INFO     | __main__:<module>:798 - CAD 和价格搜索 MCP 服务启动中...
+2026-03-23 17:56:33 | INFO     | __main__:<module>:799 - ============================================================
+2026-03-23 17:56:33 | INFO     | __main__:<module>:800 - 地址: http://0.0.0.0:8201
+2026-03-23 17:56:33 | INFO     | __main__:<module>:801 - 调用端点: http://0.0.0.0:8201/call_tool
+2026-03-23 17:56:33 | INFO     | __main__:<module>:803 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
+2026-03-23 17:56:33 | INFO     | __main__:<module>:807 - ============================================================
+2026-03-23 17:57:14 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: cad_chaitu
+2026-03-23 17:57:14 | INFO     | __main__:handle_cad_chaitu:467 - [DEBUG] 准备发布拆图开始进度: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 17:57:14 | INFO     | __main__:handle_cad_chaitu:475 - [SEND] 发布进度: 拆图开始 (job_id=8cc81afb-f23f-456a-b652-b563378f27a7)
+2026-03-23 17:57:14 | INFO     | cad_chaitu.main:chaitu_process:307 - 未提供 dwg_url，从数据库查询 job_id=8cc81afb-f23f-456a-b652-b563378f27a7 的 dwg_file_path
+2026-03-23 17:57:14 | INFO     | cad_chaitu.database:get_dwg_file_path:66 - ✅ 从数据库查询到 dwg_file_path: dwg/2026/03/a993861d-f596-4b8d-ad4c-d9aad5d0e38f.dwg
+2026-03-23 17:57:14 | INFO     | cad_chaitu.main:chaitu_process:315 - 从数据库查询到 dwg_file_path: dwg/2026/03/a993861d-f596-4b8d-ad4c-d9aad5d0e38f.dwg
+2026-03-23 17:57:14 | INFO     | cad_chaitu.main:chaitu_process:328 - 收到拆图请求: dwg_source=dwg/2026/03/a993861d-f596-4b8d-ad4c-d9aad5d0e38f.dwg, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, use_minio=True
+2026-03-23 17:57:14 | INFO     | cad_chaitu.main:chaitu_process:329 - 源文件名: a993861d-f596-4b8d-ad4c-d9aad5d0e38f, 模型代码: a993861d-f596-4b8d-ad4c-d9aad5d0e38f
+2026-03-23 17:57:14 | INFO     | cad_chaitu.storage:get_file:38 - 从 MinIO 获取文件: dwg/2026/03/a993861d-f596-4b8d-ad4c-d9aad5d0e38f.dwg
+2026-03-23 17:57:14 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dwg/2026/03/a993861d-f596-4b8d-ad4c-d9aad5d0e38f.dwg
+2026-03-23 17:57:15 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\chaidan_cad_9umutmp9\input.dwg
+2026-03-23 17:57:16 | INFO     | cad_chaitu.main:chaitu_process:349 - ✅ DXF 转换成功: C:\Users\lzp\AppData\Local\Temp\chaidan_cad_9umutmp9\input.dxf
+2026-03-23 17:57:16 | INFO     | cad_chaitu.main:chaitu_process:360 - MinIO 基础路径: dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 17:57:16 | INFO     | cad_chaitu.main:chaitu_process:361 - 开始流式分析和处理 DXF 文件...
+2026-03-23 17:57:16 | INFO     | cad_chaitu.main:chaitu_process:373 - 步骤1: 开始识别所有子图...
+2026-03-23 17:57:18 | INFO     | cad_chaitu.block_analyzer:analyze_cad_file_streaming:83 - 提取图层颜色...
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:analyze_cad_file_streaming:97 - ✅ 识别出 20 个子图
+2026-03-23 17:57:19 | INFO     | cad_chaitu.main:chaitu_process:381 - ✅ 识别到 20 个子图
+2026-03-23 17:57:19 | INFO     | cad_chaitu.main:chaitu_process:385 - ✅ 子图识别完成，共 20 个子图 (耗时: 3.16s)
+2026-03-23 17:57:19 | INFO     | cad_chaitu.main:chaitu_process:391 - 步骤2: 识别各子图的编号、品名和编号...
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-01'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-03'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-05'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-06'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-07'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模板拼料板', 编号='DIE-BL2'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模板拼料板', 编号='DIE-BL1'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-10'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-11'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-12'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-13'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-18'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-19'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-14'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-15'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-17'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-23'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-02'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-04'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.block_analyzer:extract_part_name:405 - ✅ 从加工说明中提取品名和编号（带括号）: 品名='下模入块', 编号='DIE-26'
+2026-03-23 17:57:19 | INFO     | cad_chaitu.main:chaitu_process:446 - ✅ 编号、品名和编号识别完成，成功识别 20 个子图，失败 0 个
+2026-03-23 17:57:19 | INFO     | cad_chaitu.main:chaitu_process:452 - 步骤3: 开始导出所有子图...
+2026-03-23 17:57:19 | INFO     | cad_chaitu.main:chaitu_process:470 - 使用并发方案导出 20 个子图 (并发数: 5)
+2026-03-23 17:57:19 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:178 - 🚀 开始导出 20 个子图（顺序处理，共享文档对象）
+2026-03-23 17:57:19 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:181 - 📖 读取源文件...
+2026-03-23 17:57:21 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:188 - ✅ 文件读取完成 (耗时: 2.53s)
+2026-03-23 17:57:21 | INFO     | scripts.cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 17:57:21 | INFO     | scripts.cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 17:57:21 | INFO     | scripts.cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 17:57:21 | INFO     | scripts.cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 17:57:21 | INFO     | scripts.cad_chaitu.main:init_managers:252 - ✅ 管理器初始化完成
+2026-03-23 17:57:28 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:221 - 📊 导出进度: 10/20 (平均: 0.7s/个, 预计剩余: 7s)
+2026-03-23 17:57:35 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:221 - 📊 导出进度: 20/20 (平均: 0.7s/个, 预计剩余: 0s)
+2026-03-23 17:57:35 | INFO     | cad_chaitu.cad_system:batch_export_regions_concurrent:240 - ✅ 导出完成: 20/20 成功, 总耗时: 13.3s, 平均: 0.7s/个
+2026-03-23 17:57:35 | INFO     | cad_chaitu.main:chaitu_process:503 - ✅ 子图导出完成，成功导出 20 个文件，失败 0 个 (耗时: 15.80s)
+2026-03-23 17:57:35 | INFO     | cad_chaitu.main:chaitu_process:509 - 步骤4: 开始并发上传所有子图到MinIO...
+2026-03-23 17:57:35 | INFO     | minio_client:batch_upload_files:353 - ✅ [10/20] 已上传 10 个文件
+2026-03-23 17:57:35 | INFO     | minio_client:batch_upload_files:353 - ✅ [20/20] 已上传 20 个文件
+2026-03-23 17:57:35 | INFO     | minio_client:batch_upload_files:384 - 上传完成: 20/20 成功, 15.7MB, 0.5s, 32.9MB/s
+2026-03-23 17:57:35 | INFO     | cad_chaitu.main:chaitu_process:524 - 步骤5: 保存数据到数据库...
+2026-03-23 17:57:35 | INFO     | cad_chaitu.database:get_prt_file_path:105 - ✅ 从数据库查询到 prt_file_path: prt/2026/03/f575a371-4a63-493a-aa28-3e0e0c370095.prt
+2026-03-23 17:57:35 | INFO     | cad_chaitu.main:chaitu_process:547 - 步骤6: 检测到 NX 环境，开始从 PRT 导出 .x_t 文件: prt/2026/03/f575a371-4a63-493a-aa28-3e0e0c370095.prt
+2026-03-23 17:57:35 | INFO     | cad_chaitu.storage:get_file:38 - 从 MinIO 获取文件: prt/2026/03/f575a371-4a63-493a-aa28-3e0e0c370095.prt
+2026-03-23 17:57:35 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=prt/2026/03/f575a371-4a63-493a-aa28-3e0e0c370095.prt
+2026-03-23 17:57:36 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\chaidan_cad_9umutmp9\source.prt
+2026-03-23 17:58:19 | INFO     | cad_chaitu.main:_export_xt_from_prt:134 - 步骤6: RootComponent 为 None，切换为实体(Bodies)模式
+2026-03-23 17:58:19 | INFO     | cad_chaitu.main:_export_xt_from_prt:147 - 步骤6: 实体模式，找到 108 个命名实体
+2026-03-23 17:58:20 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-01] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-01.x_t
+2026-03-23 17:58:20 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-03] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-03.x_t
+2026-03-23 17:58:20 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-05] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-05.x_t
+2026-03-23 17:58:20 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-06] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-06.x_t
+2026-03-23 17:58:20 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-07] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-07.x_t
+2026-03-23 17:58:20 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-10] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-10.x_t
+2026-03-23 17:58:20 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-11] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-11.x_t
+2026-03-23 17:58:21 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-12] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-12.x_t
+2026-03-23 17:58:21 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-13] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-13.x_t
+2026-03-23 17:58:21 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-18] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-18.x_t
+2026-03-23 17:58:21 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-19] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-19.x_t
+2026-03-23 17:58:21 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-14] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-14.x_t
+2026-03-23 17:58:21 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-15] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-15.x_t
+2026-03-23 17:58:21 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-17] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-17.x_t
+2026-03-23 17:58:21 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-23] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-23.x_t
+2026-03-23 17:58:21 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-02] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-02.x_t
+2026-03-23 17:58:21 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-04] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-04.x_t
+2026-03-23 17:58:21 | INFO     | cad_chaitu.main:_export_xt_from_prt:179 - [DIE-26] .x_t 上传成功(实体模式): xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-26.x_t
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:618 - ✅ 数据库保存完成，成功保存 20 条记录，上传失败 0 个，数据库失败 0 个 (耗时: 50.98s)
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:633 - ✅ 拆图完成！成功处理 20 个子图
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:634 - ================================================================================
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:635 - 📊 处理流程统计:
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:636 -    步骤1 - 识别图框: 20 个
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:637 -    步骤2 - 识别编号品名: 20 个 (失败 0 个)
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:638 -    步骤3 - 导出子图: 20 个 (失败 0 个)
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:639 -    步骤4 - 上传MinIO: 20 个 (失败 0 个)
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:640 -    步骤5 - 保存数据库: 20 个 (失败 0 个)
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:641 -    最终结果: 20 个子图成功
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:642 - ================================================================================
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:643 - 📊 性能统计: 识别=3.16s, 导出=15.80s, 上传=0.48s, 数据库=50.98s, 总耗时=70.45s, 平均=3.52s/个
+2026-03-23 17:58:26 | INFO     | cad_chaitu.main:chaitu_process:652 - 📁 MinIO 路径: dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 17:58:26 | INFO     | __main__:handle_cad_chaitu:495 - [SEND] 发布进度: 拆图完成 (job_id=8cc81afb-f23f-456a-b652-b563378f27a7, 子图数=20)
+2026-03-23 17:58:26 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: cad_chaitu
+2026-03-23 17:58:28 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:58:28 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:58:28 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-01.dxf
+2026-03-23 17:58:28 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpkgu3lecw\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01.dxf
+2026-03-23 17:58:28 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01 (0.72MB, 0.10s)
+2026-03-23 17:58:28 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.72MB, 总耗时 0.10s, 平均速度 7.22MB/s
+2026-03-23 17:58:29 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:58:29 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:58:30 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:58:30 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-02.dxf
+2026-03-23 17:58:30 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp17u5qtad\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02.dxf
+2026-03-23 17:58:30 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02 (0.68MB, 0.09s)
+2026-03-23 17:58:30 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.68MB, 总耗时 0.10s, 平均速度 7.11MB/s
+2026-03-23 17:58:31 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-02.x_t
+2026-03-23 17:58:31 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\slider_xt_poxveikq\DIE-02.x_t
+2026-03-23 17:58:55 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:58:55 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:58:55 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:58:55 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-03.dxf
+2026-03-23 17:58:55 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpw8e49hoj\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03.dxf
+2026-03-23 17:58:55 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03 (0.69MB, 0.05s)
+2026-03-23 17:58:55 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.69MB, 总耗时 0.05s, 平均速度 12.79MB/s
+2026-03-23 17:58:56 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-03.x_t
+2026-03-23 17:58:56 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\slider_xt_jpuayer9\DIE-03.x_t
+2026-03-23 17:58:56 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:58:56 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:58:56 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:58:56 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-04.dxf
+2026-03-23 17:58:56 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp94o15cst\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04.dxf
+2026-03-23 17:58:56 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04 (0.68MB, 0.04s)
+2026-03-23 17:58:56 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.68MB, 总耗时 0.04s, 平均速度 16.62MB/s
+2026-03-23 17:58:57 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-04.x_t
+2026-03-23 17:58:57 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\slider_xt_3j0npn5x\DIE-04.x_t
+2026-03-23 17:58:57 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:58:57 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:58:57 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:58:57 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-23.dxf
+2026-03-23 17:58:57 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpk_edlpj_\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23.dxf
+2026-03-23 17:58:57 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23 (0.71MB, 0.03s)
+2026-03-23 17:58:57 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.71MB, 总耗时 0.04s, 平均速度 19.86MB/s
+2026-03-23 17:58:58 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-23.x_t
+2026-03-23 17:58:58 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\slider_xt_rv45dmuu\DIE-23.x_t
+2026-03-23 17:58:58 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:58:58 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:58:58 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:58:58 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-05.dxf
+2026-03-23 17:58:58 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmprc3ezr7p\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05.dxf
+2026-03-23 17:58:58 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05 (0.69MB, 0.03s)
+2026-03-23 17:58:58 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.69MB, 总耗时 0.03s, 平均速度 19.81MB/s
+2026-03-23 17:58:59 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-05.x_t
+2026-03-23 17:58:59 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\slider_xt_winvdlie\DIE-05.x_t
+2026-03-23 17:58:59 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:58:59 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:58:59 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:58:59 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-26.dxf
+2026-03-23 17:58:59 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp5cvhpurj\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26.dxf
+2026-03-23 17:58:59 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26 (0.81MB, 0.03s)
+2026-03-23 17:58:59 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.81MB, 总耗时 0.03s, 平均速度 23.83MB/s
+2026-03-23 17:59:00 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-26.x_t
+2026-03-23 17:59:00 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\slider_xt_43f39sbm\DIE-26.x_t
+2026-03-23 17:59:00 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:00 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:00 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:00 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-07.dxf
+2026-03-23 17:59:00 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpoyyl3b7n\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07.dxf
+2026-03-23 17:59:00 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07 (0.74MB, 0.04s)
+2026-03-23 17:59:00 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.74MB, 总耗时 0.04s, 平均速度 18.71MB/s
+2026-03-23 17:59:02 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:02 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:03 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:03 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-BL1.dxf
+2026-03-23 17:59:03 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp_6cbrbn_\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1.dxf
+2026-03-23 17:59:03 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1 (0.74MB, 0.03s)
+2026-03-23 17:59:03 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.74MB, 总耗时 0.04s, 平均速度 20.50MB/s
+2026-03-23 17:59:04 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:04 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:06 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:06 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-06.dxf
+2026-03-23 17:59:06 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpjvhfqzp4\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06.dxf
+2026-03-23 17:59:06 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06 (0.67MB, 0.07s)
+2026-03-23 17:59:06 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.07s, 平均速度 9.20MB/s
+2026-03-23 17:59:07 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:07 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:07 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:07 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-BL2.dxf
+2026-03-23 17:59:07 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpf7ka33qs\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2.dxf
+2026-03-23 17:59:07 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2 (0.69MB, 0.04s)
+2026-03-23 17:59:07 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.69MB, 总耗时 0.04s, 平均速度 15.38MB/s
+2026-03-23 17:59:08 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:08 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:08 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:08 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-10.dxf
+2026-03-23 17:59:08 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp7a8uhf7g\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10.dxf
+2026-03-23 17:59:08 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10 (0.67MB, 0.04s)
+2026-03-23 17:59:08 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.04s, 平均速度 17.13MB/s
+2026-03-23 17:59:09 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:09 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:09 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:09 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-11.dxf
+2026-03-23 17:59:09 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmp_qkwt7ci\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11.dxf
+2026-03-23 17:59:09 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11 (0.72MB, 0.06s)
+2026-03-23 17:59:09 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.72MB, 总耗时 0.06s, 平均速度 11.22MB/s
+2026-03-23 17:59:12 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:12 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:12 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:12 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-12.dxf
+2026-03-23 17:59:12 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpvx9kug6o\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12.dxf
+2026-03-23 17:59:12 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12 (1.47MB, 0.06s)
+2026-03-23 17:59:12 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.47MB, 总耗时 0.07s, 平均速度 21.55MB/s
+2026-03-23 17:59:13 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-12.x_t
+2026-03-23 17:59:13 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\slider_xt_pbeywzr6\DIE-12.x_t
+2026-03-23 17:59:14 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:14 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:14 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:14 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-13.dxf
+2026-03-23 17:59:14 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpr6zhjiil\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13.dxf
+2026-03-23 17:59:14 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13 (0.83MB, 0.04s)
+2026-03-23 17:59:14 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.83MB, 总耗时 0.04s, 平均速度 18.70MB/s
+2026-03-23 17:59:15 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:15 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:15 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:15 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-14.dxf
+2026-03-23 17:59:15 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpw39c3jij\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14.dxf
+2026-03-23 17:59:15 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14 (0.99MB, 0.05s)
+2026-03-23 17:59:15 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.99MB, 总耗时 0.05s, 平均速度 19.33MB/s
+2026-03-23 17:59:16 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-14.x_t
+2026-03-23 17:59:16 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\slider_xt_z504i6dc\DIE-14.x_t
+2026-03-23 17:59:16 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:16 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:16 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:16 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-15.dxf
+2026-03-23 17:59:16 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmptds9l2if\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15.dxf
+2026-03-23 17:59:16 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15 (0.67MB, 0.03s)
+2026-03-23 17:59:16 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.03s, 平均速度 20.41MB/s
+2026-03-23 17:59:17 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:17 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:17 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:17 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-18.dxf
+2026-03-23 17:59:17 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpnwzuuth9\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18.dxf
+2026-03-23 17:59:17 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18 (0.81MB, 0.07s)
+2026-03-23 17:59:17 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.81MB, 总耗时 0.07s, 平均速度 10.90MB/s
+2026-03-23 17:59:18 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-18.x_t
+2026-03-23 17:59:18 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\slider_xt_p_50wxvs\DIE-18.x_t
+2026-03-23 17:59:18 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:18 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:19 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:19 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-17.dxf
+2026-03-23 17:59:19 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpe68ur_pw\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17.dxf
+2026-03-23 17:59:19 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17 (1.09MB, 0.05s)
+2026-03-23 17:59:19 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 1.09MB, 总耗时 0.05s, 平均速度 20.91MB/s
+2026-03-23 17:59:20 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=xt/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-17.x_t
+2026-03-23 17:59:20 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\slider_xt_helqac13\DIE-17.x_t
+2026-03-23 17:59:20 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 17:59:20 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: feature_recognition
+2026-03-23 17:59:20 | INFO     | minio_client:batch_get_files:422 - 🚀 开始并行下载 1 个文件，并发数: 5
+2026-03-23 17:59:20 | INFO     | minio_client:get_file:76 - 从 MinIO 下载文件: bucket=files, path=dxf/2026/03/8cc81afb-f23f-456a-b652-b563378f27a7/DIE-19.dxf
+2026-03-23 17:59:20 | INFO     | minio_client:get_file:83 - ✅ 文件下载成功: C:\Users\lzp\AppData\Local\Temp\tmpdfwqkfsa\a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19.dxf
+2026-03-23 17:59:20 | INFO     | minio_client:batch_get_files:448 - ✅ [1/1] a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19 (0.67MB, 0.03s)
+2026-03-23 17:59:20 | INFO     | minio_client:batch_get_files:471 - 📊 批量下载完成: 成功 1, 失败 0, 总大小 0.67MB, 总耗时 0.03s, 平均速度 19.76MB/s
+2026-03-23 17:59:21 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: feature_recognition
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_base_itemcode
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_base_itemcode, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_material
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_material, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_density
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_density, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_heat
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_heat, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_tooth_hole
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_tooth_hole, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_water_mill
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_water_mill, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_wire_base
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_wire_base, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_wire_special
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_wire_special, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_wire_standard
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_wire_standard, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_nc
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_nc, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_base_itemcode
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_base_itemcode
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_material
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_material
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_wire_base
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_wire_base
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_heat
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_heat
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_water_mill
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_water_mill
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_tooth_hole
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_tooth_hole
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_density
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_density
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_wire_special
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_wire_special
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_nc
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_nc
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_wire_standard
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_wire_standard
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_material_cost
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_material_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_heat_treatment_cost
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_heat_treatment_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_weight
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_weight, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_tooth_hole_cost
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_tooth_hole_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_wire_base_price
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_wire_base_price, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_wire_special_price
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_wire_special_price, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_wire_standard_price
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_wire_standard_price, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_add_auto_material_cost
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_add_auto_material_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_nc_base_cost
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_nc_base_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_nc_time_cost
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_nc_time_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_nc_total_cost
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_nc_total_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_bevel_cost
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_bevel_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_chamfer_cost
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_chamfer_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_component_price
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_component_price, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_hanging_table_price
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_hanging_table_price, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:31 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_high_cost
+2026-03-23 18:00:31 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_high_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:32 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_tooth_hole_cost
+2026-03-23 18:00:32 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_tooth_hole_cost
+2026-03-23 18:00:32 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_long_strip_price
+2026-03-23 18:00:32 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_long_strip_price, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:32 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_bevel_cost
+2026-03-23 18:00:32 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_bevel_cost
+2026-03-23 18:00:32 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_oil_tank_cost
+2026-03-23 18:00:32 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_oil_tank_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:33 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_wire_base_price
+2026-03-23 18:00:33 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_wire_base_price
+2026-03-23 18:00:33 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_plate_price
+2026-03-23 18:00:33 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_plate_price, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:33 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_chamfer_cost
+2026-03-23 18:00:33 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_chamfer_cost
+2026-03-23 18:00:33 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_thread_ends_price
+2026-03-23 18:00:33 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_thread_ends_price, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:33 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_component_price
+2026-03-23 18:00:33 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_component_price
+2026-03-23 18:00:33 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_wire_special_price
+2026-03-23 18:00:33 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_wire_special_price
+2026-03-23 18:00:33 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_hanging_table_price
+2026-03-23 18:00:33 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_hanging_table_price
+2026-03-23 18:00:34 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_material_cost
+2026-03-23 18:00:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_material_cost
+2026-03-23 18:00:34 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_wire_standard_price
+2026-03-23 18:00:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_wire_standard_price
+2026-03-23 18:00:34 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_heat_treatment_cost
+2026-03-23 18:00:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_heat_treatment_cost
+2026-03-23 18:00:34 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_high_cost
+2026-03-23 18:00:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_high_cost
+2026-03-23 18:00:34 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_oil_tank_cost
+2026-03-23 18:00:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_oil_tank_cost
+2026-03-23 18:00:34 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_weight
+2026-03-23 18:00:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_weight
+2026-03-23 18:00:34 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_long_strip_price
+2026-03-23 18:00:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_long_strip_price
+2026-03-23 18:00:34 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_add_auto_material_cost
+2026-03-23 18:00:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_add_auto_material_cost
+2026-03-23 18:00:34 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_nc_base_cost
+2026-03-23 18:00:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_nc_base_cost
+2026-03-23 18:00:34 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_nc_total_cost
+2026-03-23 18:00:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_nc_total_cost
+2026-03-23 18:00:34 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_thread_ends_price
+2026-03-23 18:00:34 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_thread_ends_price
+2026-03-23 18:00:35 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_plate_price
+2026-03-23 18:00:35 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_plate_price
+2026-03-23 18:00:35 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_nc_time_cost
+2026-03-23 18:00:35 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_nc_time_cost
+2026-03-23 18:00:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_total
+2026-03-23 18:00:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_total, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:35 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_total
+2026-03-23 18:00:35 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_total
+2026-03-23 18:00:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_wire_total_cost
+2026-03-23 18:00:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_wire_total_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_water_mill_total_cost
+2026-03-23 18:00:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_water_mill_total_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:35 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: search_subgraphs_cost
+2026-03-23 18:00:35 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: search_subgraphs_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:35 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: search_subgraphs_cost
+2026-03-23 18:00:35 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: search_subgraphs_cost
+2026-03-23 18:00:36 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_wire_total_cost
+2026-03-23 18:00:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_wire_total_cost
+2026-03-23 18:00:36 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_water_mill_total_cost
+2026-03-23 18:00:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_water_mill_total_cost
+2026-03-23 18:00:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: judgment_cleanup
+2026-03-23 18:00:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: judgment_cleanup, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:36 | INFO     | __main__:handle_price_tool:743 - [MCP] judgment_cleanup: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 18:00:36 | INFO     | __main__:handle_price_tool:745 - [MCP] judgment_cleanup completed
+2026-03-23 18:00:36 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: judgment_cleanup
+2026-03-23 18:00:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: judgment_cleanup
+2026-03-23 18:00:36 | INFO     | __main__:call_tool_http:840 - [HTTP] 调用工具: calculate_final_total_cost
+2026-03-23 18:00:36 | INFO     | __main__:handle_price_tool:554 - [OK] 调用工具: calculate_final_total_cost, job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:36 | INFO     | __main__:handle_price_tool:728 - [MCP] calculate_final_total_cost: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, subgraph_ids=['a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-01', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-02', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-03', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-04', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-05', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-06', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-07', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-10', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-11', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-12', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-13', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-14', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-15', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-17', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-18', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-19', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-23', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL1', 'a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-BL2']
+2026-03-23 18:00:36 | INFO     | __main__:handle_price_tool:737 - [MCP] calculate_final_total_cost completed
+2026-03-23 18:00:36 | INFO     | __main__:handle_price_tool:783 - [OK] 工具执行完成: calculate_final_total_cost
+2026-03-23 18:00:36 | INFO     | __main__:call_tool_http:852 - [HTTP] 工具执行完成: calculate_final_total_cost

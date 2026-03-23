@@ -15,6 +15,9 @@ class SliderCalculator:
     # 线割工艺颜色列表（001=红色, 220=黄色, 190=橙色）
     WIRE_CUT_COLORS = [1, 220, 190]
     
+    # 倾斜角度检测额外允许的颜色（3=绿色，用于滑块斜面线）
+    INCLINED_EXTRA_COLORS = [3]
+    
     # 角度容差（度）- 用于平行判断
     ANGLE_TOLERANCE = 1.0
     
@@ -77,9 +80,10 @@ class SliderCalculator:
                     if entity.dxftype() != 'LINE':
                         continue
                     
-                    # 检查颜色（1=红色, 220=黄色, 190=橙色）
+                    # 检查颜色（线割色：红/黄/橙，或斜面线：绿色）
                     entity_color = getattr(entity.dxf, 'color', 256)
-                    if entity_color not in self.WIRE_CUT_COLORS:
+                    allowed_colors = self.WIRE_CUT_COLORS + self.INCLINED_EXTRA_COLORS
+                    if entity_color not in allowed_colors:
                         continue
                     
                     # 检查线型（实线或虚线）
@@ -272,31 +276,28 @@ class SliderCalculator:
         thickness: float = 0.0
     ) -> tuple:
         """
-        计算滑块工艺的详细信息并覆盖原有的线割工艺数据
+        计算滑块工艺的详细信息
         
         逻辑：
-        1. 检查 instruction 中是否有 '滑' 字的工艺
-        2. 在侧视图/正视图中检测倾斜平行线对（用于计算角度）
-        3. 平行线对长度必须大于长宽厚中的最小值
-        4. 在俯视图中计算未被工艺编号匹配的线割实线总长度的一半（用于计算长度）
-        5. 如果检测到平行线对但没有滑块工艺，自动创建一个 code='滑块' 的工艺
+        1. 在侧视图/正视图中检测倾斜平行线对（用于计算角度）
+        2. 平行线对长度必须大于长宽厚中的最小值
+        3. 如果检测到平行线对 → 判定为滑块，计算角度
+        4. 面积数据（area_num / total_length）由 apply_red_face_lookup 从 MinIO 查表补充
         
         Args:
             msp: modelspace
             views: 视图信息 {'top_view': {...}, 'front_view': {...}, 'side_view': {...}}
             wire_cut_details: 原始线割详情列表
-            unmatched_red_lines: 【阶段6】工艺编号匹配后的未匹配线割实线列表
-                格式: [{'view': 'top_view', 'bounds': {...}, 'lines': [...]}, ...]
-                如果为 None，则使用旧逻辑重新计算（向后兼容）
+            unmatched_red_lines: 未使用（保留向后兼容）
             length: 零件长度（用于过滤平行线对）
             width: 零件宽度（用于过滤平行线对）
             thickness: 零件厚度（用于过滤平行线对）
         
         Returns:
             tuple: (updated_details, slider_anomaly, length_adjustment)
-                updated_details: 更新后的线割详情列表（滑块工艺数据已覆盖或新增）
-                slider_anomaly: 如果检测到滑块工艺，返回异常信息字典，否则返回 None
-                length_adjustment: 俯视图线割长度调整值（新滑块长度 - 原滑块长度）
+                updated_details: 更新后的线割详情列表
+                slider_anomaly: 如果检测到滑块，返回异常信息字典，否则返回 None
+                length_adjustment: 固定为 0（不再调整俯视图长度）
         """
         logging.info("")
         logging.info("=" * 80)
@@ -359,115 +360,42 @@ class SliderCalculator:
             return wire_cut_details, None, 0.0
         
         # 3. 计算滑块角度（与水平线或垂直线的最小角度）
-        slider_angle = self.calculate_slider_angle(parallel_pairs)
+        slider_angle = self.calculate_slider_angle(parallel_pairs) if parallel_pairs else 0.0
         
         # 4. 滑块工艺的视图固定为俯视图
         slider_view = 'top_view'
         logging.info(f"滑块角度来源: {angle_source_view}, 角度={slider_angle}°")
         logging.info(f"滑块工艺视图固定为: {slider_view}")
         
-        # 4. 计算滑块长度：俯视图中未匹配的线割实线总长度的一半
-        slider_length = 0.0
-        unmatched_total_length = 0.0  # 用于更新 top_view_wire_length
+        logging.info(f"✅ 滑块工艺检测完成: 角度={slider_angle}°, 视图={slider_view}")
+        logging.info(f"   面积数据（area_num / total_length）将由 apply_red_face_lookup 从 MinIO 查表补充")
         
-        # 优先使用传入的未匹配线割实线（来自阶段6的匹配结果）
-        if unmatched_red_lines is not None:
-            if logging.getLogger().isEnabledFor(logging.DEBUG):
-                logging.debug(f"收到 unmatched_red_lines，包含 {len(unmatched_red_lines)} 个视图")
-                for view_data in unmatched_red_lines:
-                    logging.debug(f"  视图 '{view_data['view']}': {len(view_data.get('lines', []))} 条未匹配线割实线")
-            
-            # 查找俯视图中的未匹配线割实线
-            top_view_unmatched = None
-            for view_data in unmatched_red_lines:
-                if view_data['view'] == 'top_view':
-                    top_view_unmatched = view_data
-                    break
-            
-            if top_view_unmatched and top_view_unmatched['lines']:
-                # 计算未匹配线割实线总长度
-                unmatched_total_length = sum(line['length'] for line in top_view_unmatched['lines'])
-                unmatched_count = len(top_view_unmatched['lines'])
-                
-                # 滑块长度 = 未匹配线割实线总长度的一半
-                slider_length = unmatched_total_length / 2.0
-                
-                logging.info(f"俯视图中未匹配的线割实线: {unmatched_count} 条, 总长度={unmatched_total_length:.2f}mm")
-                logging.info(f"滑块长度 = 总长度 / 2 = {slider_length:.2f}mm")
-                logging.info(f"将 {unmatched_total_length:.2f}mm 添加到俯视图线割长度")
-            else:
-                if top_view_unmatched:
-                    logging.warning(f"俯视图中没有未匹配的线割实线（lines 列表为空或不存在）")
-                else:
-                    logging.warning("未找到俯视图的未匹配线割实线数据")
-        else:
-            # 向后兼容：如果没有传入未匹配线割实线，使用旧逻辑（不推荐）
-            logging.warning("⚠️ 未传入未匹配线割实线，使用旧逻辑计算（性能较低）")
-            
-            if views.get('top_view'):
-                from .red_line_calculator import RedLineCalculator
-                red_line_calculator = RedLineCalculator()
-                
-                top_view_bounds = views['top_view']['bounds']
-                
-                # 获取所有线割实线
-                all_red_lines = red_line_calculator._get_all_red_lines_in_bounds(msp, top_view_bounds)
-                
-                # 从 wire_cut_details 中提取所有已匹配的线割实线ID
-                matched_line_ids = set()
-                for detail in wire_cut_details:
-                    matched_ids = detail.get('matched_line_ids', [])
-                    matched_line_ids.update(matched_ids)
-                
-                # 计算未匹配的线割实线总长度
-                unmatched_total_length = 0.0
-                unmatched_count = 0
-                for line in all_red_lines:
-                    if id(line['entity']) not in matched_line_ids:
-                        unmatched_total_length += line['length']
-                        unmatched_count += 1
-                
-                # 滑块长度 = 未匹配线割实线总长度的一半
-                slider_length = unmatched_total_length / 2.0
-                
-                logging.info(f"俯视图中未匹配的线割实线: {unmatched_count} 条, 总长度={unmatched_total_length:.2f}mm")
-                logging.info(f"滑块长度 = 总长度 / 2 = {slider_length:.2f}mm")
-            else:
-                logging.warning("无法计算滑块长度：缺少俯视图")
-        
-        logging.info(f"✅ 滑块工艺计算完成: 长度={slider_length:.2f}mm, 角度={slider_angle}°, 视图={slider_view}")
-        
-        # 5. 更新或新增滑块工艺数据
+        # 5. 更新或新增滑块工艺数据（只设置角度，面积数据等待查表）
         updated_details = []
         slider_updated = False
-        old_slider_length = 0.0  # 记录原滑块工艺长度
         
         for detail in wire_cut_details:
             instruction = detail.get('instruction', '')
             code = detail.get('code', '')
             
             if '滑' in instruction:
-                # 记录原滑块工艺长度
-                old_slider_length = detail.get('total_length', 0.0)
-                
-                # 覆盖已有的滑块工艺数据
+                # 覆盖已有的滑块工艺数据（只设置角度，面积数据等待查表）
                 updated_detail = {
                     'code': code,
                     'cone': detail.get('cone', 'f'),
                     'view': slider_view,
-                    'area_num': 0,
+                    'area_num': 0,  # 占位，等待查表补充
                     'instruction': detail.get('instruction', code),
                     'slider_angle': slider_angle,
-                    'total_length': round(slider_length, 2),
+                    'total_length': 0.0,  # 占位，等待查表补充
                     'is_additional': detail.get('is_additional', False),
                     'matched_count': len(parallel_pairs),
-                    'single_length': round(slider_length / len(parallel_pairs), 2) if parallel_pairs else 0.0,
+                    'single_length': 0.0,  # 占位，等待查表补充
                     'expected_count': detail.get('expected_count', 1)
                 }
                 
                 logging.info(
                     f"✅ 更新滑块工艺 '{code}': "
-                    f"长度={updated_detail['total_length']}mm, "
                     f"角度={updated_detail['slider_angle']}°, "
                     f"视图={updated_detail['view']}"
                 )
@@ -486,13 +414,13 @@ class SliderCalculator:
                 'code': '滑块',
                 'cone': 'f',
                 'view': slider_view,
-                'area_num': 0,
+                'area_num': 0,  # 占位，等待查表补充
                 'instruction': '滑块',
                 'slider_angle': slider_angle,
-                'total_length': round(slider_length, 2),
+                'total_length': 0.0,  # 占位，等待查表补充
                 'is_additional': True,  # 标记为自动检测的额外工艺
                 'matched_count': len(parallel_pairs),
-                'single_length': round(slider_length / len(parallel_pairs), 2) if parallel_pairs else 0.0,
+                'single_length': 0.0,  # 占位，等待查表补充
                 'expected_count': 1
             }
             
@@ -500,7 +428,6 @@ class SliderCalculator:
             
             logging.info(
                 f"✅ 自动创建滑块工艺 'code=滑块': "
-                f"长度={new_slider['total_length']}mm, "
                 f"角度={new_slider['slider_angle']}°, "
                 f"视图={new_slider['view']}"
             )
@@ -510,15 +437,8 @@ class SliderCalculator:
         logging.info("=" * 80)
         logging.info("")
         
-        # 计算需要添加到俯视图线割长度的差值
-        # 差值 = 新滑块长度 - 原滑块长度
-        length_adjustment = slider_length - old_slider_length
-        
-        if length_adjustment != 0:
-            logging.info(
-                f"📊 俯视图线割长度调整: 原滑块长度={old_slider_length:.2f}mm, "
-                f"新滑块长度={slider_length:.2f}mm, 差值={length_adjustment:+.2f}mm"
-            )
+        # 不再调整俯视图线割长度（面积数据由查表补充）
+        length_adjustment = 0.0
         
         # 如果检测到滑块，创建异常信息
         slider_anomaly = None

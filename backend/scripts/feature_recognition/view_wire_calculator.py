@@ -11,6 +11,7 @@ from .view_identifier import ViewIdentifier
 from .red_line_calculator import RedLineCalculator
 from .wire_cut_filter import WireCutFilter
 from .text_extractor import clean_text_content
+from .spatial_wire_cut_analyzer import SpatialWireCutAnalyzer
 
 logging.basicConfig(level=logging.INFO)
 
@@ -31,6 +32,7 @@ class ViewWireCalculator:
             proximity_threshold=proximity_threshold,
             text_search_expand_margin=text_search_expand_margin
         )
+        self.spatial_analyzer = SpatialWireCutAnalyzer(connection_tolerance=0.5)
     
     def calculate_wire_lengths_by_views(
         self, 
@@ -463,8 +465,8 @@ class ViewWireCalculator:
                             )
                     
                     else:
-                        # 其他额外工艺：直接将俯视图（top_view）中的未匹配线割实线归类
-                        logging.info(f"🔍 处理额外工艺 '{additional_code}'，将俯视图中的未匹配线割实线归类")
+                        # 其他额外工艺：使用空间分析器进行智能识别
+                        logging.info(f"🔍 处理额外工艺 '{additional_code}'，尝试使用空间分析器")
                         
                         # 查找俯视图的未匹配线割实线
                         top_view_data = next((v for v in all_unmatched_red_lines if v['view'] == 'top_view'), None)
@@ -473,51 +475,110 @@ class ViewWireCalculator:
                             logging.warning(f"⚠️ 俯视图中没有未匹配的线割实线，跳过额外工艺 '{additional_code}'")
                             continue
                         
-                        matched_lines_for_code = top_view_data['lines']
+                        # 获取俯视图边界
+                        top_view_bounds = views.get('top_view', {}).get('bounds')
+                        if not top_view_bounds:
+                            logging.warning(f"⚠️ 无法获取俯视图边界，跳过额外工艺 '{additional_code}'")
+                            continue
                         
-                        # 清空俯视图的未匹配列表
-                        top_view_data['lines'] = []
-                        
-                        # 计算总长度和平均长度
-                        view_total_length = sum(line['length'] for line in matched_lines_for_code)
-                        single_length = view_total_length / len(matched_lines_for_code)
-                        
-                        # 累加到俯视图的线割长度中
-                        result['top_view_wire_length'] += view_total_length
-                        
-                        # 记录详细信息
-                        if additional_code not in additional_code_details_by_view:
-                            additional_code_details_by_view[additional_code] = []
-                        
-                        # 计算匹配数量：考虑连通组，同一个连通组的多个实体算作1个
-                        connectivity_groups = set()
-                        individual_count = 0
-                        
-                        for line in matched_lines_for_code:
-                            if 'connectivity_group_id' in line:
-                                connectivity_groups.add(line['connectivity_group_id'])
-                            else:
-                                individual_count += 1
-                        
-                        matched_count = len(connectivity_groups) + individual_count
-                        
-                        additional_code_details_by_view[additional_code].append({
-                            'view': 'top_view',
-                            'matched_count': matched_count,
-                            'single_length': round(single_length, 2),
-                            'total_length': round(view_total_length, 2),
-                            'matched_line_ids': [id(line['entity']) for line in matched_lines_for_code]  # 保存匹配的线割实线实体ID
-                        })
-                        
-                        # 收集额外工艺对应的线割实线
-                        if additional_code not in additional_code_red_lines:
-                            additional_code_red_lines[additional_code] = []
-                        additional_code_red_lines[additional_code].extend(matched_lines_for_code)
-                        
-                        logging.info(
-                            f"✅ 额外工艺文字 '{additional_code}' 在 top_view 中匹配到 "
-                            f"{len(matched_lines_for_code)} 条线割实线，总长度 {view_total_length:.2f}mm"
+                        # 尝试使用空间分析器识别
+                        spatial_detail = self.spatial_analyzer.analyze_additional_wire_cut(
+                            instruction=additional_code,
+                            unmatched_red_lines=top_view_data['lines'],
+                            view_bounds=top_view_bounds,
+                            view_name='top_view',
+                            length=length,
+                            width=width,
+                            thickness=thickness
                         )
+                        
+                        if spatial_detail:
+                            # 空间分析器识别成功
+                            logging.info(
+                                f"✅ 空间分析器识别成功: '{additional_code}' "
+                                f"匹配到 {spatial_detail['matched_count']} 条线，"
+                                f"总长度 {spatial_detail['total_length']:.2f}mm"
+                            )
+                            
+                            # 从未匹配列表中移除已匹配的线段
+                            matched_line_ids = set(spatial_detail['matched_line_ids'])
+                            top_view_data['lines'] = [
+                                line for line in top_view_data['lines']
+                                if id(line['entity']) not in matched_line_ids
+                            ]
+                            
+                            # 累加到俯视图的线割长度中
+                            result['top_view_wire_length'] += spatial_detail['total_length']
+                            
+                            # 记录详细信息
+                            if additional_code not in additional_code_details_by_view:
+                                additional_code_details_by_view[additional_code] = []
+                            
+                            additional_code_details_by_view[additional_code].append({
+                                'view': 'top_view',
+                                'matched_count': spatial_detail['matched_count'],
+                                'single_length': spatial_detail['single_length'],
+                                'total_length': spatial_detail['total_length'],
+                                'matched_line_ids': spatial_detail['matched_line_ids'],
+                                'area_details': spatial_detail.get('area_details', []),
+                                'geometry_features': spatial_detail.get('geometry_features', {})
+                            })
+                            
+                            # 收集额外工艺对应的线割实线（需要从matched_line_ids重建）
+                            if additional_code not in additional_code_red_lines:
+                                additional_code_red_lines[additional_code] = []
+                            # 注意：这里无法直接获取line对象，因为spatial_detail只返回了ID
+                            # 如果需要，可以在spatial_analyzer中返回完整的line对象
+                            
+                        else:
+                            # 空间分析器无法识别，使用原有逻辑（将所有未匹配线割实线归类）
+                            logging.info(f"⚠️ 空间分析器无法识别 '{additional_code}'，使用原有逻辑")
+                            
+                            matched_lines_for_code = top_view_data['lines']
+                            
+                            # 清空俯视图的未匹配列表
+                            top_view_data['lines'] = []
+                            
+                            # 计算总长度和平均长度
+                            view_total_length = sum(line['length'] for line in matched_lines_for_code)
+                            single_length = view_total_length / len(matched_lines_for_code) if matched_lines_for_code else 0
+                            
+                            # 累加到俯视图的线割长度中
+                            result['top_view_wire_length'] += view_total_length
+                            
+                            # 记录详细信息
+                            if additional_code not in additional_code_details_by_view:
+                                additional_code_details_by_view[additional_code] = []
+                            
+                            # 计算匹配数量：考虑连通组，同一个连通组的多个实体算作1个
+                            connectivity_groups = set()
+                            individual_count = 0
+                            
+                            for line in matched_lines_for_code:
+                                if 'connectivity_group_id' in line:
+                                    connectivity_groups.add(line['connectivity_group_id'])
+                                else:
+                                    individual_count += 1
+                            
+                            matched_count = len(connectivity_groups) + individual_count
+                            
+                            additional_code_details_by_view[additional_code].append({
+                                'view': 'top_view',
+                                'matched_count': matched_count,
+                                'single_length': round(single_length, 2),
+                                'total_length': round(view_total_length, 2),
+                                'matched_line_ids': [id(line['entity']) for line in matched_lines_for_code]
+                            })
+                            
+                            # 收集额外工艺对应的线割实线
+                            if additional_code not in additional_code_red_lines:
+                                additional_code_red_lines[additional_code] = []
+                            additional_code_red_lines[additional_code].extend(matched_lines_for_code)
+                            
+                            logging.info(
+                                f"✅ 额外工艺文字 '{additional_code}' 在 top_view 中匹配到 "
+                                f"{len(matched_lines_for_code)} 条线割实线，总长度 {view_total_length:.2f}mm"
+                            )
             
             # 6.5. 检查是否还有剩余的未匹配线割实线（在额外工艺匹配后）
             # 只检查俯视图中的未匹配线割实线

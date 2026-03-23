@@ -50,6 +50,7 @@ from .bevel_detector import detect_bevel
 from .grinding_detector import detect_grinding_faces
 from .tooth_hole_detector import detect_tooth_hole
 from .slider_calculator import SliderCalculator
+from .slider_red_face_updater import update_slider_red_face_data
 
 # Flask app 实例已移至 unified_api.py
 # app = Flask(__name__)
@@ -119,7 +120,7 @@ def get_subgraphs_from_db(job_id: str, subgraph_id: Optional[str] = None) -> Lis
             # 查询特定子图
             cursor.execute(
                 """
-                SELECT subgraph_id, part_code, subgraph_file_url
+                SELECT subgraph_id, part_code, subgraph_file_url, xt_file_url, part_name
                 FROM subgraphs
                 WHERE job_id = %s AND subgraph_id = %s
                 """,
@@ -129,7 +130,7 @@ def get_subgraphs_from_db(job_id: str, subgraph_id: Optional[str] = None) -> Lis
             # 查询所有子图
             cursor.execute(
                 """
-                SELECT subgraph_id, part_code, subgraph_file_url
+                SELECT subgraph_id, part_code, subgraph_file_url, xt_file_url, part_name
                 FROM subgraphs
                 WHERE job_id = %s
                 ORDER BY part_code
@@ -144,7 +145,9 @@ def get_subgraphs_from_db(job_id: str, subgraph_id: Optional[str] = None) -> Lis
             subgraphs.append({
                 'subgraph_id': row[0],
                 'part_code': row[1],
-                'subgraph_file_url': row[2]
+                'subgraph_file_url': row[2],
+                'xt_file_url': row[3],
+                'part_name': row[4] or '',
             })
         
         logging.info(f"从数据库查询到 {len(subgraphs)} 个子图")
@@ -344,7 +347,7 @@ def analyze_dxf_features(dxf_file_path: str) -> Optional[Dict[str, Any]]:
                 for view_data in unmatched_red_lines:
                     logging.info(f"  视图 '{view_data['view']}': {len(view_data.get('lines', []))} 条未匹配线割实线")
                 
-                wire_cut_details, slider_anomaly, length_adjustment = slider_calculator.calculate_slider_process(
+                wire_cut_details, slider_anomaly, _ = slider_calculator.calculate_slider_process(
                     msp=msp,
                     views=views,
                     wire_cut_details=wire_cut_details,
@@ -354,19 +357,10 @@ def analyze_dxf_features(dxf_file_path: str) -> Optional[Dict[str, Any]]:
                     thickness=t  # 传递零件厚度
                 )
                 
-                # 如果检测到滑块，添加到视图异常列表，并更新俯视图线割长度
+                # 如果检测到滑块，添加到视图异常列表
                 if slider_anomaly:
                     view_anomalies.append(slider_anomaly)
                     logging.info(f"⚠️ 滑块异常: {slider_anomaly['description']}")
-                    
-                    # 更新俯视图线割长度（调整值 = 新滑块长度 - 原滑块长度）
-                    if length_adjustment != 0:
-                        old_length = view_wire_lengths['top_view_wire_length']
-                        view_wire_lengths['top_view_wire_length'] += length_adjustment
-                        logging.info(
-                            f"✅ 更新俯视图线割长度: {old_length:.2f}mm {length_adjustment:+.2f}mm "
-                            f"= {view_wire_lengths['top_view_wire_length']:.2f}mm"
-                        )
                     
                     # 移除"未匹配线割实线"异常，因为滑块工艺会使用这些未匹配的线割实线
                     wire_cut_anomalies = [
@@ -484,6 +478,17 @@ def analyze_dxf_features(dxf_file_path: str) -> Optional[Dict[str, Any]]:
         
         # 识别研磨面数（传入尺寸信息用于视图识别）
         grinding_faces = detect_grinding_faces(doc, length_mm, width_mm, thickness_mm)
+        
+        # 备用方案：处理尺寸缺失的情况
+        if grinding_faces == 0 and not all([length_mm, width_mm, thickness_mm]):
+            logging.info("🔄 尝试研磨面识别备用方案（尺寸缺失）")
+            fallback_result = fallback_grinding_detection(processing_instructions, doc)
+            if fallback_result > 0:
+                grinding_faces = fallback_result
+                logging.info(f"✅ 备用方案成功: {grinding_faces}面研磨")
+            else:
+                logging.warning("⚠️ 备用方案也无法识别研磨面")
+        
         logging.info(f"✅ 研磨识别完成: {grinding_faces}面研磨")
         
         logging.info("")
@@ -629,6 +634,13 @@ def save_features_to_db(subgraph_id: str, job_id: str, features: Dict[str, Any])
         
         # 添加每个工艺编号的详细信息到 metadata
         wire_cut_details = features.get('wire_cut_details', [])
+
+        # ── 滑块红色面查表补充 ──────────────────────────────────────────
+        # Do not use template feature-face lookup for slider recognition.
+        # Keep slider details from slider_calculator, then update red-face
+        # area/length fields later via NX accumulation.
+        # ────────────────────────────────────────────────────────────────
+
         if wire_cut_details:
             metadata['wire_cut_details'] = wire_cut_details
             logging.info(f"保存 {len(wire_cut_details)} 个工艺编号的详细信息到 metadata")
@@ -873,6 +885,7 @@ def batch_feature_recognition_process(job_id: str, subgraph_id: Optional[str] = 
             download_tasks.append((sg_id, file_url, temp_dxf))
             subgraph_map[sg_id] = {
                 'part_code': subgraph['part_code'],
+                'part_name': subgraph.get('part_name', ''),
                 'temp_path': temp_dxf
             }
         
@@ -918,7 +931,11 @@ def batch_feature_recognition_process(job_id: str, subgraph_id: Optional[str] = 
                     continue
                 
                 # 保存到数据库
-                save_success = save_features_to_db(sg_id, job_id, features)
+                save_success = save_features_to_db(sg_id, job_id, {
+                    **features,
+                    'part_code': subgraph_map[sg_id]['part_code'],
+                    'part_name': subgraph_map[sg_id]['part_name'],
+                })
                 
                 if save_success:
                     results.append({
@@ -929,6 +946,36 @@ def batch_feature_recognition_process(job_id: str, subgraph_id: Optional[str] = 
                     })
                     success_count += 1
                     logging.info(f"✅ {sg_id} 处理成功")
+                    # ── 滑块红色面写入 ──────────────────────────────────
+                    # 如果识别到滑块工艺，尝试从对应的 .x_t 文件提取红色面数据
+                    _wire_cut_details = features.get('wire_cut_details', [])
+                    # Accept both explicit slider code and instruction text containing "滑"
+                    # so we can run NX red-face accumulation after server-side slider detection.
+                    _has_slider = any(
+                        (d.get('code') == '滑块') or ('滑' in (d.get('instruction') or ''))
+                        for d in _wire_cut_details
+                    )
+                    if _has_slider:
+                        _subgraph_info = next(
+                            (s for s in subgraphs if s['subgraph_id'] == sg_id), {}
+                        )
+                        # 直接从数据库字段取 .x_t 路径（由拆图流程上传 MinIO 后写入）
+                        _xt_url = _subgraph_info.get('xt_file_url') or ''
+                        if _xt_url:
+                            logging.info(f"检测到滑块工艺，尝试提取红色面: {_xt_url}")
+                            try:
+                                update_slider_red_face_data(
+                                    subgraph_id=sg_id,
+                                    job_id=job_id,
+                                    xt_file_url=_xt_url,
+                                    db_config=DB_CONFIG,
+                                    minio_client=minio_client
+                                )
+                            except Exception as _e:
+                                logging.warning(f"滑块红色面写入失败（不影响主流程）: {_e}")
+                        else:
+                            logging.info(f"subgraph {sg_id} 无 xt_file_url，跳过红色面提取")
+                    # ────────────────────────────────────────────────────
                 else:
                     results.append({
                         'subgraph_id': sg_id,
@@ -978,3 +1025,196 @@ def batch_feature_recognition_process(job_id: str, subgraph_id: Optional[str] = 
                 pass
 
 
+
+# ==================== 研磨面识别备用方案 ====================
+
+def fallback_grinding_detection(processing_instructions, doc):
+    """
+    尺寸缺失时的研磨面识别备用方案
+    
+    Args:
+        processing_instructions: 加工说明字典
+        doc: DXF文档对象
+    
+    Returns:
+        int: 推断的研磨面数
+    """
+    try:
+        # 收集所有文本
+        all_texts = []
+        for frame_texts in processing_instructions.values():
+            all_texts.extend(frame_texts)
+        
+        logging.info(f"🔍 备用方案分析: 共收集到 {len(all_texts)} 条加工说明文本")
+        
+        # 方法1：直接文本匹配
+        text_result = extract_grinding_from_text_patterns(all_texts)
+        if text_result > 0:
+            logging.info(f"✅ 方法1成功: 直接文本匹配识别到 {text_result} 面研磨")
+            return text_result
+        
+        # 方法2：标准描述推断
+        standard_result = infer_grinding_from_standard_descriptions(all_texts)
+        if standard_result > 0:
+            logging.info(f"✅ 方法2成功: 标准描述推断为 {standard_result} 面研磨")
+            return standard_result
+        
+        # 方法3：符号计数（简化版）
+        try:
+            msp = doc.modelspace()
+            symbol_count = count_grinding_symbols_simple(msp)
+            logging.info(f"🔍 检测到 {symbol_count} 个可能的研磨符号")
+            
+            if symbol_count >= 2:
+                estimated_result = estimate_by_symbol_count(symbol_count, all_texts)
+                if estimated_result > 0:
+                    logging.info(f"✅ 方法3成功: 符号计数推断为 {estimated_result} 面研磨")
+                    return estimated_result
+        except Exception as e:
+            logging.debug(f"符号计数失败: {e}")
+        
+        logging.info("ℹ️ 所有备用方案都无法确定研磨面数")
+        return 0
+        
+    except Exception as e:
+        logging.error(f"备用研磨识别失败: {e}")
+        import traceback
+        logging.debug(traceback.format_exc())
+        return 0
+
+
+def extract_grinding_from_text_patterns(texts):
+    """从文本中直接提取研磨面数"""
+    import re
+    
+    patterns = [
+        r'(\d+)\s*面\s*研磨',
+        r'研磨\s*(\d+)\s*面',
+        r'磨\s*(\d+)\s*面',
+        r'(\d+)\s*面.*磨',
+    ]
+    
+    for text in texts:
+        for pattern in patterns:
+            match = re.search(pattern, text)
+            if match:
+                faces = int(match.group(1))
+                logging.info(f"🎯 文本匹配: '{text}' → {faces}面研磨")
+                return faces
+    
+    return 0
+
+
+def infer_grinding_from_standard_descriptions(texts):
+    """基于标准描述推断研磨面数"""
+    import re
+    
+    # 标准研磨描述模式 (描述, 推断面数)
+    standard_patterns = [
+        (r'D\s*:\s*\d+\s*-\s*研磨基准边[，,]\s*深度准[，,]\s*侧壁准', 4),
+        (r'研磨基准边.*深度准.*侧壁准', 4),
+        (r'全周.*研磨', 6),
+        (r'两面.*研磨', 2),
+        (r'四面.*研磨', 4),
+        (r'六面.*研磨', 6),
+        (r'研磨.*基准.*边', 4),  # 简化的基准边描述
+    ]
+    
+    for text in texts:
+        for pattern, faces in standard_patterns:
+            if re.search(pattern, text):
+                logging.info(f"🎯 标准描述匹配: '{text}' → {faces}面研磨")
+                return faces
+    
+    return 0
+
+
+def count_grinding_symbols_simple(msp):
+    """简化的研磨符号计数"""
+    try:
+        grinding_count = 0
+        
+        # 方法1：统计特定块名
+        target_blocks = ['XYMFH-A', 'XYMFH', 'XYMFH-A0', '研磨标记', '磨削标记']
+        for entity in msp.query('INSERT'):
+            try:
+                if entity.dxf.name in target_blocks:
+                    grinding_count += 1
+                    logging.debug(f"发现研磨块: {entity.dxf.name}")
+            except:
+                continue
+        
+        # 方法2：统计可能的研磨多段线（简化检测）
+        polylines = list(msp.query('POLYLINE')) + list(msp.query('LWPOLYLINE'))
+        for polyline in polylines:
+            try:
+                points = list(polyline.get_points('xy'))
+                # 研磨符号通常有6-20个点（3个三角形）
+                if 6 <= len(points) <= 20:
+                    # 简单检查是否可能是锯齿状
+                    if is_likely_grinding_symbol(points):
+                        grinding_count += 1
+                        logging.debug(f"发现可能的研磨多段线: {len(points)}个点")
+            except:
+                continue
+        
+        return grinding_count
+        
+    except Exception as e:
+        logging.debug(f"符号计数异常: {e}")
+        return 0
+
+
+def is_likely_grinding_symbol(points):
+    """简单判断点序列是否可能是研磨符号"""
+    try:
+        if len(points) < 6:
+            return False
+        
+        # 计算Y坐标的变化次数（锯齿状应该有多次上下变化）
+        y_changes = 0
+        for i in range(1, len(points)):
+            if i < len(points) - 1:
+                y1, y2, y3 = points[i-1][1], points[i][1], points[i+1][1]
+                # 检查是否有峰值或谷值
+                if (y2 > y1 and y2 > y3) or (y2 < y1 and y2 < y3):
+                    y_changes += 1
+        
+        # 研磨符号应该有至少3个峰值/谷值
+        return y_changes >= 3
+        
+    except:
+        return False
+
+
+def estimate_by_symbol_count(symbol_count, texts):
+    """基于符号数量和文本推断"""
+    
+    # 检查文本中的关键词
+    text_content = ' '.join(texts)
+    has_standard = '研磨基准边' in text_content
+    has_full_perimeter = '全周' in text_content
+    has_depth_side = '深度准' in text_content and '侧壁准' in text_content
+    
+    logging.info(f"🔍 文本特征: 基准边={has_standard}, 全周={has_full_perimeter}, 深度侧壁={has_depth_side}")
+    
+    # 基于文本特征和符号数量的推断规则
+    if has_standard or has_depth_side:
+        # 有标准研磨描述，通常是4面研磨
+        if 2 <= symbol_count <= 6:
+            return 4
+        elif symbol_count > 6:
+            return 6
+    
+    if has_full_perimeter and symbol_count >= 4:
+        return 6
+    
+    # 纯符号计数的保守推断
+    if symbol_count == 2:
+        return 2
+    elif symbol_count in [3, 4]:
+        return 4
+    elif symbol_count >= 5:
+        return 6
+    
+    return 0
