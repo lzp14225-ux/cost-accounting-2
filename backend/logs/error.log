@@ -364,3 +364,17 @@ Traceback (most recent call last):
   File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 27, in llm_client
     from openai import AsyncOpenAI
 ModuleNotFoundError: No module named 'openai'
+2026-03-23 20:21:41 - agents.llm_entity_extractor - ERROR - ❌ LLM 实体提取失败: No module named 'openai'
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 71, in extract_entities
+    response = await self.llm_client.chat.completions.create(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 27, in llm_client
+    from openai import AsyncOpenAI
+ModuleNotFoundError: No module named 'openai'
+2026-03-23 20:35:05 - agents.llm_entity_extractor - ERROR - ❌ LLM 实体提取失败: No module named 'openai'
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 71, in extract_entities
+    response = await self.llm_client.chat.completions.create(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 27, in llm_client
+    from openai import AsyncOpenAI
+ModuleNotFoundError: No module named 'openai'

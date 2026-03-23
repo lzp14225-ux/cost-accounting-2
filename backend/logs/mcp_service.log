@@ -2893,3 +2893,20 @@
 2026-03-23 19:22:15 | INFO     | __main__:<module>:801 - 调用端点: http://0.0.0.0:8201/call_tool
 2026-03-23 19:22:15 | INFO     | __main__:<module>:803 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
 2026-03-23 19:22:15 | INFO     | __main__:<module>:807 - ============================================================
+2026-03-23 20:20:59 | INFO     | __main__:<module>:77 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
+2026-03-23 20:21:00 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-03-23 20:21:00 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-03-23 20:21:00 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-03-23 20:21:00 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-03-23 20:21:00 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.54:5432/mold_cost_db
+2026-03-23 20:21:01 | INFO     | cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.54:5432/mold_cost_db
+2026-03-23 20:21:01 | INFO     | cad_chaitu.main:init_managers:252 - ✅ 管理器初始化完成
+2026-03-23 20:21:01 | INFO     | __main__:<module>:101 - [OK] CAD 处理模块导入成功
+2026-03-23 20:21:01 | INFO     | __main__:<module>:162 - [OK] 进度发布器初始化成功
+2026-03-23 20:21:01 | INFO     | __main__:<module>:797 - ============================================================
+2026-03-23 20:21:01 | INFO     | __main__:<module>:798 - CAD 和价格搜索 MCP 服务启动中...
+2026-03-23 20:21:01 | INFO     | __main__:<module>:799 - ============================================================
+2026-03-23 20:21:01 | INFO     | __main__:<module>:800 - 地址: http://0.0.0.0:8201
+2026-03-23 20:21:01 | INFO     | __main__:<module>:801 - 调用端点: http://0.0.0.0:8201/call_tool
+2026-03-23 20:21:01 | INFO     | __main__:<module>:803 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
+2026-03-23 20:21:01 | INFO     | __main__:<module>:807 - ============================================================

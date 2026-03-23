@@ -196,7 +196,15 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
   const lastScrollTimeRef = useRef(0) // 添加滚动时间戳，用于节流
   const lastJobIdRef = useRef<string | undefined>() // 添加 jobId 追踪，用于检测会话切换
   const { token } = theme.useToken()
-  const { setMessages, addMessage, setIsCalculating, setIsTyping, setIsRefreshing, setIsReprocessing } = useAppStore()
+  const {
+    setMessages,
+    addMessage,
+    setIsCalculating,
+    setIsTyping,
+    setIsRefreshing,
+    setIsReprocessing,
+    setIsWaitingForReply,
+  } = useAppStore()
   const [confirmingMessageId, setConfirmingMessageId] = useState<string | null>(null)
   const [playingMessageId, setPlayingMessageId] = useState<string | null>(null) // 当前正在播放语音的消息ID
 
@@ -264,6 +272,8 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
       // DATA_MODIFICATION 立即调用 refresh
       if (intent === 'DATA_MODIFICATION') {
         try {
+          // 确认后马上刷新审核数据，避免 Sidebar/FileUpload 把 review_display_view 当作“仍在等待 AI 回复”而忽略
+          setIsWaitingForReply(false);
           setIsRefreshing(true);
           await chatService.refreshReview(jobId);
           // WebSocket 会自动推送数据（review_display_view 或 completion_request）

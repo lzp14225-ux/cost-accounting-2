@@ -1377,3 +1377,150 @@ ModuleNotFoundError: No module named 'redis'
 2026-03-23 19:58:24 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.079s
 2026-03-23 19:58:24 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | IP=192.168.1.152
 2026-03-23 19:58:24 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.012s
+2026-03-23 20:21:41 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/modify | IP=192.168.1.152 | Body={"modification_text": "把慢丝割一修一的价格改为0.5"}
+2026-03-23 20:21:41 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185517>
+2026-03-23 20:21:41 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:lock:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=6, ex=300>
+2026-03-23 20:21:41 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185517>
+2026-03-23 20:21:42 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=confirmation:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<not_found>
+2026-03-23 20:22:07 - shared.smart_matcher - INFO - ✅ SmartMatcher 初始化完成，共 20 条记录
+2026-03-23 20:22:07 - shared.smart_matcher - INFO - 🔍 模糊匹配 'None'，变体: []
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - 📋 display_view 示例结构: keys=['part_code', 'part_name', 'subgraph_file_url', 'process_description', 'material', 'length_mm', 'width_mm', 'thickness_mm', 'quantity', 'heat_treatment', 'abnormal_situation', 'drilling_time', 'nc_roughing_time', 'nc_milling_time', 'edm_time', 'wire_length', 'grinding_time', 'process_code', 'process_note', 'process_unit_price', 'material_unit_price', 'weight', '_source']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - 📋 part_code: DIE-26
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - 📋 _source.subgraph_id: a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-26' → ['DIE26', 'DIE-26', 'DIE2-6', 'DI-E26']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-26 (变体: ['DIE26', 'DIE-26', 'DIE2-6', 'DI-E26'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-04' → ['DIE04', 'DIE-04', 'DIE0-4', 'DI-E04']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-04 (变体: ['DIE04', 'DIE-04', 'DIE0-4', 'DI-E04'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-02' → ['DIE02', 'DIE-02', 'DIE0-2', 'DI-E02']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-02 (变体: ['DIE02', 'DIE-02', 'DIE0-2', 'DI-E02'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-23' → ['DIE23', 'DIE-23', 'DIE2-3', 'DI-E23']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-23 (变体: ['DIE23', 'DIE-23', 'DIE2-3', 'DI-E23'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-17' → ['DIE17', 'DIE-17', 'DIE1-7', 'DI-E17']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-17 (变体: ['DIE17', 'DIE-17', 'DIE1-7', 'DI-E17'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-15' → ['DIE15', 'DIE-15', 'DIE1-5', 'DI-E15']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-15 (变体: ['DIE15', 'DIE-15', 'DIE1-5', 'DI-E15'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-14' → ['DIE14', 'DIE-14', 'DIE1-4', 'DI-E14']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-14 (变体: ['DIE14', 'DIE-14', 'DIE1-4', 'DI-E14'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-19' → ['DIE19', 'DIE-19', 'DIE1-9', 'DI-E19']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-19 (变体: ['DIE19', 'DIE-19', 'DIE1-9', 'DI-E19'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-18' → ['DIE18', 'DIE-18', 'DIE1-8', 'DI-E18']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-18 (变体: ['DIE18', 'DIE-18', 'DIE1-8', 'DI-E18'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-13' → ['DIE13', 'DIE-13', 'DIE1-3', 'DI-E13']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-13 (变体: ['DIE13', 'DIE-13', 'DIE1-3', 'DI-E13'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-12' → ['DIE12', 'DIE-12', 'DIE1-2', 'DI-E12']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-12 (变体: ['DIE12', 'DIE-12', 'DIE1-2', 'DI-E12'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-11' → ['DIE11', 'DIE-11', 'DIE1-1', 'DI-E11']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-11 (变体: ['DIE11', 'DIE-11', 'DIE1-1', 'DI-E11'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-10' → ['DIE10', 'DIE-10', 'DIE1-0', 'DI-E10']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-10 (变体: ['DIE10', 'DIE-10', 'DIE1-0', 'DI-E10'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-BL1' → ['DIEBL1', 'DIEBL-1', 'DI-EBL1']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-BL1 (变体: ['DIEBL1', 'DIEBL-1', 'DI-EBL1'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-BL2' → ['DIEBL2', 'DIEBL-2', 'DI-EBL2']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-BL2 (变体: ['DIEBL2', 'DIEBL-2', 'DI-EBL2'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-07' → ['DIE07', 'DIE-07', 'DIE0-7', 'DI-E07']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-07 (变体: ['DIE07', 'DIE-07', 'DIE0-7', 'DI-E07'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-06' → ['DIE06', 'DIE-06', 'DIE0-6', 'DI-E06']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-06 (变体: ['DIE06', 'DIE-06', 'DIE0-6', 'DI-E06'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-05' → ['DIE05', 'DIE-05', 'DIE0-5', 'DI-E05']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-05 (变体: ['DIE05', 'DIE-05', 'DIE0-5', 'DI-E05'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-03' → ['DIE03', 'DIE-03', 'DIE0-3', 'DI-E03']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-03 (变体: ['DIE03', 'DIE-03', 'DIE0-3', 'DI-E03'], 无交集)
+2026-03-23 20:22:07 - shared.input_normalizer - DEBUG - 标准化 'DIE-01' → ['DIE01', 'DIE-01', 'DIE0-1', 'DI-E01']
+2026-03-23 20:22:07 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-01 (变体: ['DIE01', 'DIE-01', 'DIE0-1', 'DI-E01'], 无交集)
+2026-03-23 20:22:07 - shared.smart_matcher - INFO - 📊 匹配结果: 0 个零件
+2026-03-23 20:22:07 - shared.match_evaluator - INFO - 📊 评估匹配结果: 0 个匹配项
+2026-03-23 20:22:07 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:pending_action:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=169753, ex=3600>
+2026-03-23 20:22:08 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185784, ex=3600>
+2026-03-23 20:22:08 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/modify | 状态=200 | IP=192.168.1.152 | 耗时=27.011s
+2026-03-23 20:22:38 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/confirm | IP=192.168.1.152 | Body={"comment": "确认操作"}
+2026-03-23 20:22:38 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185784>
+2026-03-23 20:22:38 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:pending_action:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=169753>
+2026-03-23 20:22:40 - shared.logging_middleware - DEBUG - 💾 Redis DELETE: key=review:pending_action:8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:22:40 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185657, ex=3600>
+2026-03-23 20:22:40 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/confirm | 状态=200 | IP=192.168.1.152 | 耗时=1.859s
+2026-03-23 20:22:40 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/refresh | IP=192.168.1.152
+2026-03-23 20:22:40 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185657>
+2026-03-23 20:22:40 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185728, ex=3600>
+2026-03-23 20:22:40 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:8cc81afb-f23f-456a-b652-b563378f27a7:review | value=<message_len=24032>
+2026-03-23 20:22:41 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/refresh | 状态=200 | IP=192.168.1.152 | 耗时=0.204s
+2026-03-23 20:23:23 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/history | IP=192.168.1.152
+2026-03-23 20:23:23 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/history | 状态=200 | IP=192.168.1.152 | 耗时=0.004s
+2026-03-23 20:23:24 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-23 20:23:24 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | 状态=200 | IP=192.168.1.152 | 耗时=0.107s
+2026-03-23 20:23:24 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | IP=192.168.1.152
+2026-03-23 20:23:24 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | 状态=200 | IP=192.168.1.152 | 耗时=0.017s
+2026-03-23 20:34:56 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-23 20:34:56 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=0.093s
+2026-03-23 20:34:57 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/8cc81afb-f23f-456a-b652-b563378f27a7/history | IP=192.168.1.152
+2026-03-23 20:34:57 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/8cc81afb-f23f-456a-b652-b563378f27a7/history | 状态=200 | IP=192.168.1.152 | 耗时=0.025s
+2026-03-23 20:34:58 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/8cc81afb-f23f-456a-b652-b563378f27a7 | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-23 20:34:58 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.109s
+2026-03-23 20:34:58 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | IP=192.168.1.152
+2026-03-23 20:34:58 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.013s
+2026-03-23 20:35:05 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/modify | IP=192.168.1.152 | Body={"modification_text": "把慢丝割一修一的价格改为1"}
+2026-03-23 20:35:05 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185728>
+2026-03-23 20:35:05 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:lock:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=6, ex=300>
+2026-03-23 20:35:05 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185728>
+2026-03-23 20:35:05 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=confirmation:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<not_found>
+2026-03-23 20:35:20 - shared.smart_matcher - INFO - ✅ SmartMatcher 初始化完成，共 20 条记录
+2026-03-23 20:35:20 - shared.smart_matcher - INFO - 🔍 模糊匹配 'None'，变体: []
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - 📋 display_view 示例结构: keys=['part_code', 'part_name', 'subgraph_file_url', 'process_description', 'material', 'length_mm', 'width_mm', 'thickness_mm', 'quantity', 'heat_treatment', 'abnormal_situation', 'drilling_time', 'nc_roughing_time', 'nc_milling_time', 'edm_time', 'wire_length', 'grinding_time', 'process_code', 'process_note', 'process_unit_price', 'material_unit_price', 'weight', '_source']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - 📋 part_code: DIE-26
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - 📋 _source.subgraph_id: a993861d-f596-4b8d-ad4c-d9aad5d0e38f_DIE-26
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-26' → ['DIE26', 'DIE-26', 'DIE2-6', 'DI-E26']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-26 (变体: ['DIE26', 'DIE-26', 'DIE2-6', 'DI-E26'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-04' → ['DIE04', 'DIE-04', 'DIE0-4', 'DI-E04']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-04 (变体: ['DIE04', 'DIE-04', 'DIE0-4', 'DI-E04'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-02' → ['DIE02', 'DIE-02', 'DIE0-2', 'DI-E02']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-02 (变体: ['DIE02', 'DIE-02', 'DIE0-2', 'DI-E02'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-23' → ['DIE23', 'DIE-23', 'DIE2-3', 'DI-E23']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-23 (变体: ['DIE23', 'DIE-23', 'DIE2-3', 'DI-E23'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-17' → ['DIE17', 'DIE-17', 'DIE1-7', 'DI-E17']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-17 (变体: ['DIE17', 'DIE-17', 'DIE1-7', 'DI-E17'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-15' → ['DIE15', 'DIE-15', 'DIE1-5', 'DI-E15']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-15 (变体: ['DIE15', 'DIE-15', 'DIE1-5', 'DI-E15'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-14' → ['DIE14', 'DIE-14', 'DIE1-4', 'DI-E14']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-14 (变体: ['DIE14', 'DIE-14', 'DIE1-4', 'DI-E14'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-19' → ['DIE19', 'DIE-19', 'DIE1-9', 'DI-E19']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-19 (变体: ['DIE19', 'DIE-19', 'DIE1-9', 'DI-E19'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-18' → ['DIE18', 'DIE-18', 'DIE1-8', 'DI-E18']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-18 (变体: ['DIE18', 'DIE-18', 'DIE1-8', 'DI-E18'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-13' → ['DIE13', 'DIE-13', 'DIE1-3', 'DI-E13']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-13 (变体: ['DIE13', 'DIE-13', 'DIE1-3', 'DI-E13'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-12' → ['DIE12', 'DIE-12', 'DIE1-2', 'DI-E12']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-12 (变体: ['DIE12', 'DIE-12', 'DIE1-2', 'DI-E12'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-11' → ['DIE11', 'DIE-11', 'DIE1-1', 'DI-E11']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-11 (变体: ['DIE11', 'DIE-11', 'DIE1-1', 'DI-E11'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-10' → ['DIE10', 'DIE-10', 'DIE1-0', 'DI-E10']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-10 (变体: ['DIE10', 'DIE-10', 'DIE1-0', 'DI-E10'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-BL1' → ['DIEBL1', 'DIEBL-1', 'DI-EBL1']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-BL1 (变体: ['DIEBL1', 'DIEBL-1', 'DI-EBL1'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-BL2' → ['DIEBL2', 'DIEBL-2', 'DI-EBL2']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-BL2 (变体: ['DIEBL2', 'DIEBL-2', 'DI-EBL2'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-07' → ['DIE07', 'DIE-07', 'DIE0-7', 'DI-E07']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-07 (变体: ['DIE07', 'DIE-07', 'DIE0-7', 'DI-E07'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-06' → ['DIE06', 'DIE-06', 'DIE0-6', 'DI-E06']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-06 (变体: ['DIE06', 'DIE-06', 'DIE0-6', 'DI-E06'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-05' → ['DIE05', 'DIE-05', 'DIE0-5', 'DI-E05']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-05 (变体: ['DIE05', 'DIE-05', 'DIE0-5', 'DI-E05'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-03' → ['DIE03', 'DIE-03', 'DIE0-3', 'DI-E03']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-03 (变体: ['DIE03', 'DIE-03', 'DIE0-3', 'DI-E03'], 无交集)
+2026-03-23 20:35:20 - shared.input_normalizer - DEBUG - 标准化 'DIE-01' → ['DIE01', 'DIE-01', 'DIE0-1', 'DI-E01']
+2026-03-23 20:35:20 - shared.smart_matcher - DEBUG - ⏭️  跳过: DIE-01 (变体: ['DIE01', 'DIE-01', 'DIE0-1', 'DI-E01'], 无交集)
+2026-03-23 20:35:20 - shared.smart_matcher - INFO - 📊 匹配结果: 0 个零件
+2026-03-23 20:35:20 - shared.match_evaluator - INFO - 📊 评估匹配结果: 0 个匹配项
+2026-03-23 20:35:21 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:pending_action:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=169705, ex=3600>
+2026-03-23 20:35:21 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185886, ex=3600>
+2026-03-23 20:35:21 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/modify | 状态=200 | IP=192.168.1.152 | 耗时=16.494s
+2026-03-23 20:35:24 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/confirm | IP=192.168.1.152 | Body={"comment": "确认操作"}
+2026-03-23 20:35:24 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185886>
+2026-03-23 20:35:25 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:pending_action:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=169705>
+2026-03-23 20:35:26 - shared.logging_middleware - DEBUG - 💾 Redis DELETE: key=review:pending_action:8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:35:26 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185690, ex=3600>
+2026-03-23 20:35:26 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/confirm | 状态=200 | IP=192.168.1.152 | 耗时=1.842s
+2026-03-23 20:35:26 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/refresh | IP=192.168.1.152
+2026-03-23 20:35:26 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185690>
+2026-03-23 20:35:26 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:8cc81afb-f23f-456a-b652-b563378f27a7 | value=<len=185690, ex=3600>
+2026-03-23 20:35:27 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:8cc81afb-f23f-456a-b652-b563378f27a7:review | value=<message_len=23996>
+2026-03-23 20:35:27 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=8cc81afb-f23f-456a-b652-b563378f27a7 | type=review_display_view | data={"type": "review_display_view", "job_id": "8cc81afb-f23f-456a-b652-b563378f27a7", "timestamp": "2026-03-23T20:35:26.999656", "data": [{"part_code": "DIE-26", "part_name": "下模入块", "subgraph_file_url": ...
+2026-03-23 20:35:27 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/refresh | 状态=200 | IP=192.168.1.152 | 耗时=0.137s

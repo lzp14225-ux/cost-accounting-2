@@ -817,7 +817,8 @@ const Sidebar: React.FC = () => {
                                     
                                     // 如果正在等待AI回复，且收到的是 review_display_view 或 completion_request，则忽略
                                     const isWaitingForReply = useAppStore.getState().isWaitingForReply
-                                    if (isWaitingForReply && (isReviewDisplayView || isCompletionRequest)) {
+                                    const isRefreshing = useAppStore.getState().isRefreshing
+                                    if (isWaitingForReply && !isRefreshing && (isReviewDisplayView || isCompletionRequest)) {
                                       // console.log('⏭️ 正在等待AI回复，忽略 review_display_view 或 completion_request 消息')
                                       return
                                     }

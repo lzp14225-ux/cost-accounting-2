@@ -2245,3 +2245,1297 @@ ModuleNotFoundError: No module named 'openai'
 2026-03-23 19:52:18 - agents.action_handlers.confirmation_response_handler - INFO - ✅ ConfirmationResponseHandler 初始化完成
 2026-03-23 19:52:18 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: CONFIRMATION_RESPONSE -> ConfirmationResponseHandler
 2026-03-23 19:52:18 - agents.action_handlers.base_handler - INFO - ✅ 所有 Handler 已注册，共 8 个
+2026-03-23 20:21:10 - agents.action_handlers.data_modification_handler - INFO - ✅ DataModificationHandler 初始化完成
+2026-03-23 20:21:10 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: DATA_MODIFICATION -> DataModificationHandler
+2026-03-23 20:21:10 - agents.action_handlers.feature_recognition_handler - INFO - ✅ FeatureRecognitionHandler 初始化完成
+2026-03-23 20:21:10 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: FEATURE_RECOGNITION -> FeatureRecognitionHandler
+2026-03-23 20:21:10 - agents.action_handlers.price_calculation_handler - INFO - ✅ PriceCalculationHandler 初始化完成
+2026-03-23 20:21:10 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: PRICE_CALCULATION -> PriceCalculationHandler
+2026-03-23 20:21:10 - agents.action_handlers.query_details_handler - INFO - ✅ QueryDetailsHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-03-23 20:21:10 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: QUERY_DETAILS -> QueryDetailsHandler
+2026-03-23 20:21:10 - agents.action_handlers.general_chat_handler - INFO - ✅ GeneralChatHandler 初始化完成
+2026-03-23 20:21:10 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: GENERAL_CHAT -> GeneralChatHandler
+2026-03-23 20:21:10 - agents.action_handlers.weight_price_calculation_handler - INFO - ✅ WeightPriceCalculationHandler 初始化完成
+2026-03-23 20:21:10 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_CALCULATION -> WeightPriceCalculationHandler
+2026-03-23 20:21:10 - agents.action_handlers.weight_price_query_handler - INFO - ✅ WeightPriceQueryHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-03-23 20:21:10 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_QUERY -> WeightPriceQueryHandler
+2026-03-23 20:21:10 - agents.action_handlers.confirmation_response_handler - INFO - ✅ ConfirmationResponseHandler 初始化完成
+2026-03-23 20:21:10 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: CONFIRMATION_RESPONSE -> ConfirmationResponseHandler
+2026-03-23 20:21:10 - agents.action_handlers.base_handler - INFO - ✅ 所有 Handler 已注册，共 8 个
+2026-03-23 20:21:41 - agents.number_selection_handler - INFO - 🔢 处理数字选择: 把慢丝割一修一的价格改为0.5
+2026-03-23 20:21:41 - agents.number_selection_handler - DEBUG - 不是数字选择
+2026-03-23 20:21:41 - agents.llm_confirmation_detector - INFO - 🔍 检测确认意图: 把慢丝割一修一的价格改为0.5...
+2026-03-23 20:21:41 - agents.llm_confirmation_detector - DEBUG -   关键词检查: confirmation=False, rejection=False
+2026-03-23 20:21:41 - agents.llm_confirmation_detector - INFO - ❌ 检测到新请求特征（查询动作词），不是确认回复
+2026-03-23 20:21:41 - agents.clarification_agent - INFO - ✅ ClarificationAgent 初始化完成: threshold=0.75, history=True
+2026-03-23 20:21:41 - agents.clarification_agent - INFO - 🔍 处理输入: 把慢丝割一修一的价格改为0.5...
+2026-03-23 20:21:41 - agents.clarification_agent - INFO - 📋 步骤1: 验证输入
+2026-03-23 20:21:41 - agents.input_validator - INFO - 🔍 开始验证输入: 把慢丝割一修一的价格改为0.5...
+2026-03-23 20:21:41 - agents.input_validator - INFO - ✅ Display view from Redis cache: 8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:21:41 - agents.input_validator - INFO - ✅ Display View 获取成功: 20 条记录, 来源: redis_cache
+2026-03-23 20:21:41 - agents.input_validator - INFO - 🤖 使用 LLM 提取实体
+2026-03-23 20:21:41 - agents.llm_entity_extractor - INFO - 🔍 使用 LLM 提取实体: 把慢丝割一修一的价格改为0.5...
+2026-03-23 20:21:41 - agents.llm_entity_extractor - ERROR - ❌ LLM 实体提取失败: No module named 'openai'
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 71, in extract_entities
+    response = await self.llm_client.chat.completions.create(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 27, in llm_client
+    from openai import AsyncOpenAI
+ModuleNotFoundError: No module named 'openai'
+2026-03-23 20:21:41 - agents.input_validator - INFO - ✅ LLM 提取的实体: {}
+2026-03-23 20:21:41 - agents.input_validator - INFO - ✅ 验证完成: is_valid=False, issues=2
+2026-03-23 20:21:41 - agents.clarification_agent - WARNING - ❌ 发现严重错误，不触发澄清: ['缺少零件代码', '缺少要修改的字段']
+2026-03-23 20:21:41 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 20:21:41 - agents.interaction_agent - INFO - 🔧 处理修改请求: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:21:41 - agents.interaction_agent - INFO - 📝 修改内容: 把慢丝割一修一的价格改为0.5
+2026-03-23 20:21:41 - agents.interaction_agent - WARNING - ⚠️  锁已过期，尝试重新获取: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:21:41 - agents.interaction_agent - INFO - 🔒 获取锁成功: review:lock:8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:21:41 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 20:21:41 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 20:21:41 - agents.interaction_agent - INFO - 📋 当前状态: reviewing
+2026-03-23 20:21:41 - agents.interaction_agent - INFO - 🔍 识别意图...
+2026-03-23 20:21:41 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 初始化完成 (use_llm=True, use_chat_history=True, timeout=180.0s)
+2026-03-23 20:21:41 - agents.intent_recognizer - INFO - 🔍 开始识别意图: 把慢丝割一修一的价格改为0.5
+2026-03-23 20:21:42 - agents.action_handlers.confirmation_handler - INFO - ✅ ConfirmationHandler 初始化完成 (TTL=300s, max_display=10)
+2026-03-23 20:21:42 - agents.intent_recognizer - INFO - ✅ 加载了 10 条历史消息
+2026-03-23 20:21:42 - agents.intent_recognizer - INFO - 🤖 使用 LLM 识别意图...
+2026-03-23 20:22:02 - agents.intent_recognizer - DEBUG - LLM 响应: ```json
+{
+  "intent_type": "DATA_MODIFICATION",
+  "confidence": 0.98,
+  "parameters": {
+    "table": "processing_cost_calculation_details",
+    "id": null,
+    "field": "wire_special_cost",
+    "value": 0.5
+  },
+  "reasoning": "用户使用'改为'这一明确修改动作词，要求将'慢丝割一修一'的价格修改为0.5。'慢丝割一修一'属于线割特殊工艺费，对应字段为wire_special_cost。当前消息中未包含子图ID，但根据历史对话最近一条用户消息为'DIE-04怎么计算的'，且当前操作与线割费用相关，因此推断目标子图为DIE-04。但根据规则，若未在当前消息中明确出现子图ID，且用户未使用代词或加工代码，应返回id=None，由系统从历史推断。此处用户未提及具体子图ID，且'慢丝割一修一'是工艺描述而非子图ID，因此subgraph_id应为None。但根据意图识别逻辑，该操作是针对线割特殊费用的修改，需提取字段和值。由于当前消息中无子图ID，且无代词或加工代码（L/W/M/G/K/Z），但历史中最近用户消息为DIE-04，故可推断为DIE-04。然而根据规则，若当前消息无明确ID，且无代词或加工代码，应返回subgraph_id=None。但本例中用户未使用代词，也未使用加工代码，且未在当前消息中出现子图ID，因此subgraph_id应为null。但根据上下文延续性，用户连续询问DIE-04相关问题，当前操作应延续至DIE-04。然而根据严格规则，当前消息中无子图ID，且无代词，但无加工代码，因此应返回subgraph_id=None。最终决定：因用户未在当前消息中明确子图ID，且未使用加工代码（L/W/M/G/K/Z），但历史中最近用户消息为DIE-04，且当前操作与线割费用相关，故推断为DIE-04。但根据规则，
+2026-03-23 20:22:02 - agents.intent_recognizer - WARNING - ⚠️  LLM 识别置信度过低，降级到规则识别
+2026-03-23 20:22:02 - agents.intent_recognizer - INFO - 📋 使用规则识别意图...
+2026-03-23 20:22:02 - agents.intent_recognizer - INFO - ✅ 规则识别完成: DATA_MODIFICATION
+2026-03-23 20:22:02 - agents.interaction_agent - INFO - ✅ 意图识别完成: DATA_MODIFICATION (置信度: 0.7)
+2026-03-23 20:22:02 - agents.interaction_agent - INFO - 🔧 执行 Handler: DataModificationHandler
+2026-03-23 20:22:02 - agents.interaction_agent - INFO - 🔍 raw_data keys: ['features', 'job_price_snapshots', 'subgraphs', 'processing_cost_calculation_details']
+2026-03-23 20:22:02 - agents.action_handlers.data_modification_handler - INFO - 🔧 处理数据修改: 把慢丝割一修一的价格改为0.5
+2026-03-23 20:22:02 - agents.action_handlers.data_modification_handler - INFO - 🔍 解析自然语言...
+2026-03-23 20:22:02 - agents.nlp_parser - INFO - ✅ NLPParser 初始化完成 (use_llm=True, timeout=180.0s)
+2026-03-23 20:22:02 - agents.nlp_parser - INFO - 🤖 LLM: Qwen3-30B-A3B-Instruct @ http://192.168.0.22:8000/v1
+2026-03-23 20:22:02 - agents.nlp_parser - INFO - 🔍 开始解析: 把慢丝割一修一的价格改为0.5
+2026-03-23 20:22:02 - agents.nlp_parser - INFO - 🔧 使用展示视图解析
+2026-03-23 20:22:02 - agents.nlp_parser - INFO - 🔧 使用展示视图解析...
+2026-03-23 20:22:02 - agents.nlp_parser - INFO - 🔍 检测到工艺修改，使用特殊处理...
+2026-03-23 20:22:02 - agents.nlp_parser - INFO - 🔧 解析工艺修改: 把慢丝割一修一的价格改为0.5
+2026-03-23 20:22:02 - agents.nlp_parser - INFO - 🤖 使用 LLM 解析（LLM 优先策略：准确性 > 性能）
+2026-03-23 20:22:02 - agents.nlp_parser - INFO - 🤖 使用 LLM 解析...
+2026-03-23 20:22:07 - agents.nlp_parser - DEBUG - 🤖 LLM 完整响应: ```json
+[
+  {
+    "table": "job_price_snapshots",
+    "filter": {
+      "category": "wire",
+      "sub_category": "slow_and_one",
+      "note": "慢丝割一修一"
+    },
+    "field": "price",
+    "value": "0.5",
+    "original_text": "把慢丝割一修一的价格改为0.5"
+  }
+]
+```
+2026-03-23 20:22:07 - agents.nlp_parser - INFO - 🔍 ID 'None' 需要智能匹配
+2026-03-23 20:22:07 - agents.nlp_parser - WARNING - ⚠️  智能匹配未找到 None
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - ✅ 只修改了 1 个零件，不需要推断
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - ✅ 验证修改...
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - 🔧 使用 display_view 构建验证数据
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - ✅ 从 display_view 构建了 20 条 subgraph 记录用于验证
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - WARNING - ⚠️  使用过滤条件匹配，将在应用修改时验证记录存在性
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - 🔧 应用修改到临时数据...
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - 🔧 应用 1 个修改 (job_id=8cc81afb-f23f-456a-b652-b563378f27a7)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - 🔍 处理修改: table=job_price_snapshots (data_key=job_price_snapshots), field=price, value=0.5
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - 🔍 匹配条件: id=None, filter={'category': 'wire', 'sub_category': 'slow_and_one', 'note': '慢丝割一修一'}
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - 🔍 表 job_price_snapshots 共有 153 条记录
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=快丝基本费
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=CR12
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=blind_hole
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=middle_cut
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=fast_and_two
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_length
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=fast_and_one
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=middle_and_one
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=中丝基本费
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=middle_and_two
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=fast_cut
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=45#
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=CR12MOV
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=long_strip
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=SKD11
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=SKH-51
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=SKH-9
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=T00L0X44
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=water_mill, sub_category=small_water_mill
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=water_mill, sub_category=large_water_mill
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=slow_cut
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=slow_cut (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'slow_cut' != 'slow_and_one'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=water_mill, sub_category=small_water_mill
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=water_mill, sub_category=small_water_mill
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=slow_and_one
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=slow_and_one (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 note: record_value=慢丝割一修一 (type=str), filter_value=慢丝割一修一 (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 记录匹配成功
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - ✅ 修改: job_price_snapshots (filter), price=0.5
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=slow_and_two
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=slow_and_two (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'slow_and_two' != 'slow_and_one'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=slow_and_three
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=slow_and_three (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'slow_and_three' != 'slow_and_one'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=middle_and_one
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=middle_and_one (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'middle_and_one' != 'slow_and_one'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=fast_cut
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=fast_cut (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'fast_cut' != 'slow_and_one'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=DC53
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_length
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_length
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=extra_thick
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=slow_cut
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=slow_and_one
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_hours
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=slider
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=T00L0X33
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=slow_and_two
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_hours
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_hours
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=water_mill
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=extra_thick
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=water_mill
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=perforation
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=template_component
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_length
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=area_num
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=CR12
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=CR12MOV
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=SKD11
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=SKH-51
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=SKH-9
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=激光热处理/深冷热处理
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=plate
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=long_strip
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=through_hole
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=slow_template
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=slow_component
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=slow_side
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=medium_template
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=medium_component
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=medium_side
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=45#
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=fast_template
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=fast_component
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=fast_side
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=other
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=P20
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=long_strip
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=bevel
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=long_strip
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=plate
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=bevel
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=through_hole
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=component
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=component
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=component
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=through_hole
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=blind_hole
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=other
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=long_strip
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=work_hour
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=work_hour
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_base
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=blind_hole
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M3
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M4
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=oil_tank
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=SKH-51
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=plate
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=SKD11
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M5
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M6
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M8
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=SKH-9
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=D2
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=铝
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=T00L0X44
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M20
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M24
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M30
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M12
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M14
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M16
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=A3
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=尼龙
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=SKD11进口
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M18
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=铁氟龙
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=黄铜
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=PEEK
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=CR12
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=CR12MOV
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=high
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=hanging_table
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=c1_c2_chamfer
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=c3_c5_chamfer
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=thread_ends
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=r1_r2_chamfer
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=r3_r5_chamfer
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=plate
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M10
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M12
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M16
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M20
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M22
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M24
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M25
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M27
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M28
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M30
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M33
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_base
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=slider
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=component
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=45#
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=work_hour
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=other
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=other
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=other
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=P20
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=DC53
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=钨钢
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=T00L0X33
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=赛钢
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=合金铜
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=CR8
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=德国进口POM材质
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=优力胶
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=7CrSiMnMov
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=8566
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=铍铜
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=电木
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - ✅ 批量修改完成: 1 条记录
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - 🔄 重新构建展示视图...
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - 🔍 modified_data keys: ['features', 'job_price_snapshots', 'subgraphs', 'processing_cost_calculation_details']
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - 🔍 subgraphs count: 20
+2026-03-23 20:22:07 - agents.data_view_builder - INFO - 🔧 构建展示视图（4表架构）...
+2026-03-23 20:22:07 - agents.data_view_builder - INFO - ✅ 展示视图构建完成（4表架构）: 20 条记录
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - ✅ 修改后的展示视图: 20 条记录
+2026-03-23 20:22:07 - agents.action_handlers.base_handler - DEBUG - 💾 pending_action 已保存: review:pending_action:8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:22:07 - agents.action_handlers.data_modification_handler - INFO - ✅ 数据修改处理完成
+2026-03-23 20:22:07 - agents.interaction_agent - INFO - 🔄 更新 Redis 中的 raw_data...
+2026-03-23 20:22:07 - agents.interaction_agent - INFO - ✅ raw_data 已更新
+2026-03-23 20:22:07 - agents.interaction_agent - INFO - ✅ 展示视图已更新
+2026-03-23 20:22:07 - agents.interaction_agent - INFO - 🔐 重新建立版本基线...
+2026-03-23 20:22:08 - agents.interaction_agent - DEBUG - 计算了 213 条记录的版本哈希
+2026-03-23 20:22:08 - agents.interaction_agent - INFO - ✅ 版本基线已更新（基于当前数据库状态）
+2026-03-23 20:22:08 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:8cc81afb-f23f-456a-b652-b563378f27a7, ex=3600s
+2026-03-23 20:22:08 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 已关闭
+2026-03-23 20:22:08 - agents.interaction_agent - INFO - ✅ 修改处理完成
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - ✅ 确认修改: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - 🔒 检查分布式锁...
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - ✅ 锁检查通过
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - 🔐 检查数据版本冲突...
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:8cc81afb-f23f-456a-b652-b563378f27a7, timeout=300s
+2026-03-23 20:22:38 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:8cc81afb-f23f-456a-b652-b563378f27a7, timeout=3600s
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - 📊 查询当前数据库数据...
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - ✅ 数据查询完成
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - 🔐 计算数据版本...
+2026-03-23 20:22:38 - agents.interaction_agent - DEBUG - 计算了 213 条记录的版本哈希
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - ✅ 版本计算完成
+2026-03-23 20:22:38 - agents.interaction_agent - DEBUG - 🔍 版本对比: original_keys=213, current_keys=213
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - ✅ 版本检查通过，无冲突
+2026-03-23 20:22:38 - agents.interaction_agent - INFO - 🔧 使用 ConfirmHandler 处理确认...
+2026-03-23 20:22:38 - agents.confirm_handler - INFO - ✅ ConfirmHandler 初始化完成
+2026-03-23 20:22:38 - agents.confirm_handler - INFO - ✅ 处理确认: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:22:38 - agents.confirm_handler - INFO - 📊 获取 pending_action...
+2026-03-23 20:22:38 - agents.confirm_handler - INFO - 📋 操作类型: DATA_MODIFICATION
+2026-03-23 20:22:38 - agents.confirm_handler - INFO - 💾 确认数据修改...
+2026-03-23 20:22:40 - agents.confirm_handler - INFO - ✅ 数据修改已保存到数据库
+2026-03-23 20:22:40 - agents.confirm_handler - DEBUG - 🗑️  pending_action 已清理: review:pending_action:8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:22:40 - agents.confirm_handler - INFO - ✅ pending_action 已清理
+2026-03-23 20:22:40 - agents.confirm_handler - INFO - ✅ 确认处理完成: ok
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:8cc81afb-f23f-456a-b652-b563378f27a7, timeout=300s
+2026-03-23 20:22:40 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:8cc81afb-f23f-456a-b652-b563378f27a7, timeout=3600s
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 🔄 锁和数据已续期，审核会话保持活跃
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - ✅ 已清空 modifications 列表
+2026-03-23 20:22:40 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:8cc81afb-f23f-456a-b652-b563378f27a7, ex=3600s
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - ✅ 操作已确认（第 1 次），审核继续
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - ✅ 操作确认完成，审核继续
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 🔄 刷新审核数据: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 📊 获取当前状态...
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 📊 重新查询数据库...
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 📊 数据统计: features=20, subgraphs=20, job_price_snapshots=153
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 🔧 重新构建展示视图...
+2026-03-23 20:22:40 - agents.data_view_builder - INFO - 🔧 构建展示视图（4表架构）...
+2026-03-23 20:22:40 - agents.data_view_builder - INFO - ✅ 展示视图构建完成（4表架构）: 20 条记录
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - ✅ 展示视图构建完成: 20 条记录
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 🔐 重新计算数据版本...
+2026-03-23 20:22:40 - agents.interaction_agent - DEBUG - 计算了 213 条记录的版本哈希
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 🔍 检查数据完整性...
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 📋 完整性检查结果: 数据完整
+2026-03-23 20:22:40 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:8cc81afb-f23f-456a-b652-b563378f27a7, ex=3600s
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:8cc81afb-f23f-456a-b652-b563378f27a7, timeout=300s
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 📤 推送最新数据到前端...
+2026-03-23 20:22:40 - agents.interaction_agent - INFO - 📤 展示视图已发布到 Redis: job:8cc81afb-f23f-456a-b652-b563378f27a7:review, 记录数: 20
+2026-03-23 20:22:40 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, type=review_display_view
+2026-03-23 20:22:40 - agents.message_persistence_manager - DEBUG -    content: 展示视图已加载：20 条记录...
+2026-03-23 20:22:41 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, type=review_display_view
+2026-03-23 20:22:41 - agents.interaction_agent - INFO - ✅ 数据刷新完成（第 1 次）
+2026-03-23 20:35:05 - agents.number_selection_handler - INFO - 🔢 处理数字选择: 把慢丝割一修一的价格改为1
+2026-03-23 20:35:05 - agents.number_selection_handler - DEBUG - 不是数字选择
+2026-03-23 20:35:05 - agents.llm_confirmation_detector - INFO - 🔍 检测确认意图: 把慢丝割一修一的价格改为1...
+2026-03-23 20:35:05 - agents.llm_confirmation_detector - DEBUG -   关键词检查: confirmation=False, rejection=False
+2026-03-23 20:35:05 - agents.llm_confirmation_detector - INFO - ❌ 检测到新请求特征（查询动作词），不是确认回复
+2026-03-23 20:35:05 - agents.clarification_agent - INFO - ✅ ClarificationAgent 初始化完成: threshold=0.75, history=True
+2026-03-23 20:35:05 - agents.clarification_agent - INFO - 🔍 处理输入: 把慢丝割一修一的价格改为1...
+2026-03-23 20:35:05 - agents.clarification_agent - INFO - 📋 步骤1: 验证输入
+2026-03-23 20:35:05 - agents.input_validator - INFO - 🔍 开始验证输入: 把慢丝割一修一的价格改为1...
+2026-03-23 20:35:05 - agents.input_validator - INFO - ✅ Display view from Redis cache: 8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:35:05 - agents.input_validator - INFO - ✅ Display View 获取成功: 20 条记录, 来源: redis_cache
+2026-03-23 20:35:05 - agents.input_validator - INFO - 🤖 使用 LLM 提取实体
+2026-03-23 20:35:05 - agents.llm_entity_extractor - INFO - 🔍 使用 LLM 提取实体: 把慢丝割一修一的价格改为1...
+2026-03-23 20:35:05 - agents.llm_entity_extractor - ERROR - ❌ LLM 实体提取失败: No module named 'openai'
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 71, in extract_entities
+    response = await self.llm_client.chat.completions.create(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 27, in llm_client
+    from openai import AsyncOpenAI
+ModuleNotFoundError: No module named 'openai'
+2026-03-23 20:35:05 - agents.input_validator - INFO - ✅ LLM 提取的实体: {}
+2026-03-23 20:35:05 - agents.input_validator - INFO - ✅ 验证完成: is_valid=False, issues=2
+2026-03-23 20:35:05 - agents.clarification_agent - WARNING - ❌ 发现严重错误，不触发澄清: ['缺少零件代码', '缺少要修改的字段']
+2026-03-23 20:35:05 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 20:35:05 - agents.interaction_agent - INFO - 🔧 处理修改请求: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:35:05 - agents.interaction_agent - INFO - 📝 修改内容: 把慢丝割一修一的价格改为1
+2026-03-23 20:35:05 - agents.interaction_agent - WARNING - ⚠️  锁已过期，尝试重新获取: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:35:05 - agents.interaction_agent - INFO - 🔒 获取锁成功: review:lock:8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:35:05 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 20:35:05 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 20:35:05 - agents.interaction_agent - INFO - 📋 当前状态: reviewing
+2026-03-23 20:35:05 - agents.interaction_agent - INFO - 🔍 识别意图...
+2026-03-23 20:35:05 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 初始化完成 (use_llm=True, use_chat_history=True, timeout=180.0s)
+2026-03-23 20:35:05 - agents.intent_recognizer - INFO - 🔍 开始识别意图: 把慢丝割一修一的价格改为1
+2026-03-23 20:35:05 - agents.action_handlers.confirmation_handler - INFO - ✅ ConfirmationHandler 初始化完成 (TTL=300s, max_display=10)
+2026-03-23 20:35:05 - agents.intent_recognizer - INFO - ✅ 加载了 10 条历史消息
+2026-03-23 20:35:05 - agents.intent_recognizer - INFO - 🤖 使用 LLM 识别意图...
+2026-03-23 20:35:15 - agents.intent_recognizer - DEBUG - LLM 响应: ```json
+{
+  "intent_type": "DATA_MODIFICATION",
+  "confidence": 0.98,
+  "parameters": {
+    "table": "processing_cost_calculation_details",
+    "id": null,
+    "field": "wire_special_cost",
+    "value": 1
+  },
+  "reasoning": "用户使用'改为'这一明确修改动作词，要求将'慢丝割一修一'的价格修改为1。'慢丝割一修一'是线割特殊工艺的加工代码，对应字段为wire_special_cost。当前消息中未包含子图ID，但历史对话中最近一次修改操作是针对'慢丝割一修一'的，且用户连续两次修改同一字段，因此推断该修改作用于当前上下文中的默认子图（系统将从历史推断）。由于用户未指定具体子图ID，且'慢丝割一修一'是加工代码而非子图ID，故subgraph_id=None，由系统从历史推断。"
+}
+```
+2026-03-23 20:35:15 - agents.intent_recognizer - INFO - ✅ LLM 识别成功: DATA_MODIFICATION (confidence=0.98)
+2026-03-23 20:35:15 - agents.intent_recognizer - INFO - 📋 识别参数: {'table': 'processing_cost_calculation_details', 'id': None, 'field': 'wire_special_cost', 'value': 1}
+2026-03-23 20:35:15 - agents.interaction_agent - INFO - ✅ 意图识别完成: DATA_MODIFICATION (置信度: 0.98)
+2026-03-23 20:35:15 - agents.interaction_agent - INFO - 🔧 执行 Handler: DataModificationHandler
+2026-03-23 20:35:15 - agents.interaction_agent - INFO - 🔍 raw_data keys: ['features', 'job_price_snapshots', 'subgraphs', 'processing_cost_calculation_details']
+2026-03-23 20:35:15 - agents.action_handlers.data_modification_handler - INFO - 🔧 处理数据修改: 把慢丝割一修一的价格改为1
+2026-03-23 20:35:15 - agents.action_handlers.data_modification_handler - INFO - 🔍 解析自然语言...
+2026-03-23 20:35:15 - agents.nlp_parser - INFO - 🔍 开始解析: 把慢丝割一修一的价格改为1
+2026-03-23 20:35:15 - agents.nlp_parser - INFO - 🔧 使用展示视图解析
+2026-03-23 20:35:15 - agents.nlp_parser - INFO - 🔧 使用展示视图解析...
+2026-03-23 20:35:15 - agents.nlp_parser - INFO - 🔍 检测到工艺修改，使用特殊处理...
+2026-03-23 20:35:15 - agents.nlp_parser - INFO - 🔧 解析工艺修改: 把慢丝割一修一的价格改为1
+2026-03-23 20:35:15 - agents.nlp_parser - INFO - 🤖 使用 LLM 解析（LLM 优先策略：准确性 > 性能）
+2026-03-23 20:35:15 - agents.nlp_parser - INFO - 🤖 使用 LLM 解析...
+2026-03-23 20:35:20 - agents.nlp_parser - DEBUG - 🤖 LLM 完整响应: ```json
+[
+  {
+    "table": "job_price_snapshots",
+    "filter": {
+      "category": "wire",
+      "sub_category": "slow_and_one",
+      "note": "慢丝割一修一"
+    },
+    "field": "price",
+    "value": "1",
+    "original_text": "把慢丝割一修一的价格改为1"
+  }
+]
+```
+2026-03-23 20:35:20 - agents.nlp_parser - INFO - 🔍 ID 'None' 需要智能匹配
+2026-03-23 20:35:20 - agents.nlp_parser - WARNING - ⚠️  智能匹配未找到 None
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - INFO - ✅ 只修改了 1 个零件，不需要推断
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - INFO - ✅ 验证修改...
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - INFO - 🔧 使用 display_view 构建验证数据
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - INFO - ✅ 从 display_view 构建了 20 条 subgraph 记录用于验证
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - WARNING - ⚠️  使用过滤条件匹配，将在应用修改时验证记录存在性
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - INFO - 🔧 应用修改到临时数据...
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - INFO - 🔧 应用 1 个修改 (job_id=8cc81afb-f23f-456a-b652-b563378f27a7)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - INFO - 🔍 处理修改: table=job_price_snapshots (data_key=job_price_snapshots), field=price, value=1
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - INFO - 🔍 匹配条件: id=None, filter={'category': 'wire', 'sub_category': 'slow_and_one', 'note': '慢丝割一修一'}
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - INFO - 🔍 表 job_price_snapshots 共有 153 条记录
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=铍铜
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=电木
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=快丝基本费
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=CR12
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=blind_hole
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=middle_cut
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=fast_and_two
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_length
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=fast_and_one
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=middle_and_one
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=中丝基本费
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=middle_and_two
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=fast_cut
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=45#
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=CR12MOV
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=long_strip
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=SKD11
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=SKH-51
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=SKH-9
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=T00L0X44
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=water_mill, sub_category=small_water_mill
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=water_mill, sub_category=large_water_mill
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=slow_cut
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=slow_cut (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'slow_cut' != 'slow_and_one'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=water_mill, sub_category=small_water_mill
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=water_mill, sub_category=small_water_mill
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=slow_and_one
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=slow_and_one (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 note: record_value=慢丝割一修一 (type=str), filter_value=慢丝割一修一 (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 记录匹配成功
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - INFO - ✅ 修改: job_price_snapshots (filter), price=1
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=slow_and_two
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=slow_and_two (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'slow_and_two' != 'slow_and_one'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=slow_and_three
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=slow_and_three (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'slow_and_three' != 'slow_and_one'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=middle_and_one
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=middle_and_one (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'middle_and_one' != 'slow_and_one'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=wire, sub_category=fast_cut
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=wire (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ✅ 精确匹配成功
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 sub_category: record_value=fast_cut (type=str), filter_value=slow_and_one (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'fast_cut' != 'slow_and_one'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=DC53
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_length
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_length
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=extra_thick
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=slow_cut
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=slow_and_one
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_hours
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=slider
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=T00L0X33
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=base, sub_category=slow_and_two
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=base (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'base' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_hours
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_hours
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=water_mill
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=extra_thick
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=water_mill
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=perforation
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=template_component
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_length
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=area_num
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=CR12
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=CR12MOV
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=SKD11
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=SKH-51
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=SKH-9
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=激光热处理/深冷热处理
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=plate
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=long_strip
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=through_hole
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=slow_template
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=slow_component
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=slow_side
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=medium_template
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=medium_component
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=medium_side
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=heat, sub_category=45#
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=heat (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'heat' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=fast_template
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=fast_component
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=special, sub_category=fast_side
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=special (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'special' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=other
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=material, sub_category=P20
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=material (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'material' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=long_strip
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=bevel
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=long_strip
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=plate
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=bevel
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=through_hole
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=component
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=component
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=component
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=through_hole
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=blind_hole
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=other
+2026-03-23 20:35:20 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=long_strip
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=work_hour
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=work_hour
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_base
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=tooth_hole, sub_category=blind_hole
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=tooth_hole (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'tooth_hole' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M3
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M4
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=oil_tank
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=SKH-51
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=plate
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=SKD11
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M5
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M6
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M8
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=SKH-9
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=D2
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=铝
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=T00L0X44
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M20
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M24
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M30
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M12
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M14
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M16
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=A3
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=尼龙
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=SKD11进口
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M18
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=铁氟龙
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=黄铜
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=PEEK
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=CR12
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=CR12MOV
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=high
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=hanging_table
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=c1_c2_chamfer
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=c3_c5_chamfer
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=thread_ends
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=r1_r2_chamfer
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=S_water_mill, sub_category=r3_r5_chamfer
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=S_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 's_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=plate
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M10
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M12
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=screw, sub_category=M16
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M20
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M22
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M24
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M25
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M27
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M28
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M30
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=stop_screw, sub_category=M33
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=stop_screw (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'stop_screw' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=nc_base
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=slider
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=L_water_mill, sub_category=component
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=L_water_mill (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'l_water_mill' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=45#
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=NC, sub_category=work_hour
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=NC (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'nc' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=other
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=other
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=rule, sub_category=other
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=rule (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'rule' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=P20
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=DC53
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=钨钢
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=T00L0X33
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=赛钢
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=合金铜
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=CR8
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=德国进口POM材质
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=优力胶
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=7CrSiMnMov
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 检查记录: category=density, sub_category=8566
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - 🔍 精确匹配 category: record_value=density (type=str), filter_value=wire (type=str)
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - DEBUG - ❌ 字符串不匹配: 'density' != 'wire'
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - INFO - ✅ 批量修改完成: 1 条记录
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - INFO - 🔄 重新构建展示视图...
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - INFO - 🔍 modified_data keys: ['features', 'job_price_snapshots', 'subgraphs', 'processing_cost_calculation_details']
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - INFO - 🔍 subgraphs count: 20
+2026-03-23 20:35:21 - agents.data_view_builder - INFO - 🔧 构建展示视图（4表架构）...
+2026-03-23 20:35:21 - agents.data_view_builder - INFO - ✅ 展示视图构建完成（4表架构）: 20 条记录
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - INFO - ✅ 修改后的展示视图: 20 条记录
+2026-03-23 20:35:21 - agents.action_handlers.base_handler - DEBUG - 💾 pending_action 已保存: review:pending_action:8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:35:21 - agents.action_handlers.data_modification_handler - INFO - ✅ 数据修改处理完成
+2026-03-23 20:35:21 - agents.interaction_agent - INFO - 🔄 更新 Redis 中的 raw_data...
+2026-03-23 20:35:21 - agents.interaction_agent - INFO - ✅ raw_data 已更新
+2026-03-23 20:35:21 - agents.interaction_agent - INFO - ✅ 展示视图已更新
+2026-03-23 20:35:21 - agents.interaction_agent - INFO - 🔐 重新建立版本基线...
+2026-03-23 20:35:21 - agents.interaction_agent - DEBUG - 计算了 213 条记录的版本哈希
+2026-03-23 20:35:21 - agents.interaction_agent - INFO - ✅ 版本基线已更新（基于当前数据库状态）
+2026-03-23 20:35:21 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:8cc81afb-f23f-456a-b652-b563378f27a7, ex=3600s
+2026-03-23 20:35:21 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 已关闭
+2026-03-23 20:35:21 - agents.interaction_agent - INFO - ✅ 修改处理完成
+2026-03-23 20:35:24 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 20:35:24 - agents.interaction_agent - INFO - ✅ 确认修改: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:35:24 - agents.interaction_agent - INFO - 🔒 检查分布式锁...
+2026-03-23 20:35:24 - agents.interaction_agent - INFO - ✅ 锁检查通过
+2026-03-23 20:35:24 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 20:35:24 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 20:35:24 - agents.interaction_agent - INFO - 🔐 检查数据版本冲突...
+2026-03-23 20:35:24 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:8cc81afb-f23f-456a-b652-b563378f27a7, timeout=300s
+2026-03-23 20:35:24 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:8cc81afb-f23f-456a-b652-b563378f27a7, timeout=3600s
+2026-03-23 20:35:24 - agents.interaction_agent - INFO - 📊 查询当前数据库数据...
+2026-03-23 20:35:25 - agents.interaction_agent - INFO - ✅ 数据查询完成
+2026-03-23 20:35:25 - agents.interaction_agent - INFO - 🔐 计算数据版本...
+2026-03-23 20:35:25 - agents.interaction_agent - DEBUG - 计算了 213 条记录的版本哈希
+2026-03-23 20:35:25 - agents.interaction_agent - INFO - ✅ 版本计算完成
+2026-03-23 20:35:25 - agents.interaction_agent - DEBUG - 🔍 版本对比: original_keys=213, current_keys=213
+2026-03-23 20:35:25 - agents.interaction_agent - INFO - ✅ 版本检查通过，无冲突
+2026-03-23 20:35:25 - agents.interaction_agent - INFO - 🔧 使用 ConfirmHandler 处理确认...
+2026-03-23 20:35:25 - agents.confirm_handler - INFO - ✅ ConfirmHandler 初始化完成
+2026-03-23 20:35:25 - agents.confirm_handler - INFO - ✅ 处理确认: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:35:25 - agents.confirm_handler - INFO - 📊 获取 pending_action...
+2026-03-23 20:35:25 - agents.confirm_handler - INFO - 📋 操作类型: DATA_MODIFICATION
+2026-03-23 20:35:25 - agents.confirm_handler - INFO - 💾 确认数据修改...
+2026-03-23 20:35:26 - agents.confirm_handler - INFO - ✅ 数据修改已保存到数据库
+2026-03-23 20:35:26 - agents.confirm_handler - DEBUG - 🗑️  pending_action 已清理: review:pending_action:8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:35:26 - agents.confirm_handler - INFO - ✅ pending_action 已清理
+2026-03-23 20:35:26 - agents.confirm_handler - INFO - ✅ 确认处理完成: ok
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:8cc81afb-f23f-456a-b652-b563378f27a7, timeout=300s
+2026-03-23 20:35:26 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:8cc81afb-f23f-456a-b652-b563378f27a7, timeout=3600s
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 🔄 锁和数据已续期，审核会话保持活跃
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - ✅ 已清空 modifications 列表
+2026-03-23 20:35:26 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:8cc81afb-f23f-456a-b652-b563378f27a7, ex=3600s
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - ✅ 操作已确认（第 2 次），审核继续
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - ✅ 操作确认完成，审核继续
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 🔄 刷新审核数据: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 📊 获取当前状态...
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 📊 重新查询数据库...
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 📊 数据统计: features=20, subgraphs=20, job_price_snapshots=153
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 🔧 重新构建展示视图...
+2026-03-23 20:35:26 - agents.data_view_builder - INFO - 🔧 构建展示视图（4表架构）...
+2026-03-23 20:35:26 - agents.data_view_builder - INFO - ✅ 展示视图构建完成（4表架构）: 20 条记录
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - ✅ 展示视图构建完成: 20 条记录
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 🔐 重新计算数据版本...
+2026-03-23 20:35:26 - agents.interaction_agent - DEBUG - 计算了 213 条记录的版本哈希
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 🔍 检查数据完整性...
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 📋 完整性检查结果: 数据完整
+2026-03-23 20:35:26 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:8cc81afb-f23f-456a-b652-b563378f27a7, ex=3600s
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:8cc81afb-f23f-456a-b652-b563378f27a7, timeout=300s
+2026-03-23 20:35:26 - agents.interaction_agent - INFO - 📤 推送最新数据到前端...
+2026-03-23 20:35:27 - agents.interaction_agent - INFO - 📤 展示视图已发布到 Redis: job:8cc81afb-f23f-456a-b652-b563378f27a7:review, 记录数: 20
+2026-03-23 20:35:27 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, type=review_display_view
+2026-03-23 20:35:27 - agents.message_persistence_manager - DEBUG -    content: 展示视图已加载：20 条记录...
+2026-03-23 20:35:27 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, type=review_display_view
+2026-03-23 20:35:27 - agents.interaction_agent - INFO - ✅ 数据刷新完成（第 2 次）
