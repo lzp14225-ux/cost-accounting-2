@@ -906,7 +906,9 @@ const Sidebar: React.FC = () => {
                                       // 检查是否是特征识别完成消息
                                       else if (data.stage === 'feature_recognition_completed') {
                                         // 检查是否是重新处理（details.type === 'reprocess'）
-                                        const isReprocess = data.details?.type === 'reprocess'
+                                        const isReprocess =
+                                          data.details?.type === 'reprocess' ||
+                                          useAppStore.getState().isReprocessing === true
                                         
                                         if (isReprocess) {
                                           // 重新识别特征完成，调用 refresh 接口刷新数据

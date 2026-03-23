@@ -508,3 +508,256 @@
 2026-03-23 15:42:43 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/refresh | 状态=200 | IP=192.168.1.152 | 耗时=14.702s
 2026-03-23 15:42:52 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/reports/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/export | IP=192.168.1.152
 2026-03-23 15:42:56 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/reports/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/export | 状态=200 | IP=192.168.1.152 | 耗时=4.285s
+2026-03-23 15:46:53 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/modify | IP=192.168.1.152 | Body={"modification_text": "重新识别"}
+2026-03-23 15:47:03 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171477>
+2026-03-23 15:47:09 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171477>
+2026-03-23 15:47:10 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=confirmation:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<not_found>
+2026-03-23 15:47:17 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=1663, ex=3600>
+2026-03-23 15:48:01 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171666, ex=3600>
+2026-03-23 15:48:04 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/modify | 状态=200 | IP=192.168.1.152 | 耗时=70.573s
+2026-03-23 15:54:26 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/confirm | IP=192.168.1.152 | Body={"comment": "确认操作"}
+2026-03-23 15:54:26 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=6, ex=300>
+2026-03-23 15:54:26 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171666>
+2026-03-23 15:54:26 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=1663>
+2026-03-23 15:54:27 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/features/reprocess | IP=127.0.0.1 | Body={"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_ids": ["03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2", "03e5c...
+2026-03-23 15:54:27 - shared.mcp_client - INFO - MCP Client initialized: http://192.168.1.152:8201, timeout=7200s, pool=30, retries=3
+2026-03-23 15:54:27 - shared.progress_publisher - INFO - Progress update: {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "stage": "feature_recognition_started", "progress": 25, "message": "开始重新识别特征，共 15 个子图", "details": {"total_count": 15, "source": "agent", "type": "reprocess"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-09'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-09"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-19'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-19"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1B'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1B"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL2'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL2"}}
+2026-03-23 15:54:27 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-BL1'}
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 15:54:27 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-BL1"}}
+2026-03-23 15:54:27 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/features/reprocess | 状态=200 | IP=127.0.0.1 | 耗时=0.155s
+2026-03-23 15:54:27 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46:progress | value=<message_len=210>
+2026-03-23 15:54:27 - shared.logging_middleware - DEBUG - 💾 Redis DELETE: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 15:54:27 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171477, ex=3600>
+2026-03-23 15:54:27 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/confirm | 状态=200 | IP=192.168.1.152 | 耗时=1.331s
+2026-03-23 15:54:28 - shared.mcp_client - INFO - Tool call success: feature_recognition (1160ms)
+2026-03-23 15:54:29 - shared.mcp_client - INFO - Tool call success: feature_recognition (2377ms)
+2026-03-23 15:54:31 - shared.mcp_client - INFO - Tool call success: feature_recognition (4310ms)
+2026-03-23 15:54:32 - shared.mcp_client - INFO - Tool call success: feature_recognition (5224ms)
+2026-03-23 15:54:33 - shared.mcp_client - INFO - Tool call success: feature_recognition (5992ms)
+2026-03-23 15:54:34 - shared.mcp_client - INFO - Tool call success: feature_recognition (6840ms)
+2026-03-23 15:54:35 - shared.mcp_client - INFO - Tool call success: feature_recognition (7620ms)
+2026-03-23 15:54:36 - shared.mcp_client - INFO - Tool call success: feature_recognition (8570ms)
+2026-03-23 15:54:36 - shared.mcp_client - INFO - Tool call success: feature_recognition (9241ms)
+2026-03-23 15:54:37 - shared.mcp_client - INFO - Tool call success: feature_recognition (9996ms)
+2026-03-23 15:54:38 - shared.mcp_client - INFO - Tool call success: feature_recognition (10917ms)
+2026-03-23 15:54:39 - shared.mcp_client - INFO - Tool call success: feature_recognition (11591ms)
+2026-03-23 15:54:40 - shared.mcp_client - INFO - Tool call success: feature_recognition (12429ms)
+2026-03-23 15:54:40 - shared.mcp_client - INFO - Tool call success: feature_recognition (13264ms)
+2026-03-23 15:54:41 - shared.mcp_client - INFO - Tool call success: feature_recognition (14123ms)
+2026-03-23 15:54:41 - shared.progress_publisher - INFO - Progress update: {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "stage": "feature_recognition_completed", "progress": 50, "message": "重新识别完成: 成功15个, 失败0个", "details": {"total_count": 15, "success_count": 15, "failed_count": 0, "source": "agent", "type": "reprocess"}}
+2026-03-23 15:54:41 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46:progress | value=<message_len=254>
+2026-03-23 16:02:52 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-23 16:02:52 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=0.061s
+2026-03-23 16:02:54 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/history | IP=192.168.1.152
+2026-03-23 16:02:54 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/history | 状态=200 | IP=192.168.1.152 | 耗时=0.040s
+2026-03-23 16:02:54 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-23 16:02:54 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | 状态=200 | IP=192.168.1.152 | 耗时=0.098s
+2026-03-23 16:02:54 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | IP=192.168.1.152
+2026-03-23 16:02:55 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | 状态=200 | IP=192.168.1.152 | 耗时=0.014s
+2026-03-23 16:03:04 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/modify | IP=192.168.1.152 | Body={"modification_text": "重新识别"}
+2026-03-23 16:03:06 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171477>
+2026-03-23 16:03:10 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=6, ex=300>
+2026-03-23 16:03:10 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171477>
+2026-03-23 16:03:11 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=confirmation:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<not_found>
+2026-03-23 16:03:18 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=1663, ex=3600>
+2026-03-23 16:03:18 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171666, ex=3600>
+2026-03-23 16:03:18 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/modify | 状态=200 | IP=192.168.1.152 | 耗时=13.940s
+2026-03-23 16:03:22 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/confirm | IP=192.168.1.152 | Body={"comment": "确认操作"}
+2026-03-23 16:03:22 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171666>
+2026-03-23 16:03:22 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=1663>
+2026-03-23 16:03:23 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/features/reprocess | IP=127.0.0.1 | Body={"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_ids": ["03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17", "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2", "03e5c...
+2026-03-23 16:03:23 - shared.progress_publisher - INFO - Progress update: {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "stage": "feature_recognition_started", "progress": 25, "message": "开始重新识别特征，共 15 个子图", "details": {"total_count": 15, "source": "agent", "type": "reprocess"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-09'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-09"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-19'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-19"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1B'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1B"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL2'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL2"}}
+2026-03-23 16:03:23 - shared.mcp_client - INFO - Calling MCP tool: cad-price-search-mcp.feature_recognition
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Arguments: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-BL1'}
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Sending request: http://192.168.1.152:8201/call_tool
+2026-03-23 16:03:23 - shared.mcp_client - DEBUG - Body: {"tool_name": "feature_recognition", "arguments": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-BL1"}}
+2026-03-23 16:03:23 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/features/reprocess | 状态=200 | IP=127.0.0.1 | 耗时=0.085s
+2026-03-23 16:03:23 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46:progress | value=<message_len=210>
+2026-03-23 16:03:23 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | type=progress | data={"type": "progress", "job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "timestamp": "2026-03-23T16:03:23.628244", "data": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "stage": "feature_recogniti...
+2026-03-23 16:03:23 - shared.logging_middleware - DEBUG - 💾 Redis DELETE: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:03:23 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171477, ex=3600>
+2026-03-23 16:03:23 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/confirm | 状态=200 | IP=192.168.1.152 | 耗时=1.365s
+2026-03-23 16:03:24 - shared.mcp_client - INFO - Tool call success: feature_recognition (1107ms)
+2026-03-23 16:03:25 - shared.mcp_client - INFO - Tool call success: feature_recognition (1990ms)
+2026-03-23 16:03:27 - shared.mcp_client - INFO - Tool call success: feature_recognition (3790ms)
+2026-03-23 16:03:28 - shared.mcp_client - INFO - Tool call success: feature_recognition (4741ms)
+2026-03-23 16:03:29 - shared.mcp_client - INFO - Tool call success: feature_recognition (6241ms)
+2026-03-23 16:03:30 - shared.mcp_client - INFO - Tool call success: feature_recognition (7209ms)
+2026-03-23 16:03:31 - shared.mcp_client - INFO - Tool call success: feature_recognition (7944ms)
+2026-03-23 16:03:32 - shared.mcp_client - INFO - Tool call success: feature_recognition (8574ms)
+2026-03-23 16:03:32 - shared.mcp_client - INFO - Tool call success: feature_recognition (9379ms)
+2026-03-23 16:03:33 - shared.mcp_client - INFO - Tool call success: feature_recognition (10349ms)
+2026-03-23 16:03:34 - shared.mcp_client - INFO - Tool call success: feature_recognition (11183ms)
+2026-03-23 16:03:35 - shared.mcp_client - INFO - Tool call success: feature_recognition (11723ms)
+2026-03-23 16:03:36 - shared.mcp_client - INFO - Tool call success: feature_recognition (12476ms)
+2026-03-23 16:03:36 - shared.mcp_client - INFO - Tool call success: feature_recognition (13141ms)
+2026-03-23 16:03:37 - shared.mcp_client - INFO - Tool call success: feature_recognition (13807ms)
+2026-03-23 16:03:37 - shared.progress_publisher - INFO - Progress update: {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "stage": "feature_recognition_completed", "progress": 50, "message": "重新识别完成: 成功15个, 失败0个", "details": {"total_count": 15, "success_count": 15, "failed_count": 0, "source": "agent", "type": "reprocess"}}
+2026-03-23 16:03:37 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46:progress | value=<message_len=254>
+2026-03-23 16:03:37 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | type=progress | data={"type": "progress", "job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "timestamp": "2026-03-23T16:03:37.426404", "data": {"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "stage": "feature_recogniti...
+2026-03-23 16:03:38 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/refresh | IP=192.168.1.152
+2026-03-23 16:03:38 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171477>
+2026-03-23 16:03:38 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171454, ex=3600>
+2026-03-23 16:03:38 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46:review | value=<message_len=15872>
+2026-03-23 16:03:38 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | type=review_display_view | data={"type": "review_display_view", "job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "timestamp": "2026-03-23T16:03:38.838370", "data": [{"part_code": "DIE2-BL1", "part_name": "外形割单+0.0", "subgraph_file_...
+2026-03-23 16:03:39 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/refresh | 状态=200 | IP=192.168.1.152 | 耗时=0.987s
+2026-03-23 16:03:56 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/modify | IP=192.168.1.152 | Body={"modification_text": "DIE2-BL1按重量计算"}
+2026-03-23 16:03:56 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171454>
+2026-03-23 16:04:01 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171454>
+2026-03-23 16:04:02 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=confirmation:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<not_found>
+2026-03-23 16:04:09 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=408, ex=3600>
+2026-03-23 16:04:09 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171657, ex=3600>
+2026-03-23 16:04:09 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/modify | 状态=200 | IP=192.168.1.152 | 耗时=13.096s
+2026-03-23 16:04:25 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/confirm | IP=192.168.1.152 | Body={"comment": "确认操作"}
+2026-03-23 16:04:25 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171657>
+2026-03-23 16:04:25 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=408>
+2026-03-23 16:04:26 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/price_wg/calculate | IP=127.0.0.1 | Body={"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_ids": ["03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1"], "options": {"force_recalculate": true, "skip_search": false}}
+2026-03-23 16:04:26 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/price_wg/calculate | 状态=200 | IP=127.0.0.1 | 耗时=0.336s
+2026-03-23 16:04:26 - shared.logging_middleware - DEBUG - 💾 Redis DELETE: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:04:26 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171454, ex=3600>
+2026-03-23 16:04:26 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/confirm | 状态=200 | IP=192.168.1.152 | 耗时=1.551s
+2026-03-23 16:07:51 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-23 16:07:51 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=0.034s
+2026-03-23 16:07:52 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/history | IP=192.168.1.152
+2026-03-23 16:07:52 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/history | 状态=200 | IP=192.168.1.152 | 耗时=0.014s
+2026-03-23 16:07:52 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-23 16:07:52 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | 状态=200 | IP=192.168.1.152 | 耗时=0.136s
+2026-03-23 16:07:52 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | IP=192.168.1.152
+2026-03-23 16:07:52 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | 状态=200 | IP=192.168.1.152 | 耗时=0.035s
+2026-03-23 16:08:04 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/modify | IP=192.168.1.152 | Body={"modification_text": "PU-BL1按重量计算"}
+2026-03-23 16:08:04 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171454>
+2026-03-23 16:08:10 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171454>
+2026-03-23 16:08:11 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=confirmation:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<not_found>
+2026-03-23 16:08:17 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=404, ex=3600>
+2026-03-23 16:08:17 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171655, ex=3600>
+2026-03-23 16:08:17 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/modify | 状态=200 | IP=192.168.1.152 | 耗时=13.103s
+2026-03-23 16:08:19 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/confirm | IP=192.168.1.152 | Body={"comment": "确认操作"}
+2026-03-23 16:08:19 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171655>
+2026-03-23 16:08:19 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=404>
+2026-03-23 16:08:20 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/price_wg/calculate | IP=127.0.0.1 | Body={"job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "subgraph_ids": ["03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1"], "options": {"force_recalculate": true, "skip_search": false}}
+2026-03-23 16:08:21 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/price_wg/calculate | 状态=200 | IP=127.0.0.1 | 耗时=0.174s
+2026-03-23 16:08:21 - shared.logging_middleware - DEBUG - 💾 Redis DELETE: key=review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:08:21 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171455, ex=3600>
+2026-03-23 16:08:21 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/confirm | 状态=200 | IP=192.168.1.152 | 耗时=1.377s
+2026-03-23 16:08:21 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/refresh | IP=192.168.1.152
+2026-03-23 16:08:21 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171455>
+2026-03-23 16:08:22 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | value=<len=171455, ex=3600>
+2026-03-23 16:08:22 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46:review | value=<message_len=15872>
+2026-03-23 16:08:22 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46 | type=review_display_view | data={"type": "review_display_view", "job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46", "timestamp": "2026-03-23T16:08:22.742471", "data": [{"part_code": "DIE2-BL1", "part_name": "外形割单+0.0", "subgraph_file_...
+2026-03-23 16:08:22 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/refresh | 状态=200 | IP=192.168.1.152 | 耗时=1.390s
+2026-03-23 16:08:31 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/reports/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/export | IP=192.168.1.152
+2026-03-23 16:08:31 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/reports/eb8d0fa2-7db4-40ae-9f63-e76d134b5d46/export | 状态=200 | IP=192.168.1.152 | 耗时=0.120s

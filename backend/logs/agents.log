@@ -1166,3 +1166,456 @@ TypeError: argument of type 'NoneType' is not iterable
 2026-03-23 15:42:39 - agents.message_persistence_manager - DEBUG -    content: 展示视图已加载：15 条记录...
 2026-03-23 15:42:42 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=review_display_view
 2026-03-23 15:42:42 - agents.interaction_agent - INFO - ✅ 数据刷新完成（第 4 次）
+2026-03-23 15:46:46 - agents.action_handlers.data_modification_handler - INFO - ✅ DataModificationHandler 初始化完成
+2026-03-23 15:46:46 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: IntentType.DATA_MODIFICATION -> DataModificationHandler
+2026-03-23 15:46:46 - agents.action_handlers.feature_recognition_handler - INFO - ✅ FeatureRecognitionHandler 初始化完成
+2026-03-23 15:46:46 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: IntentType.FEATURE_RECOGNITION -> FeatureRecognitionHandler
+2026-03-23 15:46:46 - agents.action_handlers.price_calculation_handler - INFO - ✅ PriceCalculationHandler 初始化完成
+2026-03-23 15:46:46 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: IntentType.PRICE_CALCULATION -> PriceCalculationHandler
+2026-03-23 15:46:47 - agents.action_handlers.query_details_handler - INFO - ✅ QueryDetailsHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-03-23 15:46:47 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: IntentType.QUERY_DETAILS -> QueryDetailsHandler
+2026-03-23 15:46:47 - agents.action_handlers.general_chat_handler - INFO - ✅ GeneralChatHandler 初始化完成
+2026-03-23 15:46:47 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: IntentType.GENERAL_CHAT -> GeneralChatHandler
+2026-03-23 15:46:47 - agents.action_handlers.weight_price_calculation_handler - INFO - ✅ WeightPriceCalculationHandler 初始化完成
+2026-03-23 15:46:47 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: IntentType.WEIGHT_PRICE_CALCULATION -> WeightPriceCalculationHandler
+2026-03-23 15:46:48 - agents.action_handlers.weight_price_query_handler - INFO - ✅ WeightPriceQueryHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-03-23 15:46:48 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: IntentType.WEIGHT_PRICE_QUERY -> WeightPriceQueryHandler
+2026-03-23 15:46:48 - agents.action_handlers.confirmation_response_handler - INFO - ✅ ConfirmationResponseHandler 初始化完成
+2026-03-23 15:46:48 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: IntentType.CONFIRMATION_RESPONSE -> ConfirmationResponseHandler
+2026-03-23 15:46:48 - agents.action_handlers.base_handler - INFO - ✅ 所有 Handler 已注册，共 8 个
+2026-03-23 15:46:55 - agents.number_selection_handler - INFO - 🔢 处理数字选择: 重新识别
+2026-03-23 15:46:55 - agents.number_selection_handler - DEBUG - 不是数字选择
+2026-03-23 15:47:03 - agents.llm_confirmation_detector - INFO - 🔍 检测确认意图: 重新识别...
+2026-03-23 15:47:03 - agents.llm_confirmation_detector - DEBUG -   关键词检查: confirmation=False, rejection=False
+2026-03-23 15:47:03 - agents.llm_confirmation_detector - DEBUG - ❌ 不包含确认/拒绝关键词，跳过
+2026-03-23 15:47:03 - agents.clarification_agent - INFO - ✅ ClarificationAgent 初始化完成: threshold=0.75, history=True
+2026-03-23 15:47:03 - agents.clarification_agent - INFO - 🔍 处理输入: 重新识别...
+2026-03-23 15:47:03 - agents.clarification_agent - INFO - 📋 步骤1: 验证输入
+2026-03-23 15:47:03 - agents.input_validator - INFO - 🔍 开始验证输入: 重新识别...
+2026-03-23 15:47:03 - agents.input_validator - INFO - ✅ Display view from Redis cache: eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 15:47:03 - agents.input_validator - INFO - ✅ Display View 获取成功: 15 条记录, 来源: redis_cache
+2026-03-23 15:47:03 - agents.input_validator - INFO - 🤖 使用 LLM 提取实体
+2026-03-23 15:47:03 - agents.llm_entity_extractor - INFO - 🔍 使用 LLM 提取实体: 重新识别...
+2026-03-23 15:47:09 - agents.llm_entity_extractor - INFO - ✅ LLM 提取成功: {'part_code': None, 'part_code_prefix': None, 'part_code_suffix': None, 'part_code_contains': None, 'field': None, 'value': None, 'action': 'feature_recognition', 'confidence': 0.95, 'reasoning': "输入包含'重新识别'关键词，是特殊操作"}
+2026-03-23 15:47:09 - agents.input_validator - INFO - ✅ LLM 提取的实体: {'part_code': None, 'part_code_prefix': None, 'part_code_suffix': None, 'part_code_contains': None, 'field': None, 'value': None, 'action': 'feature_recognition', 'confidence': 0.95, 'reasoning': "输入包含'重新识别'关键词，是特殊操作"}
+2026-03-23 15:47:09 - agents.input_validator - INFO - ✅ 验证完成: is_valid=False, issues=2
+2026-03-23 15:47:09 - agents.clarification_agent - WARNING - ❌ 发现严重错误，不触发澄清: ['缺少零件代码', '缺少要修改的字段']
+2026-03-23 15:47:09 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 15:47:09 - agents.interaction_agent - INFO - 🔧 处理修改请求: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 15:47:09 - agents.interaction_agent - INFO - 📝 修改内容: 重新识别
+2026-03-23 15:47:09 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 15:47:09 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=3600s
+2026-03-23 15:47:09 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 15:47:09 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 15:47:09 - agents.interaction_agent - INFO - 📋 当前状态: reviewing
+2026-03-23 15:47:09 - agents.interaction_agent - INFO - 🔍 识别意图...
+2026-03-23 15:47:10 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 初始化完成 (use_llm=True, use_chat_history=True, timeout=30.0s)
+2026-03-23 15:47:10 - agents.intent_recognizer - INFO - 🔍 开始识别意图: 重新识别
+2026-03-23 15:47:10 - agents.action_handlers.confirmation_handler - INFO - ✅ ConfirmationHandler 初始化完成 (TTL=300s, max_display=10)
+2026-03-23 15:47:11 - agents.intent_recognizer - INFO - ✅ 加载了 10 条历史消息
+2026-03-23 15:47:11 - agents.intent_recognizer - INFO - 🤖 使用 LLM 识别意图...
+2026-03-23 15:47:17 - agents.intent_recognizer - DEBUG - LLM 响应: ```json
+{
+  "intent_type": "FEATURE_RECOGNITION",
+  "confidence": 0.98,
+  "parameters": {
+    "subgraph_ids": [],
+    "keyword": null
+  },
+  "reasoning": "用户输入'重新识别'，包含关键词'重新识别'，符合FEATURE_RECOGNITION意图。当前消息中未指定具体子图ID，因此返回空数组表示对所有子图重新识别。"
+}
+```
+2026-03-23 15:47:17 - agents.intent_recognizer - INFO - ✅ LLM 识别成功: FEATURE_RECOGNITION (confidence=0.98)
+2026-03-23 15:47:17 - agents.intent_recognizer - INFO - 📋 识别参数: {'subgraph_ids': [], 'keyword': None}
+2026-03-23 15:47:17 - agents.interaction_agent - INFO - ✅ 意图识别完成: FEATURE_RECOGNITION (置信度: 0.98)
+2026-03-23 15:47:17 - agents.interaction_agent - INFO - 🔧 执行 Handler: FeatureRecognitionHandler
+2026-03-23 15:47:17 - agents.interaction_agent - INFO - 🔍 raw_data keys: ['features', 'job_price_snapshots', 'subgraphs', 'processing_cost_calculation_details']
+2026-03-23 15:47:17 - agents.action_handlers.feature_recognition_handler - INFO - 🔍 处理特征识别: 重新识别
+2026-03-23 15:47:17 - agents.action_handlers.base_handler - DEBUG - 📊 从 raw_data 中获取子图: 15 个
+2026-03-23 15:47:17 - agents.action_handlers.base_handler - DEBUG - ✅ 提取到 15 个 subgraph_id
+2026-03-23 15:47:17 - agents.action_handlers.feature_recognition_handler - INFO - 未指定子图，将识别所有 15 个子图
+2026-03-23 15:47:17 - agents.action_handlers.base_handler - DEBUG - 💾 pending_action 已保存: review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 15:47:17 - agents.action_handlers.feature_recognition_handler - INFO - ✅ 特征识别请求准备完成
+2026-03-23 15:47:17 - agents.interaction_agent - INFO - 🔐 重新建立版本基线...
+2026-03-23 15:48:01 - agents.interaction_agent - DEBUG - 计算了 198 条记录的版本哈希
+2026-03-23 15:48:01 - agents.interaction_agent - INFO - ✅ 版本基线已更新（基于当前数据库状态）
+2026-03-23 15:48:01 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, ex=3600s
+2026-03-23 15:48:01 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 已关闭
+2026-03-23 15:48:01 - agents.interaction_agent - INFO - ✅ 修改处理完成
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - ✅ 确认修改: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - 🔒 检查分布式锁...
+2026-03-23 15:54:26 - agents.interaction_agent - WARNING - ⚠️  锁已过期，尝试重新获取
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - 🔒 获取锁成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - ✅ 锁重新获取成功
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - 🔐 检查数据版本冲突...
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 15:54:26 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=3600s
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - 📊 查询当前数据库数据...
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - ✅ 数据查询完成
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - 🔐 计算数据版本...
+2026-03-23 15:54:26 - agents.interaction_agent - DEBUG - 计算了 198 条记录的版本哈希
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - ✅ 版本计算完成
+2026-03-23 15:54:26 - agents.interaction_agent - DEBUG - 🔍 版本对比: original_keys=198, current_keys=198
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - ✅ 版本检查通过，无冲突
+2026-03-23 15:54:26 - agents.interaction_agent - INFO - 🔧 使用 ConfirmHandler 处理确认...
+2026-03-23 15:54:26 - agents.confirm_handler - INFO - ✅ ConfirmHandler 初始化完成
+2026-03-23 15:54:26 - agents.confirm_handler - INFO - ✅ 处理确认: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 15:54:26 - agents.confirm_handler - INFO - 📊 获取 pending_action...
+2026-03-23 15:54:26 - agents.confirm_handler - INFO - 📋 操作类型: FEATURE_RECOGNITION
+2026-03-23 15:54:26 - agents.confirm_handler - INFO - 🔍 确认特征识别...
+2026-03-23 15:54:26 - agents.confirm_handler - INFO - 📤 调用特征识别 API: http://127.0.0.1:8212/api/features/reprocess
+2026-03-23 15:54:26 - agents.confirm_handler - INFO - 📋 请求参数: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_ids': ['03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-09', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-19', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1B', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL2', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-BL1'], 'options': {'force_reprocess': True, 'update_existing': True}}
+2026-03-23 15:54:27 - agents.cad_agent - INFO - CAD Agent 初始化完成 (MCP 模式)
+2026-03-23 15:54:27 - agents.confirm_handler - INFO - ✅ 特征识别 API 调用成功
+2026-03-23 15:54:27 - agents.confirm_handler - INFO - 📋 响应: {'status': 'accepted', 'message': '特征识别任务已提交，请通过 WebSocket 监听进度', 'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_count': 15}
+2026-03-23 15:54:27 - agents.confirm_handler - DEBUG - 🗑️  pending_action 已清理: review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 15:54:27 - agents.confirm_handler - INFO - ✅ pending_action 已清理
+2026-03-23 15:54:27 - agents.confirm_handler - INFO - ✅ 确认处理完成: ok
+2026-03-23 15:54:27 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=progress
+2026-03-23 15:54:27 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_started (25%)
+开始重新识别特征，共 15 个子图...
+2026-03-23 15:54:27 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 15:54:27 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=3600s
+2026-03-23 15:54:27 - agents.interaction_agent - INFO - 🔄 锁和数据已续期，审核会话保持活跃
+2026-03-23 15:54:27 - agents.interaction_agent - INFO - ✅ 已清空 modifications 列表
+2026-03-23 15:54:27 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, ex=3600s
+2026-03-23 15:54:27 - agents.interaction_agent - INFO - ✅ 操作已确认（第 7 次），审核继续
+2026-03-23 15:54:27 - agents.interaction_agent - INFO - ✅ 操作确认完成，审核继续
+2026-03-23 15:54:27 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=progress
+2026-03-23 15:54:41 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=progress
+2026-03-23 15:54:41 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_completed (50%)
+重新识别完成: 成功15个, 失败0个...
+2026-03-23 15:54:41 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=progress
+2026-03-23 16:03:04 - agents.number_selection_handler - INFO - 🔢 处理数字选择: 重新识别
+2026-03-23 16:03:04 - agents.number_selection_handler - DEBUG - 不是数字选择
+2026-03-23 16:03:06 - agents.llm_confirmation_detector - INFO - 🔍 检测确认意图: 重新识别...
+2026-03-23 16:03:06 - agents.llm_confirmation_detector - DEBUG -   关键词检查: confirmation=False, rejection=False
+2026-03-23 16:03:06 - agents.llm_confirmation_detector - DEBUG - ❌ 不包含确认/拒绝关键词，跳过
+2026-03-23 16:03:06 - agents.clarification_agent - INFO - ✅ ClarificationAgent 初始化完成: threshold=0.75, history=True
+2026-03-23 16:03:06 - agents.clarification_agent - INFO - 🔍 处理输入: 重新识别...
+2026-03-23 16:03:06 - agents.clarification_agent - INFO - 📋 步骤1: 验证输入
+2026-03-23 16:03:06 - agents.input_validator - INFO - 🔍 开始验证输入: 重新识别...
+2026-03-23 16:03:06 - agents.input_validator - INFO - ✅ Display view from Redis cache: eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:03:06 - agents.input_validator - INFO - ✅ Display View 获取成功: 15 条记录, 来源: redis_cache
+2026-03-23 16:03:06 - agents.input_validator - INFO - 🤖 使用 LLM 提取实体
+2026-03-23 16:03:06 - agents.llm_entity_extractor - INFO - 🔍 使用 LLM 提取实体: 重新识别...
+2026-03-23 16:03:10 - agents.llm_entity_extractor - INFO - ✅ LLM 提取成功: {'part_code': None, 'part_code_prefix': None, 'part_code_suffix': None, 'part_code_contains': None, 'field': None, 'value': None, 'action': 'feature_recognition', 'confidence': 0.95, 'reasoning': "输入包含'重新识别'关键词，是特殊操作"}
+2026-03-23 16:03:10 - agents.input_validator - INFO - ✅ LLM 提取的实体: {'part_code': None, 'part_code_prefix': None, 'part_code_suffix': None, 'part_code_contains': None, 'field': None, 'value': None, 'action': 'feature_recognition', 'confidence': 0.95, 'reasoning': "输入包含'重新识别'关键词，是特殊操作"}
+2026-03-23 16:03:10 - agents.input_validator - INFO - ✅ 验证完成: is_valid=False, issues=2
+2026-03-23 16:03:10 - agents.clarification_agent - WARNING - ❌ 发现严重错误，不触发澄清: ['缺少零件代码', '缺少要修改的字段']
+2026-03-23 16:03:10 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 16:03:10 - agents.interaction_agent - INFO - 🔧 处理修改请求: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:03:10 - agents.interaction_agent - INFO - 📝 修改内容: 重新识别
+2026-03-23 16:03:10 - agents.interaction_agent - WARNING - ⚠️  锁已过期，尝试重新获取: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:03:10 - agents.interaction_agent - INFO - 🔒 获取锁成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:03:10 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 16:03:10 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 16:03:10 - agents.interaction_agent - INFO - 📋 当前状态: reviewing
+2026-03-23 16:03:10 - agents.interaction_agent - INFO - 🔍 识别意图...
+2026-03-23 16:03:11 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 初始化完成 (use_llm=True, use_chat_history=True, timeout=30.0s)
+2026-03-23 16:03:11 - agents.intent_recognizer - INFO - 🔍 开始识别意图: 重新识别
+2026-03-23 16:03:11 - agents.action_handlers.confirmation_handler - INFO - ✅ ConfirmationHandler 初始化完成 (TTL=300s, max_display=10)
+2026-03-23 16:03:11 - agents.intent_recognizer - INFO - ✅ 加载了 10 条历史消息
+2026-03-23 16:03:11 - agents.intent_recognizer - INFO - 🤖 使用 LLM 识别意图...
+2026-03-23 16:03:18 - agents.intent_recognizer - DEBUG - LLM 响应: ```json
+{
+  "intent_type": "FEATURE_RECOGNITION",
+  "confidence": 0.98,
+  "parameters": {
+    "subgraph_ids": []
+  },
+  "reasoning": "用户连续两次输入'重新识别'，结合历史对话中助手已明确说明'将重新识别 15 个子图的特征'，且当前消息中未指定任何子图ID或加工代码，因此识别为对所有子图执行特征重新识别操作。符合 FEATURE_RECOGNITION 意图的关键词'重新识别'，且无具体ID，故 subgraph_ids 为空数组。"
+}
+```
+2026-03-23 16:03:18 - agents.intent_recognizer - INFO - ✅ LLM 识别成功: FEATURE_RECOGNITION (confidence=0.98)
+2026-03-23 16:03:18 - agents.intent_recognizer - INFO - 📋 识别参数: {'subgraph_ids': []}
+2026-03-23 16:03:18 - agents.interaction_agent - INFO - ✅ 意图识别完成: FEATURE_RECOGNITION (置信度: 0.98)
+2026-03-23 16:03:18 - agents.interaction_agent - INFO - 🔧 执行 Handler: FeatureRecognitionHandler
+2026-03-23 16:03:18 - agents.interaction_agent - INFO - 🔍 raw_data keys: ['features', 'job_price_snapshots', 'subgraphs', 'processing_cost_calculation_details']
+2026-03-23 16:03:18 - agents.action_handlers.feature_recognition_handler - INFO - 🔍 处理特征识别: 重新识别
+2026-03-23 16:03:18 - agents.action_handlers.base_handler - DEBUG - 📊 从 raw_data 中获取子图: 15 个
+2026-03-23 16:03:18 - agents.action_handlers.base_handler - DEBUG - ✅ 提取到 15 个 subgraph_id
+2026-03-23 16:03:18 - agents.action_handlers.feature_recognition_handler - INFO - 未指定子图，将识别所有 15 个子图
+2026-03-23 16:03:18 - agents.action_handlers.base_handler - DEBUG - 💾 pending_action 已保存: review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:03:18 - agents.action_handlers.feature_recognition_handler - INFO - ✅ 特征识别请求准备完成
+2026-03-23 16:03:18 - agents.interaction_agent - INFO - 🔐 重新建立版本基线...
+2026-03-23 16:03:18 - agents.interaction_agent - DEBUG - 计算了 198 条记录的版本哈希
+2026-03-23 16:03:18 - agents.interaction_agent - INFO - ✅ 版本基线已更新（基于当前数据库状态）
+2026-03-23 16:03:18 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, ex=3600s
+2026-03-23 16:03:18 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 已关闭
+2026-03-23 16:03:18 - agents.interaction_agent - INFO - ✅ 修改处理完成
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - ✅ 确认修改: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - 🔒 检查分布式锁...
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - ✅ 锁检查通过
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - 🔐 检查数据版本冲突...
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 16:03:22 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=3600s
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - 📊 查询当前数据库数据...
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - ✅ 数据查询完成
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - 🔐 计算数据版本...
+2026-03-23 16:03:22 - agents.interaction_agent - DEBUG - 计算了 198 条记录的版本哈希
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - ✅ 版本计算完成
+2026-03-23 16:03:22 - agents.interaction_agent - DEBUG - 🔍 版本对比: original_keys=198, current_keys=198
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - ✅ 版本检查通过，无冲突
+2026-03-23 16:03:22 - agents.interaction_agent - INFO - 🔧 使用 ConfirmHandler 处理确认...
+2026-03-23 16:03:22 - agents.confirm_handler - INFO - ✅ ConfirmHandler 初始化完成
+2026-03-23 16:03:22 - agents.confirm_handler - INFO - ✅ 处理确认: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:03:22 - agents.confirm_handler - INFO - 📊 获取 pending_action...
+2026-03-23 16:03:22 - agents.confirm_handler - INFO - 📋 操作类型: FEATURE_RECOGNITION
+2026-03-23 16:03:22 - agents.confirm_handler - INFO - 🔍 确认特征识别...
+2026-03-23 16:03:22 - agents.confirm_handler - INFO - 📤 调用特征识别 API: http://127.0.0.1:8212/api/features/reprocess
+2026-03-23 16:03:22 - agents.confirm_handler - INFO - 📋 请求参数: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_ids': ['03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-10', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_LB-01', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-BL2', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_U1-01', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-10', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-08', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-17', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL2', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-09', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-19', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1B', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL2', '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PS-BL1'], 'options': {'force_reprocess': True, 'update_existing': True}}
+2026-03-23 16:03:23 - agents.confirm_handler - INFO - ✅ 特征识别 API 调用成功
+2026-03-23 16:03:23 - agents.confirm_handler - INFO - 📋 响应: {'status': 'accepted', 'message': '特征识别任务已提交，请通过 WebSocket 监听进度', 'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_count': 15}
+2026-03-23 16:03:23 - agents.confirm_handler - DEBUG - 🗑️  pending_action 已清理: review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:03:23 - agents.confirm_handler - INFO - ✅ pending_action 已清理
+2026-03-23 16:03:23 - agents.confirm_handler - INFO - ✅ 确认处理完成: ok
+2026-03-23 16:03:23 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=progress
+2026-03-23 16:03:23 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_started (25%)
+开始重新识别特征，共 15 个子图...
+2026-03-23 16:03:23 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 16:03:23 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=3600s
+2026-03-23 16:03:23 - agents.interaction_agent - INFO - 🔄 锁和数据已续期，审核会话保持活跃
+2026-03-23 16:03:23 - agents.interaction_agent - INFO - ✅ 已清空 modifications 列表
+2026-03-23 16:03:23 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, ex=3600s
+2026-03-23 16:03:23 - agents.interaction_agent - INFO - ✅ 操作已确认（第 8 次），审核继续
+2026-03-23 16:03:23 - agents.interaction_agent - INFO - ✅ 操作确认完成，审核继续
+2026-03-23 16:03:23 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=progress
+2026-03-23 16:03:37 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=progress
+2026-03-23 16:03:37 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_completed (50%)
+重新识别完成: 成功15个, 失败0个...
+2026-03-23 16:03:37 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=progress
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - 🔄 刷新审核数据: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - 📊 获取当前状态...
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - 📊 重新查询数据库...
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - 📊 数据统计: features=15, subgraphs=15, job_price_snapshots=153
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - 🔧 重新构建展示视图...
+2026-03-23 16:03:38 - agents.data_view_builder - INFO - 🔧 构建展示视图（4表架构）...
+2026-03-23 16:03:38 - agents.data_view_builder - INFO - ✅ 展示视图构建完成（4表架构）: 15 条记录
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - ✅ 展示视图构建完成: 15 条记录
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - 🔐 重新计算数据版本...
+2026-03-23 16:03:38 - agents.interaction_agent - DEBUG - 计算了 198 条记录的版本哈希
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - 🔍 检查数据完整性...
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - 📋 完整性检查结果: 数据完整
+2026-03-23 16:03:38 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, ex=3600s
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - 📤 推送最新数据到前端...
+2026-03-23 16:03:38 - agents.interaction_agent - INFO - 📤 展示视图已发布到 Redis: job:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46:review, 记录数: 15
+2026-03-23 16:03:38 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=review_display_view
+2026-03-23 16:03:38 - agents.message_persistence_manager - DEBUG -    content: 展示视图已加载：15 条记录...
+2026-03-23 16:03:39 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=review_display_view
+2026-03-23 16:03:39 - agents.interaction_agent - INFO - ✅ 数据刷新完成（第 5 次）
+2026-03-23 16:03:56 - agents.number_selection_handler - INFO - 🔢 处理数字选择: DIE2-BL1按重量计算
+2026-03-23 16:03:56 - agents.number_selection_handler - DEBUG - 不是数字选择
+2026-03-23 16:03:56 - agents.llm_confirmation_detector - INFO - 🔍 检测确认意图: DIE2-BL1按重量计算...
+2026-03-23 16:03:56 - agents.llm_confirmation_detector - DEBUG -   关键词检查: confirmation=False, rejection=False
+2026-03-23 16:03:56 - agents.llm_confirmation_detector - DEBUG - ❌ 不包含确认/拒绝关键词，跳过
+2026-03-23 16:03:56 - agents.clarification_agent - INFO - ✅ ClarificationAgent 初始化完成: threshold=0.75, history=True
+2026-03-23 16:03:56 - agents.clarification_agent - INFO - 🔍 处理输入: DIE2-BL1按重量计算...
+2026-03-23 16:03:56 - agents.clarification_agent - INFO - 📋 步骤1: 验证输入
+2026-03-23 16:03:56 - agents.input_validator - INFO - 🔍 开始验证输入: DIE2-BL1按重量计算...
+2026-03-23 16:03:56 - agents.input_validator - INFO - ✅ Display view from Redis cache: eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:03:56 - agents.input_validator - INFO - ✅ Display View 获取成功: 15 条记录, 来源: redis_cache
+2026-03-23 16:03:56 - agents.input_validator - INFO - 🤖 使用 LLM 提取实体
+2026-03-23 16:03:56 - agents.llm_entity_extractor - INFO - 🔍 使用 LLM 提取实体: DIE2-BL1按重量计算...
+2026-03-23 16:04:01 - agents.llm_entity_extractor - INFO - ✅ LLM 提取成功: {'part_code': 'DIE2-BL1', 'part_code_prefix': None, 'part_code_suffix': None, 'part_code_contains': None, 'field': None, 'value': None, 'action': 'weight_price_calculation', 'confidence': 0.95, 'reasoning': "输入包含'按重量计算'关键词，符合特殊操作规则，优先匹配"}
+2026-03-23 16:04:01 - agents.input_validator - INFO - ✅ LLM 提取的实体: {'part_code': 'DIE2-BL1', 'part_code_prefix': None, 'part_code_suffix': None, 'part_code_contains': None, 'field': None, 'value': None, 'action': 'weight_price_calculation', 'confidence': 0.95, 'reasoning': "输入包含'按重量计算'关键词，符合特殊操作规则，优先匹配"}
+2026-03-23 16:04:01 - agents.input_validator - INFO - ✅ 验证完成: is_valid=False, issues=1
+2026-03-23 16:04:01 - agents.clarification_agent - WARNING - ❌ 发现严重错误，不触发澄清: ['缺少要修改的字段']
+2026-03-23 16:04:01 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 16:04:01 - agents.interaction_agent - INFO - 🔧 处理修改请求: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:04:01 - agents.interaction_agent - INFO - 📝 修改内容: DIE2-BL1按重量计算
+2026-03-23 16:04:01 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 16:04:01 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=3600s
+2026-03-23 16:04:01 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 16:04:01 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 16:04:01 - agents.interaction_agent - INFO - 📋 当前状态: reviewing
+2026-03-23 16:04:01 - agents.interaction_agent - INFO - 🔍 识别意图...
+2026-03-23 16:04:02 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 初始化完成 (use_llm=True, use_chat_history=True, timeout=30.0s)
+2026-03-23 16:04:02 - agents.intent_recognizer - INFO - 🔍 开始识别意图: DIE2-BL1按重量计算
+2026-03-23 16:04:02 - agents.action_handlers.confirmation_handler - INFO - ✅ ConfirmationHandler 初始化完成 (TTL=300s, max_display=10)
+2026-03-23 16:04:02 - agents.intent_recognizer - INFO - ✅ 加载了 10 条历史消息
+2026-03-23 16:04:02 - agents.intent_recognizer - INFO - 🤖 使用 LLM 识别意图...
+2026-03-23 16:04:09 - agents.intent_recognizer - DEBUG - LLM 响应: ```json
+{
+  "intent_type": "WEIGHT_PRICE_CALCULATION",
+  "confidence": 0.98,
+  "parameters": {
+    "subgraph_ids": ["DIE2-BL1"]
+  },
+  "reasoning": "用户明确说出'DIE2-BL1按重量计算'，包含'按重量计算'关键词，符合WEIGHT_PRICE_CALCULATION意图。当前消息中明确包含子图ID'DIE2-BL1'，且格式为前缀+数字（DIE2-BL1），属于有效子图ID，因此精确提取该ID。"
+}
+```
+2026-03-23 16:04:09 - agents.intent_recognizer - INFO - ✅ LLM 识别成功: WEIGHT_PRICE_CALCULATION (confidence=0.98)
+2026-03-23 16:04:09 - agents.intent_recognizer - INFO - 📋 识别参数: {'subgraph_ids': ['DIE2-BL1']}
+2026-03-23 16:04:09 - agents.interaction_agent - INFO - ✅ 意图识别完成: WEIGHT_PRICE_CALCULATION (置信度: 0.98)
+2026-03-23 16:04:09 - agents.interaction_agent - INFO - 🔧 执行 Handler: WeightPriceCalculationHandler
+2026-03-23 16:04:09 - agents.interaction_agent - INFO - 🔍 raw_data keys: ['features', 'job_price_snapshots', 'subgraphs', 'processing_cost_calculation_details']
+2026-03-23 16:04:09 - agents.action_handlers.weight_price_calculation_handler - INFO - ⚖️  处理按重量计算: DIE2-BL1按重量计算
+2026-03-23 16:04:09 - agents.action_handlers.weight_price_calculation_handler - DEBUG - 🔄 转换: DIE2-BL1 → 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1
+2026-03-23 16:04:09 - agents.action_handlers.weight_price_calculation_handler - INFO - 将按重量计算指定的 1 个子图: ['03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1']
+2026-03-23 16:04:09 - agents.action_handlers.base_handler - DEBUG - 💾 pending_action 已保存: review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:04:09 - agents.action_handlers.weight_price_calculation_handler - INFO - ✅ 按重量计算请求准备完成
+2026-03-23 16:04:09 - agents.interaction_agent - INFO - 🔐 重新建立版本基线...
+2026-03-23 16:04:09 - agents.interaction_agent - DEBUG - 计算了 198 条记录的版本哈希
+2026-03-23 16:04:09 - agents.interaction_agent - INFO - ✅ 版本基线已更新（基于当前数据库状态）
+2026-03-23 16:04:09 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, ex=3600s
+2026-03-23 16:04:09 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 已关闭
+2026-03-23 16:04:09 - agents.interaction_agent - INFO - ✅ 修改处理完成
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - ✅ 确认修改: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - 🔒 检查分布式锁...
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - ✅ 锁检查通过
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - 🔐 检查数据版本冲突...
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 16:04:25 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=3600s
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - 📊 查询当前数据库数据...
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - ✅ 数据查询完成
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - 🔐 计算数据版本...
+2026-03-23 16:04:25 - agents.interaction_agent - DEBUG - 计算了 198 条记录的版本哈希
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - ✅ 版本计算完成
+2026-03-23 16:04:25 - agents.interaction_agent - DEBUG - 🔍 版本对比: original_keys=198, current_keys=198
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - ✅ 版本检查通过，无冲突
+2026-03-23 16:04:25 - agents.interaction_agent - INFO - 🔧 使用 ConfirmHandler 处理确认...
+2026-03-23 16:04:25 - agents.confirm_handler - INFO - ✅ ConfirmHandler 初始化完成
+2026-03-23 16:04:25 - agents.confirm_handler - INFO - ✅ 处理确认: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:04:25 - agents.confirm_handler - INFO - 📊 获取 pending_action...
+2026-03-23 16:04:25 - agents.confirm_handler - INFO - 📋 操作类型: WEIGHT_PRICE_CALCULATION
+2026-03-23 16:04:25 - agents.confirm_handler - INFO - ⚖️  确认按重量计算价格...
+2026-03-23 16:04:25 - agents.confirm_handler - INFO - 📤 调用按重量计算 API: http://127.0.0.1:8212/api/price_wg/calculate
+2026-03-23 16:04:25 - agents.confirm_handler - INFO - 📋 请求参数: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_ids': ['03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1'], 'options': {'force_recalculate': True, 'skip_search': False}}
+2026-03-23 16:04:26 - agents.confirm_handler - INFO - ✅ 按重量计算 API 调用成功
+2026-03-23 16:04:26 - agents.confirm_handler - INFO - 📋 响应: {'status': 'success', 'message': '批量计算完成: 1 成功, 0 失败', 'data': {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'total': 1, 'success': 1, 'error': 0, 'performance': {'query_time': '0.160s', 'calc_time': '0.006s', 'update_time': '0.155s', 'total_time': '0.327s', 'avg_per_part': '0.3270s'}, 'results': [{'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE2-BL1', 'material': 'Cr12mov', 'length_mm': 210.0, 'width_mm': 110.0, 'thickness_mm': 20.0, 'density': 7.85e-06, 'weight': 3.6267, 'rule_price': 1.9, 'weight_price': 6.89, 'weight_price_steps': [{'step': '获取零件信息', 'length_mm': 210.0, 'width_mm': 110.0, 'thickness_mm': 20.0, 'material': 'Cr12mov'}, {'step': '匹配材料密度', 'material': 'Cr12mov', 'matched_sub_category': 'CR12MOV', 'density': 7.85e-06, 'unit': 'g/cm3'}, {'step': '计算重量', 'formula': '210.00 * 110.00 * 20.000 * 0.00000785', 'weight': 3.6267, 'unit': 'kg'}, {'step': '匹配重量规则', 'weight': 3.6267, 'matched_range': '[2000.0, 4999.999]', 'rule_price': 1.9, 'sub_category': 'other'}, {'step': '计算加权价格', 'formula': '3.6267 * 1.9', 'weight_price': 6.89, 'unit': '元'}]}]}}
+2026-03-23 16:04:26 - agents.confirm_handler - DEBUG - 🗑️  pending_action 已清理: review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:04:26 - agents.confirm_handler - INFO - ✅ pending_action 已清理
+2026-03-23 16:04:26 - agents.confirm_handler - INFO - ✅ 确认处理完成: ok
+2026-03-23 16:04:26 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 16:04:26 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=3600s
+2026-03-23 16:04:26 - agents.interaction_agent - INFO - 🔄 锁和数据已续期，审核会话保持活跃
+2026-03-23 16:04:26 - agents.interaction_agent - INFO - ✅ 已清空 modifications 列表
+2026-03-23 16:04:26 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, ex=3600s
+2026-03-23 16:04:26 - agents.interaction_agent - INFO - ✅ 操作已确认（第 9 次），审核继续
+2026-03-23 16:04:26 - agents.interaction_agent - INFO - ✅ 操作确认完成，审核继续
+2026-03-23 16:08:04 - agents.number_selection_handler - INFO - 🔢 处理数字选择: PU-BL1按重量计算
+2026-03-23 16:08:04 - agents.number_selection_handler - DEBUG - 不是数字选择
+2026-03-23 16:08:04 - agents.llm_confirmation_detector - INFO - 🔍 检测确认意图: PU-BL1按重量计算...
+2026-03-23 16:08:04 - agents.llm_confirmation_detector - DEBUG -   关键词检查: confirmation=False, rejection=False
+2026-03-23 16:08:04 - agents.llm_confirmation_detector - DEBUG - ❌ 不包含确认/拒绝关键词，跳过
+2026-03-23 16:08:04 - agents.clarification_agent - INFO - ✅ ClarificationAgent 初始化完成: threshold=0.75, history=True
+2026-03-23 16:08:04 - agents.clarification_agent - INFO - 🔍 处理输入: PU-BL1按重量计算...
+2026-03-23 16:08:04 - agents.clarification_agent - INFO - 📋 步骤1: 验证输入
+2026-03-23 16:08:04 - agents.input_validator - INFO - 🔍 开始验证输入: PU-BL1按重量计算...
+2026-03-23 16:08:04 - agents.input_validator - INFO - ✅ Display view from Redis cache: eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:08:04 - agents.input_validator - INFO - ✅ Display View 获取成功: 15 条记录, 来源: redis_cache
+2026-03-23 16:08:04 - agents.input_validator - INFO - 🤖 使用 LLM 提取实体
+2026-03-23 16:08:04 - agents.llm_entity_extractor - INFO - 🔍 使用 LLM 提取实体: PU-BL1按重量计算...
+2026-03-23 16:08:10 - agents.llm_entity_extractor - INFO - ✅ LLM 提取成功: {'part_code': 'PU-BL1', 'part_code_prefix': None, 'part_code_suffix': None, 'part_code_contains': None, 'field': None, 'value': None, 'action': 'weight_price_calculation', 'confidence': 0.95, 'reasoning': "输入包含'按重量计算'关键词，符合特殊操作规则，优先返回weight_price_calculation"}
+2026-03-23 16:08:10 - agents.input_validator - INFO - ✅ LLM 提取的实体: {'part_code': 'PU-BL1', 'part_code_prefix': None, 'part_code_suffix': None, 'part_code_contains': None, 'field': None, 'value': None, 'action': 'weight_price_calculation', 'confidence': 0.95, 'reasoning': "输入包含'按重量计算'关键词，符合特殊操作规则，优先返回weight_price_calculation"}
+2026-03-23 16:08:10 - agents.input_validator - INFO - ✅ 验证完成: is_valid=False, issues=1
+2026-03-23 16:08:10 - agents.clarification_agent - WARNING - ❌ 发现严重错误，不触发澄清: ['缺少要修改的字段']
+2026-03-23 16:08:10 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 16:08:10 - agents.interaction_agent - INFO - 🔧 处理修改请求: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:08:10 - agents.interaction_agent - INFO - 📝 修改内容: PU-BL1按重量计算
+2026-03-23 16:08:10 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 16:08:10 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=3600s
+2026-03-23 16:08:10 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 16:08:10 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 16:08:10 - agents.interaction_agent - INFO - 📋 当前状态: reviewing
+2026-03-23 16:08:10 - agents.interaction_agent - INFO - 🔍 识别意图...
+2026-03-23 16:08:11 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 初始化完成 (use_llm=True, use_chat_history=True, timeout=30.0s)
+2026-03-23 16:08:11 - agents.intent_recognizer - INFO - 🔍 开始识别意图: PU-BL1按重量计算
+2026-03-23 16:08:11 - agents.action_handlers.confirmation_handler - INFO - ✅ ConfirmationHandler 初始化完成 (TTL=300s, max_display=10)
+2026-03-23 16:08:11 - agents.intent_recognizer - INFO - ✅ 加载了 10 条历史消息
+2026-03-23 16:08:11 - agents.intent_recognizer - INFO - 🤖 使用 LLM 识别意图...
+2026-03-23 16:08:17 - agents.intent_recognizer - DEBUG - LLM 响应: ```json
+{
+  "intent_type": "WEIGHT_PRICE_CALCULATION",
+  "confidence": 0.98,
+  "parameters": {
+    "subgraph_ids": ["PU-BL1"]
+  },
+  "reasoning": "用户明确说出'PU-BL1按重量计算'，包含'按重量计算'关键词，且PU-BL1是符合格式的子图ID（前缀+字母+数字），因此识别为WEIGHT_PRICE_CALCULATION意图，需执行按重量计算模架价格的操作"
+}
+```
+2026-03-23 16:08:17 - agents.intent_recognizer - INFO - ✅ LLM 识别成功: WEIGHT_PRICE_CALCULATION (confidence=0.98)
+2026-03-23 16:08:17 - agents.intent_recognizer - INFO - 📋 识别参数: {'subgraph_ids': ['PU-BL1']}
+2026-03-23 16:08:17 - agents.interaction_agent - INFO - ✅ 意图识别完成: WEIGHT_PRICE_CALCULATION (置信度: 0.98)
+2026-03-23 16:08:17 - agents.interaction_agent - INFO - 🔧 执行 Handler: WeightPriceCalculationHandler
+2026-03-23 16:08:17 - agents.interaction_agent - INFO - 🔍 raw_data keys: ['features', 'job_price_snapshots', 'subgraphs', 'processing_cost_calculation_details']
+2026-03-23 16:08:17 - agents.action_handlers.weight_price_calculation_handler - INFO - ⚖️  处理按重量计算: PU-BL1按重量计算
+2026-03-23 16:08:17 - agents.action_handlers.weight_price_calculation_handler - DEBUG - 🔄 转换: PU-BL1 → 03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1
+2026-03-23 16:08:17 - agents.action_handlers.weight_price_calculation_handler - INFO - 将按重量计算指定的 1 个子图: ['03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1']
+2026-03-23 16:08:17 - agents.action_handlers.base_handler - DEBUG - 💾 pending_action 已保存: review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:08:17 - agents.action_handlers.weight_price_calculation_handler - INFO - ✅ 按重量计算请求准备完成
+2026-03-23 16:08:17 - agents.interaction_agent - INFO - 🔐 重新建立版本基线...
+2026-03-23 16:08:17 - agents.interaction_agent - DEBUG - 计算了 198 条记录的版本哈希
+2026-03-23 16:08:17 - agents.interaction_agent - INFO - ✅ 版本基线已更新（基于当前数据库状态）
+2026-03-23 16:08:17 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, ex=3600s
+2026-03-23 16:08:17 - agents.intent_recognizer - INFO - ✅ IntentRecognizer 已关闭
+2026-03-23 16:08:17 - agents.interaction_agent - INFO - ✅ 修改处理完成
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - ✅ 确认修改: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - 🔒 检查分布式锁...
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - ✅ 锁检查通过
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - 📊 获取审核状态...
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - ✅ 状态获取成功
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - 🔐 检查数据版本冲突...
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 16:08:19 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=3600s
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - 📊 查询当前数据库数据...
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - ✅ 数据查询完成
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - 🔐 计算数据版本...
+2026-03-23 16:08:19 - agents.interaction_agent - DEBUG - 计算了 198 条记录的版本哈希
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - ✅ 版本计算完成
+2026-03-23 16:08:19 - agents.interaction_agent - DEBUG - 🔍 版本对比: original_keys=198, current_keys=198
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - ✅ 版本检查通过，无冲突
+2026-03-23 16:08:19 - agents.interaction_agent - INFO - 🔧 使用 ConfirmHandler 处理确认...
+2026-03-23 16:08:19 - agents.confirm_handler - INFO - ✅ ConfirmHandler 初始化完成
+2026-03-23 16:08:19 - agents.confirm_handler - INFO - ✅ 处理确认: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:08:19 - agents.confirm_handler - INFO - 📊 获取 pending_action...
+2026-03-23 16:08:19 - agents.confirm_handler - INFO - 📋 操作类型: WEIGHT_PRICE_CALCULATION
+2026-03-23 16:08:19 - agents.confirm_handler - INFO - ⚖️  确认按重量计算价格...
+2026-03-23 16:08:20 - agents.confirm_handler - INFO - 📤 调用按重量计算 API: http://127.0.0.1:8212/api/price_wg/calculate
+2026-03-23 16:08:20 - agents.confirm_handler - INFO - 📋 请求参数: {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_ids': ['03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1'], 'options': {'force_recalculate': True, 'skip_search': False}}
+2026-03-23 16:08:21 - agents.confirm_handler - INFO - ✅ 按重量计算 API 调用成功
+2026-03-23 16:08:21 - agents.confirm_handler - INFO - 📋 响应: {'status': 'success', 'message': '批量计算完成: 1 成功, 0 失败', 'data': {'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'total': 1, 'success': 1, 'error': 0, 'performance': {'query_time': '0.100s', 'calc_time': '0.003s', 'update_time': '0.063s', 'total_time': '0.172s', 'avg_per_part': '0.1725s'}, 'results': [{'job_id': 'eb8d0fa2-7db4-40ae-9f63-e76d134b5d46', 'subgraph_id': '03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_PU-BL1', 'material': 'Cr12mov', 'length_mm': 109.0, 'width_mm': 35.0, 'thickness_mm': 67.0, 'density': 7.85e-06, 'weight': 2.0065, 'rule_price': 1.9, 'weight_price': 3.81, 'weight_price_steps': [{'step': '获取零件信息', 'length_mm': 109.0, 'width_mm': 35.0, 'thickness_mm': 67.0, 'material': 'Cr12mov'}, {'step': '匹配材料密度', 'material': 'Cr12mov', 'matched_sub_category': 'CR12MOV', 'density': 7.85e-06, 'unit': 'g/cm3'}, {'step': '计算重量', 'formula': '109.00 * 35.00 * 67.000 * 0.00000785', 'weight': 2.0065, 'unit': 'kg'}, {'step': '匹配重量规则', 'weight': 2.0065, 'matched_range': '[2000.0, 4999.999]', 'rule_price': 1.9, 'sub_category': 'other'}, {'step': '计算加权价格', 'formula': '2.0065 * 1.9', 'weight_price': 3.81, 'unit': '元'}]}]}}
+2026-03-23 16:08:21 - agents.confirm_handler - DEBUG - 🗑️  pending_action 已清理: review:pending_action:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:08:21 - agents.confirm_handler - INFO - ✅ pending_action 已清理
+2026-03-23 16:08:21 - agents.confirm_handler - INFO - ✅ 确认处理完成: ok
+2026-03-23 16:08:21 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 16:08:21 - agents.interaction_agent - DEBUG - 🔄 数据续期成功: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=3600s
+2026-03-23 16:08:21 - agents.interaction_agent - INFO - 🔄 锁和数据已续期，审核会话保持活跃
+2026-03-23 16:08:21 - agents.interaction_agent - INFO - ✅ 已清空 modifications 列表
+2026-03-23 16:08:21 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, ex=3600s
+2026-03-23 16:08:21 - agents.interaction_agent - INFO - ✅ 操作已确认（第 10 次），审核继续
+2026-03-23 16:08:21 - agents.interaction_agent - INFO - ✅ 操作确认完成，审核继续
+2026-03-23 16:08:21 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-03-23 16:08:21 - agents.interaction_agent - INFO - 🔄 刷新审核数据: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46
+2026-03-23 16:08:21 - agents.interaction_agent - INFO - 📊 获取当前状态...
+2026-03-23 16:08:21 - agents.interaction_agent - INFO - 📊 重新查询数据库...
+2026-03-23 16:08:22 - agents.interaction_agent - INFO - 📊 数据统计: features=15, subgraphs=15, job_price_snapshots=153
+2026-03-23 16:08:22 - agents.interaction_agent - INFO - 🔧 重新构建展示视图...
+2026-03-23 16:08:22 - agents.data_view_builder - INFO - 🔧 构建展示视图（4表架构）...
+2026-03-23 16:08:22 - agents.data_view_builder - INFO - ✅ 展示视图构建完成（4表架构）: 15 条记录
+2026-03-23 16:08:22 - agents.interaction_agent - INFO - ✅ 展示视图构建完成: 15 条记录
+2026-03-23 16:08:22 - agents.interaction_agent - INFO - 🔐 重新计算数据版本...
+2026-03-23 16:08:22 - agents.interaction_agent - DEBUG - 计算了 198 条记录的版本哈希
+2026-03-23 16:08:22 - agents.interaction_agent - INFO - 🔍 检查数据完整性...
+2026-03-23 16:08:22 - agents.interaction_agent - INFO - 📋 完整性检查结果: 数据完整
+2026-03-23 16:08:22 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, ex=3600s
+2026-03-23 16:08:22 - agents.interaction_agent - INFO - 🔄 锁续期成功: review:lock:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, timeout=300s
+2026-03-23 16:08:22 - agents.interaction_agent - INFO - 📤 推送最新数据到前端...
+2026-03-23 16:08:22 - agents.interaction_agent - INFO - 📤 展示视图已发布到 Redis: job:eb8d0fa2-7db4-40ae-9f63-e76d134b5d46:review, 记录数: 15
+2026-03-23 16:08:22 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=review_display_view
+2026-03-23 16:08:22 - agents.message_persistence_manager - DEBUG -    content: 展示视图已加载：15 条记录...
+2026-03-23 16:08:22 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=eb8d0fa2-7db4-40ae-9f63-e76d134b5d46, type=review_display_view
+2026-03-23 16:08:22 - agents.interaction_agent - INFO - ✅ 数据刷新完成（第 6 次）

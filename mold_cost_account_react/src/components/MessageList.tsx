@@ -230,7 +230,11 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
     setConfirmingMessageId(messageId);
 
     // 如果是重新识别或重新计算，立即禁用发送按钮
-    if (intent === 'FEATURE_RECOGNITION' || intent === 'PRICE_CALCULATION') {
+    if (
+      intent === 'FEATURE_RECOGNITION' ||
+      intent === 'PRICE_CALCULATION' ||
+      intent === 'WEIGHT_PRICE_CALCULATION'
+    ) {
       setIsReprocessing(true);
     }
 
@@ -275,6 +279,16 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
       } else if (intent === 'PRICE_CALCULATION') {
         console.log('⏳ 价格计算确认成功，等待 WebSocket 返回 pricing_completed 消息后再刷新');
         // 不立即调用 refresh，等待 WebSocket 推送 pricing_completed
+      } else if (intent === 'WEIGHT_PRICE_CALCULATION') {
+        try {
+          setIsRefreshing(true);
+          await chatService.refreshReview(jobId);
+        } catch (refreshError) {
+          console.error('按重量计算后刷新审核数据失败:', refreshError);
+        } finally {
+          setIsRefreshing(false);
+          setIsReprocessing(false);
+        }
       }
 
       // 所有类型的确认操作都不显示 AI 头像和旋转等待图标
@@ -286,7 +300,11 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
       console.error('确认操作失败:', error);
       
       // 如果是重新识别或重新计算，确认失败时恢复发送按钮
-      if (intent === 'FEATURE_RECOGNITION' || intent === 'PRICE_CALCULATION') {
+      if (
+        intent === 'FEATURE_RECOGNITION' ||
+        intent === 'PRICE_CALCULATION' ||
+        intent === 'WEIGHT_PRICE_CALCULATION'
+      ) {
         setIsReprocessing(false);
         console.log('🔓 确认失败，恢复发送按钮');
       }
