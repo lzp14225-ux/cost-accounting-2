@@ -132,6 +132,14 @@ try:
 except Exception as exc:
     logger.warning("Speech services router skipped: %s", exc)
 
+try:
+    from tts_services.main import router as tts_router
+
+    app.include_router(tts_router)
+    logger.info("TTS services router mounted into unified backend")
+except Exception as exc:
+    logger.warning("TTS services router skipped: %s", exc)
+
 
 @app.get("/")
 async def root():

@@ -378,3 +378,314 @@ Traceback (most recent call last):
   File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 27, in llm_client
     from openai import AsyncOpenAI
 ModuleNotFoundError: No module named 'openai'
+2026-03-24 14:07:45 - agents.interaction_agent - ERROR - ❌ LLM 调用失败: No module named 'openai'
+2026-03-24 14:20:32 - agents.interaction_agent - ERROR - ❌ LLM 调用失败: No module named 'openai'
+2026-03-24 14:26:07 - agents.llm_entity_extractor - ERROR - ❌ LLM 实体提取失败: No module named 'openai'
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 71, in extract_entities
+    response = await self.llm_client.chat.completions.create(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 27, in llm_client
+    from openai import AsyncOpenAI
+ModuleNotFoundError: No module named 'openai'
+2026-03-24 14:49:07 - shared.logging_middleware - ERROR - ❌ 请求异常: GET /api/chat-sessions/ | IP=192.168.1.152 | 耗时=19.212s | 错误=connection already closed
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 47, in get_connection
+    yield conn
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 67, in execute_query
+    cursor.execute(query, params)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\logging_middleware.py", line 115, in dispatch
+    response = await call_next(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\account_router.py", line 332, in list_chat_sessions
+    sessions, total = chat_session_service.get_user_sessions(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\chat_session_service.py", line 795, in get_user_sessions
+    count_result = self.db.execute_query(count_query, tuple(params), fetch_one=True)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 65, in execute_query
+    with self.get_connection() as conn:
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 51, in get_connection
+    conn.rollback()
+psycopg2.InterfaceError: connection already closed
+2026-03-24 14:49:08 - api_gateway.main - ERROR - Unhandled error: connection already closed
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 47, in get_connection
+    yield conn
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 67, in execute_query
+    cursor.execute(query, params)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\logging_middleware.py", line 115, in dispatch
+    response = await call_next(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\account_router.py", line 332, in list_chat_sessions
+    sessions, total = chat_session_service.get_user_sessions(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\chat_session_service.py", line 795, in get_user_sessions
+    count_result = self.db.execute_query(count_query, tuple(params), fetch_one=True)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 65, in execute_query
+    with self.get_connection() as conn:
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 51, in get_connection
+    conn.rollback()
+psycopg2.InterfaceError: connection already closed
+2026-03-24 14:49:27 - shared.logging_middleware - ERROR - ❌ 请求异常: GET /api/chat-sessions/ | IP=192.168.1.152 | 耗时=18.949s | 错误=connection already closed
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 47, in get_connection
+    yield conn
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 67, in execute_query
+    cursor.execute(query, params)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\logging_middleware.py", line 115, in dispatch
+    response = await call_next(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\account_router.py", line 332, in list_chat_sessions
+    sessions, total = chat_session_service.get_user_sessions(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\chat_session_service.py", line 795, in get_user_sessions
+    count_result = self.db.execute_query(count_query, tuple(params), fetch_one=True)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 65, in execute_query
+    with self.get_connection() as conn:
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 51, in get_connection
+    conn.rollback()
+psycopg2.InterfaceError: connection already closed
+2026-03-24 14:49:27 - api_gateway.main - ERROR - Unhandled error: connection already closed
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 47, in get_connection
+    yield conn
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 67, in execute_query
+    cursor.execute(query, params)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\logging_middleware.py", line 115, in dispatch
+    response = await call_next(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\account_router.py", line 332, in list_chat_sessions
+    sessions, total = chat_session_service.get_user_sessions(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\chat_session_service.py", line 795, in get_user_sessions
+    count_result = self.db.execute_query(count_query, tuple(params), fetch_one=True)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 65, in execute_query
+    with self.get_connection() as conn:
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 51, in get_connection
+    conn.rollback()
+psycopg2.InterfaceError: connection already closed
+2026-03-24 14:53:51 - sqlalchemy.pool.impl.AsyncAdaptedQueuePool - ERROR - Exception terminating connection <AdaptedConnection <asyncpg.connection.Connection object at 0x0000024745825C60>>
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\uvicorn\_compat.py", line 60, in asyncio_run
+    return loop.run_until_complete(main)
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
+    self._run_once()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1906, in _run_once
+    handle._run()
+  File "D:\AI\Anaconda\envs\NX\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\uvicorn\server.py", line 78, in serve
+    with self.capture_signals():
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 142, in __exit__
+    next(self.gen)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\uvicorn\server.py", line 339, in capture_signals
+    signal.raise_signal(captured_signal)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\pool\base.py", line 373, in _close_connection
+    self._dialect.do_terminate(connection)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 1127, in do_terminate
+    dbapi_connection.terminate()
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\connectors\asyncio.py", line 402, in terminate
+    self.await_(asyncio.shield(self._terminate_graceful_close()))  # type: ignore[attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+asyncio.exceptions.CancelledError: Cancelled via cancel scope 247459a0700 by <Task pending name='Task-43' coro=<RequestResponseCycle.run_asgi() running at D:\AI\Anaconda\envs\NX\lib\site-packages\uvicorn\protocols\http\httptools_impl.py:416> cb=[set.discard(), gather.<locals>._done_callback() at D:\AI\Anaconda\envs\NX\lib\asyncio\tasks.py:720]>
+2026-03-24 14:53:51 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-56' coro=<AsyncAdapt_asyncpg_connection._terminate_graceful_close() running at D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py:912> wait_for=<Future pending cb=[Task.task_wakeup()]>>

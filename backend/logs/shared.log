@@ -1524,3 +1524,253 @@ ModuleNotFoundError: No module named 'redis'
 2026-03-23 20:35:27 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:8cc81afb-f23f-456a-b652-b563378f27a7:review | value=<message_len=23996>
 2026-03-23 20:35:27 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=8cc81afb-f23f-456a-b652-b563378f27a7 | type=review_display_view | data={"type": "review_display_view", "job_id": "8cc81afb-f23f-456a-b652-b563378f27a7", "timestamp": "2026-03-23T20:35:26.999656", "data": [{"part_code": "DIE-26", "part_name": "下模入块", "subgraph_file_url": ...
 2026-03-23 20:35:27 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/8cc81afb-f23f-456a-b652-b563378f27a7/refresh | 状态=200 | IP=192.168.1.152 | 耗时=0.137s
+2026-03-24 08:45:55 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/login | IP=192.168.1.152 | Body={"username": "admin", "password": "***MASKED***"}
+2026-03-24 08:45:56 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/login | 状态=200 | IP=192.168.1.152 | 耗时=0.414s
+2026-03-24 08:45:56 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 08:45:56 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=0.081s
+2026-03-24 14:04:37 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/jobs/upload | IP=192.168.1.152 | Body=<文件上传>
+2026-03-24 14:04:43 - shared.logging_middleware - INFO - 📤 发送消息到队列: job_processing | 内容={"job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "user_id": "a63b7863-5faf-4b00-9ec3-758495b0fb66", "created_at": "2026-03-24T14:04:43.251976"}
+2026-03-24 14:04:43 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/jobs/upload | 状态=200 | IP=192.168.1.152 | 耗时=5.725s
+2026-03-24 14:04:43 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/b69b3c99-2c6d-493f-84f9-e02c39cbd524/history | IP=192.168.1.152
+2026-03-24 14:04:43 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/b69b3c99-2c6d-493f-84f9-e02c39cbd524/history | 状态=200 | IP=192.168.1.152 | 耗时=0.069s
+2026-03-24 14:04:44 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 14:04:44 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=0.093s
+2026-03-24 14:04:46 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=b69b3c99-2c6d-493f-84f9-e02c39cbd524 | type=progress | data={"type": "progress", "job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "timestamp": "2026-03-24T14:04:46.326248", "data": {"job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "stage": "initializing", "p...
+2026-03-24 14:06:41 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=b69b3c99-2c6d-493f-84f9-e02c39cbd524 | type=progress | data={"type": "progress", "job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "timestamp": "2026-03-24T14:06:41.056141", "data": {"job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "stage": "cad_split_complet...
+2026-03-24 14:06:41 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=b69b3c99-2c6d-493f-84f9-e02c39cbd524 | type=progress | data={"type": "progress", "job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "timestamp": "2026-03-24T14:06:41.113399", "data": {"job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "stage": "cad_split_started...
+2026-03-24 14:06:43 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=b69b3c99-2c6d-493f-84f9-e02c39cbd524 | type=progress | data={"type": "progress", "job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "timestamp": "2026-03-24T14:06:43.174196", "data": {"job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "stage": "nc_calculation_st...
+2026-03-24 14:06:43 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=b69b3c99-2c6d-493f-84f9-e02c39cbd524 | type=progress | data={"type": "progress", "job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "timestamp": "2026-03-24T14:06:43.365832", "data": {"job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "stage": "feature_recogniti...
+2026-03-24 14:07:20 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=b69b3c99-2c6d-493f-84f9-e02c39cbd524 | type=progress | data={"type": "progress", "job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "timestamp": "2026-03-24T14:07:20.752364", "data": {"job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "stage": "nc_calculation_fa...
+2026-03-24 14:07:40 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=b69b3c99-2c6d-493f-84f9-e02c39cbd524 | type=progress | data={"type": "progress", "job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "timestamp": "2026-03-24T14:07:40.463916", "data": {"job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "stage": "feature_recogniti...
+2026-03-24 14:07:43 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=b69b3c99-2c6d-493f-84f9-e02c39cbd524 | type=progress | data={"type": "progress", "job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "timestamp": "2026-03-24T14:07:43.456040", "data": {"job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "stage": "awaiting_confirm"...
+2026-03-24 14:07:44 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/start | IP=192.168.1.152 | Body={"job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524"}
+2026-03-24 14:07:44 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:lock:b69b3c99-2c6d-493f-84f9-e02c39cbd524 | value=<len=6, ex=300>
+2026-03-24 14:07:45 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:b69b3c99-2c6d-493f-84f9-e02c39cbd524 | value=<len=330581, ex=3600>
+2026-03-24 14:07:45 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:b69b3c99-2c6d-493f-84f9-e02c39cbd524:review | value=<message_len=57614>
+2026-03-24 14:07:45 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=b69b3c99-2c6d-493f-84f9-e02c39cbd524 | type=review_display_view | data={"type": "review_display_view", "job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "timestamp": "2026-03-24T14:07:45.041210", "data": [{"part_code": "subdrawing_050", "part_name": "其他未注解按3D涂色加工", "subg...
+2026-03-24 14:07:45 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:b69b3c99-2c6d-493f-84f9-e02c39cbd524:review | value=<message_len=2660>
+2026-03-24 14:07:45 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=b69b3c99-2c6d-493f-84f9-e02c39cbd524 | type=completion_request | data={"type": "completion_request", "job_id": "b69b3c99-2c6d-493f-84f9-e02c39cbd524", "timestamp": "2026-03-24T14:07:45.142051", "data": {"missing_fields": [{"table": "features", "record_id": "44079", "rec...
+2026-03-24 14:07:45 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/start | 状态=200 | IP=192.168.1.152 | 耗时=0.581s
+2026-03-24 14:08:59 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/files/presigned-url | IP=192.168.1.152 | Body={"file_path": "dxf/2026/03/b69b3c99-2c6d-493f-84f9-e02c39cbd524/subdrawing_050.dxf", "expires_in": 3600}
+2026-03-24 14:08:59 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/files/presigned-url | 状态=200 | IP=192.168.1.152 | 耗时=0.033s
+2026-03-24 14:09:58 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/files/presigned-url | IP=192.168.1.152 | Body={"file_path": "dxf/2026/03/b69b3c99-2c6d-493f-84f9-e02c39cbd524/subdrawing_049.dxf", "expires_in": 3600}
+2026-03-24 14:09:58 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/files/presigned-url | 状态=200 | IP=192.168.1.152 | 耗时=0.018s
+2026-03-24 14:10:18 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/files/presigned-url | IP=192.168.1.152 | Body={"file_path": "dxf/2026/03/b69b3c99-2c6d-493f-84f9-e02c39cbd524/subdrawing_049.dxf", "expires_in": 3600}
+2026-03-24 14:10:18 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/files/presigned-url | 状态=200 | IP=192.168.1.152 | 耗时=0.020s
+2026-03-24 14:10:55 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/8cc81afb-f23f-456a-b652-b563378f27a7/history | IP=192.168.1.152
+2026-03-24 14:10:55 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/8cc81afb-f23f-456a-b652-b563378f27a7/history | 状态=200 | IP=192.168.1.152 | 耗时=0.005s
+2026-03-24 14:10:55 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/8cc81afb-f23f-456a-b652-b563378f27a7 | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-24 14:10:55 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.126s
+2026-03-24 14:10:55 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | IP=192.168.1.152
+2026-03-24 14:10:55 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/8cc81afb-f23f-456a-b652-b563378f27a7 | 状态=200 | IP=192.168.1.152 | 耗时=0.067s
+2026-03-24 14:10:58 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/b69b3c99-2c6d-493f-84f9-e02c39cbd524/history | IP=192.168.1.152
+2026-03-24 14:10:58 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/b69b3c99-2c6d-493f-84f9-e02c39cbd524/history | 状态=200 | IP=192.168.1.152 | 耗时=0.023s
+2026-03-24 14:10:58 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/b69b3c99-2c6d-493f-84f9-e02c39cbd524 | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-24 14:10:58 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/b69b3c99-2c6d-493f-84f9-e02c39cbd524 | 状态=200 | IP=192.168.1.152 | 耗时=0.074s
+2026-03-24 14:10:58 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/b69b3c99-2c6d-493f-84f9-e02c39cbd524 | IP=192.168.1.152
+2026-03-24 14:10:58 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/b69b3c99-2c6d-493f-84f9-e02c39cbd524 | 状态=200 | IP=192.168.1.152 | 耗时=0.016s
+2026-03-24 14:17:17 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/login | IP=192.168.1.165 | Body={"username": "admin", "password": "***MASKED***"}
+2026-03-24 14:17:18 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/login | 状态=200 | IP=192.168.1.165 | 耗时=1.003s
+2026-03-24 14:17:18 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.165 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 14:17:21 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.165 | 耗时=2.394s
+2026-03-24 14:18:25 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/jobs/upload | IP=192.168.1.165 | Body=<文件上传>
+2026-03-24 14:18:26 - shared.logging_middleware - INFO - 📤 发送消息到队列: job_processing | 内容={"job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "user_id": "a63b7863-5faf-4b00-9ec3-758495b0fb66", "created_at": "2026-03-24T14:18:26.803846"}
+2026-03-24 14:18:26 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/jobs/upload | 状态=200 | IP=192.168.1.165 | 耗时=1.810s
+2026-03-24 14:18:26 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | IP=192.168.1.165
+2026-03-24 14:18:26 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | 状态=200 | IP=192.168.1.165 | 耗时=0.003s
+2026-03-24 14:18:26 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | type=progress | data={"type": "progress", "job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "timestamp": "2026-03-24T14:18:26.966299", "data": {"job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "stage": "initializing", "p...
+2026-03-24 14:18:26 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.165 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 14:18:27 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.165 | 耗时=0.123s
+2026-03-24 14:19:28 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | type=progress | data={"type": "progress", "job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "timestamp": "2026-03-24T14:19:28.172791", "data": {"job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "stage": "cad_split_complet...
+2026-03-24 14:19:28 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | type=progress | data={"type": "progress", "job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "timestamp": "2026-03-24T14:19:28.221475", "data": {"job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "stage": "cad_split_started...
+2026-03-24 14:19:28 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | type=progress | data={"type": "progress", "job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "timestamp": "2026-03-24T14:19:28.266639", "data": {"job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "stage": "nc_calculation_sk...
+2026-03-24 14:19:28 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | type=progress | data={"type": "progress", "job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "timestamp": "2026-03-24T14:19:28.325039", "data": {"job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "stage": "feature_recogniti...
+2026-03-24 14:20:27 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | type=progress | data={"type": "progress", "job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "timestamp": "2026-03-24T14:20:27.497150", "data": {"job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "stage": "feature_recogniti...
+2026-03-24 14:20:30 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | type=progress | data={"type": "progress", "job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "timestamp": "2026-03-24T14:20:30.149284", "data": {"job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "stage": "awaiting_confirm"...
+2026-03-24 14:20:30 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/start | IP=192.168.1.165 | Body={"job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf"}
+2026-03-24 14:20:30 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:lock:a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | value=<len=6, ex=300>
+2026-03-24 14:20:32 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:state:a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | value=<len=330581, ex=3600>
+2026-03-24 14:20:32 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf:review | value=<message_len=57614>
+2026-03-24 14:20:32 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | type=review_display_view | data={"type": "review_display_view", "job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "timestamp": "2026-03-24T14:20:32.581461", "data": [{"part_code": "subdrawing_050", "part_name": "其他未注解按3D涂色加工", "subg...
+2026-03-24 14:20:32 - shared.logging_middleware - DEBUG - 💾 Redis PUBLISH: key=job:a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf:review | value=<message_len=2660>
+2026-03-24 14:20:32 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | type=completion_request | data={"type": "completion_request", "job_id": "a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf", "timestamp": "2026-03-24T14:20:32.758218", "data": {"missing_fields": [{"table": "features", "record_id": "44102", "rec...
+2026-03-24 14:20:32 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/start | 状态=200 | IP=192.168.1.165 | 耗时=2.100s
+2026-03-24 14:25:56 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 14:25:56 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=0.035s
+2026-03-24 14:25:59 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | IP=192.168.1.152
+2026-03-24 14:25:59 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | 状态=200 | IP=192.168.1.152 | 耗时=0.035s
+2026-03-24 14:26:00 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-24 14:26:00 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | 状态=200 | IP=192.168.1.152 | 耗时=0.098s
+2026-03-24 14:26:00 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | IP=192.168.1.152
+2026-03-24 14:26:00 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | 状态=200 | IP=192.168.1.152 | 耗时=0.026s
+2026-03-24 14:26:07 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/review/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/modify | IP=192.168.1.152 | Body={"modification_text": "你好"}
+2026-03-24 14:26:07 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | value=<len=330581>
+2026-03-24 14:26:07 - shared.logging_middleware - DEBUG - 💾 Redis SET: key=review:lock:a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | value=<len=6, ex=300>
+2026-03-24 14:26:07 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=review:state:a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | value=<len=330581>
+2026-03-24 14:26:08 - shared.logging_middleware - DEBUG - 💾 Redis GET: key=confirmation:a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | value=<not_found>
+2026-03-24 14:26:13 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/review/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/modify | 状态=200 | IP=192.168.1.152 | 耗时=5.908s
+2026-03-24 14:48:48 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 14:49:07 - shared.logging_middleware - ERROR - ❌ 请求异常: GET /api/chat-sessions/ | IP=192.168.1.152 | 耗时=19.212s | 错误=connection already closed
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 47, in get_connection
+    yield conn
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 67, in execute_query
+    cursor.execute(query, params)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\logging_middleware.py", line 115, in dispatch
+    response = await call_next(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\account_router.py", line 332, in list_chat_sessions
+    sessions, total = chat_session_service.get_user_sessions(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\chat_session_service.py", line 795, in get_user_sessions
+    count_result = self.db.execute_query(count_query, tuple(params), fetch_one=True)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 65, in execute_query
+    with self.get_connection() as conn:
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 51, in get_connection
+    conn.rollback()
+psycopg2.InterfaceError: connection already closed
+2026-03-24 14:49:08 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 14:49:27 - shared.logging_middleware - ERROR - ❌ 请求异常: GET /api/chat-sessions/ | IP=192.168.1.152 | 耗时=18.949s | 错误=connection already closed
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 47, in get_connection
+    yield conn
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 67, in execute_query
+    cursor.execute(query, params)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\logging_middleware.py", line 115, in dispatch
+    response = await call_next(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\account_router.py", line 332, in list_chat_sessions
+    sessions, total = chat_session_service.get_user_sessions(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\chat_session_service.py", line 795, in get_user_sessions
+    count_result = self.db.execute_query(count_query, tuple(params), fetch_one=True)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 65, in execute_query
+    with self.get_connection() as conn:
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 51, in get_connection
+    conn.rollback()
+psycopg2.InterfaceError: connection already closed
+2026-03-24 14:50:52 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | IP=192.168.1.165
+2026-03-24 14:50:52 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | 状态=200 | IP=192.168.1.165 | 耗时=0.022s
+2026-03-24 14:51:02 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 14:51:35 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=32.894s
+2026-03-24 14:51:37 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | IP=192.168.1.152
+2026-03-24 14:51:37 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | 状态=200 | IP=192.168.1.152 | 耗时=0.023s
+2026-03-24 14:51:37 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-24 14:53:24 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 14:53:51 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=26.589s
+2026-03-24 14:54:37 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | IP=192.168.1.165
+2026-03-24 14:54:37 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | 状态=200 | IP=192.168.1.165 | 耗时=0.019s
+2026-03-24 14:55:02 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | IP=192.168.1.152
+2026-03-24 14:55:02 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | 状态=200 | IP=192.168.1.152 | 耗时=0.021s
+2026-03-24 14:55:02 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-24 14:55:13 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | 状态=200 | IP=192.168.1.152 | 耗时=11.521s
+2026-03-24 14:55:13 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | IP=192.168.1.152
+2026-03-24 14:55:14 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | 状态=200 | IP=192.168.1.152 | 耗时=0.812s
+2026-03-24 14:59:06 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 14:59:22 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=16.156s
+2026-03-24 14:59:24 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | IP=192.168.1.152
+2026-03-24 14:59:24 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | 状态=200 | IP=192.168.1.152 | 耗时=0.016s
+2026-03-24 14:59:24 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-24 14:59:46 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | 状态=200 | IP=192.168.1.152 | 耗时=21.313s
+2026-03-24 14:59:46 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | IP=192.168.1.152
+2026-03-24 14:59:48 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | 状态=200 | IP=192.168.1.152 | 耗时=2.278s
+2026-03-24 15:01:24 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 15:01:33 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=9.131s
+2026-03-24 15:01:35 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | IP=192.168.1.152
+2026-03-24 15:01:35 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | 状态=200 | IP=192.168.1.152 | 耗时=0.020s
+2026-03-24 15:01:35 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/v1/chat/history/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | IP=192.168.1.152 | Query={'limit': '100', 'offset': '0'}
+2026-03-24 15:01:55 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/v1/chat/history/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | 状态=200 | IP=192.168.1.152 | 耗时=20.615s
+2026-03-24 15:01:55 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/jobs/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | IP=192.168.1.152
+2026-03-24 15:02:03 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/jobs/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf | 状态=200 | IP=192.168.1.152 | 耗时=8.164s
+2026-03-24 15:18:40 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | IP=192.168.1.152
+2026-03-24 15:18:40 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/history | 状态=200 | IP=192.168.1.152 | 耗时=0.024s
+2026-03-24 15:18:52 - shared.logging_middleware - INFO - 📨 收到请求: POST /api/v1/jobs/upload | IP=192.168.1.152 | Body=<文件上传>
+2026-03-24 15:18:56 - shared.logging_middleware - INFO - 📤 发送消息到队列: job_processing | 内容={"job_id": "8390b538-0b00-47d4-a72f-0e71f6b0d03b", "user_id": "a63b7863-5faf-4b00-9ec3-758495b0fb66", "created_at": "2026-03-24T15:18:56.528554"}
+2026-03-24 15:18:56 - shared.logging_middleware - INFO - ✅ 响应完成: POST /api/v1/jobs/upload | 状态=200 | IP=192.168.1.152 | 耗时=4.394s
+2026-03-24 15:18:56 - shared.logging_middleware - INFO - 📨 收到请求: GET /ws/8390b538-0b00-47d4-a72f-0e71f6b0d03b/history | IP=192.168.1.152
+2026-03-24 15:18:56 - shared.logging_middleware - INFO - ✅ 响应完成: GET /ws/8390b538-0b00-47d4-a72f-0e71f6b0d03b/history | 状态=200 | IP=192.168.1.152 | 耗时=0.008s
+2026-03-24 15:18:56 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.152 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 15:18:56 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.152 | 耗时=0.048s
+2026-03-24 15:18:57 - shared.logging_middleware - INFO - 📤 WebSocket SEND: conn=8390b538-0b00-47d4-a72f-0e71f6b0d03b | type=progress | data={"type": "progress", "job_id": "8390b538-0b00-47d4-a72f-0e71f6b0d03b", "timestamp": "2026-03-24T15:18:57.512216", "data": {"job_id": "8390b538-0b00-47d4-a72f-0e71f6b0d03b", "stage": "initializing", "p...
+2026-03-24 15:19:27 - shared.logging_middleware - INFO - 📨 收到请求: GET /api/chat-sessions/ | IP=192.168.1.165 | Query={'limit': '5', 'offset': '0'}
+2026-03-24 15:19:27 - shared.logging_middleware - INFO - ✅ 响应完成: GET /api/chat-sessions/ | 状态=200 | IP=192.168.1.165 | 耗时=0.025s

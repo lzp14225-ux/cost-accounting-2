@@ -2572,3 +2572,724 @@ ModuleNotFoundError: No module named 'redis'
 2026-03-23 20:35:47 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
 2026-03-23 20:35:47 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
 2026-03-23 20:35:47 - api_gateway.main - INFO - Unified backend stopped
+2026-03-24 08:45:16 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-03-24 08:45:16 - api_gateway.main - INFO - Unified backend starting
+2026-03-24 08:45:16 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
+2026-03-24 08:45:16 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-03-24 08:45:16 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-03-24 08:45:16 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-03-24 08:45:16 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-03-24 08:45:16 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-03-24 08:45:16 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-03-24 08:45:16 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-03-24 08:45:16 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-03-24 08:45:16 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-03-24 08:45:16 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-03-24 10:04:49 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-03-24 10:04:49 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-03-24 10:04:49 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-03-24 10:04:49 - api_gateway.main - INFO - Unified backend stopped
+2026-03-24 10:33:02 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-03-24 10:33:02 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
+2026-03-24 10:33:02 - api_gateway.main - INFO - Unified backend starting
+2026-03-24 10:33:03 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
+2026-03-24 10:33:03 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-03-24 10:33:03 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-03-24 10:33:03 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-03-24 10:33:03 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-03-24 10:33:03 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-03-24 10:33:03 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-03-24 10:33:03 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-03-24 10:33:03 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-03-24 10:33:03 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-03-24 10:33:03 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-03-24 11:30:30 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-03-24 11:30:30 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-03-24 11:30:30 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-03-24 11:30:30 - api_gateway.main - INFO - Unified backend stopped
+2026-03-24 14:02:24 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-03-24 14:02:24 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
+2026-03-24 14:02:24 - api_gateway.main - INFO - Unified backend starting
+2026-03-24 14:02:24 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
+2026-03-24 14:02:24 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-03-24 14:02:24 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-03-24 14:02:24 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-03-24 14:02:25 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-03-24 14:02:25 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-03-24 14:02:25 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-03-24 14:02:25 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-03-24 14:02:25 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-03-24 14:02:25 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-03-24 14:02:25 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-03-24 14:04:39 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
+2026-03-24 14:04:39 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: M260037-P1-20260212(1).dwg
+2026-03-24 14:04:39 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: M260037-P1-20260212(1).dwg
+2026-03-24 14:04:39 - api_gateway.utils.validators - WARNING - ⚠️ PRT文件MIME类型异常: application/nx，但允许继续
+2026-03-24 14:04:39 - api_gateway.utils.validators - INFO - ✅ PRT文件验证通过: M260037-P1-20260212(1).prt
+2026-03-24 14:04:39 - api_gateway.services.job_service - INFO - ✅ PRT文件验证通过: M260037-P1-20260212(1).prt
+2026-03-24 14:04:39 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-03-24 14:04:39 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-03-24 14:04:39 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-03-24 14:04:39 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-03-24 14:04:39 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: M260037-P1-20260212(1).dwg
+2026-03-24 14:04:39 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/03/a99326ac-2629-4c3b-b24b-63a9e99c2c53.dwg (1716974 bytes)
+2026-03-24 14:04:39 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/03/a99326ac-2629-4c3b-b24b-63a9e99c2c53.dwg
+2026-03-24 14:04:39 - api_gateway.services.job_service - INFO - 📤 开始上传PRT文件: M260037-P1-20260212(1).prt
+2026-03-24 14:04:42 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: prt/2026/03/f3ae3c5b-5173-45e6-9536-f74098334eba.prt (102060929 bytes)
+2026-03-24 14:04:42 - api_gateway.services.job_service - INFO - ✅ PRT文件上传成功: prt/2026/03/f3ae3c5b-5173-45e6-9536-f74098334eba.prt
+2026-03-24 14:04:43 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:04:43 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: b69b3c99-2c6d-493f-84f9-e02c39cbd524, name=M260037-P1-20260212(1)
+2026-03-24 14:04:43 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, count=153
+2026-03-24 14:04:43 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 153}
+2026-03-24 14:04:43 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:04:43 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:04:43 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:04:43 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:04:43 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:04:43 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 当前连接数=1
+2026-03-24 14:04:44 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:04:46 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 接收者=1
+2026-03-24 14:04:46 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:04:46 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:04:46 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, type=progress
+2026-03-24 14:04:46 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, channel=progress, type=progress
+2026-03-24 14:04:59 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=1
+2026-03-24 14:05:14 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=2
+2026-03-24 14:05:29 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=3
+2026-03-24 14:05:44 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=4
+2026-03-24 14:05:59 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=5
+2026-03-24 14:06:14 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=6
+2026-03-24 14:06:29 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=7
+2026-03-24 14:06:41 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 接收者=1
+2026-03-24 14:06:41 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:06:41 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:06:41 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, type=progress
+2026-03-24 14:06:41 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, channel=progress, type=progress
+2026-03-24 14:06:41 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 接收者=1
+2026-03-24 14:06:41 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:06:41 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:06:41 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, type=progress
+2026-03-24 14:06:41 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, channel=progress, type=progress
+2026-03-24 14:06:43 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 接收者=1
+2026-03-24 14:06:43 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:06:43 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:06:43 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, type=progress
+2026-03-24 14:06:43 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, channel=progress, type=progress
+2026-03-24 14:06:43 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 接收者=1
+2026-03-24 14:06:43 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:06:43 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:06:43 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, type=progress
+2026-03-24 14:06:43 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, channel=progress, type=progress
+2026-03-24 14:06:44 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=8
+2026-03-24 14:06:59 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=9
+2026-03-24 14:07:14 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=10
+2026-03-24 14:07:20 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 接收者=1
+2026-03-24 14:07:20 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:20 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:20 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, type=progress
+2026-03-24 14:07:20 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, channel=progress, type=progress
+2026-03-24 14:07:29 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=11
+2026-03-24 14:07:40 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 接收者=1
+2026-03-24 14:07:40 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:40 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:40 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, type=progress
+2026-03-24 14:07:40 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, channel=progress, type=progress
+2026-03-24 14:07:43 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 接收者=1
+2026-03-24 14:07:43 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:43 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:43 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, type=progress
+2026-03-24 14:07:43 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, channel=progress, type=progress
+2026-03-24 14:07:44 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=12
+2026-03-24 14:07:44 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-03-24 14:07:44 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:44 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-03-24 14:07:44 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:44 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:44 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:44 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 50 条记录
+2026-03-24 14:07:44 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:44 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 153 条记录
+2026-03-24 14:07:44 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:44 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 50 条记录
+2026-03-24 14:07:44 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:44 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 50 条记录
+2026-03-24 14:07:44 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=50, job_price_snapshots=153, subgraphs=50, processing_cost_calculation_details=50
+2026-03-24 14:07:45 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:b69b3c99-2c6d-493f-84f9-e02c39cbd524:review
+2026-03-24 14:07:45 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 接收者=1
+2026-03-24 14:07:45 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:45 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, channel=review, type=review_display_view
+2026-03-24 14:07:45 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:45 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:b69b3c99-2c6d-493f-84f9-e02c39cbd524:review
+2026-03-24 14:07:45 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 接收者=1
+2026-03-24 14:07:45 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:45 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, channel=review, type=completion_request
+2026-03-24 14:07:45 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:45 - api_gateway.routers.review_router - INFO - ✅ 审核启动成功: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:07:59 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=13
+2026-03-24 14:08:47 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=14
+2026-03-24 14:08:59 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=15
+2026-03-24 14:08:59 - api_gateway.routers.file_router - INFO - 🔗 生成预签名URL请求 | user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66 | file_path=dxf/2026/03/b69b3c99-2c6d-493f-84f9-e02c39cbd524/subdrawing_050.dxf | expires_in=3600s | bucket=files
+2026-03-24 14:08:59 - api_gateway.routers.file_router - INFO - ✅ 预签名URL生成成功 | user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66 | file_path=dxf/2026/03/b69b3c99-2c6d-493f-84f9-e02c39cbd524/subdrawing_050.dxf | expires_at=2026-03-24T15:08:59.643204Z
+2026-03-24 14:09:14 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=16
+2026-03-24 14:09:29 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=17
+2026-03-24 14:09:44 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=18
+2026-03-24 14:09:58 - api_gateway.routers.file_router - INFO - 🔗 生成预签名URL请求 | user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66 | file_path=dxf/2026/03/b69b3c99-2c6d-493f-84f9-e02c39cbd524/subdrawing_049.dxf | expires_in=3600s | bucket=files
+2026-03-24 14:09:58 - api_gateway.routers.file_router - INFO - ✅ 预签名URL生成成功 | user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66 | file_path=dxf/2026/03/b69b3c99-2c6d-493f-84f9-e02c39cbd524/subdrawing_049.dxf | expires_at=2026-03-24T15:09:58.786998Z
+2026-03-24 14:09:59 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=19
+2026-03-24 14:10:14 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=20
+2026-03-24 14:10:18 - api_gateway.routers.file_router - INFO - 🔗 生成预签名URL请求 | user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66 | file_path=dxf/2026/03/b69b3c99-2c6d-493f-84f9-e02c39cbd524/subdrawing_049.dxf | expires_in=3600s | bucket=files
+2026-03-24 14:10:18 - api_gateway.routers.file_router - INFO - ✅ 预签名URL生成成功 | user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66 | file_path=dxf/2026/03/b69b3c99-2c6d-493f-84f9-e02c39cbd524/subdrawing_049.dxf | expires_at=2026-03-24T15:10:18.630648Z
+2026-03-24 14:10:29 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=21
+2026-03-24 14:10:44 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=22
+2026-03-24 14:10:55 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:10:55 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:10:55 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:10:55 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=8cc81afb-f23f-456a-b652-b563378f27a7, 当前连接数=1
+2026-03-24 14:10:55 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-24 14:10:58 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-24 14:10:58 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-24 14:10:58 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=8cc81afb-f23f-456a-b652-b563378f27a7
+2026-03-24 14:10:58 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, 当前连接数=1
+2026-03-24 14:10:58 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:11:13 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=1
+2026-03-24 14:11:28 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=2
+2026-03-24 14:11:43 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=3
+2026-03-24 14:11:58 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=4
+2026-03-24 14:12:13 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=5
+2026-03-24 14:12:28 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=6
+2026-03-24 14:12:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=7
+2026-03-24 14:13:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=8
+2026-03-24 14:14:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=9
+2026-03-24 14:15:23 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=10
+2026-03-24 14:15:28 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=11
+2026-03-24 14:15:43 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=12
+2026-03-24 14:15:58 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=13
+2026-03-24 14:16:13 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=14
+2026-03-24 14:16:28 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=15
+2026-03-24 14:16:43 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=16
+2026-03-24 14:17:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=17
+2026-03-24 14:18:25 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
+2026-03-24 14:18:25 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: M260037-P1-20260212(1).dwg
+2026-03-24 14:18:25 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: M260037-P1-20260212(1).dwg
+2026-03-24 14:18:25 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-03-24 14:18:25 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-03-24 14:18:25 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: M260037-P1-20260212(1).dwg
+2026-03-24 14:18:25 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/03/61f30fc1-efd5-4e45-bb08-637fb252cd6b.dwg (1716974 bytes)
+2026-03-24 14:18:25 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/03/61f30fc1-efd5-4e45-bb08-637fb252cd6b.dwg
+2026-03-24 14:18:26 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:18:26 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, name=M260037-P1-20260212(1)
+2026-03-24 14:18:26 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, count=153
+2026-03-24 14:18:26 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 153}
+2026-03-24 14:18:26 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:18:26 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:18:26 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:18:26 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:18:26 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:18:26 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 当前连接数=1
+2026-03-24 14:18:26 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:18:26 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 接收者=1
+2026-03-24 14:18:27 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:18:27 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:18:27 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, type=progress
+2026-03-24 14:18:27 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, channel=progress, type=progress
+2026-03-24 14:18:42 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=1
+2026-03-24 14:18:50 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=18
+2026-03-24 14:18:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=2
+2026-03-24 14:19:12 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=3
+2026-03-24 14:19:27 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=4
+2026-03-24 14:19:28 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 接收者=1
+2026-03-24 14:19:28 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:19:28 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:19:28 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, type=progress
+2026-03-24 14:19:28 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, channel=progress, type=progress
+2026-03-24 14:19:28 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 接收者=1
+2026-03-24 14:19:28 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:19:28 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:19:28 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, type=progress
+2026-03-24 14:19:28 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, channel=progress, type=progress
+2026-03-24 14:19:28 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 接收者=1
+2026-03-24 14:19:28 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:19:28 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:19:28 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, type=progress
+2026-03-24 14:19:28 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, channel=progress, type=progress
+2026-03-24 14:19:28 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 接收者=1
+2026-03-24 14:19:28 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:19:28 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:19:28 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, type=progress
+2026-03-24 14:19:28 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, channel=progress, type=progress
+2026-03-24 14:19:42 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=5
+2026-03-24 14:19:51 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=19
+2026-03-24 14:19:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=6
+2026-03-24 14:20:12 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=7
+2026-03-24 14:20:27 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 接收者=1
+2026-03-24 14:20:27 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:27 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:27 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, type=progress
+2026-03-24 14:20:27 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, channel=progress, type=progress
+2026-03-24 14:20:30 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 接收者=1
+2026-03-24 14:20:30 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:30 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:30 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, type=progress
+2026-03-24 14:20:30 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, channel=progress, type=progress
+2026-03-24 14:20:30 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-03-24 14:20:30 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:30 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-03-24 14:20:30 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:30 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:30 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=8
+2026-03-24 14:20:32 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 50 条记录
+2026-03-24 14:20:32 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:32 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 153 条记录
+2026-03-24 14:20:32 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:32 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 50 条记录
+2026-03-24 14:20:32 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:32 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 50 条记录
+2026-03-24 14:20:32 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=50, job_price_snapshots=153, subgraphs=50, processing_cost_calculation_details=50
+2026-03-24 14:20:32 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf:review
+2026-03-24 14:20:32 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 接收者=1
+2026-03-24 14:20:32 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:32 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, channel=review, type=review_display_view
+2026-03-24 14:20:32 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:32 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf:review
+2026-03-24 14:20:32 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 接收者=1
+2026-03-24 14:20:32 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:32 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:32 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, channel=review, type=completion_request
+2026-03-24 14:20:32 - api_gateway.routers.review_router - INFO - ✅ 审核启动成功: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:20:52 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=20
+2026-03-24 14:21:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=9
+2026-03-24 14:21:53 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=21
+2026-03-24 14:22:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=10
+2026-03-24 14:22:54 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=22
+2026-03-24 14:23:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=11
+2026-03-24 14:23:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=23
+2026-03-24 14:24:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=12
+2026-03-24 14:24:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=24
+2026-03-24 14:25:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=13
+2026-03-24 14:25:42 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524, sequence=25
+2026-03-24 14:25:43 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:25:43 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:25:43 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=b69b3c99-2c6d-493f-84f9-e02c39cbd524
+2026-03-24 14:26:00 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 当前连接数=2
+2026-03-24 14:26:00 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:26:07 - api_gateway.routers.review_router - INFO - ✏️ 处理修改: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-03-24 14:26:07 - api_gateway.routers.review_router - DEBUG - 修改内容: 你好
+2026-03-24 14:26:07 - api_gateway.routers.review_router - INFO - 开始写入修改会话消息: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:26:07 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:26:07 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-03-24 14:26:07 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:26:07 - api_gateway.utils.chat_logger - DEBUG - 用户消息已记录: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:26:07 - api_gateway.routers.review_router - INFO - 修改会话消息写入完成: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:26:07 - api_gateway.routers.review_router - INFO - 🔍 步骤2.5.5: 数字选择检测
+2026-03-24 14:26:07 - api_gateway.routers.review_router - INFO - 🔍 步骤2.6: LLM 确认检测
+2026-03-24 14:26:07 - api_gateway.routers.review_router - INFO - 📚 获取到 10 条聊天历史
+2026-03-24 14:26:07 - api_gateway.routers.review_router - DEBUG -   消息 0: role=system, content=展示视图已加载：50 条记录..., metadata={'message_type': 'review_display_view', 'records_count': 50, 'original_ws_message': {'data': [{'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.665196', 'feature_id': 44180, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6_subdrawing_050', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310463, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 7.9, 'length_mm': 179.7, 'part_code': 'subdrawing_050', 'part_name': '其他未注解按3D涂色加工', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 19.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/subdrawing_050.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.627681', 'feature_id': 44179, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6_subdrawing_049', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310462, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 7.9, 'length_mm': 179.7, 'part_code': 'subdrawing_049', 'part_name': '其他未注解按3D涂色加工', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 19.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/subdrawing_049.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.588787', 'feature_id': 44177, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6_subdrawing_048', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310460, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 7.9, 'length_mm': 179.7, 'part_code': 'subdrawing_048', 'part_name': '其他未注解按3D涂色加工', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 19.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/subdrawing_048.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.557449', 'feature_id': 44175, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6_subdrawing_047', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310458, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 7.9, 'length_mm': 179.7, 'part_code': 'subdrawing_047', 'part_name': '其他未注解按3D涂色加工', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 19.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/subdrawing_047.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.524890', 'feature_id': 44174, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6_subdrawing_046', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310457, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 7.9, 'length_mm': 179.7, 'part_code': 'subdrawing_046', 'part_name': '其他未注解按3D涂色加工', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 19.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/subdrawing_046.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.498613', 'feature_id': 44170, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6_subdrawing_045', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310453, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 7.9, 'length_mm': 179.7, 'part_code': 'subdrawing_045', 'part_name': '其他未注解按3D涂色加工', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 19.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/subdrawing_045.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.469892', 'feature_id': 44171, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6_subdrawing_044', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310454, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 7.9, 'length_mm': 179.7, 'part_code': 'subdrawing_044', 'part_name': '其他未注解按3D涂色加工', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 19.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/subdrawing_044.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.446594', 'feature_id': 44167, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6_subdrawing_043', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310450, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 7.9, 'length_mm': 179.7, 'part_code': 'subdrawing_043', 'part_name': '其他未注解按3D涂色加工', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 19.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/subdrawing_043.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.423711', 'feature_id': 44157, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6_subdrawing_042', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310440, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 7.9, 'length_mm': 179.7, 'part_code': 'subdrawing_042', 'part_name': '其他未注解按3D涂色加工', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 19.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/subdrawing_042.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.399155', 'feature_id': 44159, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6_subdrawing_041', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310442, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 7.9, 'length_mm': 179.7, 'part_code': 'subdrawing_041', 'part_name': '其他未注解按3D涂色加工', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 19.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/subdrawing_041.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.373018', 'feature_id': 44123, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_A05', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310406, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 4, 'width_mm': 31.0, 'length_mm': 19.0, 'part_code': 'A05', 'part_name': '外定位', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 57.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/A05.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 俯视图, 正视图未识别到', 'missing_views': ['俯视图', '正视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.324832', 'feature_id': 44125, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_A04', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310408, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 4, 'width_mm': 46.0, 'length_mm': 19.0, 'part_code': 'A04', 'part_name': '外定位', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 57.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/A04.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 正视图未识别到', 'missing_views': ['正视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_partial', 'description': '板料线识别不全: 缺少正视图', 'found_count': 2, 'missing_views': ['正视图'], 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.262131', 'feature_id': 44120, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_A03', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310403, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 4, 'width_mm': None, 'length_mm': None, 'part_code': 'A03', 'part_name': '垫柱', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': None, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': '***', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/A03.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}], 'dimension_anomalies': [{'type': 'dimension_missing', 'description': '零件尺寸缺失: 长度, 宽度, 厚度', 'missing_dimensions': ['长度', '宽度', '厚度']}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.238205', 'feature_id': 44121, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_A02', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310404, 'material_price_snapshot_id': None}, 'edm_time': None, 'material': '铁氟龙', 'quantity': 4, 'width_mm': None, 'length_mm': None, 'part_code': 'A02', 'part_name': '储运柱', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': None, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/A02.dxf', 'abnormal_situation': {'dimension_anomalies': [{'type': 'dimension_missing', 'description': '零件尺寸缺失: 长度, 宽度, 厚度', 'missing_dimensions': ['长度', '宽度', '厚度']}]}, 'process_unit_price': None, 'material_unit_price': None, 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.211891', 'feature_id': 44118, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_A01', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310401, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 4, 'width_mm': None, 'length_mm': None, 'part_code': 'A01', 'part_name': '外限位柱', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': None, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/A01.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}], 'dimension_anomalies': [{'type': 'dimension_missing', 'description': '零件尺寸缺失: 长度, 宽度, 厚度', 'missing_dimensions': ['长度', '宽度', '厚度']}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.188356', 'feature_id': 44128, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_B1-01', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310411, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 1150.0, 'length_mm': 1200.0, 'part_code': 'B1-01', 'part_name': '下托板', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 27.5, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/B1-01.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.153155', 'feature_id': 44134, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_B2-05', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310417, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 1000.0, 'length_mm': 47.0, 'part_code': 'B2-05', 'part_name': '下垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 198.5, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/B2-05.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 俯视图, 正视图未识别到', 'missing_views': ['俯视图', '正视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.131801', 'feature_id': 44131, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_B2-04', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310414, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 1000.0, 'length_mm': 47.0, 'part_code': 'B2-04', 'part_name': '下垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 198.5, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/B2-04.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 俯视图, 正视图未识别到', 'missing_views': ['俯视图', '正视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.108284', 'feature_id': 44129, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_B2-03', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310412, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 1000.0, 'length_mm': 47.0, 'part_code': 'B2-03', 'part_name': '下垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 198.5, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/B2-03.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 俯视图, 正视图未识别到', 'missing_views': ['俯视图', '正视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.081521', 'feature_id': 44124, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_B2-02', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310407, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 1000.0, 'length_mm': 47.0, 'part_code': 'B2-02', 'part_name': '下垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 198.5, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/B2-02.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 俯视图, 正视图未识别到', 'missing_views': ['俯视图', '正视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.058511', 'feature_id': 44126, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_B2-01', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310409, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 1000.0, 'length_mm': 47.0, 'part_code': 'B2-01', 'part_name': '下垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 198.5, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/B2-01.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 俯视图, 正视图未识别到', 'missing_views': ['俯视图', '正视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.029747', 'feature_id': 44122, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_LP-01', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310405, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 1000.0, 'length_mm': 1200.0, 'part_code': 'LP-01', 'part_name': '下模座', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 67.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/LP-01.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 72条(2319.24mm)', 'total_count': 72, 'total_length': 2319.24}, {'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:27.005578', 'feature_id': 44117, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_DIE-07', 'feature_version': 1, 'wire_price_snapshot_id': 158482, 'processing_cost_detail_id': 310400, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 53.6, 'length_mm': 75.0, 'part_code': 'DIE-07', 'part_name': '下模板', 'wire_length': None, 'process_code': 'slow_and_one', 'process_note': '慢丝割一修一', 'thickness_mm': 67.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/DIE-07.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 俯视图, 侧视图未识别到', 'missing_views': ['俯视图', '侧视图']}], 'wire_cut_anomalies': [{'type': 'missing_red_lines', 'description': '存在线割工艺文字说明，但未找到线割实线', 'wire_cut_codes': ['W']}, {'code': 'W', 'type': 'wire_cut_matching_failed', 'description': '工艺编号 W 在所有视图中都未能配对到线割实线', 'actual_count': 0, 'expected_count': 1}, {'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': '0.016', 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.980787', 'feature_id': 44116, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_DIE-06', 'feature_version': 1, 'wire_price_snapshot_id': 158482, 'processing_cost_detail_id': 310399, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 53.6, 'length_mm': 75.0, 'part_code': 'DIE-06', 'part_name': '下模板', 'wire_length': None, 'process_code': 'slow_and_one', 'process_note': '慢丝割一修一', 'thickness_mm': 67.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/DIE-06.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 俯视图, 正视图未识别到', 'missing_views': ['俯视图', '正视图']}], 'wire_cut_anomalies': [{'type': 'missing_red_lines', 'description': '存在线割工艺文字说明，但未找到线割实线', 'wire_cut_codes': ['W']}, {'code': 'W', 'type': 'wire_cut_matching_failed', 'description': '工艺编号 W 在所有视图中都未能配对到线割实线', 'actual_count': 0, 'expected_count': 1}, {'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': '0.016', 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.943264', 'feature_id': 44115, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_DIE-03', 'feature_version': 1, 'wire_price_snapshot_id': 158482, 'processing_cost_detail_id': 310398, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 340.0, 'length_mm': 330.0, 'part_code': 'DIE-03', 'part_name': '下模板', 'wire_length': None, 'process_code': 'slow_and_one', 'process_note': '慢丝割一修一', 'thickness_mm': 66.7, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/DIE-03.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 正视图, 侧视图未识别到', 'missing_views': ['正视图', '侧视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': '0.016', 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.889484', 'feature_id': 44113, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_DIE-02', 'feature_version': 1, 'wire_price_snapshot_id': 158482, 'processing_cost_detail_id': 310396, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 4, 'width_mm': 53.5, 'length_mm': 33.0, 'part_code': 'DIE-02', 'part_name': '下模板', 'wire_length': None, 'process_code': 'slow_and_one', 'process_note': '慢丝割一修一', 'thickness_mm': 33.2, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/DIE-02.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 俯视图未识别到', 'missing_views': ['俯视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': '0.016', 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.853907', 'feature_id': 44112, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_DIE-01', 'feature_version': 1, 'wire_price_snapshot_id': 158482, 'processing_cost_detail_id': 310395, 'material_price_snapshot_id': 158495}, 'edm_time': None, 'material': 'T00L0X33', 'quantity': 1, 'width_mm': 920.0, 'length_mm': 980.0, 'part_code': 'DIE-01', 'part_name': '下模板', 'wire_length': None, 'process_code': 'slow_and_one', 'process_note': '慢丝割一修一', 'thickness_mm': 67.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/DIE-01.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 196条(1977.60mm)', 'total_count': 196, 'total_length': 1977.6}, {'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': '0.016', 'material_unit_price': '38', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.829033', 'feature_id': 44110, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PS-01', 'feature_version': 1, 'wire_price_snapshot_id': 158482, 'processing_cost_detail_id': 310393, 'material_price_snapshot_id': 158526}, 'edm_time': None, 'material': 'P20', 'quantity': 1, 'width_mm': 920.0, 'length_mm': 980.0, 'part_code': 'PS-01', 'part_name': '上脱板', 'wire_length': None, 'process_code': 'slow_and_one', 'process_note': '慢丝割一修一', 'thickness_mm': 67.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PS-01.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 66条(1213.13mm)', 'total_count': 66, 'total_length': 1213.13}, {'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': '0.016', 'material_unit_price': '10', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.798694', 'feature_id': 44109, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-07', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310392, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': None, 'length_mm': None, 'part_code': 'PU-07', 'part_name': '冲头', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': None, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PU-07.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}], 'dimension_anomalies': [{'type': 'dimension_missing', 'description': '零件尺寸缺失: 长度, 宽度, 厚度', 'missing_dimensions': ['长度', '宽度', '厚度']}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.775319', 'feature_id': 44107, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-06', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310390, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': None, 'length_mm': None, 'part_code': 'PU-06', 'part_name': '冲头', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': None, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PU-06.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}], 'dimension_anomalies': [{'type': 'dimension_missing', 'description': '零件尺寸缺失: 长度, 宽度, 厚度', 'missing_dimensions': ['长度', '宽度', '厚度']}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.746166', 'feature_id': 44106, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-BL2', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310389, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 39.0, 'length_mm': 134.0, 'part_code': 'PU-BL2', 'part_name': '冲头拼料板', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 95.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PU-BL2.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.693376', 'feature_id': 44104, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-05', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310387, 'material_price_snapshot_id': 158495}, 'edm_time': None, 'material': 'T00L0X33', 'quantity': 1, 'width_mm': None, 'length_mm': None, 'part_code': 'PU-05', 'part_name': '冲头', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': None, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PU-05.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 2条(24.00mm)', 'total_count': 2, 'total_length': 24.0}, {'type': 'plate_line_partial', 'description': '板料线识别不全: 缺少侧视图', 'found_count': 2, 'missing_views': ['侧视图'], 'required_count': 3}], 'dimension_anomalies': [{'type': 'dimension_missing', 'description': '零件尺寸缺失: 长度, 宽度, 厚度', 'missing_dimensions': ['长度', '宽度', '厚度']}]}, 'process_unit_price': None, 'material_unit_price': '38', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.662982', 'feature_id': 44102, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-04', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310385, 'material_price_snapshot_id': 158495}, 'edm_time': None, 'material': 'T00L0X33', 'quantity': 1, 'width_mm': None, 'length_mm': None, 'part_code': 'PU-04', 'part_name': '冲头', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': None, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PU-04.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 2条(24.00mm)', 'total_count': 2, 'total_length': 24.0}, {'type': 'plate_line_partial', 'description': '板料线识别不全: 缺少侧视图', 'found_count': 2, 'missing_views': ['侧视图'], 'required_count': 3}], 'dimension_anomalies': [{'type': 'dimension_missing', 'description': '零件尺寸缺失: 长度, 宽度, 厚度', 'missing_dimensions': ['长度', '宽度', '厚度']}]}, 'process_unit_price': None, 'material_unit_price': '38', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.630136', 'feature_id': 44100, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-BL1', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310383, 'material_price_snapshot_id': 158495}, 'edm_time': None, 'material': 'T00L0X33', 'quantity': 1, 'width_mm': 47.0, 'length_mm': 96.0, 'part_code': 'PU-BL1', 'part_name': '冲头拼料板', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 89.35, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PU-BL1.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '38', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.606031', 'feature_id': 44154, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-03', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310437, 'material_price_snapshot_id': 158495}, 'edm_time': None, 'material': 'T00L0X33', 'quantity': 1, 'width_mm': 17.8, 'length_mm': 168.8, 'part_code': 'PU-03', 'part_name': '冲头', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 90.21, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PU-03.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 正视图, 侧视图未识别到', 'missing_views': ['正视图', '侧视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '38', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.580551', 'feature_id': 44140, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-02', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310423, 'material_price_snapshot_id': 158471}, 'edm_time': None, 'material': 'Cr12mov', 'quantity': 1, 'width_mm': 260.0, 'length_mm': 260.0, 'part_code': 'PU-02', 'part_name': '冲头', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 43.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': 'HRC56~58 -', 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PU-02.dxf', 'abnormal_situation': None, 'process_unit_price': None, 'material_unit_price': '14.2', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.558341', 'feature_id': 44151, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-01', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310434, 'material_price_snapshot_id': 158495}, 'edm_time': None, 'material': 'T00L0X33', 'quantity': 1, 'width_mm': 513.0, 'length_mm': 513.0, 'part_code': 'PU-01', 'part_name': '冲头', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 66.38, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PU-01.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': None, 'material_unit_price': '38', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.531614', 'feature_id': 44130, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PH-02', 'feature_version': 1, 'wire_price_snapshot_id': 158482, 'processing_cost_detail_id': 310413, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 68.6, 'length_mm': 75.0, 'part_code': 'PH-02', 'part_name': '上夹板', 'wire_length': None, 'process_code': 'slow_and_one', 'process_note': '慢丝割一修一', 'thickness_mm': 25.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PH-02.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 8条(76.80mm)', 'total_count': 8, 'total_length': 76.8}, {'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': '0.016', 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.506159', 'feature_id': 44144, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PH-01', 'feature_version': 1, 'wire_price_snapshot_id': 158482, 'processing_cost_detail_id': 310427, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 68.6, 'length_mm': 75.0, 'part_code': 'PH-01', 'part_name': '上夹板', 'wire_length': None, 'process_code': 'slow_and_one', 'process_note': '慢丝割一修一', 'thickness_mm': 25.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/PH-01.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 8条(76.80mm)', 'total_count': 8, 'total_length': 76.8}, {'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': '0.016', 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.482920', 'feature_id': 44111, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_UB-01', 'feature_version': 1, 'wire_price_snapshot_id': 158486, 'processing_cost_detail_id': 310394, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 490.0, 'length_mm': 480.0, 'part_code': 'UB-01', 'part_name': '上垫板', 'wire_length': None, 'process_code': 'fast_cut', 'process_note': '快丝割一刀', 'thickness_mm': 40.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/UB-01.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 32条(422.40mm)', 'total_count': 32, 'total_length': 422.4}, {'type': 'plate_line_insufficient', 'description': '板料线识别失败: 只找到 1 个板料线矩形', 'found_count': 1, 'required_count': 2}]}, 'process_unit_price': '0.0045', 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.453508', 'feature_id': 44114, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_UP-01', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310397, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 1000.0, 'length_mm': 1200.0, 'part_code': 'UP-01', 'part_name': '上模座', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 67.0, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/UP-01.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.417161', 'feature_id': 44108, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_U2-08', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310391, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 980.0, 'length_mm': 47.0, 'part_code': 'U2-08', 'part_name': '上垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 57.7, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/U2-08.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.391357', 'feature_id': 44103, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_U2-07', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310386, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 980.0, 'length_mm': 47.0, 'part_code': 'U2-07', 'part_name': '上垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 57.7, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/U2-07.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.365252', 'feature_id': 44119, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_U2-06', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310402, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 4, 'width_mm': 20.0, 'length_mm': 290.0, 'part_code': 'U2-06', 'part_name': '上垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 57.7, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/U2-06.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 8条(96.00mm)', 'total_count': 8, 'total_length': 96.0}, {'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.329209', 'feature_id': 44101, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_U2-05', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310384, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 47.0, 'length_mm': 290.0, 'part_code': 'U2-05', 'part_name': '上垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 57.7, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/U2-05.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 正视图, 侧视图未识别到', 'missing_views': ['正视图', '侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 4条(57.60mm)', 'total_count': 4, 'total_length': 57.6}, {'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.285411', 'feature_id': 44105, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_U2-04', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310388, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 47.0, 'length_mm': 290.0, 'part_code': 'U2-04', 'part_name': '上垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 57.7, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/U2-04.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 正视图, 侧视图未识别到', 'missing_views': ['正视图', '侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 4条(57.60mm)', 'total_count': 4, 'total_length': 57.6}, {'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.255579', 'feature_id': 44099, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_U2-03', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310382, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 980.0, 'length_mm': 47.0, 'part_code': 'U2-03', 'part_name': '上垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 57.7, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/U2-03.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.222403', 'feature_id': 44098, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_U2-02', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310381, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 2, 'width_mm': 20.0, 'length_mm': 230.0, 'part_code': 'U2-02', 'part_name': '上垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 57.7, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/U2-02.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 侧视图未识别到', 'missing_views': ['侧视图']}], 'wire_cut_anomalies': [{'type': 'unmatched_red_lines', 'view': 'top_view', 'description': '俯视图中存在未匹配的线割实线: 6条(72.00mm)', 'total_count': 6, 'total_length': 72.0}, {'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.177005', 'feature_id': 44097, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_U2-01', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310380, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 980.0, 'length_mm': 47.0, 'part_code': 'U2-01', 'part_name': '上垫脚', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 57.7, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/U2-01.dxf', 'abnormal_situation': {'view_anomalies': [{'type': 'view_recognition_failed', 'description': '视图识别异常: 俯视图, 正视图未识别到', 'missing_views': ['俯视图', '正视图']}], 'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}, {'weight': None, '_source': {'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'created_at': '2026-03-24T06:19:26.129818', 'feature_id': 44096, 'subgraph_id': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_U1-01', 'feature_version': 1, 'wire_price_snapshot_id': None, 'processing_cost_detail_id': 310379, 'material_price_snapshot_id': 158470}, 'edm_time': None, 'material': '45#', 'quantity': 1, 'width_mm': 1150.0, 'length_mm': 1200.0, 'part_code': 'U1-01', 'part_name': '上托板', 'wire_length': None, 'process_code': None, 'process_note': None, 'thickness_mm': 27.5, 'drilling_time': None, 'grinding_time': None, 'heat_treatment': None, 'nc_milling_time': None, 'nc_roughing_time': None, 'subgraph_file_url': 'dxf/2026/03/a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf/U1-01.dxf', 'abnormal_situation': {'wire_cut_anomalies': [{'type': 'plate_line_not_found', 'description': '板料线识别失败: 未找到板料线矩形', 'found_count': 0, 'required_count': 3}]}, 'process_unit_price': None, 'material_unit_price': '5.3', 'process_description': None}], 'type': 'review_display_view', 'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'timestamp': '2026-03-24T14:20:32.581461'}}
+2026-03-24 14:26:07 - api_gateway.routers.review_router - DEBUG -   消息 1: role=system, content=发现部分必填字段为空,请先补全这些字段
+
+缺失字段：
+- 未知 - 未知字段
+- 未知 - 未知字段..., metadata={'message_type': 'completion_request', 'original_ws_message': {'data': {'message': '发现部分必填字段为空,请先补全这些字段', 'suggestion': "抱歉，AI 服务暂时不可用：No module named 'openai'", 'missing_fields': [{'table': 'features', 'missing': {'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'PU-04', 'part_name': '冲头', 'record_id': '44102', 'record_name': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-04', 'current_values': {'material': 'T00L0X33', 'quantity': 1, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'PU-05', 'part_name': '冲头', 'record_id': '44104', 'record_name': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-05', 'current_values': {'material': 'T00L0X33', 'quantity': 1, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'PU-06', 'part_name': '冲头', 'record_id': '44107', 'record_name': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-06', 'current_values': {'material': 'Cr12mov', 'quantity': 1, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'PU-07', 'part_name': '冲头', 'record_id': '44109', 'record_name': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_PU-07', 'current_values': {'material': 'Cr12mov', 'quantity': 1, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'A01', 'part_name': '外限位柱', 'record_id': '44118', 'record_name': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_A01', 'current_values': {'material': '45#', 'quantity': 4, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'A02', 'part_name': '储运柱', 'record_id': '44121', 'record_name': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_A02', 'current_values': {'material': '铁氟龙', 'quantity': 4, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'A03', 'part_name': '垫柱', 'record_id': '44120', 'record_name': '61f30fc1-efd5-4e45-bb08-637fb252cd6b_A03', 'current_values': {'material': '45#', 'quantity': 4, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}]}, 'type': 'completion_request', 'job_id': 'a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf', 'timestamp': '2026-03-24T14:20:32.758218'}, 'missing_fields_count': 7}
+2026-03-24 14:26:07 - api_gateway.routers.review_router - DEBUG -   消息 2: role=user, content=你好..., metadata={'action': 'modify', 'user_id': 'a63b7863-5faf-4b00-9ec3-758495b0fb66'}
+2026-03-24 14:26:07 - api_gateway.routers.review_router - INFO - 🔍 步骤3: 输入澄清检查
+2026-03-24 14:26:07 - api_gateway.routers.review_router - INFO - ✅ 输入规范，置信度: 0.00
+2026-03-24 14:26:13 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:26:13 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-03-24 14:26:13 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:26:13 - api_gateway.utils.chat_logger - DEBUG - 助手回复已记录: a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:26:13 - api_gateway.routers.review_router - INFO - ✅ 修改处理成功: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, intent=GENERAL_CHAT
+2026-03-24 14:26:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=1
+2026-03-24 14:26:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=14
+2026-03-24 14:27:00 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=2
+2026-03-24 14:27:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=3
+2026-03-24 14:27:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=15
+2026-03-24 14:28:00 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=4
+2026-03-24 14:28:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=5
+2026-03-24 14:28:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=16
+2026-03-24 14:29:00 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=6
+2026-03-24 14:29:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=7
+2026-03-24 14:29:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=17
+2026-03-24 14:30:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=18
+2026-03-24 14:30:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=8
+2026-03-24 14:31:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=19
+2026-03-24 14:31:45 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=9
+2026-03-24 14:32:00 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=10
+2026-03-24 14:32:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=11
+2026-03-24 14:32:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=20
+2026-03-24 14:33:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=21
+2026-03-24 14:33:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=12
+2026-03-24 14:34:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=22
+2026-03-24 14:34:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=13
+2026-03-24 14:35:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=23
+2026-03-24 14:35:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=14
+2026-03-24 14:36:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=24
+2026-03-24 14:36:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=15
+2026-03-24 14:37:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=25
+2026-03-24 14:37:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=16
+2026-03-24 14:38:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=26
+2026-03-24 14:38:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=17
+2026-03-24 14:39:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=27
+2026-03-24 14:39:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=18
+2026-03-24 14:40:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=28
+2026-03-24 14:40:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=19
+2026-03-24 14:41:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=29
+2026-03-24 14:41:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=20
+2026-03-24 14:42:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=30
+2026-03-24 14:42:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=21
+2026-03-24 14:43:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=31
+2026-03-24 14:43:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=22
+2026-03-24 14:44:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=32
+2026-03-24 14:44:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=23
+2026-03-24 14:45:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=33
+2026-03-24 14:45:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=24
+2026-03-24 14:46:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=34
+2026-03-24 14:46:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=25
+2026-03-24 14:47:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=35
+2026-03-24 14:47:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=26
+2026-03-24 14:48:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=36
+2026-03-24 14:48:43 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=27
+2026-03-24 14:48:43 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:48:43 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:49:08 - api_gateway.main - ERROR - Unhandled error: connection already closed
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 47, in get_connection
+    yield conn
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 67, in execute_query
+    cursor.execute(query, params)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\logging_middleware.py", line 115, in dispatch
+    response = await call_next(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\account_router.py", line 332, in list_chat_sessions
+    sessions, total = chat_session_service.get_user_sessions(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\chat_session_service.py", line 795, in get_user_sessions
+    count_result = self.db.execute_query(count_query, tuple(params), fetch_one=True)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 65, in execute_query
+    with self.get_connection() as conn:
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 51, in get_connection
+    conn.rollback()
+psycopg2.InterfaceError: connection already closed
+2026-03-24 14:49:27 - api_gateway.main - ERROR - Unhandled error: connection already closed
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 47, in get_connection
+    yield conn
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 67, in execute_query
+    cursor.execute(query, params)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\logging_middleware.py", line 115, in dispatch
+    response = await call_next(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\account_router.py", line 332, in list_chat_sessions
+    sessions, total = chat_session_service.get_user_sessions(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\chat_session_service.py", line 795, in get_user_sessions
+    count_result = self.db.execute_query(count_query, tuple(params), fetch_one=True)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 65, in execute_query
+    with self.get_connection() as conn:
+  File "D:\AI\Anaconda\envs\NX\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\app\services\database.py", line 51, in get_connection
+    conn.rollback()
+psycopg2.InterfaceError: connection already closed
+2026-03-24 14:49:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=37
+2026-03-24 14:49:58 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:49:58 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:49:58 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:49:59 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-03-24 14:49:59 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-03-24 14:49:59 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-03-24 14:49:59 - api_gateway.main - INFO - Unified backend stopped
+2026-03-24 14:50:49 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-03-24 14:50:49 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
+2026-03-24 14:50:49 - api_gateway.main - INFO - Unified backend starting
+2026-03-24 14:50:49 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
+2026-03-24 14:50:49 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-03-24 14:50:49 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-03-24 14:50:49 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-03-24 14:50:49 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-03-24 14:50:49 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-03-24 14:50:49 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-03-24 14:50:49 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-03-24 14:50:49 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-03-24 14:50:49 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-03-24 14:50:49 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-03-24 14:50:52 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 当前连接数=1
+2026-03-24 14:50:52 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:51:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=1
+2026-03-24 14:51:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=2
+2026-03-24 14:51:37 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 当前连接数=2
+2026-03-24 14:51:37 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:51:38 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=3
+2026-03-24 14:51:53 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=4
+2026-03-24 14:52:08 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=1
+2026-03-24 14:52:08 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=5
+2026-03-24 14:52:23 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=6
+2026-03-24 14:52:37 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=2
+2026-03-24 14:53:08 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=3
+2026-03-24 14:53:22 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:53:22 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:53:51 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=7
+2026-03-24 14:53:51 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:53:51 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:53:51 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:53:51 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-03-24 14:54:32 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-03-24 14:54:32 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
+2026-03-24 14:54:32 - api_gateway.main - INFO - Unified backend starting
+2026-03-24 14:54:32 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
+2026-03-24 14:54:32 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-03-24 14:54:32 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-03-24 14:54:32 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-03-24 14:54:32 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-03-24 14:54:32 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-03-24 14:54:32 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-03-24 14:54:32 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-03-24 14:54:32 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-03-24 14:54:32 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-03-24 14:54:32 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-03-24 14:54:37 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 当前连接数=1
+2026-03-24 14:54:37 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:54:53 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=1
+2026-03-24 14:55:02 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 当前连接数=2
+2026-03-24 14:55:02 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:55:08 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=2
+2026-03-24 14:55:23 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=3
+2026-03-24 14:55:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=1
+2026-03-24 14:55:38 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=4
+2026-03-24 14:55:53 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=5
+2026-03-24 14:56:02 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=2
+2026-03-24 14:56:08 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=6
+2026-03-24 14:56:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=7
+2026-03-24 14:56:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=3
+2026-03-24 14:57:02 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=4
+2026-03-24 14:57:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=8
+2026-03-24 14:57:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=5
+2026-03-24 14:58:02 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=6
+2026-03-24 14:58:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=9
+2026-03-24 14:58:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=7
+2026-03-24 14:59:00 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:59:00 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:59:24 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 当前连接数=2
+2026-03-24 14:59:24 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 14:59:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=10
+2026-03-24 14:59:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=1
+2026-03-24 15:00:24 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=2
+2026-03-24 15:00:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=11
+2026-03-24 15:00:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=3
+2026-03-24 15:01:21 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:01:21 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:01:33 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=12
+2026-03-24 15:01:35 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 当前连接数=2
+2026-03-24 15:01:35 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:02:05 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=1
+2026-03-24 15:02:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=13
+2026-03-24 15:02:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=2
+2026-03-24 15:03:05 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=3
+2026-03-24 15:03:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=14
+2026-03-24 15:03:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=4
+2026-03-24 15:04:05 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=5
+2026-03-24 15:04:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=15
+2026-03-24 15:04:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=6
+2026-03-24 15:05:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=16
+2026-03-24 15:05:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=7
+2026-03-24 15:06:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=17
+2026-03-24 15:06:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=8
+2026-03-24 15:07:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=18
+2026-03-24 15:07:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=9
+2026-03-24 15:08:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=19
+2026-03-24 15:08:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=10
+2026-03-24 15:09:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=20
+2026-03-24 15:09:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=11
+2026-03-24 15:10:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=21
+2026-03-24 15:10:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=12
+2026-03-24 15:11:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=22
+2026-03-24 15:11:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=13
+2026-03-24 15:12:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=23
+2026-03-24 15:12:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=14
+2026-03-24 15:13:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=24
+2026-03-24 15:13:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=15
+2026-03-24 15:14:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=25
+2026-03-24 15:14:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=16
+2026-03-24 15:15:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=26
+2026-03-24 15:15:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=17
+2026-03-24 15:16:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=27
+2026-03-24 15:16:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=18
+2026-03-24 15:17:10 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=19
+2026-03-24 15:17:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=28
+2026-03-24 15:17:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=20
+2026-03-24 15:18:05 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, sequence=21
+2026-03-24 15:18:08 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:18:08 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:18:08 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:18:08 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:18:08 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:18:08 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-03-24 15:18:08 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-03-24 15:18:08 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-03-24 15:18:08 - api_gateway.main - INFO - Unified backend stopped
+2026-03-24 15:18:39 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-03-24 15:18:39 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
+2026-03-24 15:18:39 - api_gateway.main - INFO - Unified backend starting
+2026-03-24 15:18:39 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
+2026-03-24 15:18:39 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-03-24 15:18:39 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-03-24 15:18:39 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-03-24 15:18:40 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-03-24 15:18:40 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-03-24 15:18:40 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-03-24 15:18:40 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-03-24 15:18:40 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-03-24 15:18:40 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-03-24 15:18:40 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-03-24 15:18:40 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 当前连接数=1
+2026-03-24 15:18:40 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:18:44 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:18:44 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:18:44 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:18:45 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf, 当前连接数=1
+2026-03-24 15:18:45 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:18:54 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
+2026-03-24 15:18:54 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: M260037-P1-20260212(1).dwg
+2026-03-24 15:18:54 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: M260037-P1-20260212(1).dwg
+2026-03-24 15:18:54 - api_gateway.utils.validators - WARNING - ⚠️ PRT文件MIME类型异常: application/nx，但允许继续
+2026-03-24 15:18:54 - api_gateway.utils.validators - INFO - ✅ PRT文件验证通过: M260037-P1-20260212(1).prt
+2026-03-24 15:18:54 - api_gateway.services.job_service - INFO - ✅ PRT文件验证通过: M260037-P1-20260212(1).prt
+2026-03-24 15:18:54 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-03-24 15:18:54 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-03-24 15:18:54 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-03-24 15:18:54 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-03-24 15:18:54 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: M260037-P1-20260212(1).dwg
+2026-03-24 15:18:54 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/03/64e42cf9-3549-4620-82e1-31599f06b28c.dwg (1716974 bytes)
+2026-03-24 15:18:54 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/03/64e42cf9-3549-4620-82e1-31599f06b28c.dwg
+2026-03-24 15:18:54 - api_gateway.services.job_service - INFO - 📤 开始上传PRT文件: M260037-P1-20260212(1).prt
+2026-03-24 15:18:56 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: prt/2026/03/1f55a749-181c-453e-96fb-2949a07fd40c.prt (102060929 bytes)
+2026-03-24 15:18:56 - api_gateway.services.job_service - INFO - ✅ PRT文件上传成功: prt/2026/03/1f55a749-181c-453e-96fb-2949a07fd40c.prt
+2026-03-24 15:18:56 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: 8390b538-0b00-47d4-a72f-0e71f6b0d03b
+2026-03-24 15:18:56 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: 8390b538-0b00-47d4-a72f-0e71f6b0d03b, name=M260037-P1-20260212(1)
+2026-03-24 15:18:56 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b, count=153
+2026-03-24 15:18:56 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 153}
+2026-03-24 15:18:56 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - 8390b538-0b00-47d4-a72f-0e71f6b0d03b
+2026-03-24 15:18:56 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: 8390b538-0b00-47d4-a72f-0e71f6b0d03b
+2026-03-24 15:18:56 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: 8390b538-0b00-47d4-a72f-0e71f6b0d03b
+2026-03-24 15:18:56 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: 8390b538-0b00-47d4-a72f-0e71f6b0d03b
+2026-03-24 15:18:56 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: 8390b538-0b00-47d4-a72f-0e71f6b0d03b
+2026-03-24 15:18:56 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b, 当前连接数=1
+2026-03-24 15:18:56 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b
+2026-03-24 15:18:57 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b, 接收者=1
+2026-03-24 15:18:57 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b
+2026-03-24 15:18:57 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 8390b538-0b00-47d4-a72f-0e71f6b0d03b
+2026-03-24 15:18:57 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b, type=progress
+2026-03-24 15:18:57 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b, channel=progress, type=progress
+2026-03-24 15:19:12 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b, sequence=1
+2026-03-24 15:19:26 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:19:26 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:19:26 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=a9c53956-dcf1-4b8e-9de2-7dc79bfb99bf
+2026-03-24 15:19:27 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b, sequence=2
+2026-03-24 15:19:42 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b, sequence=3
+2026-03-24 15:19:57 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b, sequence=4
+2026-03-24 15:20:12 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=8390b538-0b00-47d4-a72f-0e71f6b0d03b, sequence=5

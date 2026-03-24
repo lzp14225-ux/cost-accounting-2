@@ -76,12 +76,18 @@ class Settings(BaseSettings):
     NC_AGENT_URL: str = ""
     NC_AGENT_TIMEOUT: int = 7200
     SPEECH_SERVICE_URL: str = ""
+    TTS_SERVICE_URL: str = ""
     SPEECH_DEFAULT_MODEL: str = "small"
     SPEECH_DEFAULT_LANGUAGE: str = "zh"
     SPEECH_MODEL_DIR: str = ""
     FFMPEG_PATH: str = ""
     SPEECH_HOST: str = "0.0.0.0"
     SPEECH_PORT: int = 8888
+    COSYVOICE_ROOT: str = ""
+    TTS_MODEL_DIR: str = ""
+    TTS_DEFAULT_MODE: str = "sft"
+    TTS_HOST: str = "0.0.0.0"
+    TTS_PORT: int = 8890
     API_TIMEOUT: float = 60.0
 
     PRICE_WG_RULE_WEIGHT_UNIT: str = "g"
