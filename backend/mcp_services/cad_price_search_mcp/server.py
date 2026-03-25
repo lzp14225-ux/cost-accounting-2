@@ -48,6 +48,30 @@ log_dir.mkdir(exist_ok=True)
 
 # 日志文件路径
 log_file = log_dir / "mcp_service.log"
+scripts_log_file = log_dir / "scripts.log"
+
+
+def configure_scripts_logging(log_path: Path):
+    """Persist stdlib logs from scripts.* modules to scripts.log."""
+    log_level_name = os.getenv("LOG_LEVEL", "INFO").upper()
+    log_level = getattr(logging, log_level_name, logging.INFO)
+
+    scripts_logger = logging.getLogger("scripts")
+    scripts_logger.setLevel(log_level)
+    scripts_logger.propagate = False
+
+    for handler in scripts_logger.handlers:
+        if getattr(handler, "_mcp_scripts_handler", False):
+            return
+
+    file_handler = logging.FileHandler(log_path, encoding="utf-8", delay=True)
+    file_handler.setLevel(log_level)
+    file_handler.setFormatter(logging.Formatter(
+        fmt="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    ))
+    file_handler._mcp_scripts_handler = True
+    scripts_logger.addHandler(file_handler)
 
 # 尝试使用 loguru（如果可用）
 try:
@@ -90,6 +114,9 @@ except ImportError:
     )
     logger = logging.getLogger(__name__)
     logger.info(f"日志文件保存位置: {log_file} (使用标准 logging，无轮转功能)")
+
+configure_scripts_logging(scripts_log_file)
+logger.info(f"scripts log file path: {scripts_log_file}")
 
 # ============================================================================
 # 导入 CAD 处理模块（可选）

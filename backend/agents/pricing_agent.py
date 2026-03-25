@@ -544,8 +544,7 @@ class PricingAgent(BaseAgent):
             self.price_search_mcp.call_tool("unified-mcp", "calculate_nc_time_cost", 
                 {"job_id": job_id, "subgraph_ids": subgraph_ids}),
             
-            self.price_search_mcp.call_tool("unified-mcp", "calculate_nc_total_cost", 
-                {"job_id": job_id, "subgraph_ids": subgraph_ids}),
+            # nc_total 依赖 nc_base / nc_time 的落库结果，这里延后执行
             
             # 水磨计算（9个）
             self.price_search_mcp.call_tool("unified-mcp", "calculate_water_mill_bevel_cost", 
@@ -580,6 +579,13 @@ class PricingAgent(BaseAgent):
         results = await asyncio.gather(*calc_tasks, return_exceptions=True)
         
         self.logger.info(f"[并发计算] 完成")
+        self.logger.info("[并发计算] NC base 和 NC time 已完成，开始执行 NC total")
+        nc_total_result = await self.price_search_mcp.call_tool(
+            "unified-mcp",
+            "calculate_nc_total_cost",
+            {"job_id": job_id, "subgraph_ids": subgraph_ids}
+        )
+        results.insert(10, nc_total_result)
         return results
     
     def _aggregate_results(self, calc_results: List) -> Dict[str, Any]:

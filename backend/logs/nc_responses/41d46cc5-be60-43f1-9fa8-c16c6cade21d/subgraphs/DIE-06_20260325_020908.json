@@ -1,15 +1,15 @@
 {
-  "job_id": "eb8d0fa2-7db4-40ae-9f63-e76d134b5d46",
-  "subgraph_id": "03e5cea1-ffc5-4e10-a52e-35876e4ef2f9_DIE-19",
-  "subgraph_short_id": "DIE-19",
-  "file_name": "DIE-19-M260038-P1.json",
-  "timestamp": "20260323_042417",
+  "job_id": "41d46cc5-be60-43f1-9fa8-c16c6cade21d",
+  "subgraph_id": "3825d012-5adb-4468-8513-1a4e005d4009_DIE-06",
+  "subgraph_short_id": "DIE-06",
+  "file_name": "DIE-06-M260037-P1.json",
+  "timestamp": "20260325_020908",
   "meta_data": {
-    "export_time": "2026-03-23 12:24:09",
-    "workpiece_name": "DIE-19-M260038-P1",
-    "total_operations": 10,
-    "total_parameters": 30,
-    "processing": "CNC开粗(侧壁0.8mm 底面0.5mm)->钻孔->热处理->小磨床->中丝->质检"
+    "export_time": "2026-03-25 10:08:49",
+    "workpiece_name": "DIE-06-M260037-P1",
+    "total_operations": 8,
+    "total_parameters": 24,
+    "processing": "钻孔->热处理->小磨床->中丝->质检"
   },
   "operations": [
     {
@@ -20,7 +20,7 @@
           "id": 124,
           "display_name": "Toolpath Time",
           "type": "Double",
-          "value": 0.17813448313175206
+          "value": 0.09765157381025771
         },
         {
           "id": 4005,
@@ -32,163 +32,19 @@
           "id": 142,
           "display_name": "Toolpath Cutting Time",
           "type": "Double",
-          "value": 0.17813448313175206
+          "value": 0.09765157381025771
         }
       ]
     },
     {
-      "operation_name": "A_M_A8.5",
+      "operation_name": "A_W_A5",
       "total_params": 3,
       "parameters": [
         {
           "id": 124,
           "display_name": "Toolpath Time",
           "type": "Double",
-          "value": 2.148620132648761
-        },
-        {
-          "id": 4005,
-          "display_name": "Spindle RPM",
-          "type": "Double",
-          "value": 800.0
-        },
-        {
-          "id": 142,
-          "display_name": "Toolpath Cutting Time",
-          "type": "Double",
-          "value": 2.148620132648761
-        }
-      ]
-    },
-    {
-      "operation_name": "A_X_M_D8",
-      "total_params": 3,
-      "parameters": [
-        {
-          "id": 124,
-          "display_name": "Toolpath Time",
-          "type": "Double",
-          "value": 2.3375516250362907
-        },
-        {
-          "id": 4005,
-          "display_name": "Spindle RPM",
-          "type": "Double",
-          "value": 3500.0
-        },
-        {
-          "id": 142,
-          "display_name": "Toolpath Cutting Time",
-          "type": "Double",
-          "value": 2.3375516250362907
-        }
-      ]
-    },
-    {
-      "operation_name": "开粗_110_行腔_SIMPLE_D6",
-      "total_params": 3,
-      "parameters": [
-        {
-          "id": 124,
-          "display_name": "Toolpath Time",
-          "type": "Double",
-          "value": 2.672430105271726
-        },
-        {
-          "id": 4005,
-          "display_name": "Spindle RPM",
-          "type": "Double",
-          "value": 3800.0
-        },
-        {
-          "id": 142,
-          "display_name": "Toolpath Cutting Time",
-          "type": "Double",
-          "value": 2.672430105271726
-        }
-      ]
-    },
-    {
-      "operation_name": "开粗_110_行腔_SIMPLE_D4",
-      "total_params": 3,
-      "parameters": [
-        {
-          "id": 124,
-          "display_name": "Toolpath Time",
-          "type": "Double",
-          "value": 3.2999693951889837
-        },
-        {
-          "id": 4005,
-          "display_name": "Spindle RPM",
-          "type": "Double",
-          "value": 4000.0
-        },
-        {
-          "id": 142,
-          "display_name": "Toolpath Cutting Time",
-          "type": "Double",
-          "value": 3.2999693951889837
-        }
-      ]
-    },
-    {
-      "operation_name": "B_ZXZ",
-      "total_params": 3,
-      "parameters": [
-        {
-          "id": 124,
-          "display_name": "Toolpath Time",
-          "type": "Double",
-          "value": 0.13136752420238876
-        },
-        {
-          "id": 4005,
-          "display_name": "Spindle RPM",
-          "type": "Double",
-          "value": 2200.0
-        },
-        {
-          "id": 142,
-          "display_name": "Toolpath Cutting Time",
-          "type": "Double",
-          "value": 0.13136752420238876
-        }
-      ]
-    },
-    {
-      "operation_name": "B_W_A3",
-      "total_params": 3,
-      "parameters": [
-        {
-          "id": 124,
-          "display_name": "Toolpath Time",
-          "type": "Double",
-          "value": 1.4891101031712581
-        },
-        {
-          "id": 4005,
-          "display_name": "Spindle RPM",
-          "type": "Double",
-          "value": 1800.0
-        },
-        {
-          "id": 142,
-          "display_name": "Toolpath Cutting Time",
-          "type": "Double",
-          "value": 1.4891101031712581
-        }
-      ]
-    },
-    {
-      "operation_name": "B_W_A5.2",
-      "total_params": 3,
-      "parameters": [
-        {
-          "id": 124,
-          "display_name": "Toolpath Time",
-          "type": "Double",
-          "value": 0.6927268292682927
+          "value": 1.0198860619027548
         },
         {
           "id": 4005,
@@ -200,7 +56,103 @@
           "id": 142,
           "display_name": "Toolpath Cutting Time",
           "type": "Double",
-          "value": 0.6927268292682927
+          "value": 1.0198860619027548
+        }
+      ]
+    },
+    {
+      "operation_name": "开粗_110_行腔_SIMPLE_D6",
+      "total_params": 3,
+      "parameters": [
+        {
+          "id": 124,
+          "display_name": "Toolpath Time",
+          "type": "Double",
+          "value": 56.24344151960913
+        },
+        {
+          "id": 4005,
+          "display_name": "Spindle RPM",
+          "type": "Double",
+          "value": 3800.0
+        },
+        {
+          "id": 142,
+          "display_name": "Toolpath Cutting Time",
+          "type": "Double",
+          "value": 56.24344151960913
+        }
+      ]
+    },
+    {
+      "operation_name": "B_ZXZ",
+      "total_params": 3,
+      "parameters": [
+        {
+          "id": 124,
+          "display_name": "Toolpath Time",
+          "type": "Double",
+          "value": 0.10010055492276598
+        },
+        {
+          "id": 4005,
+          "display_name": "Spindle RPM",
+          "type": "Double",
+          "value": 2200.0
+        },
+        {
+          "id": 142,
+          "display_name": "Toolpath Cutting Time",
+          "type": "Double",
+          "value": 0.10010055492276598
+        }
+      ]
+    },
+    {
+      "operation_name": "B_W_A5",
+      "total_params": 3,
+      "parameters": [
+        {
+          "id": 124,
+          "display_name": "Toolpath Time",
+          "type": "Double",
+          "value": 1.0198860619027548
+        },
+        {
+          "id": 4005,
+          "display_name": "Spindle RPM",
+          "type": "Double",
+          "value": 1100.0
+        },
+        {
+          "id": 142,
+          "display_name": "Toolpath Cutting Time",
+          "type": "Double",
+          "value": 1.0198860619027548
+        }
+      ]
+    },
+    {
+      "operation_name": "B_M_A6.8",
+      "total_params": 3,
+      "parameters": [
+        {
+          "id": 124,
+          "display_name": "Toolpath Time",
+          "type": "Double",
+          "value": 1.3240999999999998
+        },
+        {
+          "id": 4005,
+          "display_name": "Spindle RPM",
+          "type": "Double",
+          "value": 700.0
+        },
+        {
+          "id": 142,
+          "display_name": "Toolpath Cutting Time",
+          "type": "Double",
+          "value": 1.3240999999999998
         }
       ]
     },
@@ -212,7 +164,7 @@
           "id": 124,
           "display_name": "Toolpath Time",
           "type": "Double",
-          "value": 11.3542746231117
+          "value": 8.977267009349637
         },
         {
           "id": 4005,
@@ -224,7 +176,7 @@
           "id": 142,
           "display_name": "Toolpath Cutting Time",
           "type": "Double",
-          "value": 11.3542746231117
+          "value": 8.977267009349637
         }
       ]
     },
@@ -236,7 +188,7 @@
           "id": 124,
           "display_name": "Toolpath Time",
           "type": "Double",
-          "value": 4.7283979243463685
+          "value": 12.955836624584517
         },
         {
           "id": 4005,
@@ -248,7 +200,7 @@
           "id": 142,
           "display_name": "Toolpath Cutting Time",
           "type": "Double",
-          "value": 4.7283979243463685
+          "value": 12.955836624584517
         }
       ]
     }

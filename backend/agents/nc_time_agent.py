@@ -12,8 +12,11 @@ from typing import Dict, Any, List
 import httpx
 import re
 import os
+import json
+import time
 from decimal import Decimal
 from datetime import datetime
+from pathlib import Path
 from tenacity import retry, stop_after_attempt, wait_exponential
 from sqlalchemy import select, update
 from .base_agent import BaseAgent
@@ -32,6 +35,10 @@ class NCTimeAgent(BaseAgent):
         self.nc_agent_url = nc_agent_url or os.getenv("NC_AGENT_URL", "http://192.168.0.65:8001")
         self.timeout = int(os.getenv("NC_AGENT_TIMEOUT", "86400"))  # 默认24小时超时
         self.progress_publisher = progress_publisher
+        self.logs_root = Path("logs")
+        self.nc_log_retention_days = int(os.getenv("NC_LOG_RETENTION_DAYS", "7"))
+        self.nc_log_cleanup_interval_days = int(os.getenv("NC_LOG_CLEANUP_INTERVAL_DAYS", "7"))
+        self.nc_log_cleanup_state_file = self.logs_root / ".nc_log_cleanup_state.json"
         self.logger.info(f"[NCTimeAgent] 初始化完成: url={self.nc_agent_url}, timeout={self.timeout}秒")
     
     async def process(self, context: Dict[str, Any]) -> Dict[str, Any]:
@@ -63,6 +70,8 @@ class NCTimeAgent(BaseAgent):
         self.logger.info(f"[NCTimeAgent] 开始处理 NC 时间计算: job_id={job_id}")
         
         # 发布进度：NC 时间计算开始
+        self._maybe_cleanup_nc_log_files()
+        self._maybe_cleanup_nc_log_files()
         if self.progress_publisher:
             from shared.progress_stages import ProgressStage, ProgressPercent
             self.progress_publisher.publish_progress(
@@ -401,7 +410,88 @@ class NCTimeAgent(BaseAgent):
             for file_tuple in files.values():
                 if len(file_tuple) > 1 and hasattr(file_tuple[1], 'close'):
                     file_tuple[1].close()
-    
+
+    def _maybe_cleanup_nc_log_files(self):
+        """Clean NC log json files on a fixed interval."""
+        if self.nc_log_retention_days <= 0 or self.nc_log_cleanup_interval_days <= 0:
+            self.logger.info(
+                "[NCTimeAgent] Skip NC log cleanup: "
+                f"retention_days={self.nc_log_retention_days}, "
+                f"cleanup_interval_days={self.nc_log_cleanup_interval_days}"
+            )
+            return
+
+        now_ts = time.time()
+        interval_seconds = self.nc_log_cleanup_interval_days * 24 * 60 * 60
+
+        try:
+            last_cleanup_ts = self._load_nc_log_cleanup_state()
+            if last_cleanup_ts and now_ts - last_cleanup_ts < interval_seconds:
+                return
+
+            cutoff_ts = now_ts - (self.nc_log_retention_days * 24 * 60 * 60)
+            deleted_files = 0
+            deleted_files += self._cleanup_json_files(self.logs_root / "nc_agent_debug", cutoff_ts)
+            deleted_files += self._cleanup_json_files(self.logs_root / "nc_responses", cutoff_ts)
+            self._write_nc_log_cleanup_state(now_ts)
+            self.logger.info(
+                "[NCTimeAgent] NC log cleanup completed: "
+                f"deleted_files={deleted_files}, retention_days={self.nc_log_retention_days}, "
+                f"cleanup_interval_days={self.nc_log_cleanup_interval_days}"
+            )
+        except Exception as e:
+            self.logger.warning(f"[NCTimeAgent] NC log cleanup failed: {e}")
+
+    def _load_nc_log_cleanup_state(self) -> float:
+        if not self.nc_log_cleanup_state_file.exists():
+            return 0.0
+
+        try:
+            state = json.loads(self.nc_log_cleanup_state_file.read_text(encoding="utf-8"))
+            return float(state.get("last_cleanup_ts", 0.0))
+        except Exception as e:
+            self.logger.warning(f"[NCTimeAgent] Failed to read cleanup state: {e}")
+            return 0.0
+
+    def _write_nc_log_cleanup_state(self, timestamp: float):
+        self.logs_root.mkdir(parents=True, exist_ok=True)
+        payload = {
+            "last_cleanup_ts": timestamp,
+            "last_cleanup_at": datetime.utcfromtimestamp(timestamp).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "retention_days": self.nc_log_retention_days,
+            "cleanup_interval_days": self.nc_log_cleanup_interval_days,
+        }
+        self.nc_log_cleanup_state_file.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+
+    def _cleanup_json_files(self, root_dir: Path, cutoff_ts: float) -> int:
+        if not root_dir.exists():
+            return 0
+
+        deleted_files = 0
+        for file_path in root_dir.rglob("*.json"):
+            try:
+                if file_path.stat().st_mtime < cutoff_ts:
+                    file_path.unlink()
+                    deleted_files += 1
+            except FileNotFoundError:
+                continue
+            except Exception as e:
+                self.logger.warning(f"[NCTimeAgent] Failed to delete expired log file {file_path}: {e}")
+
+        directories = [path for path in root_dir.rglob("*") if path.is_dir()]
+        directories.sort(key=lambda path: len(path.parts), reverse=True)
+        for directory in directories:
+            try:
+                if not any(directory.iterdir()):
+                    directory.rmdir()
+            except OSError:
+                continue
+
+        return deleted_files
+
     def _extract_subgraph_id(self, subgraph_name: str) -> str:
         """
         从子图名称中提取短ID
