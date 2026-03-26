@@ -1,6 +1,6 @@
 {
-  "last_cleanup_ts": 1774400628.4443595,
-  "last_cleanup_at": "2026-03-25T01:03:48Z",
-  "retention_days": 7,
-  "cleanup_interval_days": 7
+  "last_cleanup_ts": 1774493730.9851255,
+  "last_cleanup_at": "2026-03-26T02:55:30Z",
+  "retention_days": 1,
+  "cleanup_interval_days": 1
 }

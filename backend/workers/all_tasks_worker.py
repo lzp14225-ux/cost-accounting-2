@@ -1,4 +1,4 @@
-"""
+﻿"""
 全任务Worker - 处理所有后台任务
 负责消费多个队列的消息并执行相应任务
 
@@ -24,6 +24,11 @@ sys.path.insert(0, str(project_root))
 
 from shared.message_queue import MessageQueue, QUEUE_JOB_PROCESSING, QUEUE_PRICING_RECALCULATE
 from agents import get_orchestrator_agent, get_pricing_agent
+from shared.logging_config import (
+    build_standard_file_formatter,
+    create_daily_rotating_file_handler,
+    get_log_rotation_settings,
+)
 
 # 配置日志：同时输出到控制台和文件
 # 创建 logs 目录（如果不存在）
@@ -36,6 +41,7 @@ log_file = log_dir / "all_tasks_worker.log"
 # 尝试使用 loguru（如果可用）
 try:
     from loguru import logger
+    log_settings = get_log_rotation_settings(default_level="INFO", default_retention_days=30)
     
     # 移除默认的 handler
     logger.remove()
@@ -50,11 +56,11 @@ try:
     # 添加文件输出（带轮转、保留和压缩）
     logger.add(
         log_file,
-        rotation="00:00",      # 每天午夜0点轮转
-        retention="30 days",   # 保留30天
-        compression="zip",     # 压缩为zip
+        rotation=log_settings["rotation_label"],
+        retention=f"{log_settings['retention_days']} days",
+        compression=log_settings["compression"],
         encoding="utf-8",
-        level="INFO",         # 显示所有级别的日志
+        level=log_settings["level_name"],
         format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} - {message}"
     )
     
@@ -65,10 +71,16 @@ except ImportError:
     import logging
     
     logging.basicConfig(
-        level=logging.INFO,
+        level=get_log_rotation_settings(default_level="INFO")["level"],
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[
-            logging.FileHandler(log_file, encoding='utf-8'),  # 输出到文件
+            create_daily_rotating_file_handler(
+                filename=log_file,
+                level=get_log_rotation_settings(default_level="INFO")["level"],
+                formatter=build_standard_file_formatter(),
+                encoding='utf-8',
+                delay=True,
+            ),
             logging.StreamHandler()  # 输出到控制台
         ]
     )

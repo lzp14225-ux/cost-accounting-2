@@ -1,0 +1,18 @@
+2026-03-26 11:14:51 - agents.llm_entity_extractor - ERROR - ❌ LLM 实体提取失败: Error code: 404 - {'error': {'message': 'The model `qwen-plus` does not exist.', 'type': 'NotFoundError', 'param': None, 'code': 404}}
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 71, in extract_entities
+    response = await self.llm_client.chat.completions.create(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\openai\resources\chat\completions\completions.py", line 2714, in create
+    return await self._post(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\openai\_base_client.py", line 1884, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\openai\_base_client.py", line 1669, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.NotFoundError: Error code: 404 - {'error': {'message': 'The model `qwen-plus` does not exist.', 'type': 'NotFoundError', 'param': None, 'code': 404}}
+2026-03-26 11:14:52 - agents.intent_recognizer - ERROR - ❌ LLM API 请求失败: Client error '404 Not Found' for url 'http://192.168.0.22:8000/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2026-03-26 11:14:52 - agents.intent_recognizer - ERROR - ❌ LLM 识别失败: Client error '404 Not Found' for url 'http://192.168.0.22:8000/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404，降级到规则识别
+2026-03-26 11:14:52 - agents.action_handlers.query_details_handler - ERROR - ❌ LLM API 返回错误状态: 404
+2026-03-26 11:14:52 - agents.action_handlers.query_details_handler - ERROR - ❌ LLM 格式化失败: Client error '404 Not Found' for url 'http://192.168.0.22:8000/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404，降级到规则格式化

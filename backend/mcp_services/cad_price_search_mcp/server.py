@@ -1,4 +1,4 @@
-"""
+﻿"""
 CAD 和价格搜索 MCP 服务器 (SSE模式)
 整合 CAD 解析和价格计算功能
 端口：8200
@@ -41,6 +41,12 @@ sys.path.insert(0, str(project_root / "scripts" / "cad_chaitu"))
 sys.path.insert(0, str(project_root / "scripts" / "recognition"))
 sys.path.insert(0, str(project_root / "scripts"))
 
+from shared.logging_config import (
+    build_standard_file_formatter,
+    create_daily_rotating_file_handler,
+    get_log_rotation_settings,
+)
+
 # 配置日志（提前配置，以便在导入时使用）
 # 创建 logs 目录（如果不存在）
 log_dir = project_root / "logs"
@@ -53,8 +59,8 @@ scripts_log_file = log_dir / "scripts.log"
 
 def configure_scripts_logging(log_path: Path):
     """Persist stdlib logs from scripts.* modules to scripts.log."""
-    log_level_name = os.getenv("LOG_LEVEL", "INFO").upper()
-    log_level = getattr(logging, log_level_name, logging.INFO)
+    log_settings = get_log_rotation_settings()
+    log_level = log_settings["level"]
 
     scripts_logger = logging.getLogger("scripts")
     scripts_logger.setLevel(log_level)
@@ -64,18 +70,20 @@ def configure_scripts_logging(log_path: Path):
         if getattr(handler, "_mcp_scripts_handler", False):
             return
 
-    file_handler = logging.FileHandler(log_path, encoding="utf-8", delay=True)
-    file_handler.setLevel(log_level)
-    file_handler.setFormatter(logging.Formatter(
-        fmt="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S"
-    ))
+    file_handler = create_daily_rotating_file_handler(
+        filename=log_path,
+        level=log_level,
+        formatter=build_standard_file_formatter(),
+        encoding="utf-8",
+        delay=True,
+    )
     file_handler._mcp_scripts_handler = True
     scripts_logger.addHandler(file_handler)
 
 # 尝试使用 loguru（如果可用）
 try:
     from loguru import logger
+    log_settings = get_log_rotation_settings(default_level="INFO", default_retention_days=30)
     
     # 移除默认的 handler
     logger.remove()
@@ -90,11 +98,11 @@ try:
     # 添加文件输出（带轮转、保留和压缩）
     logger.add(
         log_file,
-        rotation="00:00",      # 每天午夜0点轮转
-        retention="30 days",   # 保留30天
-        compression="zip",     # 压缩为zip
+        rotation=log_settings["rotation_label"],
+        retention=f"{log_settings['retention_days']} days",
+        compression=log_settings["compression"],
         encoding="utf-8",
-        level="INFO",         # 显示所有级别的日志
+        level=log_settings["level_name"],
         format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} - {message}"
     )
     
@@ -105,10 +113,16 @@ except ImportError:
     import logging
     
     logging.basicConfig(
-        level=logging.INFO,
+        level=get_log_rotation_settings(default_level="INFO")["level"],
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[
-            logging.FileHandler(log_file, encoding='utf-8'),  # 输出到文件
+            create_daily_rotating_file_handler(
+                filename=log_file,
+                level=get_log_rotation_settings(default_level="INFO")["level"],
+                formatter=build_standard_file_formatter(),
+                encoding='utf-8',
+                delay=True,
+            ),
             logging.StreamHandler()  # 输出到控制台
         ]
     )

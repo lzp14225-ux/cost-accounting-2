@@ -670,6 +670,25 @@ class InteractionAgent(BaseAgent):
             
             # 保存状态（保持 REVIEWING）
             await self._save_review_state(job_id, state)
+
+            auto_refresh_result = None
+            try:
+                logger.info(f"🔄 确认成功后自动刷新审核视图: job_id={job_id}")
+                auto_refresh_result = await self.refresh_data(
+                    job_id=job_id,
+                    db_session=db_session
+                )
+                if auto_refresh_result.status == "error":
+                    logger.warning(
+                        f"⚠️ 自动刷新失败: job_id={job_id}, message={auto_refresh_result.message}"
+                    )
+                else:
+                    logger.info(f"✅ 自动刷新成功: job_id={job_id}")
+            except Exception as refresh_error:
+                logger.warning(
+                    f"⚠️ 自动刷新异常，不影响确认结果: job_id={job_id}, error={refresh_error}",
+                    exc_info=True
+                )
             
             logger.info(f"✅ 操作已确认（第 {state['confirm_count']} 次），审核继续")
             
@@ -691,6 +710,7 @@ class InteractionAgent(BaseAgent):
                 data={
                     "job_id": job_id,
                     "confirm_count": state.get("confirm_count", 1),
+                    "auto_refresh_status": auto_refresh_result.status if auto_refresh_result else "error",
                     **result.get("data", {})
                 }
             )

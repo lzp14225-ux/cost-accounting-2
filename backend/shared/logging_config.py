@@ -25,7 +25,11 @@ import logging.handlers
 import sys
 import os
 import json
+import gzip
+import shutil
+import zipfile
 from datetime import datetime
+from datetime import time as dt_time
 from pathlib import Path
 from typing import Optional, Dict, Any
 import traceback
@@ -147,6 +151,133 @@ class ModuleFilter(logging.Filter):
         return record.name.startswith(self.module_prefix)
 
 
+class CompressedTimedRotatingFileHandler(logging.handlers.TimedRotatingFileHandler):
+    """Timed rotating file handler with optional gzip/zip compression."""
+
+    def __init__(self, *args, compression: Optional[str] = None, **kwargs):
+        self.compression = _normalize_compression(compression)
+        super().__init__(*args, **kwargs)
+        if self.compression:
+            self.namer = self._namer
+            self.rotator = self._rotator
+
+    def _namer(self, default_name: str) -> str:
+        return f"{default_name}.{self.compression}"
+
+    def _rotator(self, source: str, dest: str) -> None:
+        if self.compression == "gz":
+            with open(source, "rb") as src, gzip.open(dest, "wb") as dst:
+                shutil.copyfileobj(src, dst)
+        elif self.compression == "zip":
+            with zipfile.ZipFile(dest, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+                archive.write(source, arcname=os.path.basename(source))
+        else:
+            shutil.move(source, dest)
+            return
+        os.remove(source)
+
+    def getFilesToDelete(self):
+        dir_name, base_name = os.path.split(self.baseFilename)
+        file_names = os.listdir(dir_name)
+        result = []
+        prefix = f"{base_name}."
+
+        for file_name in file_names:
+            if not file_name.startswith(prefix):
+                continue
+
+            suffix = file_name[len(prefix):]
+            if self.compression and suffix.endswith(f".{self.compression}"):
+                suffix = suffix[: -(len(self.compression) + 1)]
+
+            if self.extMatch.match(suffix):
+                result.append(os.path.join(dir_name, file_name))
+
+        result.sort()
+        if len(result) <= self.backupCount:
+            return []
+        return result[: len(result) - self.backupCount]
+
+
+def _normalize_compression(value: Optional[str]) -> Optional[str]:
+    if value is None:
+        return "zip"
+
+    normalized = str(value).strip().lower()
+    if normalized in {"", "none", "off", "false", "0"}:
+        return None
+    if normalized not in {"zip", "gz"}:
+        return "zip"
+    return normalized
+
+
+def _parse_rotation_time(value: Optional[str]) -> dt_time:
+    raw_value = (value or "00:00").strip()
+    try:
+        hour_str, minute_str = raw_value.split(":", 1)
+        hour = int(hour_str)
+        minute = int(minute_str)
+        return dt_time(hour=hour, minute=minute)
+    except Exception:
+        return dt_time(hour=0, minute=0)
+
+
+def get_log_rotation_settings(
+    default_level: str = "INFO",
+    default_retention_days: int = 30,
+) -> Dict[str, Any]:
+    level_name = os.getenv("LOG_LEVEL", default_level).upper()
+    level = LOG_LEVELS.get(level_name, logging.INFO)
+
+    try:
+        retention_days = max(1, int(os.getenv("LOG_RETENTION_DAYS", str(default_retention_days))))
+    except ValueError:
+        retention_days = max(1, default_retention_days)
+
+    rotation_label = os.getenv("LOG_ROTATION_TIME", "00:00").strip() or "00:00"
+    compression = _normalize_compression(os.getenv("LOG_COMPRESSION", "zip"))
+
+    return {
+        "level_name": level_name,
+        "level": level,
+        "retention_days": retention_days,
+        "rotation_label": rotation_label,
+        "rotation_time": _parse_rotation_time(rotation_label),
+        "compression": compression,
+    }
+
+
+def build_standard_file_formatter() -> logging.Formatter:
+    return logging.Formatter(
+        fmt="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    )
+
+
+def create_daily_rotating_file_handler(
+    filename: Path,
+    level: Optional[int] = None,
+    formatter: Optional[logging.Formatter] = None,
+    encoding: str = "utf-8",
+    delay: bool = False,
+) -> logging.Handler:
+    settings = get_log_rotation_settings()
+    handler = CompressedTimedRotatingFileHandler(
+        filename=str(filename),
+        when="midnight",
+        interval=1,
+        backupCount=settings["retention_days"],
+        encoding=encoding,
+        delay=delay,
+        atTime=settings["rotation_time"],
+        compression=settings["compression"],
+    )
+    handler.setLevel(level if level is not None else settings["level"])
+    if formatter is not None:
+        handler.setFormatter(formatter)
+    return handler
+
+
 # ========== 日志配置函数 ==========
 
 def setup_logging(
@@ -183,6 +314,7 @@ def setup_logging(
     
     # 清除已有的 handlers
     root_logger.handlers.clear()
+    file_formatter = build_standard_file_formatter()
     
     # ========== 控制台输出 ==========
     if enable_console:
@@ -202,32 +334,23 @@ def setup_logging(
         log_path.mkdir(parents=True, exist_ok=True)
         
         # 普通文本日志
-        file_handler = logging.handlers.RotatingFileHandler(
+        file_handler = create_daily_rotating_file_handler(
             filename=log_path / "app.log",
-            maxBytes=max_bytes,
-            backupCount=backup_count,
+            level=log_level,
+            formatter=file_formatter,
             encoding="utf-8"
         )
-        file_handler.setLevel(log_level)
         
         # 使用标准格式化器
-        file_formatter = logging.Formatter(
-            fmt="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-            datefmt="%Y-%m-%d %H:%M:%S"
-        )
-        file_handler.setFormatter(file_formatter)
-        
         root_logger.addHandler(file_handler)
         
         # 错误日志单独记录
-        error_handler = logging.handlers.RotatingFileHandler(
+        error_handler = create_daily_rotating_file_handler(
             filename=log_path / "error.log",
-            maxBytes=max_bytes,
-            backupCount=backup_count,
+            level=logging.ERROR,
+            formatter=file_formatter,
             encoding="utf-8"
         )
-        error_handler.setLevel(logging.ERROR)
-        error_handler.setFormatter(file_formatter)
         
         root_logger.addHandler(error_handler)
 
@@ -241,14 +364,12 @@ def setup_logging(
             ]
 
             for module_prefix, filename in module_configs:
-                module_handler = logging.handlers.RotatingFileHandler(
+                module_handler = create_daily_rotating_file_handler(
                     filename=log_path / filename,
-                    maxBytes=max_bytes,
-                    backupCount=backup_count,
+                    level=log_level,
+                    formatter=file_formatter,
                     encoding="utf-8"
                 )
-                module_handler.setLevel(log_level)
-                module_handler.setFormatter(file_formatter)
                 module_handler.addFilter(ModuleFilter(module_prefix))
                 root_logger.addHandler(module_handler)
     
@@ -257,13 +378,11 @@ def setup_logging(
         log_path = Path(log_dir)
         log_path.mkdir(parents=True, exist_ok=True)
         
-        json_handler = logging.handlers.RotatingFileHandler(
+        json_handler = create_daily_rotating_file_handler(
             filename=log_path / "app.json",
-            maxBytes=max_bytes,
-            backupCount=backup_count,
+            level=log_level,
             encoding="utf-8"
         )
-        json_handler.setLevel(log_level)
         json_handler.setFormatter(JSONFormatter())
         
         root_logger.addHandler(json_handler)
