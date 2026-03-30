@@ -332,8 +332,9 @@ class HistoryService {
               type: 'assistant' as const,
               missingFieldsData: {
                 message: originalWsMessage.data.message || '数据不完整，需要补全必填字段',
-                summary: `发现 ${originalWsMessage.data.missing_fields?.length || 0} 条记录缺少必填字段`,
+                summary: originalWsMessage.data.summary || `发现 ${originalWsMessage.data.missing_fields?.length || 0} 条记录缺少必填字段`,
                 missing_fields: originalWsMessage.data.missing_fields || [],
+                nc_failed_items: originalWsMessage.data.nc_failed_items || [],
                 suggestion: originalWsMessage.data.suggestion,
               },
             }
@@ -400,8 +401,9 @@ class HistoryService {
               type: 'assistant' as const,
               missingFieldsData: {
                 message: msg.metadata.original_ws_message.data.message || '数据不完整，需要补全必填字段',
-                summary: `发现 ${msg.metadata.original_ws_message.data.missing_fields?.length || 0} 条记录缺少必填字段`,
+                summary: msg.metadata.original_ws_message.data.summary || `发现 ${msg.metadata.original_ws_message.data.missing_fields?.length || 0} 条记录缺少必填字段`,
                 missing_fields: msg.metadata.original_ws_message.data.missing_fields || [],
+                nc_failed_items: msg.metadata.original_ws_message.data.nc_failed_items || [],
                 suggestion: msg.metadata.original_ws_message.data.suggestion,
               },
             }

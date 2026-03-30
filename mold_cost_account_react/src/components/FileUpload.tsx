@@ -134,8 +134,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ visible, onClose }) => {
         jobId: jobId,
         missingFieldsData: {
           message: data.message || '数据不完整，需要补全必填字段',
-          summary: `发现 ${data.missing_fields?.length || 0} 条记录缺少必填字段`,
+          summary: data.summary || `发现 ${data.missing_fields?.length || 0} 条记录缺少必填字段`,
           missing_fields: data.missing_fields || [],
+          nc_failed_items: data.nc_failed_items || [],
           suggestion: data.suggestion,
         },
       })
@@ -194,8 +195,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ visible, onClose }) => {
           jobId: jobId,
           missingFieldsData: {
             message: completionData.message || '数据不完整，需要补全必填字段',
-            summary: `发现 ${completionData.missing_fields?.length || 0} 条记录缺少必填字段`,
+            summary: completionData.summary || `发现 ${completionData.missing_fields?.length || 0} 条记录缺少必填字段`,
             missing_fields: completionData.missing_fields || [],
+            nc_failed_items: completionData.nc_failed_items || [],
             suggestion: completionData.suggestion,
           },
         })
@@ -262,37 +264,17 @@ const FileUpload: React.FC<FileUploadProps> = ({ visible, onClose }) => {
           // 如果是重新识别，才调用 refresh
           const { isReprocessing } = useAppStore.getState()
           if (isReprocessing) {
-            setTimeout(async () => {
-              try {
-                setIsRefreshing(true)
-                await chatService.refreshReview(jobId)
-                console.log('✅ 特征识别完成后刷新成功')
-              } catch (error) {
-                console.error('❌ 特征识别完成后刷新失败:', error)
-              } finally {
-                setIsRefreshing(false)
-                setIsReprocessing(false) // 重置重新处理状态，恢复发送按钮
-              }
-            }, 500) // 延迟500ms确保消息已添加
+            setIsRefreshing(false)
+            setIsReprocessing(false)
+            console.log('Wait for backend-pushed review data after feature_recognition_completed (reprocess)')
           } else {
             // console.log('⏭️ 首次特征识别完成，跳过 refresh（等待 /review/start 接口）')
           }
         } else if (data.stage === 'pricing_completed') {
-          // console.log('✅ 收到 pricing_completed，调用 refresh 接口刷新数据')
-          // 价格计算完成，停止核算状态
+          // console.log('Wait for backend-pushed review data after pricing_completed')
           setIsCalculating(false)
-          setTimeout(async () => {
-            try {
-              setIsRefreshing(true)
-              await chatService.refreshReview(jobId)
-              // console.log('✅ 价格计算完成后刷新成功')
-            } catch (error) {
-              // console.error('❌ 价格计算完成后刷新失败:', error)
-            } finally {
-              setIsRefreshing(false)
-              setIsReprocessing(false) // 重置重新处理状态，恢复发送按钮
-            }
-          }, 500) // 延迟500ms确保消息已添加
+          setIsRefreshing(false)
+          setIsReprocessing(false)
         } else if (data.stage === 'pricing_started') {
           // 价格计算开始，停止核算状态（因为已经开始了）
           setIsCalculating(false)

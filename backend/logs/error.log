@@ -1,18 +1,22 @@
-2026-03-26 11:14:51 - agents.llm_entity_extractor - ERROR - ❌ LLM 实体提取失败: Error code: 404 - {'error': {'message': 'The model `qwen-plus` does not exist.', 'type': 'NotFoundError', 'param': None, 'code': 404}}
+2026-03-30 08:47:58 - api_gateway.routers.weight_price - ERROR - Batch update failed: there is no unique or exclusion constraint matching the ON CONFLICT specification
+2026-03-30 08:47:58 - api_gateway.routers.weight_price - ERROR - Batch price WG calculation failed: there is no unique or exclusion constraint matching the ON CONFLICT specification
 Traceback (most recent call last):
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\llm_entity_extractor.py", line 71, in extract_entities
-    response = await self.llm_client.chat.completions.create(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\openai\resources\chat\completions\completions.py", line 2714, in create
-    return await self._post(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\openai\_base_client.py", line 1884, in post
-    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\openai\_base_client.py", line 1669, in request
-    raise self._make_status_error_from_response(err.response) from None
-openai.NotFoundError: Error code: 404 - {'error': {'message': 'The model `qwen-plus` does not exist.', 'type': 'NotFoundError', 'param': None, 'code': 404}}
-2026-03-26 11:14:52 - agents.intent_recognizer - ERROR - ❌ LLM API 请求失败: Client error '404 Not Found' for url 'http://192.168.0.22:8000/v1/chat/completions'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-03-26 11:14:52 - agents.intent_recognizer - ERROR - ❌ LLM 识别失败: Client error '404 Not Found' for url 'http://192.168.0.22:8000/v1/chat/completions'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404，降级到规则识别
-2026-03-26 11:14:52 - agents.action_handlers.query_details_handler - ERROR - ❌ LLM API 返回错误状态: 404
-2026-03-26 11:14:52 - agents.action_handlers.query_details_handler - ERROR - ❌ LLM 格式化失败: Client error '404 Not Found' for url 'http://192.168.0.22:8000/v1/chat/completions'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404，降级到规则格式化
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\weight_price.py", line 210, in calculate_weight_price
+    await _batch_update_database(success_results)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\routers\weight_price.py", line 708, in _batch_update_database
+    await asyncio.gather(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\database.py", line 83, in execute
+    return await conn.execute(query, *args)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\connection.py", line 357, in execute
+    _, status, _ = await self._execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\connection.py", line 1873, in _execute
+    result, _ = await self.__execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\connection.py", line 1970, in __execute
+    result, stmt = await self._do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\connection.py", line 2033, in _do_execute
+    result = await executor(stmt, None)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.InvalidColumnReferenceError: there is no unique or exclusion constraint matching the ON CONFLICT specification
+2026-03-30 08:47:58 - shared.logging_middleware - ERROR - ❌ 响应完成: POST /api/price_wg/calculate | 状态=500 | IP=127.0.0.1 | 耗时=0.440s
+2026-03-30 08:47:58 - agents.confirm_handler - ERROR - ❌ API 调用失败（已重试 3 次）: 500 - {"detail":"批量价格加权计算失败: there is no unique or exclusion constraint matching the ON CONFLICT specification"}
+2026-03-30 08:47:58 - shared.logging_middleware - ERROR - ❌ 响应完成: POST /api/v1/review/8dfe4db6-53bb-4894-a016-87b0fed76e08/confirm | 状态=500 | IP=192.168.1.152 | 耗时=0.580s

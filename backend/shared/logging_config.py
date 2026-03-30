@@ -359,7 +359,6 @@ def setup_logging(
                 ("api_gateway", "api_gateway.log"),
                 ("workers", "workers.log"),
                 ("agents", "agents.log"),
-                ("scripts", "scripts.log"),
                 ("shared", "shared.log"),
             ]
 

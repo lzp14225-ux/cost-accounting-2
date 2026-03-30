@@ -49,7 +49,17 @@ export interface MissingFieldsData {
     missing: Record<string, string>
     current_values: Record<string, any>
   }>
+  nc_failed_items?: NCFailedItem[]
   suggestion?: string
+}
+
+export interface NCFailedItem {
+  record_id: string
+  record_name: string
+  subgraph_id?: string
+  part_code?: string
+  part_name?: string
+  reason?: string
 }
 
 export interface ModificationMessageData {

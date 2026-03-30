@@ -315,8 +315,9 @@ const HistorySessions: React.FC = () => {
             jobId: jobId,
             missingFieldsData: {
               message: data.message || '数据不完整，需要补全必填字段',
-              summary: `发现 ${data.missing_fields?.length || 0} 条记录缺少必填字段`,
+              summary: data.summary || `发现 ${data.missing_fields?.length || 0} 条记录缺少必填字段`,
               missing_fields: data.missing_fields || [],
+              nc_failed_items: data.nc_failed_items || [],
               suggestion: data.suggestion,
             },
           })
@@ -362,8 +363,9 @@ const HistorySessions: React.FC = () => {
               jobId: jobId,
               missingFieldsData: {
                 message: completionData.message || '数据不完整，需要补全必填字段',
-                summary: `发现 ${completionData.missing_fields?.length || 0} 条记录缺少必填字段`,
+                summary: completionData.summary || `发现 ${completionData.missing_fields?.length || 0} 条记录缺少必填字段`,
                 missing_fields: completionData.missing_fields || [],
+                nc_failed_items: completionData.nc_failed_items || [],
                 suggestion: completionData.suggestion,
               },
             })

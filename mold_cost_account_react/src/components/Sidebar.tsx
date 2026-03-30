@@ -794,8 +794,9 @@ const Sidebar: React.FC = () => {
                                       jobId: jobId,
                                       missingFieldsData: {
                                         message: data.message || '数据不完整，需要补全必填字段',
-                                        summary: `发现 ${data.missing_fields?.length || 0} 条记录缺少必填字段`,
+                                        summary: data.summary || `发现 ${data.missing_fields?.length || 0} 条记录缺少必填字段`,
                                         missing_fields: data.missing_fields || [],
+                                        nc_failed_items: data.nc_failed_items || [],
                                         suggestion: data.suggestion,
                                       },
                                     })
@@ -851,8 +852,9 @@ const Sidebar: React.FC = () => {
                                         jobId: jobId,
                                         missingFieldsData: {
                                           message: completionData.message || '数据不完整，需要补全必填字段',
-                                          summary: `发现 ${completionData.missing_fields?.length || 0} 条记录缺少必填字段`,
+                                          summary: completionData.summary || `发现 ${completionData.missing_fields?.length || 0} 条记录缺少必填字段`,
                                           missing_fields: completionData.missing_fields || [],
+                                          nc_failed_items: completionData.nc_failed_items || [],
                                           suggestion: completionData.suggestion,
                                         },
                                       })
@@ -912,40 +914,19 @@ const Sidebar: React.FC = () => {
                                           useAppStore.getState().isReprocessing === true
                                         
                                         if (isReprocess) {
-                                          // 重新识别特征完成，调用 refresh 接口刷新数据
-                                          console.log('✅ 收到 feature_recognition_completed (reprocess)，调用 refresh 接口刷新数据')
-                                          setTimeout(async () => {
-                                            try {
-                                              setIsRefreshing(true)
-                                              await chatService.refreshReview(jobId)
-                                              console.log('✅ 重新识别完成后刷新成功')
-                                            } catch (error) {
-                                              console.error('❌ 重新识别完成后刷新失败:', error)
-                                            } finally {
-                                              setIsRefreshing(false)
-                                              setIsReprocessing(false) // 重置重新处理状态，恢复发送按钮
-                                            }
-                                          }, 500)
+                                          console.log('Wait for backend-pushed review data after feature_recognition_completed (reprocess)')
+                                          setIsRefreshing(false)
+                                          setIsReprocessing(false)
                                         } else {
                                           // 首次识别完成，从历史会话进入，跳过 refresh，等待 awaiting_confirm
                                           console.log('✅ 收到 feature_recognition_completed (首次)，从历史会话进入，跳过 refresh，等待 awaiting_confirm')
                                           setIsReprocessing(false) // 重置重新处理状态，恢复发送按钮
                                         }
                                       } else if (data.stage === 'pricing_completed') {
-                                        console.log('✅ 收到 pricing_completed，调用 refresh 接口刷新数据')
-                                        // 价格计算完成，停止核算状态
+                                        console.log('Wait for backend-pushed review data after pricing_completed')
                                         setIsCalculating(false)
-                                        setTimeout(async () => {
-                                          try {
-                                            setIsRefreshing(true)
-                                            await chatService.refreshReview(jobId)
-                                          } catch (error) {
-                                            console.error('❌ 价格计算完成后刷新失败:', error)
-                                          } finally {
-                                            setIsRefreshing(false)
-                                            setIsReprocessing(false) // 重置重新处理状态，恢复发送按钮
-                                          }
-                                        }, 500)
+                                        setIsRefreshing(false)
+                                        setIsReprocessing(false)
                                       } else if (data.stage === 'pricing_started') {
                                         // 价格计算开始，停止核算状态（因为已经开始了）
                                         setIsCalculating(false)

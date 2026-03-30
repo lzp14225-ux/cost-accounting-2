@@ -26,13 +26,85 @@ from api_gateway.utils.chat_logger import (
     log_assistant_message
 )
 from api_gateway.repositories.chat_history_repository import ChatHistoryRepository
+from api_gateway.repositories.review_repository import ReviewRepository
 
 logger = logging.getLogger(__name__)
 
 # 全局实例
 chat_history_repo = ChatHistoryRepository()
+review_repo = ReviewRepository()
 
 router = APIRouter(prefix="/api/v1/chat", tags=["chat"])
+
+
+async def _backfill_completion_request_nc_failed_items(
+    db,
+    job_id: str,
+    messages: List[dict]
+) -> List[dict]:
+    """Backfill current NC failure items into persisted completion_request messages."""
+    if not messages:
+        return messages
+
+    job_meta_data = await review_repo.get_job_meta_data(db, job_id)
+    nc_failed_itemcodes = review_repo._extract_nc_failed_itemcodes(job_meta_data)  # noqa: SLF001
+    if not nc_failed_itemcodes:
+        return messages
+
+    subgraphs = await review_repo.get_subgraphs(db, job_id)
+    nc_failed_items = review_repo._build_nc_failed_items(nc_failed_itemcodes, subgraphs)  # noqa: SLF001
+    if not nc_failed_items:
+        return messages
+
+    updated_messages: List[dict] = []
+    for message in messages:
+        metadata = message.get("metadata")
+        if not isinstance(metadata, dict):
+            updated_messages.append(message)
+            continue
+
+        original_ws_message = metadata.get("original_ws_message")
+        message_type = metadata.get("message_type")
+        is_completion_request = (
+            message_type == "completion_request"
+            or (
+                isinstance(original_ws_message, dict)
+                and original_ws_message.get("type") == "completion_request"
+            )
+        )
+        if not is_completion_request:
+            updated_messages.append(message)
+            continue
+
+        if not isinstance(original_ws_message, dict):
+            updated_messages.append(message)
+            continue
+
+        ws_data = original_ws_message.get("data")
+        if not isinstance(ws_data, dict):
+            updated_messages.append(message)
+            continue
+
+        existing_nc_failed_items = ws_data.get("nc_failed_items")
+        if isinstance(existing_nc_failed_items, list) and existing_nc_failed_items:
+            updated_messages.append(message)
+            continue
+
+        new_data = dict(ws_data)
+        new_data["nc_failed_items"] = nc_failed_items
+
+        new_original_ws_message = dict(original_ws_message)
+        new_original_ws_message["data"] = new_data
+
+        new_metadata = dict(metadata)
+        new_metadata["original_ws_message"] = new_original_ws_message
+        new_metadata["nc_failed_items_count"] = len(nc_failed_items)
+
+        new_message = dict(message)
+        new_message["metadata"] = new_metadata
+        updated_messages.append(new_message)
+
+    return updated_messages
 
 
 # ========== 请求模型 ==========
@@ -330,6 +402,11 @@ async def get_chat_history(
         
         # 获取历史消息（带分页）
         messages = await chat_history_repo.get_session_history(db, session_id, limit, offset)
+        messages = await _backfill_completion_request_nc_failed_items(
+            db,
+            session_info["job_id"],
+            messages
+        )
         
         # 获取真实总消息数
         total_count = await chat_history_repo.get_session_message_count(db, session_id)

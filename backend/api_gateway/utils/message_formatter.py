@@ -305,6 +305,7 @@ def format_completion_request(ws_message: dict) -> str:
     """
     data = ws_message.get('data', {})
     missing_fields = data.get('missing_fields', [])
+    nc_failed_items = data.get('nc_failed_items', [])
     suggestion = data.get('suggestion', '')
     message = data.get('message', '请补全缺失字段')
     
@@ -321,6 +322,18 @@ def format_completion_request(ws_message: dict) -> str:
         if len(missing_fields) > 10:
             content += f"... 还有 {len(missing_fields) - 10} 个字段\n"
     
+    if nc_failed_items:
+        content += "\nNC 识别失败物料：\n"
+        for failed_item in nc_failed_items[:10]:
+            part_code = failed_item.get('part_code') or failed_item.get('record_name', '未知物料')
+            part_name = failed_item.get('part_name')
+            content += f"- {part_code}"
+            if part_name:
+                content += f" - {part_name}"
+            content += "\n"
+        if len(nc_failed_items) > 10:
+            content += f"... 还有 {len(nc_failed_items) - 10} 个物料\n"
+
     if suggestion:
         content += f"\n建议：{suggestion[:200]}"  # 限制长度
         if len(suggestion) > 200:
@@ -486,6 +499,7 @@ def build_metadata(ws_message: dict) -> dict:
     elif message_type == 'completion_request':
         data = ws_message.get('data', {})
         metadata['missing_fields_count'] = len(data.get('missing_fields', []))
+        metadata['nc_failed_items_count'] = len(data.get('nc_failed_items', []))
     
     elif message_type == 'review_completed':
         metadata['modifications_count'] = ws_message.get('modifications_count', 0)

@@ -9,6 +9,7 @@ NCTimeAgent - NC时间计算Agent
 4. 将详细时间数据写入 features 表（nc_time_cost 字段）
 """
 from typing import Dict, Any, List
+import asyncio
 import httpx
 import re
 import os
@@ -21,7 +22,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 from sqlalchemy import select, update
 from .base_agent import BaseAgent
 from shared.database import get_db
-from shared.models import Subgraph, Feature
+from shared.models import Job, Subgraph, Feature
 
 class NCTimeAgent(BaseAgent):
     """
@@ -31,16 +32,21 @@ class NCTimeAgent(BaseAgent):
     
     def __init__(self, nc_agent_url: str = None, progress_publisher=None):
         super().__init__("NCTimeAgent")
-        # 从环境变量读取配置，如果没有则使用默认值
-        self.nc_agent_url = nc_agent_url or os.getenv("NC_AGENT_URL", "http://192.168.0.65:8001")
-        self.timeout = int(os.getenv("NC_AGENT_TIMEOUT", "86400"))  # 默认24小时超时
+        self.nc_agent_url = nc_agent_url or os.environ["NC_AGENT_URL"]
+        self.timeout = int(os.environ["NC_AGENT_TIMEOUT"])
+        self.request_timeout = int(os.environ["NC_AGENT_REQUEST_TIMEOUT"])
+        self.poll_interval = float(os.environ["NC_AGENT_POLL_INTERVAL"])
         self.progress_publisher = progress_publisher
         self.logs_root = Path("logs")
         self.nc_log_retention_days = int(os.getenv("NC_LOG_RETENTION_DAYS", "7"))
         self.nc_log_cleanup_interval_days = int(os.getenv("NC_LOG_CLEANUP_INTERVAL_DAYS", "7"))
         self.nc_log_cleanup_state_file = self.logs_root / ".nc_log_cleanup_state.json"
-        self.logger.info(f"[NCTimeAgent] 初始化完成: url={self.nc_agent_url}, timeout={self.timeout}秒")
-    
+        self.logger.info(
+            f"[NCTimeAgent] initialized: url={self.nc_agent_url}, "
+            f"workflow_timeout={self.timeout}s, request_timeout={self.request_timeout}s, "
+            f"poll_interval={self.poll_interval}s"
+        )
+
     async def process(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """
         处理NC时间计算
@@ -103,11 +109,14 @@ class NCTimeAgent(BaseAgent):
                 temp_files.append(prt_local_path)
             
             # 2. 调用外部 NC Agent
-            nc_result = await self.call_nc_agent(
+            nc_result = await self.call_nc_agent_workflow(
                 job_id=job_id,
                 dwg_file=dwg_local_path,
                 prt_file=prt_local_path
             )
+
+            fail_itemcodes = self._extract_fail_itemcodes(nc_result)
+            await self._save_nc_failed_itemcodes(job_id, fail_itemcodes)
             
             code = nc_result.get("code")
             message = nc_result.get("message", "")
@@ -303,6 +312,143 @@ class NCTimeAgent(BaseAgent):
             # 清理临时文件
             await self._cleanup_temp_files(temp_files)
     
+    async def call_nc_agent_workflow(
+        self,
+        job_id: str,
+        dwg_file: str = None,
+        prt_file: str = None
+    ) -> Dict[str, Any]:
+        """Call NC Agent using submit/status/result workflow API."""
+        self.logger.info(f"[NCTimeAgent] calling NC workflow API: {self.nc_agent_url}")
+
+        if not prt_file or not dwg_file:
+            raise ValueError("Missing required nc input files: prt_file/dwg_file")
+
+        files: Dict[str, Any] = {}
+        try:
+            dwg_ext = os.path.splitext(dwg_file)[1].lower()
+            prt_ext = os.path.splitext(prt_file)[1].lower()
+
+            files["prt_file"] = (f"model{prt_ext}", open(prt_file, "rb"), "application/octet-stream")
+            drawing_field = "dxf_file" if dwg_ext == ".dxf" else "dwg_file"
+            files[drawing_field] = (f"drawing{dwg_ext}", open(dwg_file, "rb"), "application/octet-stream")
+
+            data = {
+                "skip_approval": "true",
+                "auto_continue": "true"
+            }
+
+            self.logger.info(
+                f"[NCTimeAgent] submit files: prt={prt_file}, {drawing_field}={dwg_file}, "
+                f"workflow_timeout={self.timeout}s, request_timeout={self.request_timeout}s"
+            )
+
+            async with httpx.AsyncClient(timeout=self.request_timeout) as client:
+                submit_payload = await self._submit_nc_workflow(client, files, data)
+                task_id = submit_payload.get("task_id")
+                if not task_id:
+                    raise RuntimeError(f"NC submit missing task_id: {submit_payload}")
+
+                self.logger.info(
+                    f"[NCTimeAgent] NC task submitted: task_id={task_id}, "
+                    f"status={submit_payload.get('status')}, trace_id={submit_payload.get('trace_id')}"
+                )
+
+                await self._wait_for_nc_workflow(client, task_id)
+                result = await self._fetch_nc_result(client, task_id)
+                self._save_nc_debug_response(job_id, result)
+                return result
+        finally:
+            for file_tuple in files.values():
+                if len(file_tuple) > 1 and hasattr(file_tuple[1], "close"):
+                    file_tuple[1].close()
+
+    async def _submit_nc_workflow(
+        self,
+        client: httpx.AsyncClient,
+        files: Dict[str, Any],
+        data: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        response = await client.post(
+            f"{self.nc_agent_url}/api/v1/workflow/3d/submit",
+            files=files,
+            data=data
+        )
+        response.raise_for_status()
+        payload = response.json()
+        if not payload.get("success"):
+            raise RuntimeError(f"NC submit failed: {payload.get('message') or payload}")
+        return payload
+
+    async def _wait_for_nc_workflow(self, client: httpx.AsyncClient, task_id: str):
+        deadline = time.monotonic() + self.timeout
+        last_status = None
+        last_message = ""
+
+        while time.monotonic() < deadline:
+            response = await client.get(f"{self.nc_agent_url}/api/v1/workflow/3d/status/{task_id}")
+            response.raise_for_status()
+            payload = response.json()
+
+            status = payload.get("status")
+            message = payload.get("message", "")
+            if status != last_status:
+                self.logger.info(
+                    f"[NCTimeAgent] NC status: task_id={task_id}, status={status}, message={message}"
+                )
+                last_status = status
+            last_message = message
+
+            if status == "success":
+                return
+
+            if status == "failed":
+                raise RuntimeError(f"NC workflow failed: {self._extract_nc_error_message(payload)}")
+
+            if status not in {"queued", "running"}:
+                raise RuntimeError(f"NC workflow returned unknown status: {status}, payload={payload}")
+
+            await asyncio.sleep(self.poll_interval)
+
+        raise RuntimeError(
+            f"NC workflow timeout: task_id={task_id}, timeout={self.timeout}s, "
+            f"last_status={last_status}, last_message={last_message}"
+        )
+
+    async def _fetch_nc_result(self, client: httpx.AsyncClient, task_id: str) -> Dict[str, Any]:
+        response = await client.get(f"{self.nc_agent_url}/api/v1/workflow/3d/result/{task_id}")
+        response.raise_for_status()
+        payload = response.json()
+
+        status = payload.get("status")
+        if status == "failed" or payload.get("success") is False:
+            raise RuntimeError(f"NC result failed: {self._extract_nc_error_message(payload)}")
+
+        result = payload.get("result")
+        if not isinstance(result, dict):
+            raise RuntimeError(f"NC result payload invalid: {payload}")
+
+        self.logger.info(
+            f"[NCTimeAgent] NC result fetched: task_id={task_id}, status={status}, "
+            f"code={result.get('code')}, message={result.get('message')}"
+        )
+        return result
+
+    def _extract_nc_error_message(self, payload: Dict[str, Any]) -> str:
+        error = payload.get("error")
+        if isinstance(error, dict):
+            return error.get("error_message") or error.get("message") or payload.get("message") or str(payload)
+        return payload.get("message") or str(error) or str(payload)
+
+    def _save_nc_debug_response(self, job_id: str, result: Dict[str, Any]):
+        debug_dir = Path("logs") / "nc_agent_debug"
+        debug_dir.mkdir(parents=True, exist_ok=True)
+        timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        debug_file = debug_dir / f"response_{job_id}_{timestamp}.json"
+        with open(debug_file, "w", encoding="utf-8") as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
+        self.logger.info(f"[NCTimeAgent] debug response saved: {debug_file}")
+
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=2, max=10)
@@ -1030,4 +1176,44 @@ class NCTimeAgent(BaseAgent):
                 f"volume_mm3={time_data.get('volume_mm3', 'N/A')}"
             )
             
+            break
+
+    def _extract_fail_itemcodes(self, nc_result: Dict[str, Any]) -> List[str]:
+        raw_codes = nc_result.get("fail_itemcode", [])
+        if not isinstance(raw_codes, list):
+            return []
+
+        normalized_codes: List[str] = []
+        seen = set()
+        for code in raw_codes:
+            text = str(code).strip()
+            if not text or text in seen:
+                continue
+            seen.add(text)
+            normalized_codes.append(text)
+        return normalized_codes
+
+    async def _save_nc_failed_itemcodes(self, job_id: str, fail_itemcodes: List[str]):
+        async for db in get_db():
+            result = await db.execute(
+                select(Job.meta_data).where(Job.job_id == job_id)
+            )
+            current_meta = result.scalar_one_or_none() or {}
+            if not isinstance(current_meta, dict):
+                current_meta = {}
+
+            updated_meta = dict(current_meta)
+            updated_meta["nc_failed_itemcodes"] = fail_itemcodes
+            updated_meta["nc_failed_updated_at"] = datetime.utcnow().isoformat()
+
+            await db.execute(
+                update(Job)
+                .where(Job.job_id == job_id)
+                .values(meta_data=updated_meta)
+            )
+            await db.commit()
+
+            self.logger.info(
+                f"[NCTimeAgent] 保存 NC 识别失败物料编码: job_id={job_id}, count={len(fail_itemcodes)}"
+            )
             break

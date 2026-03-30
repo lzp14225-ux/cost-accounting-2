@@ -43,7 +43,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent / '.env')
 
 DB_CONFIG = {
-    'host':     os.getenv('DB_HOST',     '192.168.1.54'),
+    'host':     os.getenv('DB_HOST',     '192.168.1.152'),
     'port':     int(os.getenv('DB_PORT', '5432')),
     'dbname':   os.getenv('DB_NAME',     'mold_cost_db'),
     'user':     os.getenv('DB_USER',     'root'),

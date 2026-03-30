@@ -38,7 +38,7 @@ class PriceWgSettings(BaseSettings):
     )
     
     # Price WG 服务配置
-    price_wg_rule_weight_unit: str = Field(default="g", description="Rule 数据的重量单位: kg 或 g")
+    price_wg_rule_weight_unit: str = Field(default="kg", description="Rule 数据的重量单位: kg 或 g")
 
 
 # 全局配置实例

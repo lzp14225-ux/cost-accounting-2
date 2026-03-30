@@ -17,7 +17,7 @@ import logging
 from shared.timezone_utils import now_shanghai
 
 # 导入模型
-from shared.models import Feature, JobPriceSnapshot, JobProcessSnapshot, Subgraph, ProcessingCostCalculationDetail
+from shared.models import Job, Feature, JobPriceSnapshot, JobProcessSnapshot, Subgraph, ProcessingCostCalculationDetail
 
 logger = logging.getLogger(__name__)
 
@@ -623,7 +623,7 @@ class ReviewRepository:
         self,
         db: AsyncSession,
         job_id: str
-    ) -> Dict[str, List[Dict[str, Any]]]:
+    ) -> Dict[str, Any]:
         """
         一次性查询所有审核数据（性能优化）
         
@@ -643,6 +643,10 @@ class ReviewRepository:
             subgraphs = await self.get_subgraphs(db, job_id)
             processing_cost_details = await self.get_processing_cost_details(db, job_id)  # 🆕 新增
             
+            job_meta_data = await self.get_job_meta_data(db, job_id)
+            nc_failed_itemcodes = self._extract_nc_failed_itemcodes(job_meta_data)
+            nc_failed_items = self._build_nc_failed_items(nc_failed_itemcodes, subgraphs)
+
             result = {
                 "features": features,
                 "job_price_snapshots": price_snapshots,  # 🔑 使用实际表名
@@ -655,12 +659,74 @@ class ReviewRepository:
                        f"subgraphs={len(subgraphs)}, "
                        f"processing_cost_calculation_details={len(processing_cost_details)}")  # 🆕 新增
             
+            result["job_meta_data"] = job_meta_data
+            result["nc_failed_itemcodes"] = nc_failed_itemcodes
+            result["nc_failed_items"] = nc_failed_items
             return result
         
         except Exception as e:
             logger.error(f"❌ 批量查询失败: {e}")
             raise
     
+    async def get_job_meta_data(
+        self,
+        db: AsyncSession,
+        job_id: str
+    ) -> Dict[str, Any]:
+        result = await db.execute(
+            select(Job.meta_data).where(Job.job_id == job_id)
+        )
+        meta_data = result.scalar_one_or_none()
+        return meta_data if isinstance(meta_data, dict) else {}
+
+    def _extract_nc_failed_itemcodes(self, job_meta_data: Optional[Dict[str, Any]]) -> List[str]:
+        if not isinstance(job_meta_data, dict):
+            return []
+
+        raw_codes = job_meta_data.get("nc_failed_itemcodes")
+        if raw_codes is None:
+            raw_codes = job_meta_data.get("fail_itemcode", [])
+
+        if not isinstance(raw_codes, list):
+            return []
+
+        normalized_codes: List[str] = []
+        seen = set()
+        for code in raw_codes:
+            text = str(code).strip()
+            if not text or text in seen:
+                continue
+            seen.add(text)
+            normalized_codes.append(text)
+        return normalized_codes
+
+    def _build_nc_failed_items(
+        self,
+        nc_failed_itemcodes: List[str],
+        subgraphs: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
+        if not nc_failed_itemcodes:
+            return []
+
+        subgraph_map = {}
+        for subgraph in subgraphs:
+            part_code = str(subgraph.get("part_code") or "").strip()
+            if part_code and part_code not in subgraph_map:
+                subgraph_map[part_code] = subgraph
+
+        items = []
+        for code in nc_failed_itemcodes:
+            matched = subgraph_map.get(code, {})
+            items.append({
+                "record_id": matched.get("subgraph_id") or code,
+                "record_name": matched.get("subgraph_id") or code,
+                "subgraph_id": matched.get("subgraph_id"),
+                "part_code": matched.get("part_code") or code,
+                "part_name": matched.get("part_name"),
+                "reason": "NC识别失败",
+            })
+        return items
+
     async def update_all_review_data(
         self,
         db: AsyncSession,

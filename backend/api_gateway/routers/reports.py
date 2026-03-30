@@ -19,6 +19,7 @@ import json
 
 from shared.database import get_db
 from shared.models import Job, Subgraph, Feature
+from shared.validators.completeness_validator import CompletenessValidator
 from api_gateway.utils.minio_client import upload_file_to_minio, get_file_url
 
 logger = logging.getLogger(__name__)
@@ -304,6 +305,90 @@ def generate_excel_report(job_data: dict) -> BytesIO:
         'border': 1,
         'num_format': '0.00'
     })
+
+    highlight_wrap_format = workbook.add_format({
+        'font_name': 'Microsoft YaHei',
+        'font_size': 10,
+        'align': 'left',
+        'valign': 'vcenter',
+        'border': 1,
+        'bg_color': '#FFC7CE',
+        'font_color': '#9C0006',
+        'text_wrap': False
+    })
+
+    highlight_data_format = workbook.add_format({
+        'font_name': 'Microsoft YaHei',
+        'font_size': 10,
+        'align': 'center',
+        'valign': 'vcenter',
+        'border': 1,
+        'bg_color': '#FFC7CE',
+        'font_color': '#9C0006'
+    })
+
+    highlight_data_left_format = workbook.add_format({
+        'font_name': 'Microsoft YaHei',
+        'font_size': 10,
+        'align': 'left',
+        'valign': 'vcenter',
+        'border': 1,
+        'bg_color': '#FFC7CE',
+        'font_color': '#9C0006'
+    })
+
+    highlight_number_format = workbook.add_format({
+        'font_name': 'Microsoft YaHei',
+        'font_size': 10,
+        'align': 'center',
+        'valign': 'vcenter',
+        'border': 1,
+        'bg_color': '#FFC7CE',
+        'font_color': '#9C0006',
+        'num_format': '0.00'
+    })
+
+    nc_fail_wrap_format = workbook.add_format({
+        'font_name': 'Microsoft YaHei',
+        'font_size': 10,
+        'align': 'left',
+        'valign': 'vcenter',
+        'border': 1,
+        'bg_color': '#FFC7CE',
+        'font_color': '#9C0006',
+        'text_wrap': False
+    })
+
+    nc_fail_data_format = workbook.add_format({
+        'font_name': 'Microsoft YaHei',
+        'font_size': 10,
+        'align': 'center',
+        'valign': 'vcenter',
+        'border': 1,
+        'bg_color': '#FFC7CE',
+        'font_color': '#9C0006'
+    })
+
+    nc_fail_data_left_format = workbook.add_format({
+        'font_name': 'Microsoft YaHei',
+        'font_size': 10,
+        'align': 'left',
+        'valign': 'vcenter',
+        'border': 1,
+        'bg_color': '#FFC7CE',
+        'font_color': '#9C0006'
+    })
+
+    nc_fail_number_format = workbook.add_format({
+        'font_name': 'Microsoft YaHei',
+        'font_size': 10,
+        'align': 'center',
+        'valign': 'vcenter',
+        'border': 1,
+        'bg_color': '#FFC7CE',
+        'font_color': '#9C0006',
+        'num_format': '0.00'
+    })
     
     total_format = workbook.add_format({
         'font_name': '宋体',
@@ -341,24 +426,45 @@ def generate_excel_report(job_data: dict) -> BytesIO:
     # 数据行
     subgraphs = job_data['subgraphs']
     features_dict = job_data['features_dict']
+    missing_fields_map = _build_missing_fields_map(subgraphs, features_dict)
+    nc_failed_part_codes = _build_nc_failed_part_code_set(job)
     
     for idx, subgraph in enumerate(subgraphs, start=1):
         row = idx + 1  # 从第3行开始（0-based: row 2）
         feature = features_dict.get(subgraph.subgraph_id)
-        
+        normalized_part_code = _normalize_code(subgraph.part_code)
+        is_nc_failed_row = normalized_part_code in nc_failed_part_codes
+        is_warning_row = subgraph.subgraph_id in missing_fields_map
+
+        if is_nc_failed_row:
+            current_wrap_format = nc_fail_wrap_format
+            current_data_format = nc_fail_data_format
+            current_data_left_format = nc_fail_data_left_format
+            current_number_format = nc_fail_number_format
+        elif is_warning_row:
+            current_wrap_format = highlight_wrap_format
+            current_data_format = highlight_data_format
+            current_data_left_format = highlight_data_left_format
+            current_number_format = highlight_number_format
+        else:
+            current_wrap_format = wrap_format
+            current_data_format = data_format
+            current_data_left_format = data_left_format
+            current_number_format = number_format
+
         row_data = _build_row_data(idx, subgraph, feature)
         
         for col_idx, value in enumerate(row_data):
             if col_idx == len(row_data) - 1:  # 异常情况列
-                worksheet.write(row, col_idx, value, wrap_format)
+                worksheet.write(row, col_idx, value, current_wrap_format)
             elif col_idx == 1:
-                worksheet.write(row, col_idx, value, data_left_format)
+                worksheet.write(row, col_idx, value, current_data_left_format)
             elif col_idx > 7 and isinstance(value, (int, float)):
-                worksheet.write(row, col_idx, value, number_format)
+                worksheet.write(row, col_idx, value, current_number_format)
             else:
-                worksheet.write(row, col_idx, value, data_format)
+                worksheet.write(row, col_idx, value, current_data_format)
         # 加在这里↓
-        worksheet.write(row, len(row_data), ' ', data_format)
+        worksheet.write(row, len(row_data), ' ', current_data_format)
     
     # 合计行
     total_row = len(subgraphs) + 2
@@ -451,6 +557,70 @@ def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature) -> list:
         safe_float(feature.volume_mm3 if feature else None),      # 新增
         _extract_abnormal_desc(feature.abnormal_situation if feature else None)  # 新增
     ]
+
+
+def _build_missing_fields_map(subgraphs, features_dict):
+    features_payload = []
+    for subgraph in subgraphs:
+        feature = features_dict.get(subgraph.subgraph_id)
+        if not feature:
+            continue
+        features_payload.append(_build_completeness_feature_payload(subgraph, feature))
+
+    completeness_result = CompletenessValidator.check_data_completeness({
+        "features": features_payload
+    })
+
+    return {
+        item.get("record_name"): item
+        for item in completeness_result.get("missing_fields", [])
+        if item.get("record_name")
+    }
+
+
+def _build_nc_failed_part_code_set(job: Job):
+    meta_data = job.meta_data if isinstance(job.meta_data, dict) else {}
+    raw_codes = meta_data.get("nc_failed_itemcodes")
+    if raw_codes is None:
+        raw_codes = meta_data.get("fail_itemcode", [])
+
+    if not isinstance(raw_codes, list):
+        return set()
+
+    return {
+        normalized
+        for normalized in (_normalize_code(code) for code in raw_codes)
+        if normalized
+    }
+
+
+def _build_completeness_feature_payload(subgraph: Subgraph, feature: Feature) -> dict:
+    return {
+        "feature_id": feature.feature_id,
+        "subgraph_id": feature.subgraph_id,
+        "part_code": subgraph.part_code,
+        "part_name": subgraph.part_name,
+        "length_mm": _to_number_or_none(feature.length_mm),
+        "width_mm": _to_number_or_none(feature.width_mm),
+        "thickness_mm": _to_number_or_none(feature.thickness_mm),
+        "quantity": _to_number_or_none(feature.quantity),
+        "material": feature.material,
+    }
+
+
+def _to_number_or_none(value):
+    if value is None or value == '':
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return value
+
+
+def _normalize_code(value):
+    if value is None:
+        return ""
+    return str(value).strip().upper()
 
 
 @router.get("/{job_id}/status")

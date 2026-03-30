@@ -163,7 +163,7 @@ class InteractionAgent(BaseAgent):
             from agents.review_status import ReviewStatus
             
             await self._save_review_state(job_id, {
-                "status": ReviewStatus.REVIEWING if completeness_result["is_complete"] else "pending_completion",
+                "status": ReviewStatus.REVIEWING if not self._has_pending_completion(completeness_result, raw_data) else "pending_completion",
                 "raw_data": raw_data,           # 🔑 原始 4 表数据
                 "display_view": display_view,   # 🔑 展示视图
                 "data_version": data_version,
@@ -177,7 +177,7 @@ class InteractionAgent(BaseAgent):
             await self._push_display_view(job_id, display_view, db_session=db_session)
             
             # 8. 如果有缺失字段,再推送补全请求
-            if not completeness_result["is_complete"]:
+            if self._has_pending_completion(completeness_result, raw_data):
                 logger.info(f"⚠️  发现缺失字段,生成补全建议...")
                 
                 # 生成 LLM 补全提示
@@ -195,11 +195,7 @@ class InteractionAgent(BaseAgent):
                 # 推送补全请求到前端
                 await self._push_completion_request(
                     job_id,
-                    {
-                        "missing_fields": completeness_result["missing_fields"],
-                        "suggestion": completion_suggestion,
-                        "message": "发现部分必填字段为空,请先补全这些字段"
-                    },
+                    self._build_completion_payload(raw_data, completeness_result, completion_suggestion),
                     db_session=db_session
                 )
                 
@@ -211,7 +207,8 @@ class InteractionAgent(BaseAgent):
                     data={
                         "job_id": job_id,
                         "completeness": completeness_result,
-                        "suggestion": completion_suggestion
+                        "suggestion": completion_suggestion,
+                        "nc_failed_items": raw_data.get("nc_failed_items", [])
                     }
                 )
             
@@ -820,7 +817,7 @@ class InteractionAgent(BaseAgent):
             await self._push_display_view(job_id, display_view, db_session=db_session)
             
             # 🆕 9. 如果有缺失字段，推送补全请求
-            if not completeness_result["is_complete"]:
+            if self._has_pending_completion(completeness_result, raw_data):
                 logger.info(f"⚠️  发现缺失字段，生成补全建议...")
                 
                 # 生成 LLM 补全提示
@@ -838,11 +835,7 @@ class InteractionAgent(BaseAgent):
                 # 推送补全请求到前端
                 await self._push_completion_request(
                     job_id,
-                    {
-                        "missing_fields": completeness_result["missing_fields"],
-                        "suggestion": completion_suggestion,
-                        "message": "刷新后发现部分必填字段为空，请补全这些字段"
-                    },
+                    self._build_completion_payload(raw_data, completeness_result, completion_suggestion),
                     db_session=db_session
                 )
                 
@@ -932,7 +925,7 @@ class InteractionAgent(BaseAgent):
             from agents.review_status import ReviewStatus
             
             await self._save_review_state(job_id, {
-                "status": ReviewStatus.REVIEWING if completeness_result["is_complete"] else "pending_completion",
+                "status": ReviewStatus.REVIEWING if not self._has_pending_completion(completeness_result, raw_data) else "pending_completion",
                 "raw_data": raw_data,
                 "display_view": display_view,
                 "data_version": data_version,
@@ -947,7 +940,7 @@ class InteractionAgent(BaseAgent):
             await self._push_display_view(job_id, display_view, db_session=db_session)
             
             # 7. 如果有缺失字段，推送补全请求
-            if not completeness_result["is_complete"]:
+            if self._has_pending_completion(completeness_result, raw_data):
                 logger.info(f"⚠️  发现缺失字段，生成补全建议...")
                 
                 completion_prompt = CompletenessValidator.generate_completion_prompt(
@@ -962,11 +955,7 @@ class InteractionAgent(BaseAgent):
                 
                 await self._push_completion_request(
                     job_id,
-                    {
-                        "missing_fields": completeness_result["missing_fields"],
-                        "suggestion": completion_suggestion,
-                        "message": "数据已重新加载，发现部分必填字段为空，请补全这些字段"
-                    },
+                    self._build_completion_payload(raw_data, completeness_result, completion_suggestion),
                     db_session=db_session
                 )
             
@@ -1039,44 +1028,55 @@ class InteractionAgent(BaseAgent):
     
     def _calculate_data_version(self, data: Dict[str, Any]) -> Dict[str, str]:
         """
-        计算数据版本哈希（乐观锁）
-        
-        为每条记录计算 MD5 哈希值，用于检测数据是否被修改
-        
+        ????????????????
+
         Args:
-            data: 审核数据（包含 4 个表）
-        
+            data: ?????????
+
         Returns:
-            版本字典 {table:record_id: hash_value}
+            ???? {table:record_id: hash_value}
         """
         version = {}
-        
+        id_fields = {
+            "features": "feature_id",
+            "job_price_snapshots": "snapshot_id",
+            "subgraphs": "subgraph_id",
+            "processing_cost_calculation_details": "id",
+        }
+
         for table_name, records in data.items():
             if not isinstance(records, list):
                 continue
-            
+
+            id_field = id_fields.get(table_name)
+
             for record in records:
-                # 获取记录 ID
+                if not isinstance(record, dict):
+                    logger.debug(
+                        f"?????????: table={table_name}, type={type(record).__name__}"
+                    )
+                    continue
+
                 record_id = (
-                    record.get('subgraph_id') or 
-                    record.get('feature_id') or 
-                    record.get('snapshot_id')
+                    record.get(id_field) if id_field else
+                    record.get("subgraph_id") or
+                    record.get("feature_id") or
+                    record.get("snapshot_id") or
+                    record.get("id")
                 )
-                
+
                 if not record_id:
                     continue
-                
-                # 计算哈希（使用 JSON 序列化保证一致性）
+
                 record_str = json.dumps(record, sort_keys=True, ensure_ascii=False)
-                hash_value = hashlib.md5(record_str.encode('utf-8')).hexdigest()
-                
-                # 保存版本
+                hash_value = hashlib.md5(record_str.encode("utf-8")).hexdigest()
+
                 key = f"{table_name}:{record_id}"
                 version[key] = hash_value
-        
-        logger.debug(f"计算了 {len(version)} 条记录的版本哈希")
+
+        logger.debug(f"??? {len(version)} ??????????")
         return version
-    
+
     async def _save_review_state(self, job_id: str, state: Dict[str, Any], ex: int = 3600):
         """
         保存审核状态到 Redis
@@ -1305,6 +1305,44 @@ class InteractionAgent(BaseAgent):
                 db_session=db_session
             )
     
+    def _has_pending_completion(self, completeness_result: Dict[str, Any], raw_data: Dict[str, Any]) -> bool:
+        return (not completeness_result.get("is_complete", True)) or bool(raw_data.get("nc_failed_items"))
+
+    def _build_completion_payload(
+        self,
+        raw_data: Dict[str, Any],
+        completeness_result: Dict[str, Any],
+        suggestion: str = ""
+    ) -> Dict[str, Any]:
+        missing_fields = completeness_result.get("missing_fields", [])
+        nc_failed_items = raw_data.get("nc_failed_items", [])
+
+        if not isinstance(missing_fields, list):
+            missing_fields = []
+        if not isinstance(nc_failed_items, list):
+            nc_failed_items = []
+
+        missing_count = len(missing_fields)
+        nc_failed_count = len(nc_failed_items)
+
+        if missing_count and nc_failed_count:
+            message = "发现部分必填字段为空，且有部分物料 NC 识别失败，请先处理这些记录"
+            summary = f"发现 {missing_count} 条记录缺少必填字段，{nc_failed_count} 条物料 NC 识别失败"
+        elif missing_count:
+            message = "发现部分必填字段为空，请补全这些字段"
+            summary = f"发现 {missing_count} 条记录缺少必填字段"
+        else:
+            message = "发现部分物料 NC 识别失败，请先确认这些物料"
+            summary = f"发现 {nc_failed_count} 条物料 NC 识别失败"
+
+        return {
+            "message": message,
+            "summary": summary,
+            "missing_fields": missing_fields,
+            "nc_failed_items": nc_failed_items,
+            "suggestion": suggestion,
+        }
+
     async def _push_completion_request(
         self,
         job_id: str,

@@ -269,14 +269,17 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
 
       // 根据意图类型决定是否立即调用 refresh 接口
       // FEATURE_RECOGNITION 和 PRICE_CALCULATION 需要等待 WebSocket 完成消息
-      // DATA_MODIFICATION 立即调用 refresh
+      // DATA_MODIFICATION 由后端确认成功后自动 refresh，只有自动刷新失败才补手动 refresh
       if (intent === 'DATA_MODIFICATION') {
         try {
-          // 确认后马上刷新审核数据，避免 Sidebar/FileUpload 把 review_display_view 当作“仍在等待 AI 回复”而忽略
           setIsWaitingForReply(false);
-          setIsRefreshing(true);
-          await chatService.refreshReview(jobId);
-          // WebSocket 会自动推送数据（review_display_view 或 completion_request）
+
+          const autoRefreshStatus = result?.data?.auto_refresh_status;
+          if (autoRefreshStatus !== 'ok') {
+            setIsRefreshing(true);
+            await chatService.refreshReview(jobId);
+            // WebSocket 会自动推送数据（review_display_view 或 completion_request）
+          }
         } catch (refreshError) {
           console.error('❌ 刷新数据失败:', refreshError);
           // 刷新失败不影响主流程，只记录错误
@@ -291,8 +294,11 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
         // 不立即调用 refresh，等待 WebSocket 推送 pricing_completed
       } else if (intent === 'WEIGHT_PRICE_CALCULATION') {
         try {
-          setIsRefreshing(true);
-          await chatService.refreshReview(jobId);
+          const autoRefreshStatus = result?.data?.auto_refresh_status;
+          if (autoRefreshStatus !== 'ok') {
+            setIsRefreshing(true);
+            await chatService.refreshReview(jobId);
+          }
         } catch (refreshError) {
           console.error('按重量计算后刷新审核数据失败:', refreshError);
         } finally {
@@ -1582,6 +1588,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
                           message={message.missingFieldsData.message}
                           summary={message.missingFieldsData.summary}
                           missingFields={message.missingFieldsData.missing_fields}
+                          ncFailedItems={message.missingFieldsData.nc_failed_items || []}
                         />
                       </div>
                     )}
