@@ -11,11 +11,14 @@ import logging
 import os
 import tempfile
 import shutil
+import json
+import time
 import ezdxf
 from pathlib import Path
 from dotenv import load_dotenv
 from typing import List, Dict, Any, Optional
 import sys
+from urllib.parse import urlparse
 
 # 加载环境变量
 load_dotenv()
@@ -23,6 +26,7 @@ load_dotenv()
 # 导入 minio_client（从上级目录）
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from minio_client import minio_client
+from dwg_to_dxf_service import convert_dwg_to_dxf
 
 # 导入拆分的模块
 from .dimension_extractor import extract_dimensions
@@ -51,6 +55,7 @@ from .grinding_detector import detect_grinding_faces
 from .tooth_hole_detector import detect_tooth_hole
 from .slider_calculator import SliderCalculator
 from .slider_red_face_updater import update_slider_red_face_data
+from .plate_line_generator import PlateLineGenerator
 
 # Flask app 实例已移至 unified_api.py
 # app = Flask(__name__)
@@ -67,6 +72,10 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
+logger = logging.getLogger("scripts.feature_recognition")
+# Keep standalone basicConfig above, but route subsequent module log calls to
+# the scripts.* logger so MCP writes them into backend/logs/scripts.log.
+logging = logger
 
 # 数据库配置 (PostgreSQL)
 DB_CONFIG = {
@@ -81,6 +90,177 @@ DB_CONFIG = {
 API_HOST = os.getenv('API_HOST', '0.0.0.0')
 API_PORT = int(os.getenv('API_PORT', 8080))
 API_DEBUG = os.getenv('API_DEBUG', 'False').lower() == 'true'
+PLATE_LINE_OUTPUT_DIR = Path(__file__).resolve().parents[2] / 'output'
+PLATE_LINE_OUTPUT_RETENTION_DAYS = int(os.getenv('PLATE_LINE_OUTPUT_RETENTION_DAYS', '7'))
+PLATE_LINE_OUTPUT_CLEANUP_INTERVAL_DAYS = int(os.getenv('PLATE_LINE_OUTPUT_CLEANUP_INTERVAL_DAYS', '1'))
+PLATE_LINE_OUTPUT_CLEANUP_STATE_FILE = PLATE_LINE_OUTPUT_DIR / '.plate_line_output_cleanup_state.json'
+
+PLATE_LINE_TRIGGER_TYPES = {
+    'plate_line_not_found',
+    'plate_line_insufficient',
+    'plate_line_partial',
+    'plate_line_assignment_failed'
+}
+
+
+def _extract_plate_line_trigger_reason(anomalies: Optional[List[Dict[str, Any]]]) -> Optional[str]:
+    for anomaly in anomalies or []:
+        anomaly_type = anomaly.get('type')
+        if anomaly_type in PLATE_LINE_TRIGGER_TYPES:
+            return anomaly_type
+    return None
+
+
+def _extract_view_names_with_bounds(views: Optional[Dict[str, Dict[str, Any]]]) -> List[str]:
+    return sorted(
+        view_name
+        for view_name, view_data in (views or {}).items()
+        if isinstance(view_data, dict) and view_data.get('bounds')
+    )
+
+
+def _infer_source_extension(file_url: str) -> str:
+    parsed_path = urlparse(file_url or "").path
+    suffix = Path(parsed_path).suffix.lower()
+    if suffix in {'.dwg', '.dxf'}:
+        return suffix
+    return '.dxf'
+
+
+def _prepare_local_dxf_path(local_source_path: str) -> Optional[str]:
+    source_path = Path(local_source_path)
+    suffix = source_path.suffix.lower()
+
+    if suffix == '.dxf':
+        return str(source_path)
+
+    if suffix != '.dwg':
+        logging.warning("不支持的图纸格式，跳过处理: %s", local_source_path)
+        return None
+
+    converted_path = str(source_path.with_suffix('.dxf'))
+    logging.info("检测到 DWG 输入，开始转换 DXF: %s -> %s", local_source_path, converted_path)
+    result_path = convert_dwg_to_dxf(str(source_path), converted_path)
+    if not result_path:
+        logging.warning("DWG 转 DXF 失败: %s", local_source_path)
+        return None
+    logging.info("DWG 转 DXF 完成: %s", result_path)
+    return result_path
+
+
+def _save_plate_line_output(doc, source_dxf_file_path: str, job_id: Optional[str] = None) -> Optional[str]:
+    try:
+        output_dir = PLATE_LINE_OUTPUT_DIR / (job_id or 'unknown_job') / 'subgraphs'
+        output_dir.mkdir(parents=True, exist_ok=True)
+        output_path = output_dir / f"{Path(source_dxf_file_path).stem}_plate_line.dxf"
+        doc.saveas(str(output_path))
+        logging.info("板料线补线文件已保存: %s", output_path)
+        return str(output_path)
+    except Exception as exc:
+        logging.warning("板料线补线文件保存失败: %s", exc)
+        return None
+
+
+def _maybe_cleanup_plate_line_output_files() -> None:
+    if PLATE_LINE_OUTPUT_RETENTION_DAYS <= 0 or PLATE_LINE_OUTPUT_CLEANUP_INTERVAL_DAYS <= 0:
+        logging.info(
+            "跳过板料线输出清理: retention_days=%s, cleanup_interval_days=%s",
+            PLATE_LINE_OUTPUT_RETENTION_DAYS,
+            PLATE_LINE_OUTPUT_CLEANUP_INTERVAL_DAYS,
+        )
+        return
+
+    now_ts = time.time()
+    interval_seconds = PLATE_LINE_OUTPUT_CLEANUP_INTERVAL_DAYS * 24 * 60 * 60
+
+    try:
+        last_cleanup_ts = _load_plate_line_output_cleanup_state()
+        if last_cleanup_ts and now_ts - last_cleanup_ts < interval_seconds:
+            return
+
+        cutoff_ts = now_ts - (PLATE_LINE_OUTPUT_RETENTION_DAYS * 24 * 60 * 60)
+        deleted_files = _cleanup_plate_line_output_files(PLATE_LINE_OUTPUT_DIR, cutoff_ts)
+        _write_plate_line_output_cleanup_state(now_ts)
+        logging.info(
+            "板料线输出清理完成: deleted_files=%s, retention_days=%s, cleanup_interval_days=%s",
+            deleted_files,
+            PLATE_LINE_OUTPUT_RETENTION_DAYS,
+            PLATE_LINE_OUTPUT_CLEANUP_INTERVAL_DAYS,
+        )
+    except Exception as exc:
+        logging.warning("板料线输出清理失败: %s", exc)
+
+
+def _load_plate_line_output_cleanup_state() -> float:
+    if not PLATE_LINE_OUTPUT_CLEANUP_STATE_FILE.exists():
+        return 0.0
+
+    try:
+        state = json.loads(PLATE_LINE_OUTPUT_CLEANUP_STATE_FILE.read_text(encoding='utf-8'))
+        return float(state.get('last_cleanup_ts', 0.0))
+    except Exception as exc:
+        logging.warning("读取板料线输出清理状态失败: %s", exc)
+        return 0.0
+
+
+def _write_plate_line_output_cleanup_state(timestamp: float) -> None:
+    PLATE_LINE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    payload = {
+        'last_cleanup_ts': timestamp,
+        'last_cleanup_at': datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'retention_days': PLATE_LINE_OUTPUT_RETENTION_DAYS,
+        'cleanup_interval_days': PLATE_LINE_OUTPUT_CLEANUP_INTERVAL_DAYS,
+    }
+    PLATE_LINE_OUTPUT_CLEANUP_STATE_FILE.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2),
+        encoding='utf-8',
+    )
+
+
+def _cleanup_plate_line_output_files(root_dir: Path, cutoff_ts: float) -> int:
+    if not root_dir.exists():
+        return 0
+
+    deleted_files = 0
+    for file_path in root_dir.rglob('*_plate_line.dxf'):
+        try:
+            if file_path.stat().st_mtime < cutoff_ts:
+                file_path.unlink()
+                deleted_files += 1
+        except FileNotFoundError:
+            continue
+        except Exception as exc:
+            logging.warning("删除过期板料线输出文件失败: %s, error=%s", file_path, exc)
+
+    directories = [path for path in root_dir.rglob('*') if path.is_dir()]
+    directories.sort(key=lambda path: len(path.parts), reverse=True)
+    for directory in directories:
+        try:
+            if not any(directory.iterdir()):
+                directory.rmdir()
+        except OSError:
+            continue
+
+    return deleted_files
+
+
+def _build_view_anomalies(views: Optional[Dict[str, Dict[str, Any]]]) -> List[Dict[str, Any]]:
+    missing_views = []
+    if not views or not views.get('top_view'):
+        missing_views.append('俯视图')
+    if not views or not views.get('front_view'):
+        missing_views.append('正视图')
+    if not views or not views.get('side_view'):
+        missing_views.append('侧视图')
+
+    if not missing_views:
+        return []
+
+    return [{
+        'type': 'view_recognition_failed',
+        'description': f"视图识别异常: {', '.join(missing_views)}未识别到",
+        'missing_views': missing_views,
+    }]
 
 
 def get_db_connection():
@@ -163,7 +343,7 @@ def get_subgraphs_from_db(job_id: str, subgraph_id: Optional[str] = None) -> Lis
             conn.close()
 
 
-def analyze_dxf_features(dxf_file_path: str) -> Optional[Dict[str, Any]]:
+def analyze_dxf_features(dxf_file_path: str, job_id: Optional[str] = None) -> Optional[Dict[str, Any]]:
     """
     分析DXF文件特征（优化版：只读取一次文件）
     
@@ -273,6 +453,7 @@ def analyze_dxf_features(dxf_file_path: str) -> Optional[Dict[str, Any]]:
         wire_cut_details = []  # 新增：每个工艺编号的详细信息
         views = None  # 新增：保存阶段5识别的三个视图信息
         view_anomalies = []  # 新增：视图识别异常
+        plate_line_generation = None  # 新增：板料线自动补线结果
         
         # 尝试视图识别和线割计算（即使长宽厚缺失，也可能通过板料线识别视图）
         try:
@@ -298,25 +479,66 @@ def analyze_dxf_features(dxf_file_path: str) -> Optional[Dict[str, Any]]:
             wire_cut_anomalies = view_result.get('wire_cut_anomalies', [])
             wire_cut_details = view_result.get('wire_cut_details', [])
             views = view_result.get('views')  # 新增：获取视图信息
-            
-            # 检测视图识别异常
-            if views:
-                missing_views = []
-                if not views.get('top_view'):
-                    missing_views.append('俯视图')
-                if not views.get('front_view'):
-                    missing_views.append('正视图')
-                if not views.get('side_view'):
-                    missing_views.append('侧视图')
-                
-                if missing_views:
-                    view_anomaly = {
-                        'type': 'view_recognition_failed',
-                        'description': f"视图识别异常: {', '.join(missing_views)}未识别到",
-                        'missing_views': missing_views
+
+            plate_line_trigger_reason = _extract_plate_line_trigger_reason(wire_cut_anomalies)
+            if plate_line_trigger_reason:
+                logging.info(
+                    "板料线补线触发: reason=%s, dimensions=(L=%s, W=%s, T=%s), input_views=%s",
+                    plate_line_trigger_reason,
+                    length_mm,
+                    width_mm,
+                    thickness_mm,
+                    _extract_view_names_with_bounds(views),
+                )
+                if length_mm and width_mm and thickness_mm:
+                    plate_line_generator = PlateLineGenerator(tolerance=5.0)
+                    plate_line_generation = plate_line_generator.ensure_plate_lines(
+                        doc,
+                        views,
+                        {'L': length_mm, 'W': width_mm, 'T': thickness_mm}
+                    )
+                    plate_line_generation['triggered'] = True
+                    plate_line_generation['reason'] = plate_line_trigger_reason
+                    logging.info("板料线补线结果: %s", plate_line_generation)
+
+                    if plate_line_generation.get('added_count', 0) > 0:
+                        saved_dxf_path = _save_plate_line_output(doc, dxf_file_path, job_id=job_id)
+                        if saved_dxf_path:
+                            plate_line_generation['saved_dxf_path'] = saved_dxf_path
+                        logging.info("板料线补线完成，准备重算视图和线割长度: %s", plate_line_generation)
+                        view_result = view_calculator.calculate_wire_lengths_by_views(
+                            doc, l, w, t, processing_instructions_old, all_texts
+                        )
+                        view_wire_lengths['top_view_wire_length'] = view_result['top_view_wire_length']
+                        view_wire_lengths['front_view_wire_length'] = view_result['front_view_wire_length']
+                        view_wire_lengths['side_view_wire_length'] = view_result['side_view_wire_length']
+                        view_wire_lengths['unmatched_red_lines'] = view_result.get('unmatched_red_lines', [])
+                        wire_cut_anomalies = view_result.get('wire_cut_anomalies', [])
+                        wire_cut_details = view_result.get('wire_cut_details', [])
+                        views = view_result.get('views')
+                    else:
+                        logging.info(
+                            "板料线补线未触发重算: status=%s, generated_views=%s, already_existing_views=%s, skipped_views=%s",
+                            plate_line_generation.get('status'),
+                            plate_line_generation.get('generated_views', []),
+                            plate_line_generation.get('already_existing_views', []),
+                            plate_line_generation.get('skipped_views', []),
+                        )
+                else:
+                    plate_line_generation = {
+                        'triggered': True,
+                        'reason': plate_line_trigger_reason,
+                        'status': 'skipped',
+                        'input_views': _extract_view_names_with_bounds(views),
+                        'generated_views': [],
+                        'skipped_views': [],
+                        'already_existing_views': [],
+                        'added_count': 0,
+                        'message': '零件尺寸不完整，跳过补线'
                     }
-                    view_anomalies.append(view_anomaly)
-                    logging.warning(f"⚠️ 视图异常: {view_anomaly['description']}")
+                    logging.info("板料线补线跳过: %s", plate_line_generation)
+
+            view_anomalies = _build_view_anomalies(views)
             
             logging.info("")
             logging.info("=" * 80)
@@ -332,10 +554,7 @@ def analyze_dxf_features(dxf_file_path: str) -> Optional[Dict[str, Any]]:
                 logging.warning(f"⚠️ 检测到 {len(wire_cut_anomalies)} 个线割异常")
                 for anomaly in wire_cut_anomalies:
                     logging.warning(f"   - {anomaly['description']}")
-            
-            # 滑块工艺计算（在正常线割计算完成后）
-            # 注意：不再检查 has_slider_process，总是执行检测
-            # 如果检测到倾斜平行线对但没有滑块工艺，会自动创建
+
             try:
                 slider_calculator = SliderCalculator()
                 
@@ -860,6 +1079,7 @@ def batch_feature_recognition_process(job_id: str, subgraph_id: Optional[str] = 
     
     try:
         logging.info(f"开始批量特征识别 - job_id: {job_id}, subgraph_id: {subgraph_id or '全部'}")
+        _maybe_cleanup_plate_line_output_files()
         
         # 1. 从数据库查询子图信息
         subgraphs = get_subgraphs_from_db(job_id, subgraph_id)
@@ -880,13 +1100,15 @@ def batch_feature_recognition_process(job_id: str, subgraph_id: Optional[str] = 
         for subgraph in subgraphs:
             sg_id = subgraph['subgraph_id']
             file_url = subgraph['subgraph_file_url']
-            temp_dxf = os.path.join(temp_dir, f"{sg_id}.dxf")
+            file_ext = _infer_source_extension(file_url)
+            temp_dxf = os.path.join(temp_dir, f"{sg_id}{file_ext}")
             
             download_tasks.append((sg_id, file_url, temp_dxf))
             subgraph_map[sg_id] = {
                 'part_code': subgraph['part_code'],
                 'part_name': subgraph.get('part_name', ''),
-                'temp_path': temp_dxf
+                'temp_path': temp_dxf,
+                'file_ext': file_ext,
             }
         
         # 4. 并行下载所有文件
@@ -916,8 +1138,20 @@ def batch_feature_recognition_process(job_id: str, subgraph_id: Optional[str] = 
             
             try:
                 # 分析特征
-                temp_dxf = download_result['save_path']
-                features = analyze_dxf_features(temp_dxf)
+                temp_source_path = download_result['save_path']
+                temp_dxf = _prepare_local_dxf_path(temp_source_path)
+                if not temp_dxf:
+                    logging.error(f"图纸预处理失败: {sg_id}, source={temp_source_path}")
+                    results.append({
+                        'subgraph_id': sg_id,
+                        'part_code': part_code,
+                        'success': False,
+                        'message': '图纸预处理失败（DWG 转 DXF 失败或格式不支持）'
+                    })
+                    failed_count += 1
+                    continue
+
+                features = analyze_dxf_features(temp_dxf, job_id=job_id)
                 
                 if features is None:
                     logging.error(f"特征识别失败: {sg_id}")

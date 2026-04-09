@@ -7,6 +7,7 @@ export type IntentType =
   | 'DATA_MODIFICATION'      // 数据修改
   | 'FEATURE_RECOGNITION'    // 特征识别
   | 'PRICE_CALCULATION'      // 价格计算
+  | 'WEIGHT_PRICE_CALCULATION' // 按重量计算价格
   | 'QUERY_DETAILS'          // 查询详情
   | 'GENERAL_CHAT'           // 普通聊天
 

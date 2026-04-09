@@ -1,56 +1,18 @@
-2026-03-30 08:20:25 | INFO     | __main__:<module>:109 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
-2026-03-30 08:20:25 | INFO     | __main__:<module>:133 - scripts log file path: D:\AI\Pycharm\chengben2\mold_main\backend\logs\scripts.log
-2026-03-30 08:20:25 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
-2026-03-30 08:20:25 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
-2026-03-30 08:20:25 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
-2026-03-30 08:20:27 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
-2026-03-30 08:20:27 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.152:5432/mold_cost_db
-2026-03-30 08:20:48 | ERROR    | cad_chaitu.database:init_pool:40 - ❌ 数据库连接池初始化失败: connection to server at "192.168.1.152", port 5432 failed: Connection timed out (0x0000274C/10060)
-	Is the server running on that host and accepting TCP/IP connections?
-
-2026-03-30 08:20:48 | INFO     | cad_chaitu.main:init_managers:252 - ✅ 管理器初始化完成
-2026-03-30 08:20:48 | INFO     | __main__:<module>:142 - [OK] CAD 处理模块导入成功
-2026-03-30 08:20:48 | INFO     | __main__:<module>:203 - [OK] 进度发布器初始化成功
-2026-03-30 08:20:48 | INFO     | __main__:<module>:838 - ============================================================
-2026-03-30 08:20:48 | INFO     | __main__:<module>:839 - CAD 和价格搜索 MCP 服务启动中...
-2026-03-30 08:20:48 | INFO     | __main__:<module>:840 - ============================================================
-2026-03-30 08:20:48 | INFO     | __main__:<module>:841 - 地址: http://0.0.0.0:8201
-2026-03-30 08:20:48 | INFO     | __main__:<module>:842 - 调用端点: http://0.0.0.0:8201/call_tool
-2026-03-30 08:20:48 | INFO     | __main__:<module>:844 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
-2026-03-30 08:20:48 | INFO     | __main__:<module>:848 - ============================================================
-2026-03-30 08:42:36 | INFO     | __main__:<module>:109 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
-2026-03-30 08:42:36 | INFO     | __main__:<module>:133 - scripts log file path: D:\AI\Pycharm\chengben2\mold_main\backend\logs\scripts.log
-2026-03-30 08:42:36 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
-2026-03-30 08:42:36 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
-2026-03-30 08:42:36 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
-2026-03-30 08:42:36 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
-2026-03-30 08:42:36 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.152:5432/mold_cost_db
-2026-03-30 08:42:36 | INFO     | cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.152:5432/mold_cost_db
-2026-03-30 08:42:36 | INFO     | cad_chaitu.main:init_managers:252 - ✅ 管理器初始化完成
-2026-03-30 08:42:37 | INFO     | __main__:<module>:142 - [OK] CAD 处理模块导入成功
-2026-03-30 08:42:37 | INFO     | __main__:<module>:203 - [OK] 进度发布器初始化成功
-2026-03-30 08:42:37 | INFO     | __main__:<module>:838 - ============================================================
-2026-03-30 08:42:37 | INFO     | __main__:<module>:839 - CAD 和价格搜索 MCP 服务启动中...
-2026-03-30 08:42:37 | INFO     | __main__:<module>:840 - ============================================================
-2026-03-30 08:42:37 | INFO     | __main__:<module>:841 - 地址: http://0.0.0.0:8201
-2026-03-30 08:42:37 | INFO     | __main__:<module>:842 - 调用端点: http://0.0.0.0:8201/call_tool
-2026-03-30 08:42:37 | INFO     | __main__:<module>:844 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
-2026-03-30 08:42:37 | INFO     | __main__:<module>:848 - ============================================================
-2026-03-30 09:54:42 | INFO     | __main__:<module>:109 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
-2026-03-30 09:54:42 | INFO     | __main__:<module>:133 - scripts log file path: D:\AI\Pycharm\chengben2\mold_main\backend\logs\scripts.log
-2026-03-30 09:54:43 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
-2026-03-30 09:54:43 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
-2026-03-30 09:54:43 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
-2026-03-30 09:54:44 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
-2026-03-30 09:54:44 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.152:5432/mold_cost_db
-2026-03-30 09:54:44 | INFO     | cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.152:5432/mold_cost_db
-2026-03-30 09:54:44 | INFO     | cad_chaitu.main:init_managers:252 - ✅ 管理器初始化完成
-2026-03-30 09:54:44 | INFO     | __main__:<module>:142 - [OK] CAD 处理模块导入成功
-2026-03-30 09:54:44 | INFO     | __main__:<module>:203 - [OK] 进度发布器初始化成功
-2026-03-30 09:54:44 | INFO     | __main__:<module>:838 - ============================================================
-2026-03-30 09:54:44 | INFO     | __main__:<module>:839 - CAD 和价格搜索 MCP 服务启动中...
-2026-03-30 09:54:44 | INFO     | __main__:<module>:840 - ============================================================
-2026-03-30 09:54:44 | INFO     | __main__:<module>:841 - 地址: http://0.0.0.0:8201
-2026-03-30 09:54:44 | INFO     | __main__:<module>:842 - 调用端点: http://0.0.0.0:8201/call_tool
-2026-03-30 09:54:44 | INFO     | __main__:<module>:844 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
-2026-03-30 09:54:44 | INFO     | __main__:<module>:848 - ============================================================
+2026-04-08 08:59:40 | INFO     | __main__:<module>:109 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\mcp_service.log (使用 loguru，支持轮转和压缩)
+2026-04-08 08:59:40 | INFO     | __main__:<module>:133 - scripts log file path: D:\AI\Pycharm\chengben2\mold_main\backend\logs\scripts.log
+2026-04-08 08:59:40 | INFO     | minio_client:__init__:45 - ✅ MinIO 客户端初始化成功: 192.168.1.152:9000
+2026-04-08 08:59:40 | INFO     | minio_client:__init__:46 - 📊 上传配置: 分片大小=10.0MB, 并发数=5
+2026-04-08 08:59:40 | INFO     | cad_chaitu:<module>:21 - ✅ MinIO 客户端自动导入成功
+2026-04-08 08:59:42 | INFO     | cad_chaitu.main:<module>:27 - ✅ 加载配置文件: D:\AI\Pycharm\chengben2\mold_main\backend\.env
+2026-04-08 08:59:42 | INFO     | cad_chaitu.main:<module>:55 - ✅ 配置加载完成: ODA=D:\AI\ODA\ODAFileConverter.exe, DB=192.168.1.152:5432/mold_cost_db
+2026-04-08 08:59:42 | INFO     | cad_chaitu.database:init_pool:37 - ✅ 数据库连接池初始化成功: 192.168.1.152:5432/mold_cost_db
+2026-04-08 08:59:42 | INFO     | cad_chaitu.main:init_managers:252 - ✅ 管理器初始化完成
+2026-04-08 08:59:42 | INFO     | __main__:<module>:142 - [OK] CAD 处理模块导入成功
+2026-04-08 08:59:42 | INFO     | __main__:<module>:203 - [OK] 进度发布器初始化成功
+2026-04-08 08:59:42 | INFO     | __main__:<module>:838 - ============================================================
+2026-04-08 08:59:42 | INFO     | __main__:<module>:839 - CAD 和价格搜索 MCP 服务启动中...
+2026-04-08 08:59:42 | INFO     | __main__:<module>:840 - ============================================================
+2026-04-08 08:59:42 | INFO     | __main__:<module>:841 - 地址: http://0.0.0.0:8201
+2026-04-08 08:59:42 | INFO     | __main__:<module>:842 - 调用端点: http://0.0.0.0:8201/call_tool
+2026-04-08 08:59:42 | INFO     | __main__:<module>:844 - 包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具
+2026-04-08 08:59:42 | INFO     | __main__:<module>:848 - ============================================================

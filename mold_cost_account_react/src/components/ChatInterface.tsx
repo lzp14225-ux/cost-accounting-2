@@ -426,7 +426,7 @@ const ChatInterface: React.FC = () => {
                 // 如果消息需要确认且还没有确认状态
                 if (msg.requiresConfirmation && !msg.confirmationStatus) {
                     // 重新识别特征和重新计算：标记为已取消
-                    if (msg.intent === 'FEATURE_RECOGNITION' || msg.intent === 'PRICE_CALCULATION') {
+                    if (msg.intent === 'FEATURE_RECOGNITION' || msg.intent === 'PRICE_CALCULATION' || msg.intent === 'WEIGHT_PRICE_CALCULATION') {
                         return { 
                             ...msg, 
                             requiresConfirmation: false,

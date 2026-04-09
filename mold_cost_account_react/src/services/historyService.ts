@@ -151,7 +151,7 @@ class HistoryService {
           // 如果下一条是用户消息，根据意图类型决定是否标记为已取消
           else if (nextMsg.role === 'user') {
             // 重新识别特征和重新计算：标记为已取消
-            if (intent === 'FEATURE_RECOGNITION' || intent === 'PRICE_CALCULATION') {
+            if (intent === 'FEATURE_RECOGNITION' || intent === 'PRICE_CALCULATION' || intent === 'WEIGHT_PRICE_CALCULATION') {
               confirmationStatus = 'cancelled'
             }
             // 确认修改：不标记为已取消（后端会缓存这些修改）
@@ -161,7 +161,7 @@ class HistoryService {
         // 如果没有下一条消息，根据意图类型决定是否标记为已取消
         else {
           // 重新识别特征和重新计算：标记为已取消
-          if (intent === 'FEATURE_RECOGNITION' || intent === 'PRICE_CALCULATION') {
+          if (intent === 'FEATURE_RECOGNITION' || intent === 'PRICE_CALCULATION' || intent === 'WEIGHT_PRICE_CALCULATION') {
             confirmationStatus = 'cancelled'
           }
           // 确认修改：不标记为已取消（后端会缓存这些修改）
@@ -522,14 +522,15 @@ class HistoryService {
         msg.content.includes('失败')) {
       
       // 尝试从metadata中提取进度信息
-      const metadataProgress = this.normalizeProgressPayload(msg.metadata?.original_ws_message?.data)
+      const metadata = msg.metadata
+      const metadataProgress = this.normalizeProgressPayload(metadata?.original_ws_message?.data)
 
-      if (msg.metadata?.progress !== undefined || metadataProgress?.progress !== undefined) {
+      if (metadata?.progress !== undefined || metadataProgress?.progress !== undefined) {
         return {
-          stage: msg.metadata.stage || metadataProgress?.stage || 'processing',
-          progress: msg.metadata.progress || metadataProgress?.progress || 0,
+          stage: metadata?.stage || metadataProgress?.stage || 'processing',
+          progress: metadata?.progress || metadataProgress?.progress || 0,
           message: metadataProgress?.message || msg.content,
-          details: msg.metadata.details || metadataProgress?.details,
+          details: metadata?.details || metadataProgress?.details,
         }
       }
       

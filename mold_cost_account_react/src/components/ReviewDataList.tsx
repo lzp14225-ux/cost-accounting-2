@@ -15,6 +15,7 @@ interface AbnormalAnomaly {
 interface AbnormalSituation {
   dimension_anomalies?: AbnormalAnomaly[]
   wire_cut_anomalies?: AbnormalAnomaly[]
+  nc_anomalies?: AbnormalAnomaly[]
 }
 
 interface ReviewDataItem {
@@ -278,10 +279,8 @@ const ReviewDataList: React.FC<ReviewDataListProps> = ({ data }) => {
         if (!abnormalSituation) {
           return '-'
         }
-
         const descriptions: string[] = []
 
-        // 收集 dimension_anomalies 中的所有 description
         if (abnormalSituation.dimension_anomalies && abnormalSituation.dimension_anomalies.length > 0) {
           abnormalSituation.dimension_anomalies.forEach(anomaly => {
             if (anomaly.description) {
@@ -290,7 +289,6 @@ const ReviewDataList: React.FC<ReviewDataListProps> = ({ data }) => {
           })
         }
 
-        // 收集 wire_cut_anomalies 中的所有 description
         if (abnormalSituation.wire_cut_anomalies && abnormalSituation.wire_cut_anomalies.length > 0) {
           abnormalSituation.wire_cut_anomalies.forEach(anomaly => {
             if (anomaly.description) {
@@ -299,7 +297,14 @@ const ReviewDataList: React.FC<ReviewDataListProps> = ({ data }) => {
           })
         }
 
-        // 如果没有任何描述，返回 '-'
+        if (abnormalSituation.nc_anomalies && abnormalSituation.nc_anomalies.length > 0) {
+          abnormalSituation.nc_anomalies.forEach(anomaly => {
+            if (anomaly.description) {
+              descriptions.push(anomaly.description)
+            }
+          })
+        }
+
         if (descriptions.length === 0) {
           return '-'
         }

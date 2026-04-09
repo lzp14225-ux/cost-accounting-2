@@ -69,6 +69,9 @@ class DataViewBuilder:
         price_snapshots = raw_data.get("job_price_snapshots") or raw_data.get("price_snapshots", [])
         # 🆕 获取成本计算详情（向后兼容：如果不存在则为空列表）
         cost_details = raw_data.get("processing_cost_calculation_details", [])
+        nc_failed_code_map = DataViewBuilder._build_nc_failed_code_map(
+            raw_data.get("nc_failed_itemcodes", [])
+        )
         
         for subgraph in subgraphs:
             job_id = subgraph.get("job_id")
@@ -129,7 +132,7 @@ class DataViewBuilder:
                 
                 # 🆕 features 表新增字段
                 "heat_treatment": feature.get("heat_treatment") if feature else None,
-                "abnormal_situation": feature.get("abnormal_situation") if feature else None,  # 异常情况
+                "abnormal_situation": DataViewBuilder._merge_abnormal_situation(feature.get("abnormal_situation") if feature else None, subgraph.get("part_code"), subgraph_id, nc_failed_code_map),  # NC???????????
                 
                 # 🆕 subgraphs 表新增字段（时间）
                 "drilling_time": subgraph.get("drilling_time"),
@@ -141,7 +144,10 @@ class DataViewBuilder:
                 "wire_length": (
                     subgraph.get("slow_wire_length") or
                     subgraph.get("mid_wire_length") or
-                    subgraph.get("fast_wire_length")
+                    subgraph.get("fast_wire_length") or
+                    (feature.get("top_view_wire_length") if feature else None) or
+                    (feature.get("front_view_wire_length") if feature else None) or
+                    (feature.get("side_view_wire_length") if feature else None)
                 ),
                 "grinding_time": (
                     subgraph.get("large_grinding_time") or
@@ -277,6 +283,46 @@ class DataViewBuilder:
         return None
     
     @staticmethod
+    def _build_nc_failed_code_map(nc_failed_itemcodes: List[Any]) -> Dict[str, Dict[str, Any]]:
+        result: Dict[str, Dict[str, Any]] = {}
+        for raw_code in nc_failed_itemcodes or []:
+            code = str(raw_code).strip()
+            if not code:
+                continue
+            result[code] = {
+                "type": "nc_recognition_failed",
+                "description": "NC\u8bc6\u522b\u5931\u8d25"
+            }
+        return result
+
+    @staticmethod
+    def _merge_abnormal_situation(
+        abnormal_situation: Optional[Dict[str, Any]],
+        part_code: Optional[str],
+        subgraph_id: Optional[str],
+        nc_failed_code_map: Dict[str, Dict[str, Any]]
+    ) -> Optional[Dict[str, Any]]:
+        merged: Dict[str, Any] = dict(abnormal_situation) if isinstance(abnormal_situation, dict) else {}
+
+        normalized_part_code = str(part_code or "").strip()
+        normalized_subgraph_id = str(subgraph_id or "").strip()
+        nc_anomaly = (
+            nc_failed_code_map.get(normalized_part_code)
+            or nc_failed_code_map.get(normalized_subgraph_id)
+        )
+
+        if nc_anomaly:
+            existing = merged.get("nc_anomalies")
+            if not isinstance(existing, list):
+                existing = []
+            existing = [item for item in existing if isinstance(item, dict)]
+            if not any(item.get("type") == nc_anomaly["type"] for item in existing):
+                existing.append(nc_anomaly)
+            merged["nc_anomalies"] = existing
+
+        return merged or None
+
+    @staticmethod
     def map_display_to_tables(
         display_changes: List[Dict],
         raw_data: Dict[str, List[Dict]]
@@ -365,7 +411,8 @@ class DataViewBuilder:
         - weight → processing_cost_calculation_details.weight (🆕 新增)
         
         ❌ 已移除字段（不再支持修改）：
-        - calculated_weight_kg, top_view_wire_length, front_view_wire_length, side_view_wire_length
+        - calculated_weight_kg?????
+        - top/front/side_view_wire_length ??? wire_length ???????
         """
         changes = []
         

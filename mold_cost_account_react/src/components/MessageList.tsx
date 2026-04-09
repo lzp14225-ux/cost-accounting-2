@@ -253,15 +253,27 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
       // 更新消息状态，标记为已确认，并添加确认状态
       setMessages((prevMessages) => {
         const currentMessages = Array.isArray(prevMessages) ? prevMessages : [];
-        return currentMessages.map((msg) => 
-          msg.id === messageId 
-            ? { 
-                ...msg, 
-                requiresConfirmation: false,
-                confirmationStatus: 'confirmed' as const  // 标记为已确认
-              }
-            : msg
-        );
+        return currentMessages.map((msg) => {
+          const isCurrentMessage = msg.id === messageId;
+          const isSamePendingIntent =
+            !!jobId &&
+            msg.jobId === jobId &&
+            !msg.id.startsWith('history-') &&
+            msg.requiresConfirmation === true &&
+            !msg.confirmationStatus &&
+            ((intent === 'DATA_MODIFICATION' && ((msg as any).modificationData || msg.intent === 'DATA_MODIFICATION')) ||
+              (intent !== 'DATA_MODIFICATION' && msg.intent === intent));
+
+          if (!isCurrentMessage && !isSamePendingIntent) {
+            return msg;
+          }
+
+          return {
+            ...msg,
+            requiresConfirmation: false,
+            confirmationStatus: 'confirmed' as const
+          };
+        });
       });
 
       // 不再添加确认成功的系统消息，等待 WebSocket 推送
@@ -1012,7 +1024,12 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
     }
 
     // 修改确认消息的特殊渲染（历史消息中不显示）
-    if (message.type === 'system' && (message as any).modificationData && !message.id.startsWith('history-')) {
+    if (
+      message.type === 'system' &&
+      (message as any).modificationData &&
+      !message.id.startsWith('history-') &&
+      message.confirmationStatus !== 'confirmed'
+    ) {
       const modificationData = (message as any).modificationData
       
       return (
@@ -1048,9 +1065,9 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
               <ModificationCard
                 modificationId={modificationData.modification_id}
                 changes={modificationData.parsed_changes}
-                onConfirm={async (comment) => {
+                onConfirm={async () => {
                   if (message.jobId) {
-                    await chatService.confirmModification(message.jobId, comment)
+                    await handleConfirm(message.id, message.jobId, 'DATA_MODIFICATION')
                   }
                 }}
               />
