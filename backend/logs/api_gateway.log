@@ -1,18 +1,1406 @@
-2026-04-08 09:00:00 - api_gateway.main - INFO - Speech services router mounted into unified backend
-2026-04-08 09:00:00 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
-2026-04-08 09:00:00 - api_gateway.main - INFO - Unified backend starting
-2026-04-08 09:00:00 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
-2026-04-08 09:00:00 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
-2026-04-08 09:00:00 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
-2026-04-08 09:00:00 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
-2026-04-08 09:00:00 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
-2026-04-08 09:00:00 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
-2026-04-08 09:00:00 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
-2026-04-08 09:00:00 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
-2026-04-08 09:00:00 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
-2026-04-08 09:00:00 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
-2026-04-08 09:00:00 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
-2026-04-08 10:49:50 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
-2026-04-08 10:49:50 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
-2026-04-08 10:49:50 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
-2026-04-08 10:49:50 - api_gateway.main - INFO - Unified backend stopped
+2026-04-10 08:19:08 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-04-10 08:19:08 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
+2026-04-10 08:19:08 - api_gateway.main - INFO - Unified backend starting
+2026-04-10 08:19:09 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
+2026-04-10 08:19:09 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-04-10 08:19:09 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-04-10 08:19:09 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-04-10 08:19:09 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-04-10 08:19:09 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-04-10 08:19:09 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-04-10 08:19:09 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-04-10 08:19:09 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-04-10 08:19:09 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-04-10 08:19:09 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-04-10 08:20:56 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
+2026-04-10 08:20:56 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: 3d1.dwg
+2026-04-10 08:20:56 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: 3d1.dwg
+2026-04-10 08:20:56 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-04-10 08:20:56 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-04-10 08:20:56 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: 3d1.dwg
+2026-04-10 08:20:56 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/04/990bb3f9-67c9-426e-a47a-9d7384db1230.dwg (545936 bytes)
+2026-04-10 08:20:56 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/04/990bb3f9-67c9-426e-a47a-9d7384db1230.dwg
+2026-04-10 08:20:56 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:20:56 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc, name=3d1
+2026-04-10 08:20:56 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, count=161
+2026-04-10 08:20:56 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 161}
+2026-04-10 08:20:56 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:20:56 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:20:56 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:20:56 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:20:56 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:20:57 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, 当前连接数=1
+2026-04-10 08:20:57 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:20:57 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, 接收者=1
+2026-04-10 08:20:57 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:20:57 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:20:57 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:20:57 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, channel=progress, type=progress
+2026-04-10 08:21:12 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, 接收者=1
+2026-04-10 08:21:12 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:12 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:12 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, channel=progress, type=progress
+2026-04-10 08:21:12 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, 接收者=1
+2026-04-10 08:21:12 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:12 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:12 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, channel=progress, type=progress
+2026-04-10 08:21:12 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, 接收者=1
+2026-04-10 08:21:12 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:12 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:12 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, channel=progress, type=progress
+2026-04-10 08:21:12 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, 接收者=1
+2026-04-10 08:21:12 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:12 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:12 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, channel=progress, type=progress
+2026-04-10 08:21:13 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=1
+2026-04-10 08:21:17 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, 接收者=1
+2026-04-10 08:21:17 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:17 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:17 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:17 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, channel=progress, type=progress
+2026-04-10 08:21:18 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, 接收者=1
+2026-04-10 08:21:18 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:18 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, channel=progress, type=progress
+2026-04-10 08:21:18 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-10 08:21:18 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-10 08:21:18 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 5 条记录
+2026-04-10 08:21:18 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 161 条记录
+2026-04-10 08:21:18 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 5 条记录
+2026-04-10 08:21:18 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 5 条记录
+2026-04-10 08:21:18 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=5, job_price_snapshots=161, subgraphs=5, processing_cost_calculation_details=5
+2026-04-10 08:21:18 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:7a4c885e-c98b-48c3-b94a-30dd61f02fdc:review
+2026-04-10 08:21:18 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, 接收者=1
+2026-04-10 08:21:18 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.routers.review_router - INFO - ✅ 审核启动成功: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, channel=review, type=review_display_view
+2026-04-10 08:21:27 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=2
+2026-04-10 08:21:43 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=3
+2026-04-10 08:21:58 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=4
+2026-04-10 08:22:13 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=5
+2026-04-10 08:22:28 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=6
+2026-04-10 08:22:43 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=7
+2026-04-10 08:23:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=8
+2026-04-10 08:24:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=9
+2026-04-10 08:25:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=10
+2026-04-10 08:26:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=11
+2026-04-10 08:27:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=12
+2026-04-10 08:28:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=13
+2026-04-10 08:29:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=14
+2026-04-10 08:30:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=15
+2026-04-10 08:31:11 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, sequence=16
+2026-04-10 08:31:26 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:31:26 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:31:26 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:31:26 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-04-10 08:31:26 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-04-10 08:31:26 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-04-10 08:31:26 - api_gateway.main - INFO - Unified backend stopped
+2026-04-10 08:31:36 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-04-10 08:31:36 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
+2026-04-10 08:31:36 - api_gateway.main - INFO - Unified backend starting
+2026-04-10 08:31:36 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
+2026-04-10 08:31:36 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-04-10 08:31:36 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-04-10 08:31:37 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-04-10 08:31:37 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-04-10 08:31:37 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-04-10 08:31:37 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-04-10 08:31:37 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-04-10 08:31:37 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-04-10 08:31:37 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-04-10 08:31:37 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-04-10 08:31:37 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, 当前连接数=1
+2026-04-10 08:31:37 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:31:47 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:31:47 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:31:47 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:31:54 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
+2026-04-10 08:31:54 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: 3d1.dwg
+2026-04-10 08:31:54 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: 3d1.dwg
+2026-04-10 08:31:54 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-04-10 08:31:54 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-04-10 08:31:54 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: 3d1.dwg
+2026-04-10 08:31:54 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/04/fee90783-3887-4c60-9e88-1ad7ba848997.dwg (545936 bytes)
+2026-04-10 08:31:54 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/04/fee90783-3887-4c60-9e88-1ad7ba848997.dwg
+2026-04-10 08:31:54 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:31:54 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: 4a83b5c5-2090-4513-86d4-2053f4c601eb, name=3d1
+2026-04-10 08:31:54 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, count=161
+2026-04-10 08:31:54 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 161}
+2026-04-10 08:31:54 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:31:54 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:31:54 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:31:54 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:31:54 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:31:54 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, 当前连接数=1
+2026-04-10 08:31:54 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:31:55 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, 接收者=1
+2026-04-10 08:31:55 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:31:55 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:31:55 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:31:55 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, channel=progress, type=progress
+2026-04-10 08:32:06 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, 接收者=1
+2026-04-10 08:32:06 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:06 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:06 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, channel=progress, type=progress
+2026-04-10 08:32:06 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, 接收者=1
+2026-04-10 08:32:06 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:06 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:06 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, channel=progress, type=progress
+2026-04-10 08:32:06 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, 接收者=1
+2026-04-10 08:32:06 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:06 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:06 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, channel=progress, type=progress
+2026-04-10 08:32:06 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, 接收者=1
+2026-04-10 08:32:06 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:06 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:06 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, channel=progress, type=progress
+2026-04-10 08:32:10 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, sequence=1
+2026-04-10 08:32:12 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, 接收者=1
+2026-04-10 08:32:12 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:12 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:12 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:12 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, channel=progress, type=progress
+2026-04-10 08:32:12 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, 接收者=1
+2026-04-10 08:32:12 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:12 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:12 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:12 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, channel=progress, type=progress
+2026-04-10 08:32:13 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-10 08:32:13 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-10 08:32:13 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 5 条记录
+2026-04-10 08:32:13 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 161 条记录
+2026-04-10 08:32:13 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 5 条记录
+2026-04-10 08:32:13 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 5 条记录
+2026-04-10 08:32:13 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=5, job_price_snapshots=161, subgraphs=5, processing_cost_calculation_details=5
+2026-04-10 08:32:13 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:4a83b5c5-2090-4513-86d4-2053f4c601eb:review
+2026-04-10 08:32:13 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, 接收者=1
+2026-04-10 08:32:13 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - api_gateway.routers.review_router - INFO - ✅ 审核启动成功: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, channel=review, type=review_display_view
+2026-04-10 08:32:24 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, sequence=2
+2026-04-10 08:32:39 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, sequence=3
+2026-04-10 08:32:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, sequence=4
+2026-04-10 08:33:10 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, sequence=5
+2026-04-10 08:33:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, sequence=6
+2026-04-10 08:33:40 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, sequence=7
+2026-04-10 08:34:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, sequence=8
+2026-04-10 08:35:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, sequence=9
+2026-04-10 08:36:14 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:36:14 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:36:14 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:36:14 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-04-10 08:36:14 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-04-10 08:36:14 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-04-10 08:36:14 - api_gateway.main - INFO - Unified backend stopped
+2026-04-10 10:14:38 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-04-10 10:14:38 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
+2026-04-10 10:14:38 - api_gateway.main - INFO - Unified backend starting
+2026-04-10 10:14:38 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.1.152:5672
+2026-04-10 10:14:38 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-04-10 10:14:38 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-04-10 10:14:38 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.1.152:6379
+2026-04-10 10:14:38 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-04-10 10:14:38 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-04-10 10:14:38 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-04-10 10:14:38 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-04-10 10:14:38 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-04-10 10:14:38 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-04-10 10:14:38 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-04-10 10:14:52 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, 当前连接数=1
+2026-04-10 10:14:52 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0
+2026-04-10 10:15:08 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=1
+2026-04-10 10:15:17 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
+2026-04-10 10:15:17 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: 3d.dwg
+2026-04-10 10:15:17 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: 3d.dwg
+2026-04-10 10:15:17 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-04-10 10:15:17 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-04-10 10:15:17 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: 3d.dwg
+2026-04-10 10:15:17 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/04/692948d5-ddb0-46ed-b552-aef0c4e31116.dwg (1301403 bytes)
+2026-04-10 10:15:17 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/04/692948d5-ddb0-46ed-b552-aef0c4e31116.dwg
+2026-04-10 10:15:17 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:17 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: a517515f-7e63-487b-bdd8-ea3776182eef, name=3d
+2026-04-10 10:15:17 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, count=161
+2026-04-10 10:15:17 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 161}
+2026-04-10 10:15:17 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:17 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:17 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:17 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:17 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:17 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, 当前连接数=1
+2026-04-10 10:15:17 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:18 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, 接收者=1
+2026-04-10 10:15:18 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:18 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:18 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:18 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, channel=progress, type=progress
+2026-04-10 10:15:23 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=2
+2026-04-10 10:15:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, sequence=1
+2026-04-10 10:15:34 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, 接收者=1
+2026-04-10 10:15:34 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:34 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:34 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:34 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, channel=progress, type=progress
+2026-04-10 10:15:34 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, 接收者=1
+2026-04-10 10:15:34 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:34 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:34 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:34 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, channel=progress, type=progress
+2026-04-10 10:15:35 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, 接收者=1
+2026-04-10 10:15:35 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:35 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:35 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:35 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, channel=progress, type=progress
+2026-04-10 10:15:35 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, 接收者=1
+2026-04-10 10:15:35 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:35 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:35 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:35 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, channel=progress, type=progress
+2026-04-10 10:15:38 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=3
+2026-04-10 10:15:47 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, sequence=2
+2026-04-10 10:15:53 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=4
+2026-04-10 10:15:58 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:58 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:58 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:59 - api_gateway.websocket - WARNING - ⚠️  没有活跃连接: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:59 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:15:59 - api_gateway.repositories.chat_history_repository - ERROR - 添加消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功12个, 失败3个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 12, "failed_count": 3, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 15, 59, 695533))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 177, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 268, in __bind_execute
+    data, status, _ = await self.__do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
+    return await executor(protocol)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
+    result = await db_session.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功12个, 失败3个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 12, "failed_count": 3, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 15, 59, 695533))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-04-10 10:15:59 - api_gateway.utils.chat_logger - ERROR - 记录系统消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功12个, 失败3个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 12, "failed_count": 3, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 15, 59, 695533))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 177, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 268, in __bind_execute
+    data, status, _ = await self.__do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
+    return await executor(protocol)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\utils\chat_logger.py", line 92, in log_system_message
+    await chat_history_repo.add_message(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
+    result = await db_session.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功12个, 失败3个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 12, "failed_count": 3, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 15, 59, 695533))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-04-10 10:15:59 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:59 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, channel=progress, type=progress
+2026-04-10 10:16:00 - api_gateway.websocket - WARNING - ⚠️  没有活跃连接: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:16:00 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=a517515f-7e63-487b-bdd8-ea3776182eef
+2026-04-10 10:16:00 - api_gateway.repositories.chat_history_repository - ERROR - 添加消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 12, "failed_count": 3, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 16, 0, 246643))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 177, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 268, in __bind_execute
+    data, status, _ = await self.__do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
+    return await executor(protocol)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
+    result = await db_session.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 12, "failed_count": 3, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 16, 0, 246643))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-04-10 10:16:00 - api_gateway.utils.chat_logger - ERROR - 记录系统消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 12, "failed_count": 3, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 16, 0, 246643))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 177, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 268, in __bind_execute
+    data, status, _ = await self.__do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
+    return await executor(protocol)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\utils\chat_logger.py", line 92, in log_system_message
+    await chat_history_repo.add_message(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
+    result = await db_session.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 12, "failed_count": 3, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 16, 0, 246643))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-04-10 10:16:00 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:16:00 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, channel=progress, type=progress
+2026-04-10 10:16:03 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
+2026-04-10 10:16:03 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: 3d.dwg
+2026-04-10 10:16:03 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: 3d.dwg
+2026-04-10 10:16:03 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-04-10 10:16:03 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-04-10 10:16:03 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: 3d.dwg
+2026-04-10 10:16:03 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/04/1a8acddd-1b06-4267-88c7-843524355180.dwg (1301403 bytes)
+2026-04-10 10:16:03 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/04/1a8acddd-1b06-4267-88c7-843524355180.dwg
+2026-04-10 10:16:03 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: 3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:03 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: 3e029943-2bc6-43b1-9a4b-1431e294dbb4, name=3d
+2026-04-10 10:16:03 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, count=161
+2026-04-10 10:16:03 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 161}
+2026-04-10 10:16:03 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - 3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:03 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: 3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:03 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: 3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:03 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: 3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:03 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: 3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:03 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, 当前连接数=1
+2026-04-10 10:16:03 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:04 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, 接收者=1
+2026-04-10 10:16:04 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:04 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:04 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:16:04 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, channel=progress, type=progress
+2026-04-10 10:16:04 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, 接收者=1
+2026-04-10 10:16:04 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:04 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:04 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:16:04 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, channel=progress, type=progress
+2026-04-10 10:16:04 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, 接收者=1
+2026-04-10 10:16:04 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:04 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:04 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:16:04 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, channel=progress, type=progress
+2026-04-10 10:16:04 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, 接收者=1
+2026-04-10 10:16:04 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:04 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:04 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:16:04 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, channel=progress, type=progress
+2026-04-10 10:16:08 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=5
+2026-04-10 10:16:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, sequence=1
+2026-04-10 10:16:23 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=6
+2026-04-10 10:16:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, sequence=2
+2026-04-10 10:16:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, sequence=3
+2026-04-10 10:16:57 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:57 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:16:57 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4
+2026-04-10 10:17:02 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
+2026-04-10 10:17:02 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: 3d.dwg
+2026-04-10 10:17:02 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: 3d.dwg
+2026-04-10 10:17:02 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-04-10 10:17:02 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-04-10 10:17:02 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: 3d.dwg
+2026-04-10 10:17:02 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/04/f0ced5ac-1133-4d49-86b0-61ddd33ca6d0.dwg (1301403 bytes)
+2026-04-10 10:17:02 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/04/f0ced5ac-1133-4d49-86b0-61ddd33ca6d0.dwg
+2026-04-10 10:17:02 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:02 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: 82d29939-f5d6-4527-a024-6daf3f8cfeaf, name=3d
+2026-04-10 10:17:02 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, count=161
+2026-04-10 10:17:02 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 161}
+2026-04-10 10:17:02 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:02 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:02 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:02 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:02 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:02 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, 当前连接数=1
+2026-04-10 10:17:02 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:02 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, 接收者=1
+2026-04-10 10:17:02 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:02 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:02 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:02 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, channel=progress, type=progress
+2026-04-10 10:17:17 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, 接收者=1
+2026-04-10 10:17:17 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:17 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:17 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, channel=progress, type=progress
+2026-04-10 10:17:17 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, 接收者=1
+2026-04-10 10:17:17 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:17 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:17 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, channel=progress, type=progress
+2026-04-10 10:17:17 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, 接收者=1
+2026-04-10 10:17:17 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:17 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:17 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, channel=progress, type=progress
+2026-04-10 10:17:17 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, 接收者=1
+2026-04-10 10:17:17 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:17 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:17 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, channel=progress, type=progress
+2026-04-10 10:17:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, sequence=1
+2026-04-10 10:17:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=7
+2026-04-10 10:17:30 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, 接收者=1
+2026-04-10 10:17:30 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:30 - api_gateway.repositories.chat_history_repository - ERROR - 添加消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功10个, 失败5个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 10, "failed_count": 5, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 425968))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 177, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 268, in __bind_execute
+    data, status, _ = await self.__do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
+    return await executor(protocol)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
+    result = await db_session.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功10个, 失败5个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 10, "failed_count": 5, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 425968))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-04-10 10:17:30 - api_gateway.utils.chat_logger - ERROR - 记录系统消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功10个, 失败5个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 10, "failed_count": 5, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 425968))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 177, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 268, in __bind_execute
+    data, status, _ = await self.__do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
+    return await executor(protocol)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\utils\chat_logger.py", line 92, in log_system_message
+    await chat_history_repo.add_message(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
+    result = await db_session.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功10个, 失败5个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 10, "failed_count": 5, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 425968))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-04-10 10:17:30 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:30 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, channel=progress, type=progress
+2026-04-10 10:17:30 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, 接收者=1
+2026-04-10 10:17:30 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:30 - api_gateway.repositories.chat_history_repository - ERROR - 添加消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 10, "failed_count": 5, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 981323))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 177, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 268, in __bind_execute
+    data, status, _ = await self.__do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
+    return await executor(protocol)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
+    result = await db_session.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 10, "failed_count": 5, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 981323))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-04-10 10:17:30 - api_gateway.utils.chat_logger - ERROR - 记录系统消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 10, "failed_count": 5, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 981323))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 177, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 268, in __bind_execute
+    data, status, _ = await self.__do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
+    return await executor(protocol)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\utils\chat_logger.py", line 92, in log_system_message
+    await chat_history_repo.add_message(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
+    result = await db_session.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+[SQL: 
+                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING message_id, session_id, role, content, timestamp
+            ]
+[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 10, "failed_count": 5, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 981323))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-04-10 10:17:31 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:31 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, channel=progress, type=progress
+2026-04-10 10:17:31 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-10 10:17:31 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-10 10:17:31 - api_gateway.utils.chat_logger - INFO - 会话不存在，创建新会话...
+2026-04-10 10:17:31 - api_gateway.utils.chat_logger - INFO - ✅ 会话已创建: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 0 条记录
+2026-04-10 10:17:31 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 0 条记录
+2026-04-10 10:17:31 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 0 条记录
+2026-04-10 10:17:31 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 0 条记录
+2026-04-10 10:17:31 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=0, job_price_snapshots=0, subgraphs=0, processing_cost_calculation_details=0
+2026-04-10 10:17:31 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:82d29939-f5d6-4527-a024-6daf3f8cfeaf:review
+2026-04-10 10:17:31 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, 接收者=1
+2026-04-10 10:17:31 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - api_gateway.routers.review_router - INFO - ✅ 审核启动成功: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, channel=review, type=review_display_view
+2026-04-10 10:17:32 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:32 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:32 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:36 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, 当前连接数=1
+2026-04-10 10:17:36 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:45 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
+2026-04-10 10:17:45 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: 3d.dwg
+2026-04-10 10:17:45 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: 3d.dwg
+2026-04-10 10:17:45 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-04-10 10:17:45 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-04-10 10:17:45 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: 3d.dwg
+2026-04-10 10:17:45 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/04/36e9122a-3479-4d11-b223-084108e7dc8d.dwg (1301403 bytes)
+2026-04-10 10:17:45 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/04/36e9122a-3479-4d11-b223-084108e7dc8d.dwg
+2026-04-10 10:17:45 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:17:45 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: 1920f659-4c6b-4ea6-86b9-eb4153fb0626, name=3d
+2026-04-10 10:17:45 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, count=161
+2026-04-10 10:17:45 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 161}
+2026-04-10 10:17:45 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:17:45 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:17:45 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:17:45 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:17:45 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:17:45 - api_gateway.websocket - WARNING - ⚠️  没有活跃连接: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:17:45 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:17:45 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:17:45 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:17:45 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=progress, type=progress
+2026-04-10 10:17:45 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 当前连接数=1
+2026-04-10 10:17:45 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:00 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=1
+2026-04-10 10:18:08 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 接收者=1
+2026-04-10 10:18:08 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:08 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:08 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=progress, type=progress
+2026-04-10 10:18:08 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 接收者=1
+2026-04-10 10:18:08 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:08 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:08 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=progress, type=progress
+2026-04-10 10:18:08 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 接收者=1
+2026-04-10 10:18:08 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:08 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:08 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=progress, type=progress
+2026-04-10 10:18:08 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 接收者=1
+2026-04-10 10:18:08 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:08 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:08 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=progress, type=progress
+2026-04-10 10:18:15 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=2
+2026-04-10 10:18:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=8
+2026-04-10 10:18:26 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 接收者=1
+2026-04-10 10:18:26 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:26 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:26 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:26 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=progress, type=progress
+2026-04-10 10:18:27 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 接收者=1
+2026-04-10 10:18:27 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:27 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=progress, type=progress
+2026-04-10 10:18:27 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-10 10:18:27 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-10 10:18:27 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 15 条记录
+2026-04-10 10:18:27 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 161 条记录
+2026-04-10 10:18:27 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 15 条记录
+2026-04-10 10:18:27 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 15 条记录
+2026-04-10 10:18:27 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=15, job_price_snapshots=161, subgraphs=15, processing_cost_calculation_details=15
+2026-04-10 10:18:27 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1920f659-4c6b-4ea6-86b9-eb4153fb0626:review
+2026-04-10 10:18:27 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 接收者=1
+2026-04-10 10:18:27 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.routers.review_router - INFO - ✅ 审核启动成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=review, type=review_display_view
+2026-04-10 10:18:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=3
+2026-04-10 10:18:46 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=4
+2026-04-10 10:18:49 - api_gateway.routers.jobs - INFO - 收到继续核算请求: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-10 10:18:49 - api_gateway.routers.jobs - INFO - 继续核算任务已调度: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:49 - api_gateway.routers.jobs - INFO - 后台继续核算任务开始: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:49 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1920f659-4c6b-4ea6-86b9-eb4153fb0626:progress
+2026-04-10 10:18:49 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 接收者=1
+2026-04-10 10:18:49 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:49 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1920f659-4c6b-4ea6-86b9-eb4153fb0626:progress
+2026-04-10 10:18:49 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:49 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:49 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=progress, type=progress
+2026-04-10 10:18:49 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 接收者=1
+2026-04-10 10:18:49 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:49 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:49 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:49 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=progress, type=progress
+2026-04-10 10:18:51 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1920f659-4c6b-4ea6-86b9-eb4153fb0626:progress
+2026-04-10 10:18:51 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 接收者=1
+2026-04-10 10:18:51 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:51 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:51 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:51 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=progress, type=progress
+2026-04-10 10:18:51 - api_gateway.routers.jobs - INFO - 后台继续核算任务完成: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, status=ok
+2026-04-10 10:18:51 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, 接收者=1
+2026-04-10 10:18:51 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1920f659-4c6b-4ea6-86b9-eb4153fb0626:progress
+2026-04-10 10:18:51 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:51 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:51 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:51 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, channel=progress, type=progress
+2026-04-10 10:19:00 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=5
+2026-04-10 10:19:15 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=6
+2026-04-10 10:19:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=9
+2026-04-10 10:19:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=7
+2026-04-10 10:19:45 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=8
+2026-04-10 10:20:00 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=9
+2026-04-10 10:20:15 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=10
+2026-04-10 10:20:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=10
+2026-04-10 10:20:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=11
+2026-04-10 10:20:45 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=12
+2026-04-10 10:21:00 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=13
+2026-04-10 10:21:15 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=14
+2026-04-10 10:21:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=11
+2026-04-10 10:21:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=15
+2026-04-10 10:21:45 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=16
+2026-04-10 10:22:00 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=17
+2026-04-10 10:22:15 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=18
+2026-04-10 10:22:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=12
+2026-04-10 10:22:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=19
+2026-04-10 10:22:45 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=20
+2026-04-10 10:23:00 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=21
+2026-04-10 10:23:15 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=22
+2026-04-10 10:23:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=13
+2026-04-10 10:23:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=23
+2026-04-10 10:23:46 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=24
+2026-04-10 10:24:01 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=25
+2026-04-10 10:24:16 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=26
+2026-04-10 10:24:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=14
+2026-04-10 10:24:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=27
+2026-04-10 10:24:46 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=28
+2026-04-10 10:25:01 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=29
+2026-04-10 10:25:16 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=30
+2026-04-10 10:25:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=15
+2026-04-10 10:25:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=31
+2026-04-10 10:25:46 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=32
+2026-04-10 10:26:01 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=33
+2026-04-10 10:26:16 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=34
+2026-04-10 10:26:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=16
+2026-04-10 10:26:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=35
+2026-04-10 10:26:46 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=36
+2026-04-10 10:27:01 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=37
+2026-04-10 10:27:16 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=38
+2026-04-10 10:27:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=17
+2026-04-10 10:27:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=39
+2026-04-10 10:27:47 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=40
+2026-04-10 10:28:02 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=41
+2026-04-10 10:28:17 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=42
+2026-04-10 10:28:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=18
+2026-04-10 10:29:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=43
+2026-04-10 10:29:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=19
+2026-04-10 10:30:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=20
+2026-04-10 10:30:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=44
+2026-04-10 10:31:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=45
+2026-04-10 10:31:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=21
+2026-04-10 10:31:51 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=46
+2026-04-10 10:32:02 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=47
+2026-04-10 10:32:17 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=48
+2026-04-10 10:32:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=22
+2026-04-10 10:32:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=49
+2026-04-10 10:32:47 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=50
+2026-04-10 10:33:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=51
+2026-04-10 10:33:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=23
+2026-04-10 10:34:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=24
+2026-04-10 10:34:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=52
+2026-04-10 10:35:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=25
+2026-04-10 10:35:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=53
+2026-04-10 10:36:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=54
+2026-04-10 10:36:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=26
+2026-04-10 10:37:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=55
+2026-04-10 10:37:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=27
+2026-04-10 10:38:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=56
+2026-04-10 10:38:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=28
+2026-04-10 10:39:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=57
+2026-04-10 10:39:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=29
+2026-04-10 10:40:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=30
+2026-04-10 10:40:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=58
+2026-04-10 10:41:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=59
+2026-04-10 10:41:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=31
+2026-04-10 10:42:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=60
+2026-04-10 10:42:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=32
+2026-04-10 10:43:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=33
+2026-04-10 10:43:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=61
+2026-04-10 10:44:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=62
+2026-04-10 10:44:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=34
+2026-04-10 10:45:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=63
+2026-04-10 10:45:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=35
+2026-04-10 10:46:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=64
+2026-04-10 10:46:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=36
+2026-04-10 10:47:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=65
+2026-04-10 10:47:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=37
+2026-04-10 10:48:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=66
+2026-04-10 10:48:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=38
+2026-04-10 10:49:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=39
+2026-04-10 10:49:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=67
+2026-04-10 10:50:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=40
+2026-04-10 10:50:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=68
+2026-04-10 10:51:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=69
+2026-04-10 10:51:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=41
+2026-04-10 10:52:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=42
+2026-04-10 10:52:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=70
+2026-04-10 10:53:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, sequence=71
+2026-04-10 10:53:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0, sequence=43
+2026-04-10 10:53:33 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:53:33 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:53:33 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:53:33 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:53:33 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:53:33 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:53:41 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0
+2026-04-10 10:53:41 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0
+2026-04-10 10:53:41 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=425bf12a-7c4b-4e0f-99a1-d2a725ba56d0
+2026-04-10 10:53:41 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-04-10 10:53:41 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-04-10 10:53:41 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-04-10 10:53:41 - api_gateway.main - INFO - Unified backend stopped

@@ -17,7 +17,7 @@ class DWGConverter:
     def __init__(self, oda_converter_path: str = None):
         self.oda_converter_path = oda_converter_path
 
-    def _convert(self, input_file, output_file, output_format, output_version='ACAD2004'):
+    def _convert(self, input_file, output_file, output_format, output_version='ACAD2007'):
         """使用 ODAFileConverter.exe 转换文件格式"""
         if not os.path.exists(input_file):
             logger.debug(f"错误：找不到输入文件 {input_file}")
@@ -70,6 +70,10 @@ class DWGConverter:
         """DWG -> DXF"""
         return self._convert(input_dwg_file, output_dxf_file, 'DXF')
 
-    def convert_dxf_to_dwg(self, input_dxf_file, output_dwg_file, output_version='ACAD2004'):
+    def convert_dxf_to_dwg(self, input_dxf_file, output_dwg_file, output_version='ACAD2007'):
         """DXF -> DWG"""
         return self._convert(input_dxf_file, output_dwg_file, 'DWG', output_version)
+
+if __name__ == "__main__":
+    converter = DWGConverter(oda_converter_path=r"D:\ODAFileConverter 26.7.0\ODAFileConverter.exe")
+    converter.convert_dwg_to_dxf(r"D:\AI\Pycharm\chengben2\mold_main\backend\scripts\cad_chaitu\input.dwg", r"output.dxf")

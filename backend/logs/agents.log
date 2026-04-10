@@ -1,17 +1,312 @@
-2026-04-08 09:00:00 - agents.action_handlers.data_modification_handler - INFO - ✅ DataModificationHandler 初始化完成
-2026-04-08 09:00:00 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: DATA_MODIFICATION -> DataModificationHandler
-2026-04-08 09:00:00 - agents.action_handlers.feature_recognition_handler - INFO - ✅ FeatureRecognitionHandler 初始化完成
-2026-04-08 09:00:00 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: FEATURE_RECOGNITION -> FeatureRecognitionHandler
-2026-04-08 09:00:00 - agents.action_handlers.price_calculation_handler - INFO - ✅ PriceCalculationHandler 初始化完成
-2026-04-08 09:00:00 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: PRICE_CALCULATION -> PriceCalculationHandler
-2026-04-08 09:00:00 - agents.action_handlers.query_details_handler - INFO - ✅ QueryDetailsHandler 初始化完成 (use_llm=True, use_chat_history=True)
-2026-04-08 09:00:00 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: QUERY_DETAILS -> QueryDetailsHandler
-2026-04-08 09:00:00 - agents.action_handlers.general_chat_handler - INFO - ✅ GeneralChatHandler 初始化完成
-2026-04-08 09:00:00 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: GENERAL_CHAT -> GeneralChatHandler
-2026-04-08 09:00:00 - agents.action_handlers.weight_price_calculation_handler - INFO - ✅ WeightPriceCalculationHandler 初始化完成
-2026-04-08 09:00:00 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_CALCULATION -> WeightPriceCalculationHandler
-2026-04-08 09:00:00 - agents.action_handlers.weight_price_query_handler - INFO - ✅ WeightPriceQueryHandler 初始化完成 (use_llm=True, use_chat_history=True)
-2026-04-08 09:00:00 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_QUERY -> WeightPriceQueryHandler
-2026-04-08 09:00:00 - agents.action_handlers.confirmation_response_handler - INFO - ✅ ConfirmationResponseHandler 初始化完成
-2026-04-08 09:00:00 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: CONFIRMATION_RESPONSE -> ConfirmationResponseHandler
-2026-04-08 09:00:00 - agents.action_handlers.base_handler - INFO - ✅ 所有 Handler 已注册，共 8 个
+2026-04-10 08:19:09 - agents.action_handlers.data_modification_handler - INFO - ✅ DataModificationHandler 初始化完成
+2026-04-10 08:19:09 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: DATA_MODIFICATION -> DataModificationHandler
+2026-04-10 08:19:09 - agents.action_handlers.feature_recognition_handler - INFO - ✅ FeatureRecognitionHandler 初始化完成
+2026-04-10 08:19:09 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: FEATURE_RECOGNITION -> FeatureRecognitionHandler
+2026-04-10 08:19:09 - agents.action_handlers.price_calculation_handler - INFO - ✅ PriceCalculationHandler 初始化完成
+2026-04-10 08:19:09 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: PRICE_CALCULATION -> PriceCalculationHandler
+2026-04-10 08:19:09 - agents.action_handlers.query_details_handler - INFO - ✅ QueryDetailsHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-04-10 08:19:09 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: QUERY_DETAILS -> QueryDetailsHandler
+2026-04-10 08:19:09 - agents.action_handlers.general_chat_handler - INFO - ✅ GeneralChatHandler 初始化完成
+2026-04-10 08:19:09 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: GENERAL_CHAT -> GeneralChatHandler
+2026-04-10 08:19:09 - agents.action_handlers.weight_price_calculation_handler - INFO - ✅ WeightPriceCalculationHandler 初始化完成
+2026-04-10 08:19:09 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_CALCULATION -> WeightPriceCalculationHandler
+2026-04-10 08:19:09 - agents.action_handlers.weight_price_query_handler - INFO - ✅ WeightPriceQueryHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-04-10 08:19:09 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_QUERY -> WeightPriceQueryHandler
+2026-04-10 08:19:09 - agents.action_handlers.confirmation_response_handler - INFO - ✅ ConfirmationResponseHandler 初始化完成
+2026-04-10 08:19:09 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: CONFIRMATION_RESPONSE -> ConfirmationResponseHandler
+2026-04-10 08:19:09 - agents.action_handlers.base_handler - INFO - ✅ 所有 Handler 已注册，共 8 个
+2026-04-10 08:20:57 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:20:57 - agents.message_persistence_manager - DEBUG -    content: 任务进度：初始化
+任务初始化......
+2026-04-10 08:20:57 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_completed (20%)
+拆图完成，生成5个子图...
+2026-04-10 08:21:12 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_started (5%)
+正在拆图......
+2026-04-10 08:21:12 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - agents.message_persistence_manager - DEBUG -    content: 任务进度：nc_calculation_skipped (25%)
+未上传PRT文件，跳过NC时间计算...
+2026-04-10 08:21:12 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:12 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_started (25%)
+开始特征识别，共 5 个子图...
+2026-04-10 08:21:12 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:17 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:17 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_completed (50%)
+特征识别完成: 成功5个, 失败0个...
+2026-04-10 08:21:17 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:18 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:18 - agents.message_persistence_manager - DEBUG -    content: 任务进度：awaiting_confirm (50%)
+请检查结果并确认...
+2026-04-10 08:21:18 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=progress
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - 🚀 启动审核流程: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - 🔒 获取锁成功: review:lock:7a4c885e-c98b-48c3-b94a-30dd61f02fdc
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - 📊 查询审核数据...
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - 🔧 构建展示视图...
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - 📊 原始数据统计: features=5, subgraphs=5, job_price_snapshots=161
+2026-04-10 08:21:18 - agents.data_view_builder - INFO - 🔧 构建展示视图（4表架构）...
+2026-04-10 08:21:18 - agents.data_view_builder - INFO - ✅ 展示视图构建完成（4表架构）: 5 条记录
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - ✅ 展示视图构建完成: 5 条记录
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - 🔍 检查数据完整性...
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - 📋 完整性检查结果: 数据完整
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - 🔐 计算数据版本...
+2026-04-10 08:21:18 - agents.interaction_agent - DEBUG - ??? 171 ??????????
+2026-04-10 08:21:18 - agents.interaction_agent - DEBUG - 版本哈希数量: 171
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - 💾 保存双层数据到 Redis...
+2026-04-10 08:21:18 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:7a4c885e-c98b-48c3-b94a-30dd61f02fdc, ex=3600s
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - 📤 推送展示视图到前端...
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - 📤 展示视图已发布到 Redis: job:7a4c885e-c98b-48c3-b94a-30dd61f02fdc:review, 记录数: 5
+2026-04-10 08:21:18 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=review_display_view
+2026-04-10 08:21:18 - agents.message_persistence_manager - DEBUG -    content: 展示视图已加载：5 条记录...
+2026-04-10 08:21:18 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=7a4c885e-c98b-48c3-b94a-30dd61f02fdc, type=review_display_view
+2026-04-10 08:21:18 - agents.interaction_agent - INFO - ✅ 审核流程启动成功
+2026-04-10 08:31:37 - agents.action_handlers.data_modification_handler - INFO - ✅ DataModificationHandler 初始化完成
+2026-04-10 08:31:37 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: DATA_MODIFICATION -> DataModificationHandler
+2026-04-10 08:31:37 - agents.action_handlers.feature_recognition_handler - INFO - ✅ FeatureRecognitionHandler 初始化完成
+2026-04-10 08:31:37 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: FEATURE_RECOGNITION -> FeatureRecognitionHandler
+2026-04-10 08:31:37 - agents.action_handlers.price_calculation_handler - INFO - ✅ PriceCalculationHandler 初始化完成
+2026-04-10 08:31:37 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: PRICE_CALCULATION -> PriceCalculationHandler
+2026-04-10 08:31:37 - agents.action_handlers.query_details_handler - INFO - ✅ QueryDetailsHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-04-10 08:31:37 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: QUERY_DETAILS -> QueryDetailsHandler
+2026-04-10 08:31:37 - agents.action_handlers.general_chat_handler - INFO - ✅ GeneralChatHandler 初始化完成
+2026-04-10 08:31:37 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: GENERAL_CHAT -> GeneralChatHandler
+2026-04-10 08:31:37 - agents.action_handlers.weight_price_calculation_handler - INFO - ✅ WeightPriceCalculationHandler 初始化完成
+2026-04-10 08:31:37 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_CALCULATION -> WeightPriceCalculationHandler
+2026-04-10 08:31:37 - agents.action_handlers.weight_price_query_handler - INFO - ✅ WeightPriceQueryHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-04-10 08:31:37 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_QUERY -> WeightPriceQueryHandler
+2026-04-10 08:31:37 - agents.action_handlers.confirmation_response_handler - INFO - ✅ ConfirmationResponseHandler 初始化完成
+2026-04-10 08:31:37 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: CONFIRMATION_RESPONSE -> ConfirmationResponseHandler
+2026-04-10 08:31:37 - agents.action_handlers.base_handler - INFO - ✅ 所有 Handler 已注册，共 8 个
+2026-04-10 08:31:55 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:31:55 - agents.message_persistence_manager - DEBUG -    content: 任务进度：初始化
+任务初始化......
+2026-04-10 08:31:55 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_completed (20%)
+拆图完成，生成5个子图...
+2026-04-10 08:32:06 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_started (5%)
+正在拆图......
+2026-04-10 08:32:06 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - agents.message_persistence_manager - DEBUG -    content: 任务进度：nc_calculation_skipped (25%)
+未上传PRT文件，跳过NC时间计算...
+2026-04-10 08:32:06 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:06 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_started (25%)
+开始特征识别，共 5 个子图...
+2026-04-10 08:32:06 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:12 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:12 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_completed (50%)
+特征识别完成: 成功5个, 失败0个...
+2026-04-10 08:32:12 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:12 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:12 - agents.message_persistence_manager - DEBUG -    content: 任务进度：awaiting_confirm (50%)
+请检查结果并确认...
+2026-04-10 08:32:12 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=progress
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - 🚀 启动审核流程: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - 🔒 获取锁成功: review:lock:4a83b5c5-2090-4513-86d4-2053f4c601eb
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - 📊 查询审核数据...
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - 🔧 构建展示视图...
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - 📊 原始数据统计: features=5, subgraphs=5, job_price_snapshots=161
+2026-04-10 08:32:13 - agents.data_view_builder - INFO - 🔧 构建展示视图（4表架构）...
+2026-04-10 08:32:13 - agents.data_view_builder - INFO - ✅ 展示视图构建完成（4表架构）: 5 条记录
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - ✅ 展示视图构建完成: 5 条记录
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - 🔍 检查数据完整性...
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - 📋 完整性检查结果: 数据完整
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - 🔐 计算数据版本...
+2026-04-10 08:32:13 - agents.interaction_agent - DEBUG - ??? 171 ??????????
+2026-04-10 08:32:13 - agents.interaction_agent - DEBUG - 版本哈希数量: 171
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - 💾 保存双层数据到 Redis...
+2026-04-10 08:32:13 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:4a83b5c5-2090-4513-86d4-2053f4c601eb, ex=3600s
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - 📤 推送展示视图到前端...
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - 📤 展示视图已发布到 Redis: job:4a83b5c5-2090-4513-86d4-2053f4c601eb:review, 记录数: 5
+2026-04-10 08:32:13 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=review_display_view
+2026-04-10 08:32:13 - agents.message_persistence_manager - DEBUG -    content: 展示视图已加载：5 条记录...
+2026-04-10 08:32:13 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=4a83b5c5-2090-4513-86d4-2053f4c601eb, type=review_display_view
+2026-04-10 08:32:13 - agents.interaction_agent - INFO - ✅ 审核流程启动成功
+2026-04-10 10:14:38 - agents.action_handlers.data_modification_handler - INFO - ✅ DataModificationHandler 初始化完成
+2026-04-10 10:14:38 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: DATA_MODIFICATION -> DataModificationHandler
+2026-04-10 10:14:38 - agents.action_handlers.feature_recognition_handler - INFO - ✅ FeatureRecognitionHandler 初始化完成
+2026-04-10 10:14:38 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: FEATURE_RECOGNITION -> FeatureRecognitionHandler
+2026-04-10 10:14:38 - agents.action_handlers.price_calculation_handler - INFO - ✅ PriceCalculationHandler 初始化完成
+2026-04-10 10:14:38 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: PRICE_CALCULATION -> PriceCalculationHandler
+2026-04-10 10:14:38 - agents.action_handlers.query_details_handler - INFO - ✅ QueryDetailsHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-04-10 10:14:38 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: QUERY_DETAILS -> QueryDetailsHandler
+2026-04-10 10:14:38 - agents.action_handlers.general_chat_handler - INFO - ✅ GeneralChatHandler 初始化完成
+2026-04-10 10:14:38 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: GENERAL_CHAT -> GeneralChatHandler
+2026-04-10 10:14:38 - agents.action_handlers.weight_price_calculation_handler - INFO - ✅ WeightPriceCalculationHandler 初始化完成
+2026-04-10 10:14:38 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_CALCULATION -> WeightPriceCalculationHandler
+2026-04-10 10:14:38 - agents.action_handlers.weight_price_query_handler - INFO - ✅ WeightPriceQueryHandler 初始化完成 (use_llm=True, use_chat_history=True)
+2026-04-10 10:14:38 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: WEIGHT_PRICE_QUERY -> WeightPriceQueryHandler
+2026-04-10 10:14:38 - agents.action_handlers.confirmation_response_handler - INFO - ✅ ConfirmationResponseHandler 初始化完成
+2026-04-10 10:14:38 - agents.action_handlers.base_handler - INFO - ✅ 注册 Handler: CONFIRMATION_RESPONSE -> ConfirmationResponseHandler
+2026-04-10 10:14:38 - agents.action_handlers.base_handler - INFO - ✅ 所有 Handler 已注册，共 8 个
+2026-04-10 10:15:18 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:18 - agents.message_persistence_manager - DEBUG -    content: 任务进度：初始化
+任务初始化......
+2026-04-10 10:15:18 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:34 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:34 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_completed (20%)
+拆图完成，生成15个子图...
+2026-04-10 10:15:34 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:34 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:34 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_started (5%)
+正在拆图......
+2026-04-10 10:15:34 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:35 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:35 - agents.message_persistence_manager - DEBUG -    content: 任务进度：nc_calculation_skipped (25%)
+未上传PRT文件，跳过NC时间计算...
+2026-04-10 10:15:35 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:35 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:35 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_started (25%)
+开始特征识别，共 15 个子图...
+2026-04-10 10:15:35 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:59 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:15:59 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_completed (50%)
+特征识别完成: 成功12个, 失败3个...
+2026-04-10 10:15:59 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:16:00 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:16:00 - agents.message_persistence_manager - DEBUG -    content: 任务进度：awaiting_confirm (50%)
+请检查结果并确认...
+2026-04-10 10:16:00 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=a517515f-7e63-487b-bdd8-ea3776182eef, type=progress
+2026-04-10 10:16:04 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:16:04 - agents.message_persistence_manager - DEBUG -    content: 任务进度：初始化
+任务初始化......
+2026-04-10 10:16:04 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:16:04 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:16:04 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_failed (5%)
+拆图失败: DWG -> DXF 转换失败...
+2026-04-10 10:16:04 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:16:04 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:16:04 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_started (5%)
+正在拆图......
+2026-04-10 10:16:04 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:16:04 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:16:04 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_failed (5%)
+拆图失败: 拆图失败: Unable to call MCP tool cad_chaitu on http://192.168.1.152:82...
+2026-04-10 10:16:04 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=3e029943-2bc6-43b1-9a4b-1431e294dbb4, type=progress
+2026-04-10 10:17:02 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:02 - agents.message_persistence_manager - DEBUG -    content: 任务进度：初始化
+任务初始化......
+2026-04-10 10:17:02 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_completed (20%)
+拆图完成，生成15个子图...
+2026-04-10 10:17:17 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_started (5%)
+正在拆图......
+2026-04-10 10:17:17 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - agents.message_persistence_manager - DEBUG -    content: 任务进度：nc_calculation_skipped (25%)
+未上传PRT文件，跳过NC时间计算...
+2026-04-10 10:17:17 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:17 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_started (25%)
+开始特征识别，共 15 个子图...
+2026-04-10 10:17:17 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:30 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:30 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_completed (50%)
+特征识别完成: 成功10个, 失败5个...
+2026-04-10 10:17:30 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:30 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:30 - agents.message_persistence_manager - DEBUG -    content: 任务进度：awaiting_confirm (50%)
+请检查结果并确认...
+2026-04-10 10:17:31 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=progress
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - 🚀 启动审核流程: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - 🔒 获取锁成功: review:lock:82d29939-f5d6-4527-a024-6daf3f8cfeaf
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - 📊 查询审核数据...
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - 🔧 构建展示视图...
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - 📊 原始数据统计: features=0, subgraphs=0, job_price_snapshots=0
+2026-04-10 10:17:31 - agents.data_view_builder - INFO - 🔧 构建展示视图（4表架构）...
+2026-04-10 10:17:31 - agents.data_view_builder - INFO - ✅ 展示视图构建完成（4表架构）: 0 条记录
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - ✅ 展示视图构建完成: 0 条记录
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - 🔍 检查数据完整性...
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - 📋 完整性检查结果: 数据完整
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - 🔐 计算数据版本...
+2026-04-10 10:17:31 - agents.interaction_agent - DEBUG - ??? 0 ??????????
+2026-04-10 10:17:31 - agents.interaction_agent - DEBUG - 版本哈希数量: 0
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - 💾 保存双层数据到 Redis...
+2026-04-10 10:17:31 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:82d29939-f5d6-4527-a024-6daf3f8cfeaf, ex=3600s
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - 📤 推送展示视图到前端...
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - 📤 展示视图已发布到 Redis: job:82d29939-f5d6-4527-a024-6daf3f8cfeaf:review, 记录数: 0
+2026-04-10 10:17:31 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=review_display_view
+2026-04-10 10:17:31 - agents.message_persistence_manager - DEBUG -    content: 展示视图已加载：0 条记录...
+2026-04-10 10:17:31 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=82d29939-f5d6-4527-a024-6daf3f8cfeaf, type=review_display_view
+2026-04-10 10:17:31 - agents.interaction_agent - INFO - ✅ 审核流程启动成功
+2026-04-10 10:17:45 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:17:45 - agents.message_persistence_manager - DEBUG -    content: 任务进度：初始化
+任务初始化......
+2026-04-10 10:17:45 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_completed (20%)
+拆图完成，生成15个子图...
+2026-04-10 10:18:08 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - agents.message_persistence_manager - DEBUG -    content: 任务进度：cad_split_started (5%)
+正在拆图......
+2026-04-10 10:18:08 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - agents.message_persistence_manager - DEBUG -    content: 任务进度：nc_calculation_skipped (25%)
+未上传PRT文件，跳过NC时间计算...
+2026-04-10 10:18:08 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:08 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_started (25%)
+开始特征识别，共 15 个子图...
+2026-04-10 10:18:08 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:26 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:26 - agents.message_persistence_manager - DEBUG -    content: 任务进度：feature_recognition_completed (50%)
+特征识别完成: 成功15个, 失败0个...
+2026-04-10 10:18:26 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:27 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:27 - agents.message_persistence_manager - DEBUG -    content: 任务进度：awaiting_confirm (50%)
+请检查结果并确认...
+2026-04-10 10:18:27 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - ✅ InteractionAgent 初始化完成（审核模式）
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - 🚀 启动审核流程: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - 🔒 获取锁成功: review:lock:1920f659-4c6b-4ea6-86b9-eb4153fb0626
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - 📊 查询审核数据...
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - 🔧 构建展示视图...
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - 📊 原始数据统计: features=15, subgraphs=15, job_price_snapshots=161
+2026-04-10 10:18:27 - agents.data_view_builder - INFO - 🔧 构建展示视图（4表架构）...
+2026-04-10 10:18:27 - agents.data_view_builder - INFO - ✅ 展示视图构建完成（4表架构）: 15 条记录
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - ✅ 展示视图构建完成: 15 条记录
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - 🔍 检查数据完整性...
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - 📋 完整性检查结果: 数据完整
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - 🔐 计算数据版本...
+2026-04-10 10:18:27 - agents.interaction_agent - DEBUG - ??? 191 ??????????
+2026-04-10 10:18:27 - agents.interaction_agent - DEBUG - 版本哈希数量: 191
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - 💾 保存双层数据到 Redis...
+2026-04-10 10:18:27 - agents.interaction_agent - DEBUG - 💾 状态已保存: review:state:1920f659-4c6b-4ea6-86b9-eb4153fb0626, ex=3600s
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - 📤 推送展示视图到前端...
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - 📤 展示视图已发布到 Redis: job:1920f659-4c6b-4ea6-86b9-eb4153fb0626:review, 记录数: 15
+2026-04-10 10:18:27 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=review_display_view
+2026-04-10 10:18:27 - agents.message_persistence_manager - DEBUG -    content: 展示视图已加载：15 条记录...
+2026-04-10 10:18:27 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=review_display_view
+2026-04-10 10:18:27 - agents.interaction_agent - INFO - ✅ 审核流程启动成功
+2026-04-10 10:18:49 - agents.cad_agent - INFO - CAD Agent 初始化完成 (MCP 模式)
+2026-04-10 10:18:49 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:49 - agents.message_persistence_manager - DEBUG -    content: 任务进度：continuing (55%)
+用户确认完成，继续执行......
+2026-04-10 10:18:49 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:49 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:49 - agents.message_persistence_manager - DEBUG -    content: 任务进度：pricing_started (75%)
+正在计算价格......
+2026-04-10 10:18:49 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:51 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:51 - agents.message_persistence_manager - DEBUG -    content: 任务进度：pricing_completed (90%)
+价格计算完成，总成本: 13146.43 CNY...
+2026-04-10 10:18:51 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:51 - agents.message_persistence_manager - INFO - 📝 持久化消息: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress
+2026-04-10 10:18:51 - agents.message_persistence_manager - DEBUG -    content: 任务进度：completed (100%)
+任务完成！...
+2026-04-10 10:18:51 - agents.message_persistence_manager - INFO - ✅ 消息持久化成功: job_id=1920f659-4c6b-4ea6-86b9-eb4153fb0626, type=progress

@@ -334,6 +334,107 @@ class OptimizedCADBlockAnalyzer:
         
         return sub_code, part_name, part_code
 
+    def _log_region_texts_for_debug(self, region: Dict, reason: str) -> None:
+        """记录子图中的文本详情，便于定位识别失败原因。"""
+        texts = region.get('texts', []) or []
+        region_id = region.get('_region_id', 'unknown')
+
+        text_details = []
+        for idx, text in enumerate(texts, start=1):
+            text_details.append({
+                'idx': idx,
+                'content': (text.get('content') or '').strip(),
+                'position': text.get('position'),
+                'layer': text.get('layer', ''),
+                'entity_type': text.get('entity_type', ''),
+            })
+
+        logger.warning(
+            f"⚠️ 子图文本诊断 [{reason}] region={region_id}, "
+            f"text_count={len(texts)}, texts={text_details}"
+        )
+
+    def _log_region_bounds_summary(self) -> None:
+        """记录各子图边界，便于判断 region 是否划分异常。"""
+        summaries = []
+        for rid, region in self.sub_drawings.items():
+            bounds = region.get('bounds') or {}
+            summaries.append({
+                'region': rid,
+                'min_x': round(bounds.get('min_x', 0.0), 2),
+                'max_x': round(bounds.get('max_x', 0.0), 2),
+                'min_y': round(bounds.get('min_y', 0.0), 2),
+                'max_y': round(bounds.get('max_y', 0.0), 2),
+                'width': round(bounds.get('width', 0.0), 2),
+                'height': round(bounds.get('height', 0.0), 2),
+            })
+
+        logger.info(f"子图边界诊断: {summaries}")
+
+    def _log_key_text_assignments(self) -> None:
+        """记录关键标题栏/编号文本最终被分配到哪个子图。"""
+        keyword_patterns = [
+            re.compile(r'品名|名称|编号|图号|加工说明', re.IGNORECASE),
+            re.compile(r'\b(?:DIE|PU|PS|LB|UB|BL|SB|BUP|BUN|M)\b[-]?\d+', re.IGNORECASE),
+            re.compile(r'(?:DIE|PU|PS|LB|UB|BL|SB)[A-Z0-9\\-]*', re.IGNORECASE),
+        ]
+
+        assignments = []
+        for rid, region in self.sub_drawings.items():
+            for text in region.get('texts', []) or []:
+                content = (text.get('content') or '').strip()
+                if not content:
+                    continue
+                if any(pattern.search(content) for pattern in keyword_patterns):
+                    assignments.append({
+                        'region': rid,
+                        'content': content,
+                        'position': text.get('position'),
+                        'layer': text.get('layer', ''),
+                        'entity_type': text.get('entity_type', ''),
+                    })
+
+        logger.info(f"关键文本归属诊断: match_count={len(assignments)}, assignments={assignments}")
+
+    def _log_region_assignment_summary(self) -> None:
+        """记录每个子图的来源图框、文本数、实体数、关键编号命中数。"""
+        code_patterns = [
+            re.compile(r'(?:DIE|PU|PS|LB|UB|BL|SB)[A-Z0-9\-]*', re.IGNORECASE),
+            re.compile(r'\b[A-Z]{1,5}-\d+\b', re.IGNORECASE),
+            re.compile(r'\b[A-Z]+\d+(?:-\d+)?\b', re.IGNORECASE),
+        ]
+
+        summaries = []
+        for rid, region in self.sub_drawings.items():
+            bounds = region.get('bounds') or {}
+            frame_block = region.get('frame_block') or {}
+
+            entity_count = 0
+            for entity in self.all_entities:
+                center = entity.get('center')
+                if self._point_in_bounds(center, bounds):
+                    entity_count += 1
+
+            key_code_hits = []
+            for text in region.get('texts', []) or []:
+                content = (text.get('content') or '').strip()
+                if not content:
+                    continue
+                if any(pattern.search(content) for pattern in code_patterns):
+                    key_code_hits.append(content)
+
+            summaries.append({
+                'region': rid,
+                'frame_block': frame_block.get('block_name'),
+                'insert_point': frame_block.get('insert_point'),
+                'text_count': len(region.get('texts', []) or []),
+                'entity_count': entity_count,
+                'key_code_hit_count': len(key_code_hits),
+                'key_code_hits': key_code_hits[:12],
+            })
+
+        logger.info(f"子图归属摘要诊断: {summaries}")
+
     def extract_part_name(self, region: Dict) -> Optional[str]:
         """提取品名（零件名称）"""
         # 如果已经缓存了品名，直接返回
@@ -461,6 +562,7 @@ class OptimizedCADBlockAnalyzer:
             return part_name
         
         logger.warning(f"⚠️ 未能识别品名，文本数量: {len(texts)}")
+        self._log_region_texts_for_debug(region, "part_name_unrecognized")
         # 缓存 None 结果，避免重复识别
         region['_cached_part_name'] = None
         return None
@@ -543,6 +645,7 @@ class OptimizedCADBlockAnalyzer:
                                 return nxt
         
         logger.debug(f"未能识别编号，文本数量: {len(texts)}")
+        self._log_region_texts_for_debug(region, "part_code_unrecognized")
         # 缓存 None 结果，避免重复识别
         region['_cached_part_code'] = None
         return None
@@ -916,11 +1019,13 @@ class OptimizedCADBlockAnalyzer:
         for i, fb in enumerate(self.frame_blocks):
             rid = f"subdrawing_{i + 1:03d}"
             self.sub_drawings[rid] = {
+                '_region_id': rid,
                 'frame_block': fb,
                 'bounds': fb['bounds'],
                 'texts': [],
                 'cutting_analysis': {}
             }
+        self._log_region_bounds_summary()
 
     def _get_spatial_sort_key(self, frame_block):
         """空间排序键"""
@@ -945,6 +1050,8 @@ class OptimizedCADBlockAnalyzer:
                     self.sub_drawings[cr]['texts'].append(text)
         for rid, r in self.sub_drawings.items():
             r['texts'] = self.text_processor.process_text_list(r['texts'])
+        self._log_key_text_assignments()
+        self._log_region_assignment_summary()
     
     def _preload_part_names(self):
         """预先识别所有子图的品名并缓存（避免并行处理时重复识别）"""

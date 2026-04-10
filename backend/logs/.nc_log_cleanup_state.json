@@ -1,7 +1,7 @@
 {
-  "last_cleanup_ts": 1775615118.7816682,
-  "last_cleanup_at": "2026-04-08T02:25:18Z",
-  "retention_days": 7,
+  "last_cleanup_ts": 1775787918.1409523,
+  "last_cleanup_at": "2026-04-10T02:25:18Z",
+  "retention_days": 5,
   "mode": "scheduled_cleanup",
   "deleted_files": 0,
   "deleted_dirs": 0,
