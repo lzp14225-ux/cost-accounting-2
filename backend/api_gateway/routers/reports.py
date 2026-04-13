@@ -48,6 +48,8 @@ HEADERS = [
 ]
 
 # 需要合计的列索引（基于0的索引）
+HEADERS = [*HEADERS, '其它（备料于）']
+
 SUM_COLUMNS = [
     7,   # 数量
     11,  # 材料费（元）
@@ -405,7 +407,7 @@ def generate_excel_report(job_data: dict) -> BytesIO:
     column_widths = [6, 12, 10, 10, 8, 8, 8, 6, 10, 12, 10, 12, 10, 12, 8, 12,
                      12, 10, 10, 12, 12, 12, 18, 12, 12, 12, 12, 10, 14, 20,
                      12, 12, 10, 10, 12, 12, 10, 12, 10, 10, 10, 10, 12, 14,
-                     14, 12, 12, 20, 20, 8]
+                     14, 12, 12, 20, 20, 8, 20]
     
     for col_idx, width in enumerate(column_widths):
         worksheet.set_column(col_idx, col_idx, width)
@@ -434,7 +436,10 @@ def generate_excel_report(job_data: dict) -> BytesIO:
         feature = features_dict.get(subgraph.subgraph_id)
         normalized_part_code = _normalize_code(subgraph.part_code)
         is_nc_failed_row = normalized_part_code in nc_failed_part_codes
-        is_warning_row = subgraph.subgraph_id in missing_fields_map
+        is_warning_row = (
+            subgraph.subgraph_id in missing_fields_map
+            and not _has_material_preparation(feature)
+        )
 
         if is_nc_failed_row:
             current_wrap_format = nc_fail_wrap_format
@@ -464,7 +469,7 @@ def generate_excel_report(job_data: dict) -> BytesIO:
             else:
                 worksheet.write(row, col_idx, value, current_data_format)
         # 加在这里↓
-        worksheet.write(row, len(row_data), ' ', current_data_format)
+        worksheet.write(row, len(row_data), _extract_material_preparation(feature), current_wrap_format)
     
     # 合计行
     total_row = len(subgraphs) + 2
@@ -576,6 +581,19 @@ def _build_missing_fields_map(subgraphs, features_dict):
         for item in completeness_result.get("missing_fields", [])
         if item.get("record_name")
     }
+
+
+def _extract_material_preparation(feature: Feature) -> str:
+    if not feature:
+        return ''
+    value = getattr(feature, "has_material_preparation", None)
+    if value is None:
+        return ''
+    return str(value).strip()
+
+
+def _has_material_preparation(feature: Feature) -> bool:
+    return bool(_extract_material_preparation(feature))
 
 
 def _build_nc_failed_part_code_set(job: Job):

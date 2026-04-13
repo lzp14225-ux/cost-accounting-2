@@ -6,11 +6,11 @@ Examples:
   先做只读测试，不写库：
   python scripts/replay_nc_debug_response.py --file logs/nc_agent_debug/response_xxx.json --dry-run  
   例如：
-  python scripts/replay_nc_debug_response.py --file logs/nc_agent_debug/response_8dfe4db6-53bb-4894-a016-87b0fed76e08_20260329_091535.json --dry-run
+  python scripts/replay_nc_debug_response.py --file logs/nc_agent_debug/response_4d8936ce-ce9a-444d-a508-1f45309450cf_20260410_070231.json --dry-run
   如果输出的 fail_itemcodes 正确，再执行真正写库：
-   python scripts/replay_nc_debug_response.py --file logs/nc_agent_debug/response_8dfe4db6-53bb-4894-a016-87b0fed76e08_20260329_091535.json
+   python scripts/replay_nc_debug_response.py --file logs/nc_agent_debug/response_4d8936ce-ce9a-444d-a508-1f45309450cf_20260410_070231.json
   如果文件名提不出 job_id, 就手动带上:
-  python scripts/replay_nc_debug_response.py --file logs/nc_agent_debug/response_8dfe4db6-53bb-4894-a016-87b0fed76e08_20260329_091535.json --job-id 8dfe4db6-53bb-4894-a016-87b0fed76e08 --dry-run
+  python scripts/replay_nc_debug_response.py --file logs/nc_agent_debug/response_4d8936ce-ce9a-444d-a508-1f45309450cf_20260410_070231.json --job-id 8dfe4db6-53bb-4894-a016-87b0fed76e08 --dry-run
 
     python scripts/replay_nc_debug_response.py --file logs/nc_agent_debug/response_xxx.json
     python scripts/replay_nc_debug_response.py --file logs/nc_agent_debug/response_xxx.json --job-id <job_id>

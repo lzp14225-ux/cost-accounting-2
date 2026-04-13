@@ -135,6 +135,23 @@ const ChatInterface: React.FC = () => {
     const hasReachedMinProgress = currentJobMessages.some(msg => 
         msg.type === 'progress' && msg.progressData?.stage === 'awaiting_confirm'
     );
+
+    const canSendAfterWorkflowReady = useMemo(() => {
+        const hasPricingOrCompletedStage = currentJobMessages.some(msg =>
+            msg.type === 'progress' &&
+            (
+                msg.progressData?.stage === 'pricing_started' ||
+                msg.progressData?.stage === 'pricing_completed' ||
+                msg.progressData?.stage === 'cost_calculation_started' ||
+                msg.progressData?.stage === 'cost_calculation_completed' ||
+                msg.progressData?.stage === 'completed'
+            )
+        );
+
+        // 历史消息经过过滤后，awaiting_confirm 可能不存在。
+        // 只要已经进入报价或任务完成，就应该允许继续发送追问。
+        return hasReachedMinProgress || hasPricingOrCompletedStage;
+    }, [currentJobMessages, hasReachedMinProgress]);
     
     // 检查是否正在进行重新处理（重新识别特征或重新计算价格）
     const isReprocessingInHistory = useMemo(() => {
@@ -531,13 +548,13 @@ const ChatInterface: React.FC = () => {
                            !isRefreshing && 
                            !isCalculating && 
                            !isReprocessing && 
-                           hasReachedMinProgress && 
+                           canSendAfterWorkflowReady && 
                            !isReprocessingInHistory;
             if (canSend) {
                 handleSendMessage();
             }
         }
-    }, [inputValue, isTyping, isStartingReview, isRefreshing, isCalculating, isReprocessing, hasReachedMinProgress, isReprocessingInHistory, handleSendMessage]);
+    }, [inputValue, isTyping, isStartingReview, isRefreshing, isCalculating, isReprocessing, canSendAfterWorkflowReady, isReprocessingInHistory, handleSendMessage]);
 
     const handleFileUpload = () => {
         // 检查是否登录
@@ -1677,7 +1694,7 @@ const ChatInterface: React.FC = () => {
                                     type="primary"
                                     icon={<SendOutlined />}
                                     onClick={handleSendMessage}
-                                    disabled={!inputValue.trim() || isTyping || isStartingReview || isRefreshing || isCalculating || isReprocessing || !hasReachedMinProgress || isReprocessingInHistory}
+                                    disabled={!inputValue.trim() || isTyping || isStartingReview || isRefreshing || isCalculating || isReprocessing || !canSendAfterWorkflowReady || isReprocessingInHistory}
                                     style={{
                                         width: 40,
                                         height: 40,

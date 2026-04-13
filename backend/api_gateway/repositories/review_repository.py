@@ -288,6 +288,17 @@ class ReviewRepository:
                 # 移除不能更新的字段
                 update_data = {k: v for k, v in snapshot_data.items() 
                               if k not in ['snapshot_id', 'job_id', 'snapshot_created_at']}
+
+                # JobPriceSnapshot 的价格相关字段在库里是 VARCHAR，写库前统一转成字符串
+                string_fields = [
+                    'price', 'unit', 'work_hours', 'min_num', 'add_price',
+                    'weight_num', 'note', 'instruction', 'original_price_id',
+                    'version_id', 'category', 'sub_category', 'modified_by',
+                    'modification_reason'
+                ]
+                for field in string_fields:
+                    if field in update_data and update_data[field] is not None and not isinstance(update_data[field], str):
+                        update_data[field] = str(update_data[field])
                 
                 stmt = update(JobPriceSnapshot).where(
                     JobPriceSnapshot.snapshot_id == snapshot_id,

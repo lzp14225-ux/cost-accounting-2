@@ -13,7 +13,7 @@
 ### 查看暂存文件列表
 
 ```bash
-curl http://192.168.1.152:8888/api/audio/list
+curl http://192.168.3.61:8888/api/audio/list
 ```
 
 返回示例：
@@ -36,13 +36,13 @@ curl http://192.168.1.152:8888/api/audio/list
 
 清理24小时前的文件：
 ```bash
-curl -X DELETE "http://192.168.1.152:8888/api/audio/clean" \
+curl -X DELETE "http://192.168.3.61:8888/api/audio/clean" \
   -F "older_than_hours=24"
 ```
 
 清理1小时前的文件：
 ```bash
-curl -X DELETE "http://192.168.1.152:8888/api/audio/clean" \
+curl -X DELETE "http://192.168.3.61:8888/api/audio/clean" \
   -F "older_than_hours=1"
 ```
 
@@ -67,7 +67,7 @@ rm -f mold_cost_/speech_services/audio/* && git checkout mold_cost_/speech_servi
 
 查看存储统计：
 ```bash
-curl http://192.168.1.152:8888/api/stats
+curl http://192.168.3.61:8888/api/stats
 ```
 
 返回示例：

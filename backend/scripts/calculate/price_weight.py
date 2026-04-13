@@ -17,6 +17,7 @@ import json
 
 from api_gateway.database import db
 from ._batch_update_helper import batch_upsert_with_steps
+from .material_shape_helper import get_material_shape, get_stock_volume_mm3
 
 logger = logging.getLogger(__name__)
 
@@ -226,7 +227,9 @@ async def _calculate_part_weight(job_id: str, part: Dict, density_map: Dict[str,
         thickness = Decimal(str(thickness_mm))
         
         # 计算重量: weight = density * length_mm * width_mm * thickness_mm
-        weight = (density * length * width * thickness).quantize(
+        material_shape = get_material_shape(part)
+        volume_mm3 = get_stock_volume_mm3(part)
+        weight = (density * volume_mm3).quantize(
             Decimal("0.001"), ROUND_HALF_UP
         )
         
@@ -235,6 +238,7 @@ async def _calculate_part_weight(job_id: str, part: Dict, density_map: Dict[str,
             {
                 "step": "获取零件信息",
                 "material": material,
+                "material_shape": material_shape,
                 "length_mm": float(length_mm),
                 "width_mm": float(width_mm),
                 "thickness_mm": float(thickness_mm)
@@ -248,7 +252,8 @@ async def _calculate_part_weight(job_id: str, part: Dict, density_map: Dict[str,
             },
             {
                 "step": "计算重量",
-                "formula": f"{density} * {length_mm} * {width_mm} * {thickness_mm}",
+                "formula": f"{density} * volume_mm3({volume_mm3})",
+                "volume_mm3": float(volume_mm3),
                 "weight": float(weight)
             }
         ]

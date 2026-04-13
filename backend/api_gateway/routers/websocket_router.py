@@ -104,6 +104,9 @@ async def get_message_history(job_id: str):
     try:
         key = f"job:{job_id}:messages"
         messages = await redis_client.lrange(key, 0, -1)
+        # Messages are stored with LPUSH, so LRANGE returns newest-first.
+        # Reverse to return chronological order to the frontend.
+        messages.reverse()
         
         return {
             "job_id": job_id,

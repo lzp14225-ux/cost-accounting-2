@@ -878,7 +878,14 @@ if __name__ == "__main__":
             if not tool_name:
                 return JSONResponse({"status": "error", "message": "缺少 tool_name 参数"}, status_code=400)
             
-            logger.info(f"[HTTP] 调用工具: {tool_name}")
+            logger.info(
+                "[HTTP] 调用工具: %s | job_id=%s | subgraph_id=%s | subgraph_ids=%s | keys=%s",
+                tool_name,
+                arguments.get("job_id"),
+                arguments.get("subgraph_id"),
+                arguments.get("subgraph_ids"),
+                sorted(arguments.keys()),
+            )
             
             # 调用 MCP 工具处理函数
             result_list = await call_tool(tool_name, arguments)
@@ -890,11 +897,18 @@ if __name__ == "__main__":
             else:
                 result = {"status": "error", "message": "工具未返回结果"}
             
-            logger.info(f"[HTTP] 工具执行完成: {tool_name}")
+            logger.info(
+                "[HTTP] 工具执行完成: %s | job_id=%s | subgraph_id=%s",
+                tool_name,
+                arguments.get("job_id"),
+                arguments.get("subgraph_id"),
+            )
             return JSONResponse(result)
         except Exception as e:
             import traceback
-            logger.error(f"[HTTP] 工具执行失败: {tool_name}, error={e}")
+            logger.error(
+                f"[HTTP] 工具执行失败: {tool_name}, job_id={arguments.get('job_id') if isinstance(arguments, dict) else None}, error={e}"
+            )
             return JSONResponse({
                 "status": "error",
                 "message": str(e),

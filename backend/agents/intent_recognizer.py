@@ -108,6 +108,10 @@ class IntentRecognizer:
                 try:
                     result = await self._recognize_with_llm(message, context, chat_history)
                     if result and result.confidence >= 0.5:
+                        result.parameters = result.parameters or {}
+                        price_scope = self._extract_price_scope(message)
+                        if price_scope:
+                            result.parameters["price_scope"] = price_scope
                         # 🆕 根据上下文调整置信度
                         result = self._adjust_confidence_by_context(result, chat_history)
                         
@@ -121,6 +125,10 @@ class IntentRecognizer:
             
             # 3. Fallback: 规则识别
             result = self._recognize_with_rules(message, context)
+            result.parameters = result.parameters or {}
+            price_scope = self._extract_price_scope(message)
+            if price_scope:
+                result.parameters["price_scope"] = price_scope
             logger.info(f"✅ 规则识别完成: {result.intent_type}")
             return result
         
@@ -659,10 +667,17 @@ class IntentRecognizer:
         # 1. 检查查询详情关键词（提升优先级）
         if any(keyword in message for keyword in INTENT_KEYWORDS[IntentType.QUERY_DETAILS]):
             subgraph_id = self._extract_single_subgraph_id(message, context)
+            query_type = None
+            if any(keyword in message for keyword in ["总价", "总费用", "总成本", "总金额", "成本"]):
+                query_type = "total"
+
+            parameters = {"subgraph_id": subgraph_id} if subgraph_id else {}
+            if query_type:
+                parameters["query_type"] = query_type
             return IntentResult(
                 intent_type=IntentType.QUERY_DETAILS,
                 confidence=0.8,
-                parameters={"subgraph_id": subgraph_id} if subgraph_id else {},
+                parameters=parameters,
                 raw_message=message
             )
         
@@ -729,6 +744,14 @@ class IntentRecognizer:
         
         # 如果没有提到具体的 subgraph_id，返回空列表（表示所有）
         return mentioned_ids if mentioned_ids else []
+
+    def _extract_price_scope(self, text: str) -> Optional[str]:
+        """识别用户问的是单件价格还是整批总价。"""
+        if any(keyword in text for keyword in ["单件", "每件", "单个", "单价/件", "每个"]):
+            return "unit"
+        if any(keyword in text for keyword in ["总价", "总费用", "总成本", "整批", "全部"]):
+            return "total"
+        return None
     
     def _extract_single_subgraph_id(
         self,

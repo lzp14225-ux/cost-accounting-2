@@ -25,6 +25,11 @@ import json
 
 from api_gateway.database import db
 from ._batch_update_helper import batch_upsert_with_steps
+from .material_shape_helper import (
+    get_material_shape,
+    get_shape_price_category,
+    get_stock_volume_mm3,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -147,9 +152,12 @@ async def calculate(
     # Step 2: 构建价格映射 (sub_category 转大写作为 key -> {price, unit})
     price_map = {}
     for price_item in material_data.get("material_prices", []):
+        category = price_item.get("category", "material")
         sub_category = price_item.get("sub_category")
+        if category not in price_map:
+            price_map[category] = {}
         # 转大写作为 key，实现不区分大小写匹配
-        price_map[sub_category.upper()] = {
+        price_map[category][sub_category.upper()] = {
             "price": float(price_item.get("price", 0)),
             "unit": price_item.get("unit", ""),
             "original_sub_category": sub_category  # 保留原始值用于显示
@@ -307,7 +315,9 @@ async def _calculate_part_cost(
         material_mapped = material_upper
     
     # 获取对应的价格信息（使用映射后的材质进行匹配）
-    price_info = price_map.get(material_mapped)
+    material_shape = get_material_shape(part)
+    price_category = get_shape_price_category(part, "material", "r_material")
+    price_info = price_map.get(price_category, {}).get(material_mapped)
     if not price_info:
         logger.warning(f"No price found for material: {material} (mapped to: {material_mapped}), skipping calculation")
         
@@ -349,7 +359,8 @@ async def _calculate_part_cost(
     thickness = Decimal(str(thickness_mm))
     
     # 计算重量: weight = density * length_mm * width_mm * thickness_mm
-    weight = (density * length * width * thickness).quantize(
+    volume_mm3 = get_stock_volume_mm3(part)
+    weight = (density * volume_mm3).quantize(
         Decimal("0.0001"), ROUND_HALF_UP
     )
     
@@ -367,6 +378,8 @@ async def _calculate_part_cost(
         },
         {
             "step": "匹配材料价格",
+            "material_shape": material_shape,
+            "price_category": price_category,
             "material": original_material,
             "matched_sub_category": matched_sub_category,
             "match_note": f"不区分大小写匹配: {original_material} -> {matched_sub_category}" + (f" (别名映射: {material_upper} -> {material_mapped})" if material_upper in MATERIAL_ALIASES else ""),
@@ -388,7 +401,7 @@ async def _calculate_part_cost(
         },
         {
             "step": "计算重量",
-            "formula": f"{density} * {length_mm} * {width_mm} * {thickness_mm}",
+            "formula": f"{density} * volume_mm3({volume_mm3})",
             "weight": float(weight)
         },
         {

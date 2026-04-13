@@ -149,7 +149,7 @@ del mold_cost_\speech_services\models\*.pt
 
 或访问 API：
 ```bash
-curl http://192.168.1.152:8888/api/health
+curl http://192.168.3.61:8888/api/health
 ```
 
 响应：

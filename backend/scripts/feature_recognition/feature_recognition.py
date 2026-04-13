@@ -29,7 +29,7 @@ from minio_client import minio_client
 from dwg_to_dxf_service import convert_dwg_to_dxf
 
 # 导入拆分的模块
-from .dimension_extractor import extract_dimensions
+from .dimension_extractor import extract_dimensions_with_shape
 from .wire_length_calculator import calculate_red_line_length
 from .processing_instruction_extractor import (
     extract_processing_instructions, 
@@ -387,8 +387,8 @@ def analyze_dxf_features(dxf_file_path: str, job_id: Optional[str] = None) -> Op
         logging.info("📐 【阶段3】尺寸提取开始")
         logging.info("=" * 80)
         
-        # 提取长宽厚尺寸（使用 dimension_extractor 模块）
-        length_mm, width_mm, thickness_mm = extract_dimensions(doc)
+        # 提取长宽厚尺寸，并补充材料形状识别结果
+        length_mm, width_mm, thickness_mm, shape_info = extract_dimensions_with_shape(doc)
         logging.info(f"✅ 尺寸提取完成: L={length_mm}, W={width_mm}, T={thickness_mm}")
         
         # 检测尺寸缺失异常
@@ -793,6 +793,7 @@ def analyze_dxf_features(dxf_file_path: str, job_id: Optional[str] = None) -> Op
             'weight_kg': float(round(material_info.get('weight_kg'), 3)) if material_info.get('weight_kg') else None,
             'has_auto_material': has_auto_material,
             'abnormal_situation': abnormal_situation if abnormal_situation else None,
+            'shape': shape_info,
             'wire_cut_details': wire_cut_details,  # 新增：每个工艺编号的详细信息
             'boring_num': boring_num,  # 新增：孔的个数
             'wire_process_note': wire_process_note,  # 新增：线割工艺说明
@@ -871,6 +872,11 @@ def save_features_to_db(subgraph_id: str, job_id: str, features: Dict[str, Any])
         
         # 使用 (subgraph_id, version) 作为唯一约束
         # version 默认为 1，表示最新版本
+        shape_info = features.get('shape')
+        if shape_info:
+            metadata['shape'] = shape_info
+            logging.info(f"保存材料形状信息到 metadata: {shape_info}")
+
         sql = """
             INSERT INTO features 
             (subgraph_id, job_id, version, length_mm, width_mm, thickness_mm, 

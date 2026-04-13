@@ -11,6 +11,18 @@ from urllib3.util.retry import Retry
 logger = logging.getLogger(__name__)
 
 
+def _summarize_payload(payload: dict[str, Any]) -> str:
+    job_id = payload.get("job_id")
+    subgraph_id = payload.get("subgraph_id")
+    subgraph_ids = payload.get("subgraph_ids")
+    dwg_url = payload.get("dwg_url")
+    keys = sorted(payload.keys())
+    return (
+        f"job_id={job_id}, subgraph_id={subgraph_id}, "
+        f"subgraph_ids={subgraph_ids}, dwg_url={dwg_url}, keys={keys}"
+    )
+
+
 class MCPClient:
     def __init__(
         self,
@@ -51,7 +63,13 @@ class MCPClient:
         if not self.base_url:
             raise RuntimeError("MCP base_url is empty")
 
-        logger.info("Calling MCP tool: %s.%s", server_name, tool_name)
+        logger.info(
+            "Calling MCP tool: %s.%s -> %s | %s",
+            server_name,
+            tool_name,
+            self.base_url,
+            _summarize_payload(payload),
+        )
         logger.debug("Arguments: %s", payload)
         result = await self._call_tool_direct(tool_name, payload)
 
@@ -71,7 +89,12 @@ class MCPClient:
             "arguments": arguments,
         }
 
-        logger.debug("Sending request: %s", url)
+        logger.info(
+            "Sending MCP HTTP request: tool=%s, url=%s, %s",
+            tool_name,
+            url,
+            _summarize_payload(arguments),
+        )
         logger.debug("Body: %s", json.dumps(request_body, ensure_ascii=False))
 
         try:
@@ -85,15 +108,22 @@ class MCPClient:
             response.raise_for_status()
             result = response.json()
             duration_ms = int((time.time() - start_time) * 1000)
-            logger.info("Tool call success: %s (%sms)", tool_name, duration_ms)
+            logger.info(
+                "Tool call success: %s (%sms) | %s",
+                tool_name,
+                duration_ms,
+                _summarize_payload(arguments),
+            )
             return result
         except requests.HTTPError as exc:
             duration_ms = int((time.time() - start_time) * 1000)
             logger.error(
-                "HTTP error: %s - %s (%sms)",
+                "HTTP error: %s - %s (%sms) | tool=%s | %s",
                 exc.response.status_code,
                 exc.response.text,
                 duration_ms,
+                tool_name,
+                _summarize_payload(arguments),
             )
             return {
                 "status": "error",
@@ -102,7 +132,14 @@ class MCPClient:
             }
         except Exception as exc:
             duration_ms = int((time.time() - start_time) * 1000)
-            logger.error("Tool call failed: %s (%sms)", exc, duration_ms, exc_info=True)
+            logger.error(
+                "Tool call failed: %s (%sms) | tool=%s | %s",
+                exc,
+                duration_ms,
+                tool_name,
+                _summarize_payload(arguments),
+                exc_info=True,
+            )
             return {
                 "status": "error",
                 "message": f"Tool call failed: {str(exc)}",

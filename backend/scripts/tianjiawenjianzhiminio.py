@@ -3,7 +3,7 @@ import os
 
 # MinIO 配置
 client = Minio(
-    "192.168.1.152:9000",
+    "192.168.3.61:9000",
     access_key="你的AccessKey",  # 替换成你的 AccessKey
     secret_key="你的SecretKey",  # 替换成你的 SecretKey
     secure=False

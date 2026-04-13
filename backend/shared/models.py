@@ -206,6 +206,7 @@ class Feature(Base):
     
     # 加工特征
     has_auto_material = Column(Boolean, default=False)
+    has_material_preparation = Column(String(100))
     needs_heat_treatment = Column(Boolean, default=False)
     boring_length_mm = Column(DECIMAL(10, 3))
     nc_time_cost = Column(JSONB)

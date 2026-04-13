@@ -84,7 +84,11 @@ class QueryDetailsHandler(BaseActionHandler):
             ActionResult: 处理结果
         """
         logger.info(f"🔍 处理查询详情: {intent_result.raw_message}")
-        logger.info(f"📋 接收参数: subgraph_id={intent_result.parameters.get('subgraph_id')}, query_type={intent_result.parameters.get('query_type')}")  # 🆕 添加参数日志
+        logger.info(
+            f"📋 接收参数: subgraph_id={intent_result.parameters.get('subgraph_id')}, "
+            f"query_type={intent_result.parameters.get('query_type')}, "
+            f"price_scope={intent_result.parameters.get('price_scope')}"
+        )
         
         try:
             # 1. 提取 subgraph_id
@@ -122,6 +126,7 @@ class QueryDetailsHandler(BaseActionHandler):
             
             # 2. 提取查询类型（可选）
             query_type = intent_result.parameters.get("query_type")  # 如: "material", "heat", "weight"
+            price_scope = intent_result.parameters.get("price_scope")
             
             # 3. 查询数据库
             detail = await self._query_calculation_detail(
@@ -148,6 +153,7 @@ class QueryDetailsHandler(BaseActionHandler):
                         detail.calculation_steps,
                         intent_result.raw_message,
                         query_type,
+                        price_scope,
                         db_session,  # 🆕 传递 db_session
                         getattr(detail, 'processing_instructions', None)  # 🆕 传递 processing_instructions
                     )
@@ -159,12 +165,14 @@ class QueryDetailsHandler(BaseActionHandler):
                         formatted_message = self._format_specific_category(
                             subgraph_id,
                             detail.calculation_steps,
-                            query_type
+                            query_type,
+                            price_scope
                         )
                     else:
                         formatted_message = self._format_calculation_steps(
                             subgraph_id,
-                            detail.calculation_steps
+                            detail.calculation_steps,
+                            price_scope
                         )
             else:
                 # 使用规则格式化
@@ -172,12 +180,14 @@ class QueryDetailsHandler(BaseActionHandler):
                     formatted_message = self._format_specific_category(
                         subgraph_id,
                         detail.calculation_steps,
-                        query_type
+                        query_type,
+                        price_scope
                     )
                 else:
                     formatted_message = self._format_calculation_steps(
                         subgraph_id,
-                        detail.calculation_steps
+                        detail.calculation_steps,
+                        price_scope
                     )
                 logger.info(f"✅ 规则格式化完成: {subgraph_id}, query_type={query_type}")
             
@@ -189,6 +199,7 @@ class QueryDetailsHandler(BaseActionHandler):
                 data={
                     "subgraph_id": subgraph_id,
                     "query_type": query_type,
+                    "price_scope": price_scope,
                     "calculation_steps": detail.calculation_steps
                 }
             )
@@ -294,6 +305,7 @@ class QueryDetailsHandler(BaseActionHandler):
         calculation_steps: Any,
         user_question: str,
         query_type: Optional[str] = None,
+        price_scope: Optional[str] = None,
         db_session = None,  # 🆕 新增参数
         processing_instructions: Optional[Any] = None  # 🆕 新增参数
     ) -> str:
@@ -306,6 +318,7 @@ class QueryDetailsHandler(BaseActionHandler):
             calculation_steps: 计算步骤 JSON
             user_question: 用户的原始问题
             query_type: 查询类型（可选）
+            price_scope: 价格范围（unit=单件, total=整批）
             db_session: 数据库会话（用于查询历史）
             processing_instructions: 加工说明 JSON（可选）
         
@@ -402,6 +415,21 @@ class QueryDetailsHandler(BaseActionHandler):
                 processing_instructions_section = ""
         
         # 🆕 P2: 构建增强的 Prompt（包含复杂数据结构、单位精度、视图对应关系说明）
+        scope_instruction = ""
+        if price_scope == "unit":
+            scope_instruction = """
+🔴 本次用户问的是“单件价格”：
+- 如果 calculation_steps 中同时存在整批总价和单件价格，优先回答单件价格
+- 对 total 类别，优先使用 `cost_single`、`formula_single`、`*_single` 相关字段
+- 不要把整批 total_cost 当成单件价格直接回答
+"""
+        elif price_scope == "total":
+            scope_instruction = """
+🔴 本次用户问的是“整批总价”：
+- 优先回答整批 total_cost
+- 只有在用户明确追问时才补充单件价格
+"""
+
         prompt = f"""你是一个模具成本计算专家。用户询问了以下问题：
 
 "{user_question}"
@@ -411,6 +439,8 @@ class QueryDetailsHandler(BaseActionHandler):
 ```json
 {json.dumps(steps, ensure_ascii=False, indent=2)}
 ```
+
+{scope_instruction}
 
 🔴🔴🔴 **最重要的规则（必须第一步执行）** 🔴🔴🔴
 
@@ -1403,7 +1433,8 @@ PU-02 的 NC（数控铣削）费用计算如下：
     def _format_calculation_steps(
         self,
         subgraph_id: str,
-        calculation_steps: Any
+        calculation_steps: Any,
+        price_scope: Optional[str] = None
     ) -> str:
         """
         格式化计算步骤为友好的文本
@@ -1426,6 +1457,9 @@ PU-02 的 NC（数控铣削）费用计算如下：
                 return f"{subgraph_id} 暂无计算详情"
             
             lines = [f"{subgraph_id} 的成本计算详情：\n"]
+            scope_summary = self._build_price_scope_summary(subgraph_id, steps, price_scope)
+            if scope_summary:
+                lines.append(scope_summary)
             
             # 按 category 分类处理
             category_map = {
@@ -1547,7 +1581,35 @@ PU-02 的 NC（数控铣削）费用计算如下：
         except Exception as e:
             logger.error(f"❌ 格式化计算步骤失败: {e}", exc_info=True)
             return f"{subgraph_id} 的计算详情格式化失败：{str(e)}"
-    
+
+    def _build_price_scope_summary(
+        self,
+        subgraph_id: str,
+        steps: Any,
+        price_scope: Optional[str],
+        query_type: Optional[str] = None
+    ) -> Optional[str]:
+        """根据单件/整批意图，从 total 分类中提取一行摘要。"""
+        if price_scope not in ["unit", "total"]:
+            return None
+
+        total_item = None
+        for item in steps:
+            if isinstance(item, dict) and item.get("category") == "total":
+                total_item = item
+                break
+
+        if not total_item:
+            return None
+
+        for step in total_item.get("steps", []):
+            if price_scope == "unit" and "cost_single" in step:
+                return f"{subgraph_id} 的单件总成本为 {step['cost_single']:.2f} 元。\n"
+            if price_scope == "total" and "total_cost" in step:
+                return f"{subgraph_id} 的整批总成本为 {step['total_cost']:.2f} 元。\n"
+
+        return None
+
     def _find_result_key(self, step: Dict[str, Any]) -> Optional[str]:
         """
         查找步骤中的结果字段
@@ -1565,7 +1627,7 @@ PU-02 的 NC（数控铣削）费用计算如下：
             # 🆕 P1 扩展结果字段
             'discharge_cost', 'total_discharge_cost', 'hole_cost',
             'standard_base_cost', 'nc_roughing_cost', 'nc_milling_cost',
-            'nc_drilling_cost', 'processing_cost_total', 'total_cost',
+            'nc_drilling_cost', 'processing_cost_total', 'processing_cost_total_single', 'total_cost', 'cost_single',
             # 🆕 UPDATE (2026-02-03) wire_total 相关
             'wire_cost_base', 'wire_cost_per_unit',
             'material_cost_total', 'heat_treatment_cost_total',
@@ -1714,7 +1776,8 @@ PU-02 的 NC（数控铣削）费用计算如下：
         self,
         subgraph_id: str,
         calculation_steps: Any,
-        query_type: str
+        query_type: str,
+        price_scope: Optional[str] = None
     ) -> str:
         """
         格式化特定类型的计算步骤
@@ -1795,6 +1858,9 @@ PU-02 的 NC（数控铣削）费用计算如下：
             
             category_name = category_map.get(query_type, query_type)
             lines = [f"{subgraph_id} 的{category_name}详情：\n"]
+            scope_summary = self._build_price_scope_summary(subgraph_id, steps, price_scope, query_type)
+            if scope_summary:
+                lines.append(scope_summary)
             
             # 遍历步骤
             for step in target_item.get("steps", []):

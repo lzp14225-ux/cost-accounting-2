@@ -90,11 +90,17 @@ async def calculate(
     
     cost_summary = subgraphs_cost_data.get("cost_summary", [])
     
-    # 构建 nc_time_cost 映射（subgraph_id -> nc_time_cost）
+    # 构建基础映射（subgraph_id -> nc_time_cost / quantity）
     nc_time_cost_map = {}
+    quantity_map = {}
     if base_itemcode_data and "parts" in base_itemcode_data:
         for part in base_itemcode_data["parts"]:
             nc_time_cost_map[part["subgraph_id"]] = part.get("nc_time_cost")
+            quantity = part.get("quantity") or 1
+            try:
+                quantity_map[part["subgraph_id"]] = max(int(quantity), 1)
+            except (TypeError, ValueError):
+                quantity_map[part["subgraph_id"]] = 1
     
     logger.info(f"Calculating final total cost for job_id: {job_id}, parts count: {len(cost_summary)}")
     
@@ -106,8 +112,9 @@ async def calculate(
     for summary in cost_summary:
         subgraph_id = summary["subgraph_id"]
         nc_time_cost = nc_time_cost_map.get(subgraph_id)
-        
-        result, db_data = _calculate_part_total(summary, nc_time_cost)
+        quantity = quantity_map.get(subgraph_id, 1)
+
+        result, db_data = _calculate_part_total(summary, nc_time_cost, quantity)
         results.append(result)
         if db_data:
             db_updates.append(db_data)
@@ -134,7 +141,13 @@ async def calculate(
     }
 
 
-def _calculate_part_total(summary: Dict, nc_time_cost: Any = None) -> tuple[Dict[str, Any], Dict[str, Any]]:
+def _safe_divide_decimal(value: Decimal, divisor: int) -> Decimal:
+    """安全除法：数量异常时回退为 1，避免单件价格计算崩溃。"""
+    safe_divisor = divisor if isinstance(divisor, int) and divisor > 0 else 1
+    return value / Decimal(str(safe_divisor))
+
+
+def _calculate_part_total(summary: Dict, nc_time_cost: Any = None, quantity: int = 1) -> tuple[Dict[str, Any], Dict[str, Any]]:
     """
     计算单个零件的最终总价和加工成本总计
     
@@ -146,6 +159,7 @@ def _calculate_part_total(summary: Dict, nc_time_cost: Any = None) -> tuple[Dict
         tuple: (result_dict, db_update_dict)
     """
     subgraph_id = summary["subgraph_id"]
+    quantity = quantity if isinstance(quantity, int) and quantity > 0 else 1
     
     # 获取各项成本，添加异常处理
     try:
@@ -177,6 +191,7 @@ def _calculate_part_total(summary: Dict, nc_time_cost: Any = None) -> tuple[Dict
         
         return {
             "subgraph_id": subgraph_id,
+            "quantity": quantity,
             "total_cost": 0.0,
             "processing_cost_total": 0.0,
             "note": f"成本数据转换失败: {str(e)}"
@@ -213,6 +228,31 @@ def _calculate_part_total(summary: Dict, nc_time_cost: Any = None) -> tuple[Dict
     
     total_cost_float = float(total_cost)
     processing_cost_total_float = float(processing_cost_total)
+
+    single_material_cost = _safe_divide_decimal(material_cost, quantity)
+    single_heat_treatment_cost = _safe_divide_decimal(heat_treatment_cost, quantity)
+    single_processing_cost_total = _safe_divide_decimal(processing_cost_total, quantity)
+    single_total_cost = _safe_divide_decimal(total_cost, quantity)
+
+    single_breakdown = {
+        "material_cost_single": float(single_material_cost),
+        "heat_treatment_cost_single": float(single_heat_treatment_cost),
+        "processing_cost_total_single": float(single_processing_cost_total),
+        "large_grinding_cost_single": float(_safe_divide_decimal(large_grinding_cost, quantity)),
+        "small_grinding_cost_single": float(_safe_divide_decimal(small_grinding_cost, quantity)),
+        "slow_wire_cost_single": float(_safe_divide_decimal(slow_wire_cost, quantity)),
+        "slow_wire_side_cost_single": float(_safe_divide_decimal(slow_wire_side_cost, quantity)),
+        "mid_wire_cost_single": float(_safe_divide_decimal(mid_wire_cost, quantity)),
+        "fast_wire_cost_single": float(_safe_divide_decimal(fast_wire_cost, quantity)),
+        "edm_cost_single": float(_safe_divide_decimal(edm_cost, quantity)),
+        "nc_z_fee_single": float(_safe_divide_decimal(nc_z_fee, quantity)),
+        "nc_b_fee_single": float(_safe_divide_decimal(nc_b_fee, quantity)),
+        "nc_c_fee_single": float(_safe_divide_decimal(nc_c_fee, quantity)),
+        "nc_c_b_fee_single": float(_safe_divide_decimal(nc_c_b_fee, quantity)),
+        "nc_z_view_fee_single": float(_safe_divide_decimal(nc_z_view_fee, quantity)),
+        "nc_b_view_fee_single": float(_safe_divide_decimal(nc_b_view_fee, quantity)),
+        "cost_single": float(single_total_cost),
+    }
     
     logger.info(
         f"[{subgraph_id}] total_cost={total_cost_float:.2f}, processing_cost_total={processing_cost_total_float:.2f} "
@@ -249,6 +289,7 @@ def _calculate_part_total(summary: Dict, nc_time_cost: Any = None) -> tuple[Dict
     
     calculation_steps.append({
         "step": "获取各项成本",
+        "quantity": quantity,
         **cost_items
     })
     
@@ -334,13 +375,43 @@ def _calculate_part_total(summary: Dict, nc_time_cost: Any = None) -> tuple[Dict
         "formula": total_formula,
         "total_cost": total_cost_float
     })
+
+    calculation_steps.append({
+        "step": "计算单件价格",
+        "note": "将当前零件整批费用按数量平摊得到单件费用",
+        "quantity": quantity,
+        "material_cost_single": float(single_material_cost),
+        "heat_treatment_cost_single": float(single_heat_treatment_cost),
+        "processing_cost_total_single": float(single_processing_cost_total),
+        "large_grinding_cost_single": single_breakdown["large_grinding_cost_single"],
+        "small_grinding_cost_single": single_breakdown["small_grinding_cost_single"],
+        "slow_wire_cost_single": single_breakdown["slow_wire_cost_single"],
+        "slow_wire_side_cost_single": single_breakdown["slow_wire_side_cost_single"],
+        "mid_wire_cost_single": single_breakdown["mid_wire_cost_single"],
+        "fast_wire_cost_single": single_breakdown["fast_wire_cost_single"],
+        "edm_cost_single": single_breakdown["edm_cost_single"],
+        "nc_z_fee_single": single_breakdown["nc_z_fee_single"],
+        "nc_b_fee_single": single_breakdown["nc_b_fee_single"],
+        "nc_c_fee_single": single_breakdown["nc_c_fee_single"],
+        "nc_c_b_fee_single": single_breakdown["nc_c_b_fee_single"],
+        "nc_z_view_fee_single": single_breakdown["nc_z_view_fee_single"],
+        "nc_b_view_fee_single": single_breakdown["nc_b_view_fee_single"],
+        "formula_single": f"{total_cost_float:.2f} / {quantity} = {float(single_total_cost):.2f}",
+        "cost_single": float(single_total_cost)
+    })
     
     # 返回结果
     result = {
         "subgraph_id": subgraph_id,
+        "quantity": quantity,
         "total_cost": total_cost_float,
+        "cost_single": float(single_total_cost),
         "processing_cost_total": processing_cost_total_float,
-        "breakdown": cost_items
+        "processing_cost_total_single": float(single_processing_cost_total),
+        "breakdown": {
+            **cost_items,
+            **single_breakdown
+        }
     }
     
     db_data = {

@@ -153,6 +153,11 @@ class DataModificationHandler(BaseActionHandler):
                     data={}
                 )
             
+            parsed_changes = self._override_price_snapshot_changes(
+                parsed_changes,
+                intent_result
+            )
+            
             # 2. 验证修改
             logger.info("✅ 验证修改...")
             from shared.validators import ModificationValidator
@@ -468,7 +473,51 @@ class DataModificationHandler(BaseActionHandler):
             "subgraphs": "subgraph_id"
         }
         return id_fields.get(table, "id")
-    
+
+    def _override_price_snapshot_changes(
+        self,
+        parsed_changes: List[Dict[str, Any]],
+        intent_result: IntentResult
+    ) -> List[Dict[str, Any]]:
+        """
+        对价格类修改强制改写为 job_price_snapshots.price。
+        
+        典型场景：
+        - “把45#材质单价全部改成6元”
+        - “把慢丝割一修一单价改成0.002”
+        """
+        params = intent_result.parameters or {}
+        field = params.get("field")
+        value = params.get("value")
+        
+        from shared.process_code_mapping import extract_process_from_text
+        
+        process_info = extract_process_from_text(intent_result.raw_message or "")
+        raw_message = intent_result.raw_message or ""
+        has_price_keyword = any(keyword in raw_message for keyword in ["单价", "价格", "价钱"])
+
+        if field not in ["material_unit_price", "process_unit_price", "price", "unit_price"] and not has_price_keyword:
+            return parsed_changes
+
+        if not process_info:
+            return parsed_changes
+        
+        logger.info(
+            f"🔄 覆盖价格类修改解析结果: field={field}, "
+            f"category={process_info.get('category')}, sub_category={process_info.get('sub_category')}, value={value}"
+        )
+        
+        return [{
+            "table": "job_price_snapshots",
+            "field": "price",
+            "value": value,
+            "filter": {
+                "category": process_info.get("category"),
+                "sub_category": process_info.get("sub_category")
+            },
+            "original_text": intent_result.raw_message
+        }]
+
     def _normalize_material(self, material: str) -> str:
         """
         标准化材质代码

@@ -60,7 +60,7 @@ async def search_by_job_id(job_id: str, subgraph_ids: List[str] = None) -> Dict[
     # 注意：subgraph_ids 参数被忽略，因为材料价格数据是全局配置，不按零件存储
     logger.info(f"Searching material prices for job_id: {job_id} (subgraph_ids ignored)")
     
-    # Step 1: 查询价格表 - category 为 material
+    # Step 1: 查询价格表 - category 为 material、r_material
     material_prices = await _fetch_material_prices(job_id)
     
     logger.info(f"Found {len(material_prices)} material prices")
@@ -75,14 +75,14 @@ async def search_by_job_id(job_id: str, subgraph_ids: List[str] = None) -> Dict[
 async def _fetch_material_prices(job_id: str) -> List[Dict]:
     """
     Step 1: 查询 job_price_snapshots 表
-    条件: job_id + category = 'material'
-    获取: sub_category, price, unit
+    条件: job_id + category IN ('material', 'r_material')
+    获取: category, sub_category, price, unit
     注：忽略 subgraph_id 字段
     """
     sql = """
-        SELECT DISTINCT sub_category, price, unit
+        SELECT DISTINCT category, sub_category, price, unit
         FROM job_price_snapshots
-        WHERE job_id = $1::uuid AND category = 'material'
+        WHERE job_id = $1::uuid AND category IN ('material', 'r_material')
     """
     try:
         rows = await db.fetch_all(sql, job_id)
@@ -121,4 +121,5 @@ if __name__ == "__main__":
     
     print("\n--- Material 价格列表 ---")
     for p in results["material_prices"]:
-        print(f"  sub_category: {p['sub_category']}, price: {p['price']}, unit: {p['unit']}")
+        print(f"  category: {p['category']}, sub_category: {p['sub_category']}, price: {p['price']}, unit: {p['unit']}")
+

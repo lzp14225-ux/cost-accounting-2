@@ -1,11 +1,11 @@
-2026-04-10 10:15:59 - api_gateway.repositories.chat_history_repository - ERROR - 添加消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+2026-04-13 10:53:36 - api_gateway.repositories.chat_history_repository - ERROR - 添加消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 [SQL: 
                 INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
                 VALUES ($1, $2, $3, $4, $5)
                 RETURNING message_id, session_id, role, content, timestamp
             ]
-[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功12个, 失败3个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 12, "failed_count": 3, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 15, 59, 695533))]
+[parameters: ('51b24ace-9412-4b62-a2e1-915f59af5209', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功15个, 失败1个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "51b24ace-9412-4b62-a2e1-915f59af5209", "timestamp": "2026-04-13T1 ... (241 characters truncated) ... details": {"total_count": 16, "success_count": 15, "failed_count": 1, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 13, 10, 53, 36, 588606))]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
 Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
@@ -18,7 +18,7 @@ Traceback (most recent call last):
     return await executor(protocol)
   File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
 asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 
 The above exception was the direct cause of the following exception:
 
@@ -40,7 +40,7 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
 sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 
 The above exception was the direct cause of the following exception:
 
@@ -84,22 +84,22 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
 sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 [SQL: 
                 INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
                 VALUES ($1, $2, $3, $4, $5)
                 RETURNING message_id, session_id, role, content, timestamp
             ]
-[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功12个, 失败3个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 12, "failed_count": 3, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 15, 59, 695533))]
+[parameters: ('51b24ace-9412-4b62-a2e1-915f59af5209', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功15个, 失败1个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "51b24ace-9412-4b62-a2e1-915f59af5209", "timestamp": "2026-04-13T1 ... (241 characters truncated) ... details": {"total_count": 16, "success_count": 15, "failed_count": 1, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 13, 10, 53, 36, 588606))]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
-2026-04-10 10:15:59 - api_gateway.utils.chat_logger - ERROR - 记录系统消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+2026-04-13 10:53:36 - api_gateway.utils.chat_logger - ERROR - 记录系统消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 [SQL: 
                 INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
                 VALUES ($1, $2, $3, $4, $5)
                 RETURNING message_id, session_id, role, content, timestamp
             ]
-[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功12个, 失败3个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 12, "failed_count": 3, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 15, 59, 695533))]
+[parameters: ('51b24ace-9412-4b62-a2e1-915f59af5209', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功15个, 失败1个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "51b24ace-9412-4b62-a2e1-915f59af5209", "timestamp": "2026-04-13T1 ... (241 characters truncated) ... details": {"total_count": 16, "success_count": 15, "failed_count": 1, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 13, 10, 53, 36, 588606))]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
 Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
@@ -112,7 +112,7 @@ Traceback (most recent call last):
     return await executor(protocol)
   File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
 asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 
 The above exception was the direct cause of the following exception:
 
@@ -134,7 +134,7 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
 sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 
 The above exception was the direct cause of the following exception:
 
@@ -180,22 +180,22 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
 sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 [SQL: 
                 INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
                 VALUES ($1, $2, $3, $4, $5)
                 RETURNING message_id, session_id, role, content, timestamp
             ]
-[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功12个, 失败3个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 12, "failed_count": 3, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 15, 59, 695533))]
+[parameters: ('51b24ace-9412-4b62-a2e1-915f59af5209', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功15个, 失败1个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "51b24ace-9412-4b62-a2e1-915f59af5209", "timestamp": "2026-04-13T1 ... (241 characters truncated) ... details": {"total_count": 16, "success_count": 15, "failed_count": 1, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 13, 10, 53, 36, 588606))]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
-2026-04-10 10:16:00 - api_gateway.repositories.chat_history_repository - ERROR - 添加消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+2026-04-13 10:53:36 - api_gateway.repositories.chat_history_repository - ERROR - 添加消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 [SQL: 
                 INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
                 VALUES ($1, $2, $3, $4, $5)
                 RETURNING message_id, session_id, role, content, timestamp
             ]
-[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 12, "failed_count": 3, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 16, 0, 246643))]
+[parameters: ('51b24ace-9412-4b62-a2e1-915f59af5209', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "51b24ace-9412-4b62-a2e1-915f59af5209", "timestamp": "2026-04-13T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 15, "failed_count": 1, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 13, 10, 53, 36, 805759))]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
 Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
@@ -208,7 +208,7 @@ Traceback (most recent call last):
     return await executor(protocol)
   File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
 asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 
 The above exception was the direct cause of the following exception:
 
@@ -230,7 +230,7 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
 sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 
 The above exception was the direct cause of the following exception:
 
@@ -274,22 +274,22 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
 sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 [SQL: 
                 INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
                 VALUES ($1, $2, $3, $4, $5)
                 RETURNING message_id, session_id, role, content, timestamp
             ]
-[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 12, "failed_count": 3, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 16, 0, 246643))]
+[parameters: ('51b24ace-9412-4b62-a2e1-915f59af5209', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "51b24ace-9412-4b62-a2e1-915f59af5209", "timestamp": "2026-04-13T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 15, "failed_count": 1, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 13, 10, 53, 36, 805759))]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
-2026-04-10 10:16:00 - api_gateway.utils.chat_logger - ERROR - 记录系统消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+2026-04-13 10:53:36 - api_gateway.utils.chat_logger - ERROR - 记录系统消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 [SQL: 
                 INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
                 VALUES ($1, $2, $3, $4, $5)
                 RETURNING message_id, session_id, role, content, timestamp
             ]
-[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 12, "failed_count": 3, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 16, 0, 246643))]
+[parameters: ('51b24ace-9412-4b62-a2e1-915f59af5209', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "51b24ace-9412-4b62-a2e1-915f59af5209", "timestamp": "2026-04-13T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 15, "failed_count": 1, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 13, 10, 53, 36, 805759))]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
 Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
@@ -302,7 +302,7 @@ Traceback (most recent call last):
     return await executor(protocol)
   File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
 asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 
 The above exception was the direct cause of the following exception:
 
@@ -324,7 +324,7 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
 sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 
 The above exception was the direct cause of the following exception:
 
@@ -370,23 +370,44 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
 sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(a517515f-7e63-487b-bdd8-ea3776182eef) is not present in table "chat_sessions".
+DETAIL:  Key (session_id)=(51b24ace-9412-4b62-a2e1-915f59af5209) is not present in table "chat_sessions".
 [SQL: 
                 INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
                 VALUES ($1, $2, $3, $4, $5)
                 RETURNING message_id, session_id, role, content, timestamp
             ]
-[parameters: ('a517515f-7e63-487b-bdd8-ea3776182eef', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "a517515f-7e63-487b-bdd8-ea3776182eef", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 12, "failed_count": 3, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 16, 0, 246643))]
+[parameters: ('51b24ace-9412-4b62-a2e1-915f59af5209', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "51b24ace-9412-4b62-a2e1-915f59af5209", "timestamp": "2026-04-13T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 15, "failed_count": 1, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 13, 10, 53, 36, 805759))]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
-2026-04-10 10:17:30 - api_gateway.repositories.chat_history_repository - ERROR - 添加消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-[SQL: 
-                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING message_id, session_id, role, content, timestamp
-            ]
-[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功10个, 失败5个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 10, "failed_count": 5, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 425968))]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-04-13 11:00:49 - agents.action_handlers.data_modification_handler - ERROR - ❌ 修改验证失败: 第 1 个修改验证失败: 表 subgraphs 不允许修改字段 price，允许修改的字段: height, wire_process, length, weight, process_notes, wire_process_note, width, thickness, material, description
+2026-04-13 11:00:49 - shared.logging_middleware - ERROR - ❌ 响应完成: POST /api/v1/review/d4cd6eb3-fdcc-49db-a01b-d1b99fcccb63/modify | 状态=500 | IP=192.168.3.61 | 耗时=11.576s
+2026-04-13 11:13:43 - agents.action_handlers.data_modification_handler - ERROR - ❌ 修改验证失败: 第 1 个修改验证失败: 修改缺少必需字段: id 或 filter（必须提供其中之一）
+2026-04-13 11:13:43 - shared.logging_middleware - ERROR - ❌ 响应完成: POST /api/v1/review/d4cd6eb3-fdcc-49db-a01b-d1b99fcccb63/modify | 状态=500 | IP=192.168.3.61 | 耗时=10.320s
+2026-04-13 11:22:43 - api_gateway.repositories.review_repository - ERROR - ❌ 更新 price_snapshots 失败: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $5: 6 (expected str, got int)
+[SQL: UPDATE job_price_snapshots SET original_price_id=$1::VARCHAR, version_id=$2::VARCHAR, category=$3::VARCHAR, sub_category=$4::VARCHAR, price=$5::VARCHAR, unit=$6::VARCHAR, work_hours=$7::VARCHAR, min_num=$8::VARCHAR, add_price=$9::VARCHAR, weight_num=$10::VARCHAR, note=$11::VARCHAR, instruction=$12::VARCHAR, is_modified=$13::BOOLEAN, modified_by=$14::VARCHAR, modified_at=$15::TIMESTAMP WITHOUT TIME ZONE, modification_reason=$16::VARCHAR, metadata=$17::JSONB WHERE job_price_snapshots.snapshot_id = $18::INTEGER AND job_price_snapshots.job_id = $19::UUID]
+[parameters: ('P027', 'v1.0', 'material', '45#', 6, '元/kg', None, None, None, None, '方料材料单价', None, True, 'a63b7863-5faf-4b00-9ec3-758495b0fb66', datetime.datetime(2026, 4, 13, 11, 22, 26, 239432), None, 'null', 22017, 'd4cd6eb3-fdcc-49db-a01b-d1b99fcccb63')]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+2026-04-13 11:22:43 - api_gateway.repositories.review_repository - ERROR - ❌ 批量更新失败: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $5: 6 (expected str, got int)
+[SQL: UPDATE job_price_snapshots SET original_price_id=$1::VARCHAR, version_id=$2::VARCHAR, category=$3::VARCHAR, sub_category=$4::VARCHAR, price=$5::VARCHAR, unit=$6::VARCHAR, work_hours=$7::VARCHAR, min_num=$8::VARCHAR, add_price=$9::VARCHAR, weight_num=$10::VARCHAR, note=$11::VARCHAR, instruction=$12::VARCHAR, is_modified=$13::BOOLEAN, modified_by=$14::VARCHAR, modified_at=$15::TIMESTAMP WITHOUT TIME ZONE, modification_reason=$16::VARCHAR, metadata=$17::JSONB WHERE job_price_snapshots.snapshot_id = $18::INTEGER AND job_price_snapshots.job_id = $19::UUID]
+[parameters: ('P027', 'v1.0', 'material', '45#', 6, '元/kg', None, None, None, None, '方料材料单价', None, True, 'a63b7863-5faf-4b00-9ec3-758495b0fb66', datetime.datetime(2026, 4, 13, 11, 22, 26, 239432), None, 'null', 22017, 'd4cd6eb3-fdcc-49db-a01b-d1b99fcccb63')]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+2026-04-13 11:22:43 - agents.confirm_handler - ERROR - ❌ 数据修改失败: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $5: 6 (expected str, got int)
+[SQL: UPDATE job_price_snapshots SET original_price_id=$1::VARCHAR, version_id=$2::VARCHAR, category=$3::VARCHAR, sub_category=$4::VARCHAR, price=$5::VARCHAR, unit=$6::VARCHAR, work_hours=$7::VARCHAR, min_num=$8::VARCHAR, add_price=$9::VARCHAR, weight_num=$10::VARCHAR, note=$11::VARCHAR, instruction=$12::VARCHAR, is_modified=$13::BOOLEAN, modified_by=$14::VARCHAR, modified_at=$15::TIMESTAMP WITHOUT TIME ZONE, modification_reason=$16::VARCHAR, metadata=$17::JSONB WHERE job_price_snapshots.snapshot_id = $18::INTEGER AND job_price_snapshots.job_id = $19::UUID]
+[parameters: ('P027', 'v1.0', 'material', '45#', 6, '元/kg', None, None, None, None, '方料材料单价', None, True, 'a63b7863-5faf-4b00-9ec3-758495b0fb66', datetime.datetime(2026, 4, 13, 11, 22, 26, 239432), None, 'null', 22017, 'd4cd6eb3-fdcc-49db-a01b-d1b99fcccb63')]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+2026-04-13 11:22:43 - agents.confirm_handler - ERROR - ❌ 处理确认失败: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $5: 6 (expected str, got int)
+[SQL: UPDATE job_price_snapshots SET original_price_id=$1::VARCHAR, version_id=$2::VARCHAR, category=$3::VARCHAR, sub_category=$4::VARCHAR, price=$5::VARCHAR, unit=$6::VARCHAR, work_hours=$7::VARCHAR, min_num=$8::VARCHAR, add_price=$9::VARCHAR, weight_num=$10::VARCHAR, note=$11::VARCHAR, instruction=$12::VARCHAR, is_modified=$13::BOOLEAN, modified_by=$14::VARCHAR, modified_at=$15::TIMESTAMP WITHOUT TIME ZONE, modification_reason=$16::VARCHAR, metadata=$17::JSONB WHERE job_price_snapshots.snapshot_id = $18::INTEGER AND job_price_snapshots.job_id = $19::UUID]
+[parameters: ('P027', 'v1.0', 'material', '45#', 6, '元/kg', None, None, None, None, '方料材料单价', None, True, 'a63b7863-5faf-4b00-9ec3-758495b0fb66', datetime.datetime(2026, 4, 13, 11, 22, 26, 239432), None, 'null', 22017, 'd4cd6eb3-fdcc-49db-a01b-d1b99fcccb63')]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+Traceback (most recent call last):
+  File "asyncpg/protocol/prepared_stmt.pyx", line 175, in asyncpg.protocol.protocol.PreparedStatementState._encode_bind_msg
+  File "asyncpg/protocol/codecs/base.pyx", line 251, in asyncpg.protocol.protocol.Codec.encode
+  File "asyncpg/protocol/codecs/base.pyx", line 153, in asyncpg.protocol.protocol.Codec.encode_scalar
+  File "asyncpg/pgproto/codecs/text.pyx", line 29, in asyncpg.pgproto.pgproto.text_encode
+  File "asyncpg/pgproto/codecs/text.pyx", line 12, in asyncpg.pgproto.pgproto.as_pg_string_and_size
+TypeError: expected str, got int
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
     self._rows = deque(await prepared_stmt.fetch(*parameters))
@@ -396,9 +417,9 @@ Traceback (most recent call last):
     data, status, _ = await self.__do_execute(
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
     return await executor(protocol)
-  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
-asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+  File "asyncpg/protocol/protocol.pyx", line 184, in bind_execute
+  File "asyncpg/protocol/prepared_stmt.pyx", line 204, in asyncpg.protocol.protocol.PreparedStatementState._encode_bind_msg
+asyncpg.exceptions.DataError: invalid input for query argument $5: 6 (expected str, got int)
 
 The above exception was the direct cause of the following exception:
 
@@ -419,21 +440,30 @@ Traceback (most recent call last):
     self._adapt_connection._handle_exception(error)
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
-sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.Error: <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $5: 6 (expected str, got int)
 
 The above exception was the direct cause of the following exception:
 
 Traceback (most recent call last):
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
-    result = await db_session.execute(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\confirm_handler.py", line 90, in handle_confirmation
+    result = await self._confirm_data_modification(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\agents\confirm_handler.py", line 192, in _confirm_data_modification
+    await self.review_repo.update_all_review_data(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\review_repository.py", line 753, in update_all_review_data
+    await self.update_price_snapshots(db, job_id, data["job_price_snapshots"])
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\review_repository.py", line 297, in update_price_snapshots
+    await db.execute(stmt)
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
     result = await greenlet_spawn(
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
     result = context.throw(*sys.exc_info())
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
     return self._execute_internal(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\bulk_persistence.py", line 1660, in orm_execute_statement
+    return super().orm_execute_statement(
+  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
     result = conn.execute(
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
     return meth(
@@ -463,298 +493,10 @@ Traceback (most recent call last):
     self._adapt_connection._handle_exception(error)
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
-sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-[SQL: 
-                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING message_id, session_id, role, content, timestamp
-            ]
-[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功10个, 失败5个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 10, "failed_count": 5, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 425968))]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2026-04-10 10:17:30 - api_gateway.utils.chat_logger - ERROR - 记录系统消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-[SQL: 
-                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING message_id, session_id, role, content, timestamp
-            ]
-[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功10个, 失败5个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 10, "failed_count": 5, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 425968))]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-Traceback (most recent call last):
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
-    self._rows = deque(await prepared_stmt.fetch(*parameters))
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 177, in fetch
-    data = await self.__bind_execute(args, 0, timeout)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 268, in __bind_execute
-    data, status, _ = await self.__do_execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
-    return await executor(protocol)
-  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
-asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
-    self.dialect.do_execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
-    cursor.execute(statement, parameters)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
-    self._adapt_connection.await_(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
-    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
-    value = await result
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
-    self._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
-    self._adapt_connection._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
-    raise translated_error from error
-sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\utils\chat_logger.py", line 92, in log_system_message
-    await chat_history_repo.add_message(
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
-    result = await db_session.execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
-    result = await greenlet_spawn(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
-    result = context.throw(*sys.exc_info())
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
-    return self._execute_internal(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
-    result = conn.execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
-    return meth(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
-    return connection._execute_clauseelement(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
-    ret = self._execute_context(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
-    return self._exec_single_context(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
-    self._handle_dbapi_exception(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
-    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
-    self.dialect.do_execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
-    cursor.execute(statement, parameters)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
-    self._adapt_connection.await_(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
-    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
-    value = await result
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
-    self._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
-    self._adapt_connection._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
-    raise translated_error from error
-sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-[SQL: 
-                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING message_id, session_id, role, content, timestamp
-            ]
-[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：feature_recognition_completed (50%)\n特征识别完成: 成功10个, 失败5个', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (241 characters truncated) ... details": {"total_count": 15, "success_count": 10, "failed_count": 5, "source": "agent"}}}, "stage": "feature_recognition_completed", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 425968))]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2026-04-10 10:17:30 - api_gateway.repositories.chat_history_repository - ERROR - 添加消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-[SQL: 
-                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING message_id, session_id, role, content, timestamp
-            ]
-[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 10, "failed_count": 5, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 981323))]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-Traceback (most recent call last):
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
-    self._rows = deque(await prepared_stmt.fetch(*parameters))
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 177, in fetch
-    data = await self.__bind_execute(args, 0, timeout)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 268, in __bind_execute
-    data, status, _ = await self.__do_execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
-    return await executor(protocol)
-  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
-asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
-    self.dialect.do_execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
-    cursor.execute(statement, parameters)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
-    self._adapt_connection.await_(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
-    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
-    value = await result
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
-    self._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
-    self._adapt_connection._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
-    raise translated_error from error
-sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
-    result = await db_session.execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
-    result = await greenlet_spawn(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
-    result = context.throw(*sys.exc_info())
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
-    return self._execute_internal(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
-    result = conn.execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
-    return meth(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
-    return connection._execute_clauseelement(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
-    ret = self._execute_context(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
-    return self._exec_single_context(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
-    self._handle_dbapi_exception(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
-    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
-    self.dialect.do_execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
-    cursor.execute(statement, parameters)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
-    self._adapt_connection.await_(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
-    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
-    value = await result
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
-    self._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
-    self._adapt_connection._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
-    raise translated_error from error
-sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-[SQL: 
-                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING message_id, session_id, role, content, timestamp
-            ]
-[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 10, "failed_count": 5, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 981323))]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2026-04-10 10:17:30 - api_gateway.utils.chat_logger - ERROR - 记录系统消息失败: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-[SQL: 
-                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING message_id, session_id, role, content, timestamp
-            ]
-[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 10, "failed_count": 5, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 981323))]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-Traceback (most recent call last):
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 550, in _prepare_and_execute
-    self._rows = deque(await prepared_stmt.fetch(*parameters))
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 177, in fetch
-    data = await self.__bind_execute(args, 0, timeout)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 268, in __bind_execute
-    data, status, _ = await self.__do_execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\asyncpg\prepared_stmt.py", line 257, in __do_execute
-    return await executor(protocol)
-  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
-asyncpg.exceptions.ForeignKeyViolationError: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
-    self.dialect.do_execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
-    cursor.execute(statement, parameters)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
-    self._adapt_connection.await_(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
-    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
-    value = await result
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
-    self._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
-    self._adapt_connection._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
-    raise translated_error from error
-sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\utils\chat_logger.py", line 92, in log_system_message
-    await chat_history_repo.add_message(
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\api_gateway\repositories\chat_history_repository.py", line 132, in add_message
-    result = await db_session.execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 449, in execute
-    result = await greenlet_spawn(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
-    result = context.throw(*sys.exc_info())
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
-    return self._execute_internal(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
-    result = conn.execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
-    return meth(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
-    return connection._execute_clauseelement(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
-    ret = self._execute_context(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
-    return self._exec_single_context(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
-    self._handle_dbapi_exception(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
-    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
-    self.dialect.do_execute(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
-    cursor.execute(statement, parameters)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 585, in execute
-    self._adapt_connection.await_(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
-    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
-    value = await result
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 563, in _prepare_and_execute
-    self._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 513, in _handle_exception
-    self._adapt_connection._handle_exception(error)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
-    raise translated_error from error
-sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: insert or update on table "chat_messages" violates foreign key constraint "chat_messages_session_id_fkey"
-DETAIL:  Key (session_id)=(82d29939-f5d6-4527-a024-6daf3f8cfeaf) is not present in table "chat_sessions".
-[SQL: 
-                INSERT INTO chat_messages (session_id, role, content, metadata, timestamp)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING message_id, session_id, role, content, timestamp
-            ]
-[parameters: ('82d29939-f5d6-4527-a024-6daf3f8cfeaf', 'system', '任务进度：awaiting_confirm (50%)\n请检查结果并确认', '{"message_type": "progress", "original_ws_message": {"type": "progress", "job_id": "82d29939-f5d6-4527-a024-6daf3f8cfeaf", "timestamp": "2026-04-10T1 ... (182 characters truncated) ... \\u8ba4", "details": {"success_count": 10, "failed_count": 5, "action_required": "user_confirmation"}}}, "stage": "awaiting_confirm", "progress": 50}', datetime.datetime(2026, 4, 10, 10, 17, 30, 981323))]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
+sqlalchemy.exc.DBAPIError: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $5: 6 (expected str, got int)
+[SQL: UPDATE job_price_snapshots SET original_price_id=$1::VARCHAR, version_id=$2::VARCHAR, category=$3::VARCHAR, sub_category=$4::VARCHAR, price=$5::VARCHAR, unit=$6::VARCHAR, work_hours=$7::VARCHAR, min_num=$8::VARCHAR, add_price=$9::VARCHAR, weight_num=$10::VARCHAR, note=$11::VARCHAR, instruction=$12::VARCHAR, is_modified=$13::BOOLEAN, modified_by=$14::VARCHAR, modified_at=$15::TIMESTAMP WITHOUT TIME ZONE, modification_reason=$16::VARCHAR, metadata=$17::JSONB WHERE job_price_snapshots.snapshot_id = $18::INTEGER AND job_price_snapshots.job_id = $19::UUID]
+[parameters: ('P027', 'v1.0', 'material', '45#', 6, '元/kg', None, None, None, None, '方料材料单价', None, True, 'a63b7863-5faf-4b00-9ec3-758495b0fb66', datetime.datetime(2026, 4, 13, 11, 22, 26, 239432), None, 'null', 22017, 'd4cd6eb3-fdcc-49db-a01b-d1b99fcccb63')]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+2026-04-13 11:22:43 - shared.logging_middleware - ERROR - ❌ 响应完成: POST /api/v1/review/d4cd6eb3-fdcc-49db-a01b-d1b99fcccb63/confirm | 状态=500 | IP=192.168.3.61 | 耗时=0.269s
+2026-04-13 13:08:38 - agents.action_handlers.data_modification_handler - ERROR - ❌ 修改验证失败: 第 1 个修改验证失败: 表 subgraphs 不允许修改字段 price，允许修改的字段: height, length, width, weight, wire_process_note, description, thickness, process_notes, wire_process, material
+2026-04-13 13:08:38 - shared.logging_middleware - ERROR - ❌ 响应完成: POST /api/v1/review/d4cd6eb3-fdcc-49db-a01b-d1b99fcccb63/modify | 状态=500 | IP=192.168.3.61 | 耗时=10.847s
