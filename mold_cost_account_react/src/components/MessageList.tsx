@@ -815,6 +815,18 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
       // 检查是否是审核数据展示类型
       const isReviewDisplayView = (message.progressData as any).type === 'review_display_view'
       const reviewData = isReviewDisplayView ? (message.progressData as any).data : null
+
+      // 如果当前只是单独的 awaiting_confirm 提示，且相邻位置已经有审核表格消息，则隐藏这条重复提示。
+      if (stage === 'awaiting_confirm' && !isReviewDisplayView) {
+        const hasAnyReviewTable = messages.some(candidateMessage =>
+          (candidateMessage.type === 'progress' && candidateMessage.progressData?.type === 'review_display_view') ||
+          (candidateMessage.type === 'system' && Array.isArray(candidateMessage.reviewData))
+        )
+
+        if (hasAnyReviewTable) {
+          return null
+        }
+      }
       
       // 检查是否是阶段的开始（started）或完成（completed）
       const isStageStart = stage.includes('_started')
@@ -882,6 +894,18 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
                   </div>
                 ) : (
                   <>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      fontSize: 14,
+                      color: token.colorText,
+                      marginBottom: 12,
+                    }}>
+                      {getProgressIcon(stage, progress, progressMessage, messages, index)}
+                      <Text style={{ color: token.colorText }}>
+                        {progressMessage}
+                      </Text>
+                    </div>
                     {reviewData && Array.isArray(reviewData) && (
                       <ReviewDataList data={reviewData} jobId={message.jobId || ''} />
                     )}
@@ -947,6 +971,18 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
               minWidth: 0,
               padding: '8px 0',
             }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: 14,
+                color: token.colorText,
+                marginBottom: 12,
+              }}>
+                <QuestionCircleOutlined style={{ fontSize: 14, marginRight: 8, color: token.colorWarning }} />
+                <Text style={{ color: token.colorText }}>
+                  请检查结果并确认
+                </Text>
+              </div>
               <ReviewDataList data={message.reviewData} jobId={message.jobId || ''} />
             </div>
           </div>

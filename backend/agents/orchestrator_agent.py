@@ -167,8 +167,8 @@ class OrchestratorAgent(BaseAgent):
                 total_subgraphs=subgraph_count
             )
             
-            # ========== 阶段2：并行执行特征识别 + NC 时间计算 ==========
-            self.logger.info(f"[编排器] 阶段2: 并行执行特征识别 + NC 时间计算")
+            # ========== 阶段2：串行执行特征识别 -> NC 时间计算 ==========
+            self.logger.info(f"[编排器] 阶段2: 先执行特征识别，再执行 NC 时间计算")
             
             # 获取文件路径（用于 NC Agent）
             async for db in get_db():
@@ -180,69 +180,15 @@ class OrchestratorAgent(BaseAgent):
                 prt_file_path = job.prt_file_path if job else None
                 break
             
-            # 创建并行任务列表
-            parallel_tasks = []
-            
-            # 任务1：特征识别
-            feature_task = self._execute_agent_method(
+            # 任务1：特征识别（必须先完成，确保 features 记录已经落库）
+            feature_result = await self._execute_agent_method(
                 job_id,
                 self.cad_agent,
                 "CADAgent",
                 "feature_recognition",
                 method_name="recognize_features"
             )
-            parallel_tasks.append(("feature_recognition", feature_task))
-            
-            # 任务2：NC 时间计算（仅当有 NC Agent 且 prt_file_path 不为空时执行）
-            if self.nc_time_agent:
-                if prt_file_path and prt_file_path.strip():
-                    self.logger.info(f"[编排器] prt_file_path 存在，将执行 NC 时间计算: {prt_file_path}")
-                    nc_task = self._execute_agent_with_context(
-                        job_id,
-                        self.nc_time_agent,
-                        "NCTimeAgent",
-                        "nc_time_calculation",
-                        context={
-                            "job_id": job_id,
-                            "dwg_file_path": dwg_file_path,
-                            "prt_file_path": prt_file_path
-                        }
-                    )
-                    parallel_tasks.append(("nc_time_calculation", nc_task))
-                else:
-                    self.logger.info("[编排器] prt_file_path 为空，跳过 NC 时间计算")
-                    # 发布进度：跳过NC计算
-                    self._publish_progress(
-                        job_id,
-                        "nc_calculation_skipped",
-                        ProgressPercent.FEATURE_RECOGNITION_STARTED,
-                        "未上传PRT文件，跳过NC时间计算",
-                        details={"reason": "prt_file_path_empty", "skipped": True}
-                    )
-            else:
-                self.logger.warning("[编排器] NCTimeAgent 未注册，跳过 NC 时间计算")
-            
-            # 并行执行所有任务
-            self.logger.info(f"[编排器] 开始并行执行 {len(parallel_tasks)} 个任务")
-            task_results = await asyncio.gather(*[task for _, task in parallel_tasks], return_exceptions=True)
-            
-            # 处理结果
-            feature_result = None
             nc_result = None
-            
-            for i, (task_name, _) in enumerate(parallel_tasks):
-                result = task_results[i]
-                
-                # 处理异常
-                if isinstance(result, Exception):
-                    self.logger.error(f"[编排器] {task_name} 执行异常: {result}", exc_info=result)
-                    result = {"status": "error", "message": str(result), "error_code": "TASK_EXCEPTION"}
-                
-                # 保存结果
-                if task_name == "feature_recognition":
-                    feature_result = result
-                elif task_name == "nc_time_calculation":
-                    nc_result = result
             
             # 检查特征识别结果（必须成功）
             if feature_result and feature_result["status"] == "error":
@@ -256,6 +202,33 @@ class OrchestratorAgent(BaseAgent):
                 )
                 await self._handle_failure(job_id, "feature_recognition", feature_result)
                 return feature_result
+
+            # 任务2：NC 时间计算（仅当特征识别成功且有 NC Agent 且 prt_file_path 不为空时执行）
+            if self.nc_time_agent:
+                if prt_file_path and prt_file_path.strip():
+                    self.logger.info(f"[编排器] 特征识别完成，开始执行 NC 时间计算: {prt_file_path}")
+                    nc_result = await self._execute_agent_with_context(
+                        job_id,
+                        self.nc_time_agent,
+                        "NCTimeAgent",
+                        "nc_time_calculation",
+                        context={
+                            "job_id": job_id,
+                            "dwg_file_path": dwg_file_path,
+                            "prt_file_path": prt_file_path
+                        }
+                    )
+                else:
+                    self.logger.info("[编排器] prt_file_path 为空，跳过 NC 时间计算")
+                    self._publish_progress(
+                        job_id,
+                        "nc_calculation_skipped",
+                        ProgressPercent.FEATURE_RECOGNITION_COMPLETED,
+                        "未上传PRT文件，跳过NC时间计算",
+                        details={"reason": "prt_file_path_empty", "skipped": True}
+                    )
+            else:
+                self.logger.warning("[编排器] NCTimeAgent 未注册，跳过 NC 时间计算")
             
             # NC 时间计算结果（失败不阻断流程）
             if nc_result:

@@ -282,7 +282,25 @@ class PricingAgent(BaseAgent):
             self.logger.info(f"[最终总价计算] 完成（已更新 jobs.total_cost）")
             self.logger.info(f"[性能] 阶段8-最终总价: {timings['stage8_final_total']*1000:.0f}ms")
             
-            # 阶段9: 汇总结果
+            # 阶段9: 线割工时计算（展示字段，最后执行）
+            stage_start = time.time()
+            self.logger.info(f"[线割工时计算] 开始")
+            wire_time_result = await self.price_search_mcp.call_tool(
+                "unified-mcp",
+                "calculate_wire_time",
+                {
+                    "job_id": job_id,
+                    "subgraph_ids": subgraph_ids
+                }
+            )
+            if wire_time_result.get("status") == "error":
+                self.logger.warning(f"[线割工时计算] 失败但继续执行: {wire_time_result.get('message')}")
+            else:
+                self.logger.info(f"[线割工时计算] 完成")
+            timings["stage9_wire_time"] = time.time() - stage_start
+            self.logger.info(f"[性能] 阶段9-线割工时: {timings['stage9_wire_time']*1000:.0f}ms")
+
+            # 阶段10: 汇总结果
             stage_start = time.time()
             final_result = self._aggregate_results(calc_results)
             
@@ -300,8 +318,8 @@ class PricingAgent(BaseAgent):
                 final_result["total_cost"] = 0.0
                 self.logger.warning(f"[汇总结果] 未从数据库获取到 total_cost，设置为 0")
             
-            timings["stage9_aggregate"] = time.time() - stage_start
-            self.logger.info(f"[性能] 阶段9-汇总结果: {timings['stage9_aggregate']*1000:.0f}ms")
+            timings["stage10_aggregate"] = time.time() - stage_start
+            self.logger.info(f"[性能] 阶段10-汇总结果: {timings['stage10_aggregate']*1000:.0f}ms")
             
             # 计算总耗时
             total_duration = time.time() - total_start
@@ -317,7 +335,8 @@ class PricingAgent(BaseAgent):
                 self.logger.info(f"  阶段4-6-并发执行:   {timings['stage4_6_concurrent']*1000:6.0f}ms ({timings['stage4_6_concurrent']/total_duration*100:5.1f}%)")
                 self.logger.info(f"  阶段7-数据清理:     {timings['stage7_judgment']*1000:6.0f}ms ({timings['stage7_judgment']/total_duration*100:5.1f}%)")
                 self.logger.info(f"  阶段8-最终总价:     {timings['stage8_final_total']*1000:6.0f}ms ({timings['stage8_final_total']/total_duration*100:5.1f}%)")
-                self.logger.info(f"  阶段9-汇总结果:     {timings['stage9_aggregate']*1000:6.0f}ms ({timings['stage9_aggregate']/total_duration*100:5.1f}%)")
+                self.logger.info(f"  阶段9-线割工时:     {timings['stage9_wire_time']*1000:6.0f}ms ({timings['stage9_wire_time']/total_duration*100:5.1f}%)")
+                self.logger.info(f"  阶段10-汇总结果:    {timings['stage10_aggregate']*1000:6.0f}ms ({timings['stage10_aggregate']/total_duration*100:5.1f}%)")
                 self.logger.info(f"  总耗时:            {total_duration*1000:6.0f}ms")
                 self.logger.info("=" * 80)
             

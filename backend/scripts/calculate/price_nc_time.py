@@ -323,7 +323,7 @@ async def _calculate_part_nc_time_cost(
         "face_costs": face_costs,
         "calculation_steps": calculation_steps
     }
-    
+
     return result, db_data
 
 

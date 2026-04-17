@@ -843,6 +843,26 @@ def save_features_to_db(subgraph_id: str, job_id: str, features: Dict[str, Any])
         
         conn = get_db_connection()
         cursor = conn.cursor()
+
+        # 保留已存在的 NC 结果，避免后续特征识别回写时覆盖 nc_time_cost / volume_mm3
+        cursor.execute(
+            """
+            SELECT nc_time_cost, volume_mm3
+            FROM features
+            WHERE subgraph_id = %s AND version = %s
+            """,
+            (subgraph_id, 1)
+        )
+        existing_feature_row = cursor.fetchone()
+        existing_nc_time_cost = existing_feature_row[0] if existing_feature_row else None
+        existing_volume_mm3 = existing_feature_row[1] if existing_feature_row else None
+        if existing_nc_time_cost is not None or existing_volume_mm3 is not None:
+            logging.info(
+                "检测到已有 NC 字段，保存特征时将保留: "
+                f"subgraph_id={subgraph_id}, "
+                f"has_nc_time_cost={existing_nc_time_cost is not None}, "
+                f"has_volume_mm3={existing_volume_mm3 is not None}"
+            )
         
         # PostgreSQL 的 jsonb 类型可以直接接受 Python 字典
         # psycopg2 会自动处理 JSON 序列化
@@ -883,8 +903,8 @@ def save_features_to_db(subgraph_id: str, job_id: str, features: Dict[str, Any])
              top_view_wire_length, front_view_wire_length, side_view_wire_length,
              processing_instructions, metadata, abnormal_situation,
              quantity, material, heat_treatment, calculated_weight_kg, needs_heat_treatment, has_auto_material, 
-             boring_num, has_material_preparation, water_mill, tooth_hole, created_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+             boring_num, has_material_preparation, water_mill, tooth_hole, nc_time_cost, volume_mm3, created_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (subgraph_id, version) 
             DO UPDATE SET 
                 length_mm = EXCLUDED.length_mm,
@@ -906,6 +926,8 @@ def save_features_to_db(subgraph_id: str, job_id: str, features: Dict[str, Any])
                 has_material_preparation = EXCLUDED.has_material_preparation,
                 water_mill = EXCLUDED.water_mill,
                 tooth_hole = EXCLUDED.tooth_hole,
+                nc_time_cost = COALESCE(features.nc_time_cost, EXCLUDED.nc_time_cost),
+                volume_mm3 = COALESCE(features.volume_mm3, EXCLUDED.volume_mm3),
                 created_at = EXCLUDED.created_at
             RETURNING feature_id
         """
@@ -949,6 +971,8 @@ def save_features_to_db(subgraph_id: str, job_id: str, features: Dict[str, Any])
             features.get('has_material_preparation'),  # 新增：水磨数据（备料信息）
             Json(water_mill) if water_mill else None,  # 新增：水磨数据详情
             Json(tooth_hole) if tooth_hole else None,  # 新增：牙孔数据
+            Json(existing_nc_time_cost) if existing_nc_time_cost is not None else None,  # 保留已有 NC 明细
+            existing_volume_mm3,  # 保留已有 NC 体积
             datetime.now()
         )
         

@@ -8,27 +8,51 @@ NCTimeAgent - NC时间计算Agent
 3. 将时间数据写入 subgraphs 表（nc_roughing_time, nc_milling_time, drilling_time）
 4. 将详细时间数据写入 features 表（nc_time_cost 字段）
 """
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 import asyncio
 import httpx
 import re
 import os
 import json
 import time
+import logging
 from decimal import Decimal
 from datetime import datetime
 from pathlib import Path
+from openpyxl import load_workbook
+from dotenv import load_dotenv
 from tenacity import retry, stop_after_attempt, wait_exponential
 from sqlalchemy import select, update
 from .base_agent import BaseAgent
 from shared.database import get_db
 from shared.models import Job, Subgraph, Feature
 
+load_dotenv()
+module_logger = logging.getLogger(__name__)
+
 class NCTimeAgent(BaseAgent):
     """
     NC时间计算Agent
     调用外部统一NC Agent计算钻孔、开粗、精铣时间
     """
+
+    EXCEL_FACE_CODE_MAP = {
+        "A面": "Z",
+        "B面": "B",
+        "C面": "C",
+        "D面": "C_B",
+        "E面": "Z_VIEW",
+        "F面": "B_VIEW",
+    }
+
+    JSON_FACE_CODE_MAP = {
+        "A": "Z",
+        "B": "B",
+        "C": "C",
+        "D": "C_B",
+        "E": "Z_VIEW",
+        "F": "B_VIEW",
+    }
     
     def __init__(self, nc_agent_url: str = None, progress_publisher=None):
         super().__init__("NCTimeAgent")
@@ -39,13 +63,22 @@ class NCTimeAgent(BaseAgent):
         self.progress_publisher = progress_publisher
         self.logs_root = Path("logs")
         self.nc_log_retention_days = int(os.getenv("NC_LOG_RETENTION_DAYS", "7"))
+        self.nc_excel_retention_days = int(os.getenv("NC_EXCEL_RETENTION_DAYS", "7"))
         self.nc_log_cleanup_interval_days = int(os.getenv("NC_LOG_CLEANUP_INTERVAL_DAYS", "7"))
         self.nc_log_cleanup_state_file = self.logs_root / ".nc_log_cleanup_state.json"
+        self.nc_excel_dir = os.getenv("NC_EXCEL_DIR", "").strip()
+        self.nc_excel_logs_dir = self.logs_root / "ncexcel"
         self.logger.info(
             f"[NCTimeAgent] initialized: url={self.nc_agent_url}, "
             f"workflow_timeout={self.timeout}s, request_timeout={self.request_timeout}s, "
             f"poll_interval={self.poll_interval}s"
         )
+
+    def _log_visible(self, level: str, message: str):
+        log_method = getattr(self.logger, level, self.logger.info)
+        module_log_method = getattr(module_logger, level, module_logger.info)
+        log_method(message)
+        module_log_method(message)
 
     async def process(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -74,6 +107,14 @@ class NCTimeAgent(BaseAgent):
             return {"status": "error", "message": "缺少 job_id 参数"}
         
         self.logger.info(f"[NCTimeAgent] 开始处理 NC 时间计算: job_id={job_id}")
+
+        excel_result = await self._process_nc_excel_workbooks(job_id, context)
+        if excel_result is not None:
+            return excel_result
+
+        minio_json_result = await self._process_nc_json_from_minio(job_id)
+        if minio_json_result is not None:
+            return minio_json_result
         
         # 发布进度：NC 时间计算开始
         self._maybe_cleanup_nc_log_files()
@@ -118,179 +159,7 @@ class NCTimeAgent(BaseAgent):
             fail_itemcodes = self._extract_fail_itemcodes(nc_result)
             await self._save_nc_failed_itemcodes(job_id, fail_itemcodes)
             
-            code = nc_result.get("code")
-            message = nc_result.get("message", "")
-            
-            # 检查返回码
-            # 200: 完全成功
-            # 206: 部分成功（某些子图失败，但有部分结果可用）
-            # 500: 完全失败
-            if code == 500:
-                error_msg = nc_result.get("message", "NC Agent 调用失败")
-                self.logger.error(f"[NCTimeAgent] NC Agent 完全失败: {error_msg}")
-                
-                # 发布失败进度
-                if self.progress_publisher:
-                    from shared.progress_stages import ProgressStage, ProgressPercent
-                    self.progress_publisher.publish_progress(
-                        job_id=job_id,
-                        stage=ProgressStage.NC_CALCULATION_FAILED,
-                        progress=ProgressPercent.NC_CALCULATION_STARTED,
-                        message=f"NC 时间计算失败: {error_msg}",
-                        details={"error": error_msg, "code": 500}
-                    )
-                
-                return {"status": "error", "message": error_msg}
-            elif code == 206:
-                self.logger.warning(f"[NCTimeAgent] NC Agent 部分成功: {message}")
-                # 继续处理，但记录警告
-            elif code == 200:
-                self.logger.info(f"[NCTimeAgent] NC Agent 完全成功: {message}")
-            else:
-                self.logger.warning(f"[NCTimeAgent] NC Agent 返回未知代码 {code}: {message}")
-            
-            # 3. 解析 NC 返回的数据
-            json_output = nc_result.get("data", {}).get("json_output", {})
-            if not json_output:
-                # 提取更详细的错误信息
-                error_details = nc_result.get("data", {}).get("error_details", "未知错误")
-                failed_step = nc_result.get("data", {}).get("failed_at_step", "未知步骤")
-                
-                self.logger.warning(f"[NCTimeAgent] NC Agent 返回空数据")
-                self.logger.warning(f"[NCTimeAgent] 失败步骤: Step {failed_step}")
-                self.logger.warning(f"[NCTimeAgent] 错误详情: {error_details[:500]}")  # 只显示前500字符
-                
-                # 发布失败进度
-                if self.progress_publisher:
-                    from shared.progress_stages import ProgressStage, ProgressPercent
-                    self.progress_publisher.publish_progress(
-                        job_id=job_id,
-                        stage=ProgressStage.NC_CALCULATION_FAILED,
-                        progress=ProgressPercent.NC_CALCULATION_STARTED,
-                        message=f"NC 时间计算失败: NC Agent 返回空数据 (Step {failed_step})",
-                        details={
-                            "error": f"NC Agent 返回空数据 (Step {failed_step})",
-                            "failed_step": failed_step,
-                            "error_details": error_details[:500] if error_details else "未知错误"
-                        }
-                    )
-                
-                return {
-                    "status": "error", 
-                    "message": f"NC Agent 处理失败 (Step {failed_step})",
-                    "details": {
-                        "failed_step": failed_step,
-                        "error": error_details[:500] if error_details else "未知错误"
-                    }
-                }
-            
-            # ========== 打印 NC Agent 返回的原始数据 ==========
-            self.logger.info(f"[NCTimeAgent] ========================================")
-            self.logger.info(f"[NCTimeAgent] NC Agent 返回数据（原始）")
-            self.logger.info(f"[NCTimeAgent] 子图总数: {len(json_output)}")
-            self.logger.info(f"[NCTimeAgent] ========================================")
-            
-            for subgraph_name, subgraph_data in json_output.items():
-                self.logger.info(f"[NCTimeAgent] ")
-                self.logger.info(f"[NCTimeAgent] 子图: {subgraph_name}")
-                operations = subgraph_data.get("operations", [])
-                self.logger.info(f"[NCTimeAgent] 操作数量: {len(operations)}")
-                
-                for op in operations:
-                    op_name = op.get("operation_name", "")
-                    params = op.get("parameters", [])
-                    
-                    # 查找 id=124 的参数（Toolpath Time）
-                    time_param = next((p for p in params if p.get("id") == 124), None)
-                    
-                    if time_param:
-                        time_value = time_param.get("value", 0)
-                        display_name = time_param.get("display_name", "")
-                        self.logger.info(
-                            f"[NCTimeAgent]   操作: {op_name} | "
-                            f"时间: {time_value} | "
-                            f"参数: id={time_param.get('id')}, {display_name}"
-                        )
-                    else:
-                        self.logger.warning(f"[NCTimeAgent]   操作: {op_name} | 未找到 id=124 的时间参数")
-            
-            self.logger.info(f"[NCTimeAgent] ========================================")
-            
-            # 4. 处理每个子图的数据
-            success_count = 0
-            failed_count = 0
-            
-            for subgraph_name, subgraph_data in json_output.items():
-                try:
-                    # 提取子图 ID（例如：PH-01-M250297-P5.json -> PH-01）
-                    subgraph_short_id = self._extract_subgraph_id(subgraph_name)
-                    
-                    # 查找对应的 subgraph_id（完整ID）
-                    subgraph_id = await self._find_subgraph_id(job_id, subgraph_short_id)
-                    
-                    if not subgraph_id:
-                        self.logger.warning(
-                            f"[NCTimeAgent] 未找到子图映射: {subgraph_name} -> {subgraph_short_id}"
-                        )
-                        failed_count += 1
-                        continue
-                    
-                    # ========== 保存子图的原始响应数据 ==========
-                    await self._save_subgraph_response(job_id, subgraph_id, subgraph_name, subgraph_data)
-                    
-                    # 提取体积数据
-                    volume_data = subgraph_data.get("batch_meta", {}).get("volume_data", {})
-                    
-                    # 解析操作数据（传入体积数据）
-                    operations = subgraph_data.get("operations", [])
-                    time_data = self._parse_operations(operations, volume_data)
-                    
-                    # 写入数据库
-                    await self._save_nc_time_data(subgraph_id, time_data)
-                    
-                    success_count += 1
-                    self.logger.info(
-                        f"[NCTimeAgent] 成功处理子图: {subgraph_name} -> {subgraph_id}"
-                    )
-                    
-                except Exception as e:
-                    self.logger.error(
-                        f"[NCTimeAgent] 处理子图失败: {subgraph_name}, error={e}",
-                        exc_info=True
-                    )
-                    failed_count += 1
-            
-            # 5. 返回结果
-            total_count = success_count + failed_count
-            self.logger.info(
-                f"[NCTimeAgent] NC 时间计算完成: "
-                f"total={total_count}, success={success_count}, failed={failed_count}"
-            )
-            
-            # 发布进度：NC 时间计算完成
-            if self.progress_publisher:
-                from shared.progress_stages import ProgressStage, ProgressPercent
-                self.progress_publisher.publish_progress(
-                    job_id=job_id,
-                    stage=ProgressStage.NC_CALCULATION_COMPLETED,
-                    progress=ProgressPercent.NC_CALCULATION_COMPLETED,
-                    message=f"NC 时间计算完成，成功 {success_count}/{total_count}",
-                    details={
-                        "total_subgraphs": total_count,
-                        "success_count": success_count,
-                        "failed_count": failed_count
-                    }
-                )
-            
-            return {
-                "status": "ok",
-                "message": f"NC 时间计算完成，成功 {success_count}/{total_count}",
-                "summary": {
-                    "total_subgraphs": total_count,
-                    "success_count": success_count,
-                    "failed_count": failed_count
-                }
-            }
+            return await self._process_nc_result_payload(job_id, nc_result, source="http")
             
         except Exception as e:
             self.logger.error(f"[NCTimeAgent] NC 时间计算失败: {e}", exc_info=True)
@@ -559,10 +428,14 @@ class NCTimeAgent(BaseAgent):
 
     def _maybe_cleanup_nc_log_files(self):
         """Clean NC log json files on a fixed interval."""
-        if self.nc_log_retention_days <= 0 or self.nc_log_cleanup_interval_days <= 0:
+        if (
+            self.nc_log_retention_days <= 0
+            and self.nc_excel_retention_days <= 0
+        ) or self.nc_log_cleanup_interval_days <= 0:
             self.logger.info(
                 "[NCTimeAgent] Skip NC log cleanup: "
                 f"retention_days={self.nc_log_retention_days}, "
+                f"excel_retention_days={self.nc_excel_retention_days}, "
                 f"cleanup_interval_days={self.nc_log_cleanup_interval_days}"
             )
             return
@@ -575,14 +448,19 @@ class NCTimeAgent(BaseAgent):
             if last_cleanup_ts and now_ts - last_cleanup_ts < interval_seconds:
                 return
 
-            cutoff_ts = now_ts - (self.nc_log_retention_days * 24 * 60 * 60)
             deleted_files = 0
-            deleted_files += self._cleanup_json_files(self.logs_root / "nc_agent_debug", cutoff_ts)
-            deleted_files += self._cleanup_json_files(self.logs_root / "nc_responses", cutoff_ts)
+            if self.nc_log_retention_days > 0:
+                cutoff_ts = now_ts - (self.nc_log_retention_days * 24 * 60 * 60)
+                deleted_files += self._cleanup_json_files(self.logs_root / "nc_agent_debug", cutoff_ts)
+                deleted_files += self._cleanup_json_files(self.logs_root / "nc_responses", cutoff_ts)
+            if self.nc_excel_retention_days > 0:
+                excel_cutoff_ts = now_ts - (self.nc_excel_retention_days * 24 * 60 * 60)
+                deleted_files += self._cleanup_excel_files(self.nc_excel_logs_dir, excel_cutoff_ts)
             self._write_nc_log_cleanup_state(now_ts)
             self.logger.info(
                 "[NCTimeAgent] NC log cleanup completed: "
                 f"deleted_files={deleted_files}, retention_days={self.nc_log_retention_days}, "
+                f"excel_retention_days={self.nc_excel_retention_days}, "
                 f"cleanup_interval_days={self.nc_log_cleanup_interval_days}"
             )
         except Exception as e:
@@ -613,11 +491,17 @@ class NCTimeAgent(BaseAgent):
         )
 
     def _cleanup_json_files(self, root_dir: Path, cutoff_ts: float) -> int:
+        return self._cleanup_files_by_pattern(root_dir, cutoff_ts, "*.json")
+
+    def _cleanup_excel_files(self, root_dir: Path, cutoff_ts: float) -> int:
+        return self._cleanup_files_by_pattern(root_dir, cutoff_ts, "*.xlsx")
+
+    def _cleanup_files_by_pattern(self, root_dir: Path, cutoff_ts: float, pattern: str) -> int:
         if not root_dir.exists():
             return 0
 
         deleted_files = 0
-        for file_path in root_dir.rglob("*.json"):
+        for file_path in root_dir.rglob(pattern):
             try:
                 if file_path.stat().st_mtime < cutoff_ts:
                     file_path.unlink()
@@ -1120,7 +1004,7 @@ class NCTimeAgent(BaseAgent):
     
     async def _save_nc_time_data(self, subgraph_id: str, time_data: Dict[str, Any]):
         """
-        保存 NC 时间数据到数据库（只写入 features 表）
+        保存 NC 时间数据到数据库
         
         Args:
             subgraph_id: 子图ID
@@ -1145,6 +1029,8 @@ class NCTimeAgent(BaseAgent):
                 elif isinstance(obj, list):
                     return [convert_decimals(item) for item in obj]
                 return obj
+
+            actual_times = self._summarize_actual_nc_times(time_data.get("nc_details", []))
             
             # 准备更新数据
             nc_time_cost_data = convert_decimals({"nc_details": time_data["nc_details"]})
@@ -1167,26 +1053,980 @@ class NCTimeAgent(BaseAgent):
                 .where(Feature.subgraph_id == subgraph_id)
                 .values(**update_values)
             )
+
+            await db.execute(
+                update(Subgraph)
+                .where(Subgraph.subgraph_id == subgraph_id)
+                .values(
+                    nc_roughing_time=actual_times["nc_roughing_time"],
+                    nc_milling_time=actual_times["nc_milling_time"],
+                    drilling_time=actual_times["drilling_time"],
+                )
+            )
             
             await db.commit()
             
             self.logger.debug(
                 f"[NCTimeAgent] 保存 NC 时间数据到 features 表: subgraph_id={subgraph_id}, "
                 f"faces={len(time_data['nc_details'])}, "
-                f"volume_mm3={time_data.get('volume_mm3', 'N/A')}"
+                f"volume_mm3={time_data.get('volume_mm3', 'N/A')}, "
+                f"roughing_h={actual_times['nc_roughing_time']}, "
+                f"milling_h={actual_times['nc_milling_time']}, "
+                f"drilling_h={actual_times['drilling_time']}"
             )
             
             break
 
+    def _summarize_actual_nc_times(self, nc_details: List[Dict[str, Any]]) -> Dict[str, float]:
+        """汇总 NC 原始明细中的开粗/精铣/钻床实际加工时间，不乘数量。"""
+        roughing_minutes = Decimal("0")
+        milling_minutes = Decimal("0")
+        drilling_minutes = Decimal("0")
+
+        for face_detail in nc_details or []:
+            details = face_detail.get("details", []) or []
+            for detail in details:
+                code = str(detail.get("code") or "").strip()
+                value = detail.get("value")
+                try:
+                    minutes = Decimal(str(value))
+                except Exception:
+                    continue
+
+                if code in ["精铣", "半精", "全精"]:
+                    milling_minutes += minutes
+                elif code == "开粗":
+                    roughing_minutes += minutes
+                else:
+                    drilling_minutes += minutes
+
+        return {
+            "nc_roughing_time": round(float(roughing_minutes / Decimal("60")), 2),
+            "nc_milling_time": round(float(milling_minutes / Decimal("60")), 2),
+            "drilling_time": round(float(drilling_minutes / Decimal("60")), 2),
+        }
+
+    async def _save_nc_volume_data(self, subgraph_id: str, volume_mm3: Any):
+        if volume_mm3 in (None, ""):
+            return
+
+        async for db in get_db():
+            await db.execute(
+                update(Feature)
+                .where(Feature.subgraph_id == subgraph_id)
+                .values(
+                    volume_mm3=float(volume_mm3),
+                    created_at=datetime.utcnow()
+                )
+            )
+            await db.commit()
+            self.logger.debug(
+                f"[NCTimeAgent] 保存 NC 体积数据到 features 表: subgraph_id={subgraph_id}, volume_mm3={volume_mm3}"
+            )
+            break
+
+    async def _process_nc_debug_metadata(
+        self,
+        job_id: str,
+        nc_result: Dict[str, Any],
+        source: str = "minio_json_debug",
+    ):
+        fail_itemcodes = self._extract_fail_itemcodes(nc_result)
+        await self._save_nc_failed_itemcodes(job_id, fail_itemcodes)
+
+        json_output = nc_result.get("data", {}).get("json_output", {}) or {}
+        volume_saved_count = 0
+
+        for subgraph_name, subgraph_data in json_output.items():
+            try:
+                subgraph_short_id = self._extract_subgraph_id(subgraph_name)
+                subgraph_id = await self._find_subgraph_id(job_id, subgraph_short_id)
+                if not subgraph_id:
+                    continue
+
+                volume_mm3 = (
+                    (subgraph_data.get("batch_meta", {}) or {})
+                    .get("volume_data", {})
+                    .get("volume_mm3")
+                )
+                if volume_mm3 in (None, ""):
+                    continue
+
+                await self._save_nc_volume_data(subgraph_id, volume_mm3)
+                volume_saved_count += 1
+            except Exception as exc:
+                self.logger.error(
+                    f"[NCTimeAgent] 处理 debug JSON 体积失败: source={source}, subgraph={subgraph_name}, error={exc}",
+                    exc_info=True,
+                )
+
+        self.logger.info(
+            f"[NCTimeAgent] debug JSON 元数据处理完成: source={source}, "
+            f"fail_itemcodes={len(fail_itemcodes)}, volume_saved={volume_saved_count}"
+        )
+
+    async def _process_nc_excel_workbooks(
+        self,
+        job_id: str,
+        context: Dict[str, Any]
+    ) -> Optional[Dict[str, Any]]:
+        mold_code = await self._get_job_mold_code(job_id)
+        subgraphs = await self._get_job_subgraphs(job_id)
+        self._log_visible(
+            "info",
+            f"[NCTimeAgent] NC Excel 分支开始: job_id={job_id}, mold_code={mold_code or '<empty>'}, "
+            f"subgraph_count={len(subgraphs)}"
+        )
+
+        if not subgraphs:
+            self.logger.warning(f"[NCTimeAgent] job 没有子图记录，跳过 Excel NC 解析: job_id={job_id}")
+            return {
+                "status": "error",
+                "message": "NC 时间计算失败: 当前任务没有子图数据"
+            }
+
+        search_dirs = self._get_nc_excel_search_dirs(context)
+        downloaded_excel_dir = self._download_nc_excel_files_to_logs(job_id, mold_code)
+        if downloaded_excel_dir and downloaded_excel_dir not in search_dirs:
+            search_dirs.insert(0, downloaded_excel_dir)
+        explicit_excel_path = self._normalize_excel_file_path(context.get("nc_excel_path"))
+        self._log_visible(
+            "info",
+            f"[NCTimeAgent] NC Excel 搜索路径: downloaded_excel_dir={downloaded_excel_dir}, "
+            f"explicit_excel_path={explicit_excel_path}, search_dirs={[str(item) for item in search_dirs]}"
+        )
+
+        success_count = 0
+        failed_count = 0
+
+        for subgraph in subgraphs:
+            subgraph_id = subgraph["subgraph_id"]
+            part_code = (subgraph.get("part_code") or "").strip()
+            if not part_code:
+                self.logger.warning(f"[NCTimeAgent] 子图缺少 part_code，跳过 Excel NC 解析: subgraph_id={subgraph_id}")
+                failed_count += 1
+                continue
+
+            workbook_path = self._find_nc_excel_workbook(
+                part_code=part_code,
+                mold_code=mold_code,
+                search_dirs=search_dirs,
+                explicit_excel_path=explicit_excel_path,
+            )
+            if not workbook_path:
+                self.logger.warning(
+                    f"[NCTimeAgent] 未找到 NC Excel 文件: part_code={part_code}, mold_code={mold_code}, "
+                    f"search_dirs={[str(item) for item in search_dirs]}"
+                )
+                failed_count += 1
+                continue
+
+            try:
+                self.logger.info(
+                    f"[NCTimeAgent] 使用 Excel 解析 NC: subgraph_id={subgraph_id}, part_code={part_code}, "
+                    f"workbook={workbook_path}"
+                )
+                time_data = self._parse_nc_excel_workbook(workbook_path)
+                await self._save_nc_time_data(subgraph_id, time_data)
+                success_count += 1
+            except Exception as exc:
+                self.logger.error(
+                    f"[NCTimeAgent] Excel NC 解析失败: subgraph_id={subgraph_id}, part_code={part_code}, "
+                    f"workbook={workbook_path}, error={exc}",
+                    exc_info=True
+                )
+                failed_count += 1
+
+        if success_count == 0:
+            self.logger.info(f"[NCTimeAgent] 未命中任何可用 Excel NC 文件，继续走旧 NC JSON 流程: job_id={job_id}")
+            return None
+
+        total_count = success_count + failed_count
+        if self.progress_publisher:
+            from shared.progress_stages import ProgressStage, ProgressPercent
+            self.progress_publisher.publish_progress(
+                job_id=job_id,
+                stage=ProgressStage.NC_CALCULATION_COMPLETED,
+                progress=ProgressPercent.NC_CALCULATION_COMPLETED,
+                message=f"NC Excel 解析完成，成功 {success_count}/{total_count}",
+                details={
+                    "source": "excel",
+                    "total_subgraphs": total_count,
+                    "success_count": success_count,
+                    "failed_count": failed_count
+                }
+            )
+
+        return {
+            "status": "ok",
+            "message": f"NC Excel 解析完成，成功 {success_count}/{total_count}",
+            "summary": {
+                "source": "excel",
+                "total_subgraphs": total_count,
+                "success_count": success_count,
+                "failed_count": failed_count
+            }
+        }
+
+    async def _process_nc_json_from_minio(self, job_id: str) -> Optional[Dict[str, Any]]:
+        mold_code = await self._get_job_mold_code(job_id)
+        self._log_visible(
+            "info",
+            f"[NCTimeAgent] NC MinIO JSON 分支开始: job_id={job_id}, mold_code={mold_code or '<empty>'}"
+        )
+        if not mold_code:
+            self.logger.warning(f"[NCTimeAgent] 缺少模号，跳过 MinIO JSON 解析: job_id={job_id}")
+            return None
+
+        minio_prefix = self._query_nc_excel_minio_prefix(mold_code)
+        self._log_visible(
+            "info",
+            f"[NCTimeAgent] NC MinIO JSON 查询路径: mold_code={mold_code}, minio_prefix={minio_prefix or '<empty>'}"
+        )
+        if not minio_prefix:
+            self.logger.warning(f"[NCTimeAgent] 外部 NC 库未查到 MinIO 路径，跳过 JSON 解析: mold_code={mold_code}")
+            return None
+
+        try:
+            objects = self._list_nc_minio_objects(minio_prefix)
+            self._log_visible(
+                "info",
+                f"[NCTimeAgent] NC MinIO 对象枚举完成: mold_code={mold_code}, path={minio_prefix}, "
+                f"object_count={len(objects)}"
+            )
+            if objects:
+                self._log_visible(
+                    "info",
+                    f"[NCTimeAgent] NC MinIO 对象列表: {objects}"
+                )
+        except Exception as exc:
+            self.logger.error(
+                f"[NCTimeAgent] 枚举 NC MinIO 对象失败: mold_code={mold_code}, path={minio_prefix}, error={exc}",
+                exc_info=True,
+            )
+            return None
+
+        debug_json_objects = sorted(
+            obj for obj in objects
+            if "/nc_agent_debug/" in obj.replace("\\", "/") and obj.lower().endswith(".json")
+        )
+        self._log_visible(
+            "info",
+            f"[NCTimeAgent] NC MinIO debug JSON 命中数: {len(debug_json_objects)}"
+        )
+        local_debug_files: List[Path] = []
+        if debug_json_objects:
+            debug_download_root = self.logs_root / "nc_agent_debug"
+            debug_download_root.mkdir(parents=True, exist_ok=True)
+            self._log_visible(
+                "info",
+                f"[NCTimeAgent] NC MinIO debug JSON 下载列表: {debug_json_objects}"
+            )
+            for object_name in debug_json_objects:
+                local_path = debug_download_root / Path(object_name).name
+                self._download_nc_minio_object(object_name, local_path)
+                local_debug_files.append(local_path)
+
+        subgraph_json_objects = sorted(
+            obj for obj in objects
+            if "/nc_responses/" in obj.replace("\\", "/")
+            and "/subgraphs/" in obj.replace("\\", "/")
+            and obj.lower().endswith(".json")
+        )
+        self._log_visible(
+            "info",
+            f"[NCTimeAgent] NC MinIO subgraph JSON 命中数: {len(subgraph_json_objects)}"
+        )
+        local_subgraph_files: List[Path] = []
+        if subgraph_json_objects:
+            download_root = self.logs_root / "nc_responses" / job_id / "subgraphs"
+            download_root.mkdir(parents=True, exist_ok=True)
+            self._log_visible(
+                "info",
+                f"[NCTimeAgent] NC MinIO subgraph JSON 下载列表: {subgraph_json_objects}"
+            )
+            for object_name in subgraph_json_objects:
+                local_path = download_root / Path(object_name).name
+                self._download_nc_minio_object(object_name, local_path)
+                local_subgraph_files.append(local_path)
+
+        debug_nc_result: Optional[Dict[str, Any]] = None
+        if local_debug_files:
+            latest_debug_file = max(local_debug_files, key=lambda item: item.stat().st_mtime)
+            self._log_visible(
+                "info",
+                f"[NCTimeAgent] 使用 MinIO debug JSON 解析 NC 元数据: {latest_debug_file}"
+            )
+            with open(latest_debug_file, "r", encoding="utf-8") as f:
+                debug_nc_result = json.load(f)
+            await self._process_nc_debug_metadata(job_id, debug_nc_result, source="minio_json_debug")
+
+        if local_subgraph_files:
+            self._log_visible(
+                "info",
+                f"[NCTimeAgent] 使用 MinIO subgraph JSON 解析 NC: job_id={job_id}, files={len(local_subgraph_files)}"
+            )
+            return await self._process_nc_subgraph_json_files(
+                job_id, local_subgraph_files, source="minio_json_subgraphs"
+            )
+
+        if debug_nc_result is not None:
+            self.logger.warning(
+                "[NCTimeAgent] MinIO 仅命中 debug JSON，未命中 subgraph JSON，回退到 debug JSON 全量解析"
+            )
+            return await self._process_nc_result_payload(job_id, debug_nc_result, source="minio_json_debug")
+
+        self.logger.info(
+            f"[NCTimeAgent] MinIO 路径下未命中 Excel 或 JSON NC 文件，继续走旧 HTTP NC 流程: "
+            f"mold_code={mold_code}, path={minio_prefix}"
+        )
+        return None
+
+    async def _process_nc_result_payload(
+        self,
+        job_id: str,
+        nc_result: Dict[str, Any],
+        source: str = "http",
+    ) -> Dict[str, Any]:
+        code = nc_result.get("code")
+        message = nc_result.get("message", "")
+
+        if code == 500:
+            error_msg = nc_result.get("message", "NC Agent 调用失败")
+            self.logger.error(f"[NCTimeAgent] NC 数据源完全失败({source}): {error_msg}")
+
+            if self.progress_publisher:
+                from shared.progress_stages import ProgressStage, ProgressPercent
+                self.progress_publisher.publish_progress(
+                    job_id=job_id,
+                    stage=ProgressStage.NC_CALCULATION_FAILED,
+                    progress=ProgressPercent.NC_CALCULATION_STARTED,
+                    message=f"NC 时间计算失败: {error_msg}",
+                    details={"error": error_msg, "code": 500, "source": source}
+                )
+
+            return {"status": "error", "message": error_msg}
+        elif code == 206:
+            self.logger.warning(f"[NCTimeAgent] NC 数据源部分成功({source}): {message}")
+        elif code == 200:
+            self.logger.info(f"[NCTimeAgent] NC 数据源成功({source}): {message}")
+        else:
+            self.logger.warning(f"[NCTimeAgent] NC 数据源返回未知代码({source}) {code}: {message}")
+
+        json_output = nc_result.get("data", {}).get("json_output", {})
+        if not json_output:
+            error_details = nc_result.get("data", {}).get("error_details", "未知错误")
+            failed_step = nc_result.get("data", {}).get("failed_at_step", "未知步骤")
+
+            self.logger.warning(f"[NCTimeAgent] NC 数据源返回空数据({source})")
+            self.logger.warning(f"[NCTimeAgent] 失败步骤: Step {failed_step}")
+            self.logger.warning(f"[NCTimeAgent] 错误详情: {error_details[:500]}")
+
+            if self.progress_publisher:
+                from shared.progress_stages import ProgressStage, ProgressPercent
+                self.progress_publisher.publish_progress(
+                    job_id=job_id,
+                    stage=ProgressStage.NC_CALCULATION_FAILED,
+                    progress=ProgressPercent.NC_CALCULATION_STARTED,
+                    message=f"NC 时间计算失败: NC 数据源返回空数据 (Step {failed_step})",
+                    details={
+                        "error": f"NC 数据源返回空数据 (Step {failed_step})",
+                        "failed_step": failed_step,
+                        "error_details": error_details[:500] if error_details else "未知错误",
+                        "source": source,
+                    }
+                )
+
+            return {
+                "status": "error",
+                "message": f"NC 数据处理失败 (Step {failed_step})",
+                "details": {
+                    "failed_step": failed_step,
+                    "error": error_details[:500] if error_details else "未知错误",
+                    "source": source,
+                }
+            }
+
+        self.logger.info(f"[NCTimeAgent] ========================================")
+        self.logger.info(f"[NCTimeAgent] NC 返回数据（原始）source={source}")
+        self.logger.info(f"[NCTimeAgent] 子图总数: {len(json_output)}")
+        self.logger.info(f"[NCTimeAgent] ========================================")
+
+        for subgraph_name, subgraph_data in json_output.items():
+            self.logger.info(f"[NCTimeAgent] ")
+            self.logger.info(f"[NCTimeAgent] 子图: {subgraph_name}")
+            operations = subgraph_data.get("operations", [])
+            self.logger.info(f"[NCTimeAgent] 操作数量: {len(operations)}")
+
+            for op in operations:
+                op_name = op.get("operation_name", "")
+                params = op.get("parameters", [])
+                time_param = next((p for p in params if p.get("id") == 124), None)
+
+                if time_param:
+                    time_value = time_param.get("value", 0)
+                    display_name = time_param.get("display_name", "")
+                    self.logger.info(
+                        f"[NCTimeAgent]   操作: {op_name} | 时间: {time_value} | "
+                        f"参数: id={time_param.get('id')}, {display_name}"
+                    )
+                else:
+                    self.logger.warning(f"[NCTimeAgent]   操作: {op_name} | 未找到 id=124 的时间参数")
+
+        self.logger.info(f"[NCTimeAgent] ========================================")
+
+        success_count = 0
+        failed_count = 0
+
+        for subgraph_name, subgraph_data in json_output.items():
+            try:
+                subgraph_short_id = self._extract_subgraph_id(subgraph_name)
+                subgraph_id = await self._find_subgraph_id(job_id, subgraph_short_id)
+
+                if not subgraph_id:
+                    self.logger.warning(
+                        f"[NCTimeAgent] 未找到子图映射: {subgraph_name} -> {subgraph_short_id}"
+                    )
+                    failed_count += 1
+                    continue
+
+                if source == "http":
+                    await self._save_subgraph_response(job_id, subgraph_id, subgraph_name, subgraph_data)
+                else:
+                    self.logger.info(
+                        f"[NCTimeAgent] 跳过本地子图 JSON 落盘: source={source}, "
+                        f"subgraph={subgraph_name}, subgraph_id={subgraph_id}"
+                    )
+                volume_data = subgraph_data.get("batch_meta", {}).get("volume_data", {})
+                operations = subgraph_data.get("operations", [])
+                time_data = self._parse_operations(operations, volume_data)
+                await self._save_nc_time_data(subgraph_id, time_data)
+
+                success_count += 1
+                self.logger.info(f"[NCTimeAgent] 成功处理子图: {subgraph_name} -> {subgraph_id}")
+            except Exception as e:
+                self.logger.error(f"[NCTimeAgent] 处理子图失败: {subgraph_name}, error={e}", exc_info=True)
+                failed_count += 1
+
+        total_count = success_count + failed_count
+        self.logger.info(
+            f"[NCTimeAgent] NC 时间计算完成: total={total_count}, success={success_count}, "
+            f"failed={failed_count}, source={source}"
+        )
+
+        if self.progress_publisher:
+            from shared.progress_stages import ProgressStage, ProgressPercent
+            self.progress_publisher.publish_progress(
+                job_id=job_id,
+                stage=ProgressStage.NC_CALCULATION_COMPLETED,
+                progress=ProgressPercent.NC_CALCULATION_COMPLETED,
+                message=f"NC 时间计算完成，成功 {success_count}/{total_count}",
+                details={
+                    "total_subgraphs": total_count,
+                    "success_count": success_count,
+                    "failed_count": failed_count,
+                    "source": source,
+                }
+            )
+
+        return {
+            "status": "ok",
+            "message": f"NC 时间计算完成，成功 {success_count}/{total_count}",
+            "summary": {
+                "total_subgraphs": total_count,
+                "success_count": success_count,
+                "failed_count": failed_count,
+                "source": source,
+            }
+        }
+
+    async def _process_nc_subgraph_json_files(
+        self,
+        job_id: str,
+        json_files: List[Path],
+        source: str = "minio_json_subgraphs",
+    ) -> Dict[str, Any]:
+        success_count = 0
+        failed_count = 0
+
+        for json_file in json_files:
+            try:
+                with open(json_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+
+                subgraph_short_id = (
+                    data.get("subgraph_short_id")
+                    or self._extract_subgraph_id(data.get("file_name", json_file.name))
+                )
+                subgraph_id = data.get("subgraph_id") or await self._find_subgraph_id(job_id, subgraph_short_id)
+                if not subgraph_id:
+                    self.logger.warning(
+                        f"[NCTimeAgent] 未找到子图映射(JSON): file={json_file}, short_id={subgraph_short_id}"
+                    )
+                    failed_count += 1
+                    continue
+
+                operations = data.get("operations", [])
+                time_data = self._parse_subgraph_json_operations(operations)
+                await self._save_nc_time_data(subgraph_id, time_data)
+
+                success_count += 1
+                self.logger.info(f"[NCTimeAgent] 成功处理子图(JSON): {json_file.name} -> {subgraph_id}")
+            except Exception as exc:
+                self.logger.error(
+                    f"[NCTimeAgent] 处理 MinIO JSON 子图失败: file={json_file}, error={exc}",
+                    exc_info=True,
+                )
+                failed_count += 1
+
+        total_count = success_count + failed_count
+        if self.progress_publisher:
+            from shared.progress_stages import ProgressStage, ProgressPercent
+            self.progress_publisher.publish_progress(
+                job_id=job_id,
+                stage=ProgressStage.NC_CALCULATION_COMPLETED,
+                progress=ProgressPercent.NC_CALCULATION_COMPLETED,
+                message=f"NC JSON 解析完成，成功 {success_count}/{total_count}",
+                details={
+                    "total_subgraphs": total_count,
+                    "success_count": success_count,
+                    "failed_count": failed_count,
+                    "source": source,
+                }
+            )
+
+        return {
+            "status": "ok",
+            "message": f"NC JSON 解析完成，成功 {success_count}/{total_count}",
+            "summary": {
+                "total_subgraphs": total_count,
+                "success_count": success_count,
+                "failed_count": failed_count,
+                "source": source,
+            }
+        }
+
+    def _parse_subgraph_json_operations(self, operations: List[Dict[str, Any]]) -> Dict[str, Any]:
+        nc_details = []
+        face_details_map: Dict[str, List[Dict[str, Any]]] = {
+            face_code: [] for face_code in self.JSON_FACE_CODE_MAP.values()
+        }
+
+        for operation in operations:
+            operation_name = (operation.get("operation_name") or "").strip()
+            if not operation_name:
+                continue
+
+            face_code = self._extract_json_face_code(operation)
+            if not face_code:
+                self.logger.warning(f"[NCTimeAgent] JSON 操作无法识别面别: {operation_name}")
+                continue
+
+            time_value = self._extract_parameter_decimal(operation, 124)
+            if time_value is None:
+                self.logger.warning(f"[NCTimeAgent] JSON 操作缺少 Toolpath Time(id=124): {operation_name}")
+                continue
+
+            code = self._extract_excel_operation_code(operation_name)
+            if not code:
+                self.logger.warning(f"[NCTimeAgent] JSON 操作无法提取工序 code: {operation_name}")
+                continue
+
+            face_details_map[face_code].append({
+                "code": code,
+                "value": time_value,
+                "program_name": operation_name,
+                "tool": self._extract_json_tool_name(operation_name),
+            })
+
+        for face_code in self.JSON_FACE_CODE_MAP.values():
+            nc_details.append({
+                "face_code": face_code,
+                "details": face_details_map.get(face_code, [])
+            })
+
+        return {"nc_details": nc_details}
+
+    async def _get_job_mold_code(self, job_id: str) -> str:
+        import uuid
+
+        async for db in get_db():
+            job = await db.get(Job, uuid.UUID(job_id))
+            if not job:
+                break
+
+            for filename in [job.dwg_file_name, job.prt_file_name]:
+                mold_code = self._extract_mold_code_from_filename(filename)
+                if mold_code:
+                    return mold_code
+            break
+        return ""
+
+    async def _get_job_subgraphs(self, job_id: str) -> List[Dict[str, str]]:
+        import uuid
+
+        async for db in get_db():
+            result = await db.execute(
+                select(Subgraph.subgraph_id, Subgraph.part_code)
+                .where(Subgraph.job_id == uuid.UUID(job_id))
+                .order_by(Subgraph.part_code, Subgraph.subgraph_id)
+            )
+            return [
+                {"subgraph_id": row[0], "part_code": row[1]}
+                for row in result.fetchall()
+            ]
+        return []
+
+    def _extract_mold_code_from_filename(self, filename: Optional[str]) -> str:
+        if not filename:
+            return ""
+
+        text = Path(str(filename)).name
+        match = re.search(r"(M\d+-P\d+)", text, re.IGNORECASE)
+        if match:
+            return match.group(1).upper()
+
+        # Fallback to the filename stem for cases like "附图2.dwg" or "3d.dwg".
+        return Path(text).stem.strip()
+
+    def _get_nc_excel_search_dirs(self, context: Dict[str, Any]) -> List[Path]:
+        candidates: List[Path] = []
+
+        for raw_value in [
+            context.get("nc_excel_dir"),
+            self.nc_excel_dir,
+            str(self.nc_excel_logs_dir),
+            str(Path.cwd()),
+        ]:
+            if not raw_value:
+                continue
+            path = Path(str(raw_value)).expanduser()
+            if path.exists() and path.is_dir() and path not in candidates:
+                candidates.append(path)
+
+        return candidates
+
+    def _download_nc_excel_files_to_logs(self, job_id: str, mold_code: str) -> Optional[Path]:
+        if not mold_code:
+            self.logger.warning(f"[NCTimeAgent] 缺少模号，无法从 NC MinIO 下载 Excel: job_id={job_id}")
+            return None
+
+        minio_prefix = self._query_nc_excel_minio_prefix(mold_code)
+        self._log_visible(
+            "info",
+            f"[NCTimeAgent] NC Excel 查询路径: job_id={job_id}, mold_code={mold_code}, "
+            f"minio_prefix={minio_prefix or '<empty>'}"
+        )
+        if not minio_prefix:
+            self.logger.warning(f"[NCTimeAgent] 外部 NC 库未查到 Excel 路径: mold_code={mold_code}")
+            return None
+
+        download_root = self.nc_excel_logs_dir / job_id
+        download_root.mkdir(parents=True, exist_ok=True)
+
+        try:
+            objects = self._list_nc_minio_objects(minio_prefix)
+            xlsx_objects = [obj for obj in objects if obj.lower().endswith(".xlsx")]
+            self._log_visible(
+                "info",
+                f"[NCTimeAgent] NC Excel 枚举结果: path={minio_prefix}, object_count={len(objects)}, "
+                f"xlsx_count={len(xlsx_objects)}"
+            )
+            if xlsx_objects:
+                self._log_visible(
+                    "info",
+                    f"[NCTimeAgent] NC Excel 下载列表: {xlsx_objects}"
+                )
+            if not xlsx_objects:
+                self.logger.warning(
+                    f"[NCTimeAgent] NC MinIO 路径下未找到 .xlsx 文件: bucket={os.getenv('NC_SOURCE_MINIO_BUCKET', 'ncresult')}, "
+                    f"path={minio_prefix}"
+                )
+                return None
+
+            self.logger.info(
+                f"[NCTimeAgent] NC Excel 下载开始: bucket={os.getenv('NC_SOURCE_MINIO_BUCKET', 'ncresult')}, "
+                f"path={minio_prefix}, files={len(xlsx_objects)}"
+            )
+
+            for object_name in xlsx_objects:
+                relative_name = object_name[len(minio_prefix):].lstrip("/\\") if object_name.startswith(minio_prefix) else Path(object_name).name
+                local_path = download_root / Path(relative_name)
+                local_path.parent.mkdir(parents=True, exist_ok=True)
+                self._download_nc_minio_object(object_name, local_path)
+
+            return download_root
+        except Exception as exc:
+            self.logger.error(
+                f"[NCTimeAgent] 下载 NC Excel 失败: mold_code={mold_code}, path={minio_prefix}, error={exc}",
+                exc_info=True
+            )
+            return None
+
+    def _query_nc_excel_minio_prefix(self, mold_code: str) -> Optional[str]:
+        import psycopg2
+
+        query = f"SELECT url FROM {os.getenv('NC_SOURCE_TABLE', 'nc')} WHERE code = %s ORDER BY url LIMIT 1"
+        conn = None
+        try:
+            conn = psycopg2.connect(
+                host=os.getenv("NC_SOURCE_DB_HOST"),
+                port=int(os.getenv("NC_SOURCE_DB_PORT", "5432")),
+                dbname=os.getenv("NC_SOURCE_DB_NAME"),
+                user=os.getenv("NC_SOURCE_DB_USER"),
+                password=os.getenv("NC_SOURCE_DB_PASSWORD"),
+            )
+            with conn.cursor() as cursor:
+                cursor.execute(query, (mold_code,))
+                row = cursor.fetchone()
+                if not row or not row[0]:
+                    return None
+                return str(row[0]).strip().replace("\\", "/").strip("/")
+        finally:
+            if conn:
+                conn.close()
+
+    def _create_nc_minio_client(self):
+        from minio import Minio
+
+        endpoint = os.getenv("NC_SOURCE_MINIO_ENDPOINT")
+        access_key = os.getenv("NC_SOURCE_MINIO_ACCESS_KEY")
+        secret_key = os.getenv("NC_SOURCE_MINIO_SECRET_KEY")
+        region = os.getenv("NC_SOURCE_MINIO_REGION", "us-east-1")
+        secure = os.getenv("NC_SOURCE_MINIO_USE_HTTPS", "false").lower() == "true"
+
+        return Minio(
+            endpoint,
+            access_key=access_key,
+            secret_key=secret_key,
+            secure=secure,
+            region=region,
+        )
+
+    def _list_nc_minio_objects(self, prefix: str) -> List[str]:
+        client = self._create_nc_minio_client()
+        bucket = os.getenv("NC_SOURCE_MINIO_BUCKET", "ncresult")
+        normalized_prefix = prefix.strip().replace("\\", "/").strip("/")
+        if normalized_prefix and not normalized_prefix.endswith("/"):
+            normalized_prefix = normalized_prefix + "/"
+
+        return [
+            obj.object_name
+            for obj in client.list_objects(bucket, prefix=normalized_prefix, recursive=True)
+            if getattr(obj, "object_name", None)
+        ]
+
+    def _download_nc_minio_object(self, object_name: str, local_path: Path):
+        client = self._create_nc_minio_client()
+        bucket = os.getenv("NC_SOURCE_MINIO_BUCKET", "ncresult")
+        self._log_visible("info", f"[NCTimeAgent] MinIO 下载文件: bucket={bucket}, path={object_name}, local_path={local_path}")
+        client.fget_object(
+            bucket_name=bucket,
+            object_name=object_name,
+            file_path=str(local_path)
+        )
+
+    def _normalize_excel_file_path(self, excel_path: Optional[str]) -> Optional[Path]:
+        if not excel_path:
+            return None
+
+        path = Path(str(excel_path)).expanduser()
+        if path.exists() and path.is_file():
+            return path
+        return None
+
+    def _find_nc_excel_workbook(
+        self,
+        part_code: str,
+        mold_code: str,
+        search_dirs: List[Path],
+        explicit_excel_path: Optional[Path] = None
+    ) -> Optional[Path]:
+        normalized_part_code = part_code.strip().upper()
+
+        candidate_names = []
+        if mold_code:
+            candidate_names.append(f"{part_code}-{mold_code}.xlsx")
+        candidate_names.append(f"{part_code}.xlsx")
+
+        for search_dir in search_dirs:
+            for candidate_name in candidate_names:
+                candidate_path = search_dir / candidate_name
+                if candidate_path.exists():
+                    return candidate_path
+
+            glob_patterns = [f"{part_code}-*.xlsx", f"{part_code}_*.xlsx", f"{part_code}*.xlsx"]
+            for pattern in glob_patterns:
+                for candidate_path in sorted(search_dir.glob(pattern)):
+                    stem_upper = candidate_path.stem.upper()
+                    if mold_code and mold_code.upper() not in stem_upper:
+                        continue
+                    return candidate_path
+
+        if explicit_excel_path:
+            stem = explicit_excel_path.stem.upper()
+            if normalized_part_code in stem:
+                return explicit_excel_path
+
+        return None
+
+    def _parse_nc_excel_workbook(self, workbook_path: Path) -> Dict[str, Any]:
+        workbook = load_workbook(filename=str(workbook_path), data_only=True, read_only=True)
+        try:
+            nc_details = []
+
+            for sheet_name, face_code in self.EXCEL_FACE_CODE_MAP.items():
+                details = self._parse_nc_excel_sheet(workbook, sheet_name)
+                nc_details.append({
+                    "face_code": face_code,
+                    "details": details
+                })
+
+            return {"nc_details": nc_details}
+        finally:
+            workbook.close()
+
+    def _parse_nc_excel_sheet(self, workbook, sheet_name: str) -> List[Dict[str, Any]]:
+        if sheet_name not in workbook.sheetnames:
+            self.logger.warning(f"[NCTimeAgent] Excel 缺少工作表: {sheet_name}")
+            return []
+
+        worksheet = workbook[sheet_name]
+        header_row_index = None
+        column_indexes: Dict[str, int] = {}
+
+        for row_index, row in enumerate(worksheet.iter_rows(min_row=1, max_row=30, values_only=True), start=1):
+            normalized_values = [str(value).strip() if value is not None else "" for value in row]
+            if "程序名称" in normalized_values and "时间" in normalized_values:
+                header_row_index = row_index
+                column_indexes = {
+                    "program_name": normalized_values.index("程序名称"),
+                    "time_value": normalized_values.index("时间"),
+                    "tool_name": normalized_values.index("刀具") if "刀具" in normalized_values else -1,
+                }
+                break
+
+        if not header_row_index:
+            self.logger.warning(f"[NCTimeAgent] Excel 工作表未找到 NC 表头: {sheet_name}")
+            return []
+
+        details: List[Dict[str, Any]] = []
+        for row in worksheet.iter_rows(min_row=header_row_index + 1, values_only=True):
+            program_name = self._get_excel_cell_value(row, column_indexes.get("program_name"))
+            time_value = self._to_decimal(self._get_excel_cell_value(row, column_indexes.get("time_value")))
+            tool_name = self._get_excel_cell_value(row, column_indexes.get("tool_name"))
+
+            if not program_name or time_value is None:
+                continue
+
+            code = self._extract_excel_operation_code(program_name, tool_name)
+            if not code:
+                self.logger.warning(f"[NCTimeAgent] Excel 程序名无法提取 code: sheet={sheet_name}, program={program_name}")
+                continue
+
+            details.append({
+                "code": code,
+                "value": time_value,
+                "program_name": program_name,
+                "tool": tool_name or ""
+            })
+
+        return details
+
+    def _get_excel_cell_value(self, row: tuple, index: Optional[int]) -> str:
+        if index is None or index < 0 or index >= len(row):
+            return ""
+        value = row[index]
+        if value is None:
+            return ""
+        return str(value).strip()
+
+    def _to_decimal(self, value: Any) -> Optional[Decimal]:
+        if value in (None, ""):
+            return None
+        try:
+            return Decimal(str(value).strip())
+        except Exception:
+            return None
+
+    def _extract_excel_operation_code(self, program_name: str, tool_name: str = "") -> str:
+        operation_name = (program_name or "").strip()
+        if not operation_name:
+            return ""
+
+        if "开粗" in operation_name:
+            return "开粗"
+        if "半精" in operation_name:
+            return "半精"
+        if "全精" in operation_name:
+            return "全精"
+        if "精" in operation_name:
+            return "精铣"
+
+        parts = [part.strip() for part in operation_name.split("_") if part and part.strip()]
+        if len(parts) >= 2 and re.fullmatch(r"[A-F]", parts[0], re.IGNORECASE):
+            return parts[1]
+        if len(parts) >= 2:
+            return parts[1]
+
+        tool_value = (tool_name or "").strip()
+        return tool_value or operation_name
+
+    def _extract_json_face_code(self, operation: Dict[str, Any]) -> str:
+        face_letter = ""
+        for param in operation.get("parameters", []):
+            if str(param.get("id")) == "parent_group":
+                value = str(param.get("value") or "").strip()
+                match = re.match(r"^([A-F])", value, re.IGNORECASE)
+                if match:
+                    face_letter = match.group(1).upper()
+                    break
+
+        if not face_letter:
+            operation_name = str(operation.get("operation_name") or "").strip()
+            prefix = operation_name.split("_")[0].strip().upper() if "_" in operation_name else ""
+            if re.fullmatch(r"[A-F]", prefix):
+                face_letter = prefix
+
+        return self.JSON_FACE_CODE_MAP.get(face_letter, "")
+
+    def _extract_parameter_decimal(self, operation: Dict[str, Any], parameter_id: Any) -> Optional[Decimal]:
+        target_id = str(parameter_id)
+        for param in operation.get("parameters", []):
+            if str(param.get("id")) != target_id:
+                continue
+            value = param.get("value")
+            if value in (None, ""):
+                return None
+            try:
+                return Decimal(str(value))
+            except Exception:
+                return None
+        return None
+
+    def _extract_json_tool_name(self, operation_name: str) -> str:
+        text = (operation_name or "").strip()
+        if not text:
+            return ""
+
+        parts = [part.strip() for part in text.split("_") if part and part.strip()]
+        if len(parts) >= 3 and re.fullmatch(r"[A-F]", parts[0], re.IGNORECASE):
+            return parts[-1]
+        if len(parts) >= 2:
+            return parts[-1]
+        return ""
+
     def _extract_fail_itemcodes(self, nc_result: Dict[str, Any]) -> List[str]:
-        raw_codes = nc_result.get("fail_itemcode", [])
+        raw_codes = nc_result.get("fail_itemcode")
+        if raw_codes is None:
+            raw_codes = nc_result.get("data", {}).get("fail_itemcode", [])
         if not isinstance(raw_codes, list):
             return []
 
         normalized_codes: List[str] = []
         seen = set()
         for code in raw_codes:
-            text = str(code).strip()
+            text = self._extract_subgraph_id(str(code).strip())
             if not text or text in seen:
                 continue
             seen.add(text)

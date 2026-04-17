@@ -110,6 +110,9 @@ class Subgraph(Base):
     nc_b_time = Column(DECIMAL(10, 2))
     nc_c_time = Column(DECIMAL(10, 2))
     nc_c_b_time = Column(DECIMAL(10, 2))
+    nc_roughing_time = Column(DECIMAL(10, 2))
+    nc_milling_time = Column(DECIMAL(10, 2))
+    drilling_time = Column(DECIMAL(10, 2))
     large_grinding_time = Column(DECIMAL(10, 2))
     small_grinding_time = Column(DECIMAL(10, 2))
     edm_time = Column(DECIMAL(10, 2))
@@ -120,6 +123,7 @@ class Subgraph(Base):
     slow_wire_side_length = Column(DECIMAL(12, 3))
     mid_wire_length = Column(DECIMAL(12, 3))
     fast_wire_length = Column(DECIMAL(12, 3))
+    wire_time = Column(DECIMAL(12, 2))
     
     # 单独?
     separate_item = Column(String(200))

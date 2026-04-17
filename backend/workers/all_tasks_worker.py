@@ -28,6 +28,7 @@ from shared.logging_config import (
     build_standard_file_formatter,
     create_daily_rotating_file_handler,
     get_log_rotation_settings,
+    setup_logging,
 )
 
 # 配置日志：同时输出到控制台和文件
@@ -42,6 +43,17 @@ log_file = log_dir / "all_tasks_worker.log"
 try:
     from loguru import logger
     log_settings = get_log_rotation_settings(default_level="INFO", default_retention_days=30)
+
+    # 标准 logging 仍用于 agents/shared/api_gateway 等模块，必须显式初始化，
+    # 否则这些日志可能只出现在终端默认输出里而不会进入 .log 文件。
+    setup_logging(
+        level=log_settings["level_name"],
+        enable_console=True,
+        enable_file=True,
+        enable_json=False,
+        enable_module_logs=True,
+        log_dir=log_dir,
+    )
     
     # 移除默认的 handler
     logger.remove()

@@ -163,6 +163,7 @@ from scripts.search import (
     wire_base_search,
     wire_special_search,
     wire_standard_search,
+    wire_time_search,
     wire_total_search,
     nc_search,
     total_search,
@@ -178,6 +179,7 @@ from scripts.calculate import (
     price_wire_base,
     price_wire_special,
     price_wire_standard,
+    price_wire_time,
     price_add_auto_material,
     price_water_mill_bevel_cost,
     price_water_mill_chamfer_cost,
@@ -208,6 +210,20 @@ except Exception as e:
 
 # 创建 MCP 服务器
 mcp_server = Server("cad-price-search-mcp")
+
+
+def _tool_counts() -> dict:
+    """Return current tool counts based on the registered config lists."""
+    cad_count = 3 if CAD_AVAILABLE else 0
+    search_count = 13
+    calculate_count = 24
+    total = cad_count + search_count + calculate_count
+    return {
+        "cad": cad_count,
+        "search": search_count,
+        "calculate": calculate_count,
+        "total": total,
+    }
 
 # ============================================================================
 # 工具定义
@@ -291,6 +307,7 @@ async def list_tools() -> list[Tool]:
         ("search_total", total_search.MCP_TOOL_META),
         ("search_subgraphs_cost", search.MCP_TOOL_META),
         ("search_density", density_search.MCP_TOOL_META),  # 新增：密度检索
+        ("search_wire_time", wire_time_search.MCP_TOOL_META),
     ]
     
     # ========== 价格计算工具 ==========
@@ -351,6 +368,7 @@ async def list_tools() -> list[Tool]:
                 "required": ["job_id"]
             }
         }),
+        ("calculate_wire_time", price_wire_time.MCP_TOOL_META),
     ]
     
     # 添加 CAD 工具
@@ -611,6 +629,8 @@ async def handle_price_tool(name: str, arguments: dict) -> list[TextContent]:
         result = await wire_special_search.search_by_job_id(job_id, subgraph_ids)
     elif name == "search_wire_standard":
         result = await wire_standard_search.search_by_job_id(job_id, subgraph_ids)
+    elif name == "search_wire_time":
+        result = await wire_time_search.search_by_job_id(job_id, subgraph_ids)
     elif name == "search_wire_total":
         result = await wire_total_search.search_by_job_id(job_id, subgraph_ids)
     elif name == "search_nc":
@@ -741,6 +761,11 @@ async def handle_price_tool(name: str, arguments: dict) -> list[TextContent]:
         search_data = {"base_itemcode": base_data, "total": total_data}
         result = await price_wire_total.calculate(search_data, job_id, subgraph_ids)
         
+    elif name == "calculate_wire_time":
+        wire_time_data = await wire_time_search.search_by_job_id(job_id, subgraph_ids)
+        search_data = {"wire_time": wire_time_data}
+        result = await price_wire_time.calculate(search_data, job_id, subgraph_ids)
+        
     elif name == "calculate_nc_base_cost":
         base_data = await base_itemcode_search.search_by_job_id(job_id, subgraph_ids)
         nc_data = await nc_search.search_by_job_id(job_id, subgraph_ids)
@@ -840,10 +865,17 @@ if __name__ == "__main__":
     logger.info("=" * 60)
     logger.info(f"地址: http://{HOST}:{PORT}")
     logger.info(f"调用端点: http://{HOST}:{PORT}/call_tool")
+    counts = _tool_counts()
     if CAD_AVAILABLE:
-        logger.info(f"包含工具: 3个CAD工具 + 12个搜索工具 + 23个计算工具 = 38个工具")
+        logger.info(
+            f"包含工具: {counts['cad']}个CAD工具 + {counts['search']}个搜索工具 + "
+            f"{counts['calculate']}个计算工具 = {counts['total']}个工具"
+        )
     else:
-        logger.info(f"包含工具: 12个搜索工具 + 23个计算工具 = 35个工具")
+        logger.info(
+            f"包含工具: {counts['search']}个搜索工具 + {counts['calculate']}个计算工具 = "
+            f"{counts['total']}个工具"
+        )
         logger.info(f"注意: CAD 功能不可用（缺少依赖包）")
     logger.info("=" * 60)
     
@@ -852,6 +884,7 @@ if __name__ == "__main__":
     
     # 健康检查端点
     async def health_check(request):
+        counts = _tool_counts()
         return JSONResponse({
             "status": "healthy",
             "service": "cad-price-search-mcp",
@@ -860,12 +893,7 @@ if __name__ == "__main__":
                 "cad": CAD_AVAILABLE,
                 "pricing": True
             },
-            "tools": {
-                "cad": 3 if CAD_AVAILABLE else 0,
-                "search": 12,
-                "calculate": 23,
-                "total": (3 if CAD_AVAILABLE else 0) + 35
-            }
+            "tools": counts
         })
     
     # 直接调用工具的端点

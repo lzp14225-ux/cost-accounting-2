@@ -35,6 +35,27 @@ export interface GetHistoryParams {
 }
 
 class HistoryService {
+  private findNearestPreviousReviewDisplay(messages: HistoryMessage[], currentIndex: number): HistoryMessage | null {
+    for (let i = currentIndex - 1; i >= 0; i -= 1) {
+      const candidate = messages[i]
+      const candidateOriginalWs = candidate?.metadata?.original_ws_message
+      const isReviewDisplay =
+        candidate?.metadata?.message_type === 'review_display_view' ||
+        candidateOriginalWs?.type === 'review_display_view' ||
+        (candidateOriginalWs?.type === 'progress' && candidateOriginalWs?.data?.type === 'review_display_view')
+
+      if (isReviewDisplay) {
+        return candidate
+      }
+
+      if (candidate?.role === 'user') {
+        break
+      }
+    }
+
+    return null
+  }
+
   /**
    * 获取聊天历史消息（从数据库）
    * 根据API文档：GET /api/v1/chat/history/{session_id}?limit=100&offset=0
@@ -315,17 +336,12 @@ class HistoryService {
         }
         
         // 处理 completion_request 类型的 WebSocket 消息（缺失字段）
-        // 只有当前一条消息是 review_display_view 时才转换为缺失字段卡片
+        // 只要能向前找到同一轮审核的 review_display_view，就保留缺失字段卡片
         if (originalWsMessage.type === 'completion_request' && originalWsMessage.data) {
-          // 检查前一条消息是否是 review_display_view
-          const prevMsg = index > 0 ? filteredMessages[index - 1] : null
+          const prevMsg = this.findNearestPreviousReviewDisplay(filteredMessages, index)
           const prevOriginalWs = prevMsg?.metadata?.original_ws_message
-          const isPrevReviewDisplay = 
-            prevMsg?.metadata?.message_type === 'review_display_view' ||
-            prevOriginalWs?.type === 'review_display_view' ||
-            (prevOriginalWs?.type === 'progress' && prevOriginalWs?.data?.type === 'review_display_view')
+          const isPrevReviewDisplay = !!prevMsg
           
-          // 只有紧跟在 review_display_view 后面才转换为缺失字段卡片
           if (isPrevReviewDisplay) {
             return {
               ...baseMessage,
@@ -339,8 +355,7 @@ class HistoryService {
               },
             }
           } else {
-            // 如果不是紧跟在表格后面，跳过此消息（返回 null，稍后过滤）
-            console.warn('⚠️ completion_request 消息未紧跟在 review_display_view 后面，已忽略', {
+            console.warn('⚠️ completion_request 消息在当前审核轮次中未找到 review_display_view，已忽略', {
               currentIndex: index,
               currentMessageId: msg.message_id,
               prevMessageId: prevMsg?.message_id,
@@ -384,17 +399,12 @@ class HistoryService {
         }
         
         // 处理 message_type 为 completion_request 的情况（缺失字段）
-        // 只有当前一条消息是 review_display_view 时才转换为缺失字段卡片
+        // 只要能向前找到同一轮审核的 review_display_view，就保留缺失字段卡片
         if (msg.metadata.message_type === 'completion_request' && msg.metadata.original_ws_message?.data) {
-          // 检查前一条消息是否是 review_display_view
-          const prevMsg = index > 0 ? filteredMessages[index - 1] : null
+          const prevMsg = this.findNearestPreviousReviewDisplay(filteredMessages, index)
           const prevOriginalWs = prevMsg?.metadata?.original_ws_message
-          const isPrevReviewDisplay = 
-            prevMsg?.metadata?.message_type === 'review_display_view' ||
-            prevOriginalWs?.type === 'review_display_view' ||
-            (prevOriginalWs?.type === 'progress' && prevOriginalWs?.data?.type === 'review_display_view')
+          const isPrevReviewDisplay = !!prevMsg
           
-          // 只有紧跟在 review_display_view 后面才转换为缺失字段卡片
           if (isPrevReviewDisplay) {
             return {
               ...baseMessage,
@@ -408,8 +418,7 @@ class HistoryService {
               },
             }
           } else {
-            // 如果不是紧跟在表格后面，跳过此消息（返回 null，稍后过滤）
-            console.warn('⚠️ completion_request 消息未紧跟在 review_display_view 后面，已忽略 (metadata路径)', {
+            console.warn('⚠️ completion_request 消息在当前审核轮次中未找到 review_display_view，已忽略 (metadata路径)', {
               currentIndex: index,
               currentMessageId: msg.message_id,
               prevMessageId: prevMsg?.message_id,

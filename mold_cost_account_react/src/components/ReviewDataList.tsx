@@ -32,6 +32,7 @@ interface ReviewDataItem {
   process_description: string
   process_note: string | null
   wire_length: number | null
+  wire_time: number | string | null
   edm_time: number | string | null
   nc_milling_time: number | string | null
   grinding_time: number | string | null
@@ -191,27 +192,11 @@ const ReviewDataList: React.FC<ReviewDataListProps> = ({ data }) => {
     },
     {
       title: '线割工时/单件',
+      dataIndex: 'wire_time',
       key: 'wire_time',
       width: 120,
       align: 'center',
-      render: (_text, record) => {
-        if (!record.wire_length || !record.process_note) {
-          return '-'
-        }
-        let divisor = 0
-        if (record.process_note.includes('慢丝')) {
-          divisor = 80
-        } else if (record.process_note.includes('中丝')) {
-          divisor = 40
-        } else if (record.process_note.includes('快丝')) {
-          divisor = 20
-        }
-        if (divisor === 0) {
-          return '-'
-        }
-        const result = (record.wire_length / divisor).toFixed(2)
-        return result
-      }
+      render: (text) => (text !== null && text !== undefined) ? text : '-'
     },
     {
       title: '放电工时/单件',

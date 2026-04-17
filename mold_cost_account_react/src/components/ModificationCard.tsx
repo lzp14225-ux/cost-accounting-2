@@ -21,6 +21,7 @@ interface DisplayViewItem {
   drilling_time?: number | string | null
   nc_roughing_time?: number | string | null
   wire_length?: number | string | null
+  wire_time?: number | string | null
   process_code?: string | null
   process_name?: string | null
   process_description?: string | null
@@ -294,28 +295,11 @@ const ModificationCard: React.FC<ModificationCardProps> = ({
     },
     {
       title: '线割工时/单件',
+      dataIndex: 'wire_time',
       key: 'wire_time',
       width: 120,
       align: 'center' as const,
-      render: (_value: any, record: DisplayViewItem) => {
-        if (!record.wire_length || !record.process_note) {
-          return '-'
-        }
-        let divisor = 0
-        if (record.process_note.includes('慢丝')) {
-          divisor = 80
-        } else if (record.process_note.includes('中丝')) {
-          divisor = 40
-        } else if (record.process_note.includes('快丝')) {
-          divisor = 20
-        }
-        if (divisor === 0) {
-          return '-'
-        }
-        const wireLength = typeof record.wire_length === 'string' ? parseFloat(record.wire_length) : record.wire_length
-        const result = (wireLength / divisor).toFixed(2)
-        return result
-      }
+      render: (value: any, record: DisplayViewItem) => renderCell(value, record, 'wire_time')
     },
     {
       title: '放电工时/单件',

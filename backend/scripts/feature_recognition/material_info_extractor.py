@@ -61,6 +61,11 @@ MATERIAL_NORMALIZATION = {
     'TOOLOX33': 'T00L0X33',
 }
 
+INVALID_MATERIAL_TOKENS = {
+    'GW',
+    'NW',
+}
+
 
 def normalize_material(material: str) -> str:
     """
@@ -88,6 +93,13 @@ def normalize_material(material: str) -> str:
         return normalized
     
     return material
+
+
+def is_invalid_material_token(material: Optional[str]) -> bool:
+    if not material:
+        return False
+    normalized = str(material).strip().upper()
+    return normalized in INVALID_MATERIAL_TOKENS
 
 
 def get_text_content(entity) -> Optional[str]:
@@ -302,6 +314,9 @@ def extract_material_from_text(text: str) -> Optional[str]:
         labeled_material = extract_labeled_value(text, ['材料', '材质'])
         if labeled_material:
             logging.debug(f"从标签格式提取到材质: {labeled_material}")
+            if is_invalid_material_token(labeled_material):
+                logging.debug(f"跳过无效材质标识: {labeled_material}")
+                return None
             # 标准化材质名称
             return normalize_material(labeled_material)
         
@@ -321,6 +336,9 @@ def extract_material_from_text(text: str) -> Optional[str]:
                 # 返回原始文本中的材质（保持原有大小写）
                 matched_text = text[pos:pos + len(keyword)]
                 logging.debug(f"从材质字典提取到材质: {matched_text} (匹配关键词: {keyword})")
+                if is_invalid_material_token(matched_text):
+                    logging.debug(f"跳过无效材质标识: {matched_text}")
+                    continue
                 # 标准化材质名称
                 return normalize_material(matched_text)
         
@@ -354,6 +372,9 @@ def extract_material_from_text_safe(text: str) -> Optional[str]:
         labeled_material = extract_labeled_value(text, ['材料', '材质'])
         if labeled_material:
             logging.debug(f"从标签格式提取到材质: {labeled_material}")
+            if is_invalid_material_token(labeled_material):
+                logging.debug(f"跳过无效材质标识: {labeled_material}")
+                return None
             return normalize_material(labeled_material)
         
         # 策略2: 排除工艺编号后的字典匹配
@@ -389,6 +410,9 @@ def extract_material_from_text_safe(text: str) -> Optional[str]:
                 
                 matched_text = text[pos:pos + len(keyword)]
                 logging.debug(f"从材质字典提取到材质: {matched_text}")
+                if is_invalid_material_token(matched_text):
+                    logging.debug(f"跳过无效材质标识: {matched_text}")
+                    continue
                 return normalize_material(matched_text)
         
         return None
@@ -497,7 +521,12 @@ def parse_dimension_line(text: str) -> Optional[Dict]:
         quantity = int(match.group(4))
         material = match.group(5).strip()
         heat_treatment_str = match.group(6).strip() if match.group(6) else None
-        
+
+        if is_invalid_material_token(material):
+            logging.debug(f"尺寸行命中重量标识，忽略伪材质: {material}, text={text}")
+            material = None
+            heat_treatment_str = None
+
         # 解析热处理
         heat_treatment = None
         if heat_treatment_str:

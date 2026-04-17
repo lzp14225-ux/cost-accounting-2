@@ -361,7 +361,7 @@ class ReviewRepository:
             'nc_b_time', 'nc_c_time', 'nc_c_b_time',
             'large_grinding_time', 'small_grinding_time', 'edm_time',
             'engraving_time', 'slow_wire_length', 'slow_wire_side_length',
-            'mid_wire_length', 'fast_wire_length', 'separate_item',
+            'mid_wire_length', 'fast_wire_length', 'wire_time', 'separate_item',
             'total_cost', 'wire_process_note', 'nc_z_fee',
             'nc_b_fee', 'nc_c_fee', 'nc_c_b_fee',
             'large_grinding_cost', 'small_grinding_cost', 'slow_wire_cost',
@@ -442,7 +442,7 @@ class ReviewRepository:
             'slow_wire_cost', 'slow_wire_side_cost', 'mid_wire_cost',
             'fast_wire_cost', 'edm_cost', 'engraving_cost',
             'separate_item_cost', 'processing_cost_total',
-            'sheet_area_mm2', 'sheet_perimeter_mm',
+            'sheet_area_mm2', 'sheet_perimeter_mm', 'wire_time',
             'nc_z_view_time', 'nc_b_view_time', 'nc_z_view_fee', 'nc_b_view_fee'
         ]
         for field in float_fields:
@@ -570,6 +570,7 @@ class ReviewRepository:
             "slow_wire_side_length": float(subgraph.slow_wire_side_length) if subgraph.slow_wire_side_length else None,
             "mid_wire_length": float(subgraph.mid_wire_length) if subgraph.mid_wire_length else None,
             "fast_wire_length": float(subgraph.fast_wire_length) if subgraph.fast_wire_length else None,
+            "wire_time": float(subgraph.wire_time) if subgraph.wire_time is not None else None,
             "separate_item": subgraph.separate_item,
             "total_cost": float(subgraph.total_cost) if subgraph.total_cost else None,
             "wire_process": subgraph.wire_process,  # 🆕 工艺代码

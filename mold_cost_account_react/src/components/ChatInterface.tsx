@@ -59,6 +59,7 @@ const ChatInterface: React.FC = () => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const { token } = theme.useToken();
     const loadedSessionRef = useRef<string | null>(null); // 记录已加载的sessionId，避免重复加载
+    const reviewFallbackStartedRef = useRef<Set<string>>(new Set()); // 避免同一会话重复补调 /review/start
 
     const {
         messages,
@@ -186,6 +187,19 @@ const ChatInterface: React.FC = () => {
     // 检查是否收到了 awaiting_confirm 阶段（特征识别完成，等待用户确认）
     const hasAwaitingConfirm = currentJobMessages.some(msg => 
         msg.type === 'progress' && msg.progressData?.stage === 'awaiting_confirm'
+    );
+
+    const hasReviewTable = currentJobMessages.some(msg =>
+        (msg.type === 'progress' && msg.progressData?.type === 'review_display_view' && Array.isArray(msg.progressData?.data)) ||
+        (msg.type === 'system' && Array.isArray(msg.reviewData))
+    );
+
+    const hasFeatureRecognitionReady = currentJobMessages.some(msg =>
+        msg.type === 'progress' &&
+        (
+            msg.progressData?.stage === 'feature_recognition_completed' ||
+            msg.progressData?.stage === 'awaiting_confirm'
+        )
     );
     
     // 检查是否已经开始核算（通过检测是否有价格计算相关的消息）
@@ -387,6 +401,7 @@ const ChatInterface: React.FC = () => {
         setHasStartedCalculation(false);
         setReviewStarted(false);
         setIsCalculating(false); // 重置核算状态，避免历史会话显示核算中
+        reviewFallbackStartedRef.current.delete(currentJobId || '');
         
         // 当 currentJobId 变化时，无论之前是否加载过，都重新加载
         // 但如果是新会话（刚上传文件），则跳过加载历史消息
@@ -420,6 +435,45 @@ const ChatInterface: React.FC = () => {
             setIsNewSession(false); // 重置新会话标记
         }
     }, [currentJobId, isLoggedIn, isNewSession, loadHistoryMessages, setIsNewSession]);
+
+    // 历史会话切回后，如果没有审核表格，则补调一次 /review/start 以恢复表格
+    useEffect(() => {
+        if (!currentJobId || !isLoggedIn || isNewSession || isLoadingHistory || historyLoadError) {
+            return;
+        }
+
+        if (!hasMessages || hasReviewTable || hasPricingMessages || isTaskCompleted || !hasFeatureRecognitionReady) {
+            return;
+        }
+
+        if (reviewFallbackStartedRef.current.has(currentJobId)) {
+            return;
+        }
+
+        reviewFallbackStartedRef.current.add(currentJobId);
+
+        (async () => {
+            try {
+                await chatService.startReview(currentJobId);
+                setReviewStarted(true);
+            } catch (error) {
+                console.error('❌ 补调 /review/start 失败:', error);
+                reviewFallbackStartedRef.current.delete(currentJobId);
+            }
+        })();
+    }, [
+        currentJobId,
+        isLoggedIn,
+        isNewSession,
+        isLoadingHistory,
+        historyLoadError,
+        hasMessages,
+        hasReviewTable,
+        hasPricingMessages,
+        isTaskCompleted,
+        hasFeatureRecognitionReady,
+        setReviewStarted,
+    ]);
 
     const handleSendMessage = useCallback(async () => {
         if (!inputValue.trim()) return;

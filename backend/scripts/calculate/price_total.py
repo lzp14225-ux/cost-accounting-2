@@ -523,6 +523,13 @@ async def _update_process_descriptions(job_id: str, subgraph_ids: List[str], nc_
       - S: 开粗（code为"开粗"）
       - SS: 精铣（code为"精铣"、"半精"、"全精"）
       - Z: 钻床（其他所有code，如M、T、L、A、D等）
+    - heat_treatment ->
+      - HRC -> ZKR
+      - 调质 -> 调质
+      - 激光 -> 激光
+      - 深冷 -> 深冷
+    - large_grinding_cost -> M
+    - small_grinding_cost -> YM
     - slow_wire_length -> WE
     - mid_wire_length -> WZ
     - fast_wire_length -> WC
@@ -538,8 +545,10 @@ async def _update_process_descriptions(job_id: str, subgraph_ids: List[str], nc_
     """
     logger.info(f"Generating process descriptions for {len(subgraph_ids)} parts")
     
-    # 工艺字段映射（按顺序，不包含NC）
+    # 工艺字段映射（按顺序，不包含NC和热处理）
     process_fields = [
+        ("large_grinding_cost", "M"),
+        ("small_grinding_cost", "YM"),
         ("slow_wire_length", "WE"),
         ("mid_wire_length", "WZ"),
         ("fast_wire_length", "WC"),
@@ -553,9 +562,11 @@ async def _update_process_descriptions(job_id: str, subgraph_ids: List[str], nc_
     
     # 查询所有零件的工艺字段值
     query_sql = f"""
-        SELECT subgraph_id, {field_list}
-        FROM subgraphs
-        WHERE job_id = $1::uuid AND subgraph_id = ANY($2::text[])
+        SELECT s.subgraph_id, {field_list}, f.heat_treatment
+        FROM subgraphs s
+        LEFT JOIN features f
+            ON s.job_id = f.job_id AND s.subgraph_id = f.subgraph_id
+        WHERE s.job_id = $1::uuid AND s.subgraph_id = ANY($2::text[])
     """
     
     try:
@@ -573,8 +584,13 @@ async def _update_process_descriptions(job_id: str, subgraph_ids: List[str], nc_
             nc_time_cost = nc_time_cost_map.get(subgraph_id)
             nc_processes = _determine_nc_processes(nc_time_cost)
             processes.extend(nc_processes)
-            
-            # 2. 其他工艺字段
+
+            # 2. 热处理工艺（补在NC后面）
+            heat_treatment_process = _determine_heat_treatment_process(row.get("heat_treatment"))
+            if heat_treatment_process:
+                processes.append(heat_treatment_process)
+
+            # 3. 其他工艺字段
             for field_name, abbr in process_fields:
                 value = row.get(field_name)
                 # 判断字段是否有值（不为 None 且不为 0）
@@ -666,6 +682,33 @@ def _determine_nc_processes(nc_time_cost: Any) -> List[str]:
         nc_processes.append("Z")
     
     return nc_processes
+
+
+def _determine_heat_treatment_process(heat_treatment: Any) -> str | None:
+    """
+    根据 features.heat_treatment 映射热处理工艺代码。
+
+    映射规则：
+    - HRC -> ZKR
+    - 调质 -> 调质
+    - 激光 -> 激光
+    - 深冷 -> 深冷
+    """
+    if not heat_treatment:
+        return None
+
+    heat_treatment_text = str(heat_treatment).strip()
+    if not heat_treatment_text:
+        return None
+
+    return (
+        "ZKR" if "HRC" in heat_treatment_text.upper() else
+        "调质" if "调质" in heat_treatment_text else
+        "激光" if "激光" in heat_treatment_text else
+        "深冷" if "深冷" in heat_treatment_text else
+        "淬火" if "淬火" in heat_treatment_text else
+        None
+    )
 
 
 async def _update_single_process_description(job_id: str, subgraph_id: str, process_description: str):

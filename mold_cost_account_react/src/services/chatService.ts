@@ -110,7 +110,11 @@ export const chatService = {
     } catch (error: any) {
       console.error('启动审核失败:', error)
       // 如果是 REVIEW_LOCKED 错误，说明已经在审核中
-      if (error.message?.includes('REVIEW_LOCKED') || error.message?.includes('审核中')) {
+      if (
+        error.message?.includes('REVIEW_LOCKED') ||
+        error.message?.includes('审核中') ||
+        error.message?.includes('其他用户审核')
+      ) {
         console.log('审核已在进行中，继续等待 WebSocket 推送')
         return // 不抛出错误，让流程继续
       }

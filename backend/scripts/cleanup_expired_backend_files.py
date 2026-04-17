@@ -242,6 +242,22 @@ def cleanup_nc_json_logs(retention_days: int, dry_run: bool, now_ts: float) -> C
     return result
 
 
+def cleanup_nc_excel_logs(retention_days: int, dry_run: bool, now_ts: float) -> CleanupResult:
+    """清理 logs/ncexcel 目录下下载的 NC Excel 文件。"""
+    if retention_days <= 0:
+        return CleanupResult(label="nc_excel_logs")
+
+    cutoff_ts = now_ts - (retention_days * 24 * 60 * 60)
+    result = _delete_paths(
+        label="nc_excel_logs",
+        paths=_collect_files(LOGS_DIR / "ncexcel", ["*.xlsx"]),
+        cutoff_ts=cutoff_ts,
+        dry_run=dry_run,
+    )
+    result.deleted_dirs = _prune_empty_dirs(LOGS_DIR / "ncexcel", dry_run=dry_run)
+    return result
+
+
 def cleanup_root_logs(retention_days: int, dry_run: bool, now_ts: float) -> CleanupResult:
     """清理 logs 根目录下的 .log / .json 及其轮转归档。"""
     if retention_days <= 0:
@@ -274,11 +290,13 @@ def main() -> int:
 
     plate_line_retention_days = _get_int_setting(env_values, "PLATE_LINE_OUTPUT_RETENTION_DAYS", 7)
     nc_log_retention_days = _get_int_setting(env_values, "NC_LOG_RETENTION_DAYS", 7)
+    nc_excel_retention_days = _get_int_setting(env_values, "NC_EXCEL_RETENTION_DAYS", 7)
     root_log_retention_days = _get_int_setting(env_values, "LOG_RETENTION_DAYS", 30)
 
     results = [
         cleanup_plate_line_outputs(plate_line_retention_days, args.dry_run, now_ts),
         cleanup_nc_json_logs(nc_log_retention_days, args.dry_run, now_ts),
+        cleanup_nc_excel_logs(nc_excel_retention_days, args.dry_run, now_ts),
         cleanup_root_logs(root_log_retention_days, args.dry_run, now_ts),
     ]
 
@@ -289,6 +307,7 @@ def main() -> int:
         "retention_days": {
             "plate_line_output": plate_line_retention_days,
             "nc_json_logs": nc_log_retention_days,
+            "nc_excel_logs": nc_excel_retention_days,
             "root_logs": root_log_retention_days,
         },
         "results": build_summary(results),

@@ -139,6 +139,7 @@ class DataViewBuilder:
                 "nc_roughing_time": subgraph.get("nc_roughing_time"),
                 "nc_milling_time": subgraph.get("nc_milling_time"),
                 "edm_time": subgraph.get("edm_time"),
+                "wire_time": subgraph.get("wire_time"),
                 
                 # 🆕 subgraphs 表新增字段（长度 - COALESCE）
                 "wire_length": (

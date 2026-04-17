@@ -442,6 +442,13 @@ class OptimizedCADBlockAnalyzer:
             return region['_cached_part_name']
         
         texts = region.get('texts', []) or []
+        process_note_keywords = [
+            '外形割单', '倒角', '全周倒角', '热处理', '线割', '攻牙', '沉头',
+            '割单', '加工说明', '备料', '淬火', '磨床', '铣床', '钻孔',
+        ]
+
+        def is_process_note_text(content: str) -> bool:
+            return any(keyword in content for keyword in process_note_keywords)
         
         # 多种品名标签模式
         label_patterns = [
@@ -452,7 +459,45 @@ class OptimizedCADBlockAnalyzer:
             re.compile(r'^\s*零件\s*[:：]?\s*(.*)$', re.IGNORECASE),
         ]
         
-        # 1. 先尝试匹配标签模式（品名:xxx 或 品名 xxx）
+        # 1. 优先从加工说明提取，避免被“外形割单/倒角”等工艺说明误命中
+        processing_pattern = re.compile(r'加工说明\s*[:：]\s*[（(]([^)）]+)[)）]', re.IGNORECASE)
+        processing_with_code_pattern = re.compile(r'加工说明\s*[:：]\s*_?\s*[（(]([^)）]+)[)）]\s*_?\s*([A-Z0-9\-]+)', re.IGNORECASE)
+        processing_fallback_pattern = re.compile(r'加工说明\s*[:：]\s*_?\s*([\u4e00-\u9fa5]+)\s*_?\s*([A-Z0-9\-]+)', re.IGNORECASE)
+
+        for t in texts:
+            c = (t.get('content') or '').strip()
+            if not c:
+                continue
+            
+            m_with_code = processing_with_code_pattern.search(c)
+            if m_with_code:
+                part_name = m_with_code.group(1).strip()
+                part_code = m_with_code.group(2).strip()
+                if part_name and len(part_name) > 1:
+                    region['_cached_part_name'] = part_name
+                    region['_cached_part_code'] = part_code
+                    logger.info(f"✅ 从加工说明中提取品名和编号（带括号）: 品名='{part_name}', 编号='{part_code}'")
+                    return part_name
+            
+            m_fallback = processing_fallback_pattern.search(c)
+            if m_fallback:
+                part_name = m_fallback.group(1).strip()
+                part_code = m_fallback.group(2).strip()
+                if part_name and len(part_name) > 1:
+                    region['_cached_part_name'] = part_name
+                    region['_cached_part_code'] = part_code
+                    logger.info(f"✅ 从加工说明中提取品名和编号（兜底机制）: 品名='{part_name}', 编号='{part_code}'")
+                    return part_name
+            
+            m = processing_pattern.search(c)
+            if m:
+                part_name = m.group(1).strip()
+                if part_name and len(part_name) > 1:
+                    region['_cached_part_name'] = part_name
+                    logger.info(f"✅ 从加工说明中提取品名（仅品名）: 品名='{part_name}'")
+                    return part_name
+
+        # 2. 再尝试匹配标签模式（品名:xxx 或 品名 xxx）
         for i, t in enumerate(texts):
             c = (t.get('content') or '').strip()
             if not c:
@@ -464,7 +509,9 @@ class OptimizedCADBlockAnalyzer:
                     # 如果标签后面直接有内容（品名:下模座）
                     inline_val = (m.group(1) or '').strip()
                     if inline_val and len(inline_val) > 1:
-                        # 缓存结果
+                        if is_process_note_text(inline_val):
+                            logger.info(f"⚠️ 跳过疑似工艺说明的品名内联值: '{inline_val}'")
+                            continue
                         region['_cached_part_name'] = inline_val
                         return inline_val
                     
@@ -475,58 +522,11 @@ class OptimizedCADBlockAnalyzer:
                             # 排除其他标签
                             is_label = any(lp.match(nxt) for lp in label_patterns)
                             if not is_label:
-                                # 缓存结果
+                                if is_process_note_text(nxt):
+                                    logger.info(f"⚠️ 跳过疑似工艺说明的品名候选: '{nxt}'")
+                                    continue
                                 region['_cached_part_name'] = nxt
                                 return nxt
-        
-        # 2. 尝试匹配"加工说明：(xxxx)"模式和"加工说明:_(品名)编号"模式
-        processing_pattern = re.compile(r'加工说明\s*[:：]\s*[（(]([^)）]+)[)）]', re.IGNORECASE)
-        # 新增：匹配 "加工说明:_(品名)编号" 格式，支持下划线在括号前或括号后
-        # 如 "加工说明:_(下模刀口入子)DIE-47" 或 "加工说明:(上垫板)_UB-01"
-        processing_with_code_pattern = re.compile(r'加工说明\s*[:：]\s*_?\s*[（(]([^)）]+)[)）]\s*_?\s*([A-Z0-9\-]+)', re.IGNORECASE)
-        # 兜底机制：匹配 "加工说明:_中文品名_字母数字编号" 格式
-        # 如 "加工说明:_下模板入子备料板DIE-BL1" 或 "加工说明:下模板入子备料板_DIE-BL1"
-        # 品名为中文，编号为字母与数字的组合，中间可以有下划线
-        processing_fallback_pattern = re.compile(r'加工说明\s*[:：]\s*_?\s*([\u4e00-\u9fa5]+)\s*_?\s*([A-Z0-9\-]+)', re.IGNORECASE)
-        
-        for t in texts:
-            c = (t.get('content') or '').strip()
-            if not c:
-                continue
-            
-            # 先尝试匹配带编号的格式（带括号）
-            m_with_code = processing_with_code_pattern.search(c)
-            if m_with_code:
-                part_name = m_with_code.group(1).strip()
-                part_code = m_with_code.group(2).strip()
-                if part_name and len(part_name) > 1:
-                    # 缓存品名和编号
-                    region['_cached_part_name'] = part_name
-                    region['_cached_part_code'] = part_code
-                    logger.info(f"✅ 从加工说明中提取品名和编号（带括号）: 品名='{part_name}', 编号='{part_code}'")
-                    return part_name  # 找到第一个匹配就立即返回，不再继续遍历
-            
-            # 尝试兜底机制（无括号，中文品名+字母数字编号）
-            m_fallback = processing_fallback_pattern.search(c)
-            if m_fallback:
-                part_name = m_fallback.group(1).strip()
-                part_code = m_fallback.group(2).strip()
-                if part_name and len(part_name) > 1:
-                    # 缓存品名和编号
-                    region['_cached_part_name'] = part_name
-                    region['_cached_part_code'] = part_code
-                    logger.info(f"✅ 从加工说明中提取品名和编号（兜底机制）: 品名='{part_name}', 编号='{part_code}'")
-                    return part_name  # 找到第一个匹配就立即返回，不再继续遍历
-            
-            # 再尝试匹配只有品名的格式
-            m = processing_pattern.search(c)
-            if m:
-                part_name = m.group(1).strip()
-                if part_name and len(part_name) > 1:
-                    # 缓存结果
-                    region['_cached_part_name'] = part_name
-                    logger.info(f"✅ 从加工说明中提取品名（仅品名）: 品名='{part_name}'")
-                    return part_name  # 找到第一个匹配就立即返回，不再继续遍历
         
         # 3. 如果没有找到标签，尝试查找标题框区域的大字体文本
         # 通常品名会在图纸右下角的标题栏中，字体较大
@@ -538,6 +538,8 @@ class OptimizedCADBlockAnalyzer:
             
             # 排除明显的非品名文本
             if any(keyword in c for keyword in ['材料', '数量', '比例', '图号', '日期', '设计', '审核', '制图']):
+                continue
+            if is_process_note_text(c):
                 continue
             
             # 排除纯数字、尺寸标注等

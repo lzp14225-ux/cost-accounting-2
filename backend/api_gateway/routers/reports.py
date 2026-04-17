@@ -35,28 +35,31 @@ REPORT_EXPIRY_DAYS = 7
 
 # 表头定义
 HEADERS = [
-    '序号', '零件名称', '编号', '材质', '长/mm', '宽/mm', '厚/mm', '数量',
-    '重量/kg', '热处理', '材料单价', '材料费（元）', '热处理单价', '热处理费（元）',
-    '工艺', 'NC主视图(h)', 'NC背面(h)', 'NC侧面正面(h)', 'NC侧背(h)', 
-    'NC正面(h)', 'NC正面的背面(h)', '大水磨 M(h)', '小磨床 YM(个)', 
-    '慢丝 W/E(mm)', '侧割长度(mm)', '中丝 W/Z(mm)', '快丝 W/C(mm)', 
-    '放电 EDM(h)', '雕刻 DK(h)', '费用总计（元）',
-    '线割工艺说明', 'NC主视图（元）', 'NC背面（元）', 'NC侧面正面（元）', 'NC侧背（元）',
-    'NC正面（元）', 'NC正面的背面（元）', '大磨床（元）', '小磨床（元）', 
-    '慢丝（元）', '侧割（元）', '中丝（元）', '快丝（元）', 
-    '放电（元）', '雕刻（元）', '单独计费（元）', '加工费合计（元）', '体积/mm³', '异常情况'  # 最后两项
+    '序号', '零件名称', '编号', '数量', '长/mm', '宽/mm', '厚/mm', '重量/kg',
+    '材质', '材料单价', '材料费（元）', '热处理', '热处理单价', '热处理费（元）',
+    '工艺', '单件费用总计（元）', '费用总计（元）', 'NC主视图(h)', 'NC背面(h)', 'NC侧面正面(h)', 'NC侧背(h)',
+    'NC正面(h)', 'NC正面的背面(h)', 'NC主视图（元）', 'NC背面（元）', 'NC侧面正面（元）', 'NC侧背（元）',
+    'NC正面（元）', 'NC正面的背面（元）', '大水磨 M(h)', '小磨床 YM(个)', '大磨床（元）', '小磨床（元）',
+    '慢丝 W/E(mm)', '侧割长度(mm)', '中丝 W/Z(mm)', '快丝 W/C(mm)', '线割工艺说明',
+    '放电 EDM(h)', '雕刻 DK(h)', '线割时间', '慢丝（元）', '侧割（元）', '中丝（元）', '快丝（元）',
+    '放电（元）', '雕刻（元）', '开粗实际时间', '精铣实际时间', '钻床实际时间',
+    '单独计费（元）', '单件加工费合计（元）', '加工费合计（元）', '体积/mm³', '异常情况'  # 最后两项
 ]
 
 # 需要合计的列索引（基于0的索引）
 HEADERS = [*HEADERS, '其它（备料于）']
 
 SUM_COLUMNS = [
-    7,   # 数量
-    11,  # 材料费（元）
+    3,   # 数量
+    10,  # 材料费（元）
     13,  # 热处理费（元）
-    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,  # 工时列
-    29,  # 费用总计（元）
-    31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46  # 各项费用列
+    15, 16, 17, 18, 19, 20, 21, 22,  # 单件费用总计 + 费用总计 + NC工时列
+    23, 24, 25, 26, 27, 28,          # NC费用列
+    29, 30, 31, 32,                  # 水磨时间/数量/费用
+    38, 39, 40,                      # 放电/雕刻/线割时间
+    41, 42, 43, 44, 45, 46,          # 线割/放电/雕刻费用
+    47, 48, 49,                      # 开粗/精铣/钻床实际时间
+    50, 51, 52                       # 单独计费/单件加工费合计/加工费合计
 ]
 
 
@@ -426,7 +429,7 @@ def generate_excel_report(job_data: dict) -> BytesIO:
         worksheet.write(1, col_idx, header, header_format)
     
     # 数据行
-    subgraphs = job_data['subgraphs']
+    subgraphs = _order_subgraphs_for_export(job_data['subgraphs'], job_data['features_dict'])
     features_dict = job_data['features_dict']
     missing_fields_map = _build_missing_fields_map(subgraphs, features_dict)
     nc_failed_part_codes = _build_nc_failed_part_code_set(job)
@@ -457,7 +460,7 @@ def generate_excel_report(job_data: dict) -> BytesIO:
             current_data_left_format = data_left_format
             current_number_format = number_format
 
-        row_data = _build_row_data(idx, subgraph, feature)
+        row_data = _build_row_data(idx, subgraph, feature, is_nc_failed_row=is_nc_failed_row)
         
         for col_idx, value in enumerate(row_data):
             if col_idx == len(row_data) - 1:  # 异常情况列
@@ -492,75 +495,101 @@ def generate_excel_report(job_data: dict) -> BytesIO:
     logger.info(f"[xlsxwriter] 完成")
     return output
 
-def _extract_abnormal_desc(abnormal_situation):
-    if not abnormal_situation:
-        return ''
+def _extract_abnormal_desc(abnormal_situation, include_nc_failed: bool = False):
+    descriptions = []
+
     try:
         data = abnormal_situation if isinstance(abnormal_situation, dict) else json.loads(abnormal_situation)
-        anomalies = data.get('wire_cut_anomalies', [])
-        return '；'.join([item.get('description', '') for item in anomalies if item.get('description')])
+        for key in ['dimension_anomalies', 'wire_cut_anomalies']:
+            anomalies = data.get(key, [])
+            if isinstance(anomalies, list):
+                descriptions.extend(
+                    item.get('description', '')
+                    for item in anomalies
+                    if isinstance(item, dict) and item.get('description')
+                )
     except:
-        return ''
+        descriptions = []
 
-def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature) -> list:
+    if include_nc_failed:
+        descriptions.append('NC识别失败')
+
+    return '；'.join(descriptions)
+
+def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature, is_nc_failed_row: bool = False) -> list:
     """构建行数据"""
     def safe_float(value, default=0):
         return float(value) if value is not None else default
     
     def safe_int(value, default=0):
         return int(value) if value is not None else default
+
+    quantity = max(safe_int(feature.quantity if feature else None, 1), 1)
+
+    def per_piece(value, default=0):
+        if value is None:
+            return default
+        return float(value) / quantity
     
     return [
         idx,
         subgraph.part_name or '',
         subgraph.part_code or '',
-        feature.material if feature else '',
+        quantity,
         safe_float(feature.length_mm if feature else None, ''),
         safe_float(feature.width_mm if feature else None, ''),
         safe_float(feature.thickness_mm if feature else None, ''),
-        safe_int(feature.quantity if feature else None, 1),
-        safe_float(subgraph.weight_kg),
-        feature.heat_treatment if feature else '',
+        per_piece(subgraph.weight_kg),
+        feature.material if feature else '',
         safe_float(subgraph.material_unit_price),
-        safe_float(subgraph.material_cost),
+        per_piece(subgraph.material_cost),
+        feature.heat_treatment if feature else '',
         safe_float(subgraph.heat_treatment_unit_price),
-        safe_float(subgraph.heat_treatment_cost),
+        per_piece(subgraph.heat_treatment_cost),
         subgraph.process_description or '',  # 工艺描述字段
-        safe_float(subgraph.nc_z_time),  # NC主视图时间
-        safe_float(subgraph.nc_b_time),  # NC背面时间
-        safe_float(subgraph.nc_c_time),  # NC侧面正面时间
-        safe_float(subgraph.nc_c_b_time),  # NC侧背时间
-        safe_float(subgraph.nc_z_view_time),  # NC正面时间
-        safe_float(subgraph.nc_b_view_time),  # NC正面的背面时间
-        safe_float(subgraph.large_grinding_time),
+        per_piece(subgraph.total_cost),
+        safe_float(subgraph.total_cost),
+        per_piece(subgraph.nc_z_time),  # NC主视图时间
+        per_piece(subgraph.nc_b_time),  # NC背面时间
+        per_piece(subgraph.nc_c_time),  # NC侧面正面时间
+        per_piece(subgraph.nc_c_b_time),  # NC侧背时间
+        per_piece(subgraph.nc_z_view_time),  # NC正面时间
+        per_piece(subgraph.nc_b_view_time),  # NC正面的背面时间
+        per_piece(subgraph.nc_z_fee),  # NC主视图费用
+        per_piece(subgraph.nc_b_fee),  # NC背面费用
+        per_piece(subgraph.nc_c_fee),  # NC侧面正面费用
+        per_piece(subgraph.nc_c_b_fee),  # NC侧背费用
+        per_piece(subgraph.nc_z_view_fee),  # NC正面费用
+        per_piece(subgraph.nc_b_view_fee),  # NC正面的背面费用
+        per_piece(subgraph.large_grinding_time),
         safe_int(subgraph.small_grinding_count),
+        per_piece(subgraph.large_grinding_cost),
+        per_piece(subgraph.small_grinding_cost),
         safe_float(subgraph.slow_wire_length),
         safe_float(subgraph.slow_wire_side_length),
         safe_float(subgraph.mid_wire_length),
         safe_float(subgraph.fast_wire_length),
+        subgraph.wire_process_note or '',
         safe_float(subgraph.edm_time),
         safe_float(subgraph.engraving_time),
-        # 删除了 separate_item 列
-        safe_float(subgraph.total_cost),
-        subgraph.wire_process_note or '',
-        safe_float(subgraph.nc_z_fee),  # NC主视图费用
-        safe_float(subgraph.nc_b_fee),  # NC背面费用
-        safe_float(subgraph.nc_c_fee),  # NC侧面正面费用
-        safe_float(subgraph.nc_c_b_fee),  # NC侧背费用
-        safe_float(subgraph.nc_z_view_fee),  # NC正面费用
-        safe_float(subgraph.nc_b_view_fee),  # NC正面的背面费用
-        safe_float(subgraph.large_grinding_cost),
-        safe_float(subgraph.small_grinding_cost),
-        safe_float(subgraph.slow_wire_cost),
-        safe_float(subgraph.slow_wire_side_cost),
-        safe_float(subgraph.mid_wire_cost),
-        safe_float(subgraph.fast_wire_cost),
+        per_piece(subgraph.wire_time),
+        per_piece(subgraph.slow_wire_cost),
+        per_piece(subgraph.slow_wire_side_cost),
+        per_piece(subgraph.mid_wire_cost),
+        per_piece(subgraph.fast_wire_cost),
         safe_float(subgraph.edm_cost),
         safe_float(subgraph.engraving_cost),
+        safe_float(subgraph.nc_roughing_time),
+        safe_float(subgraph.nc_milling_time),
+        safe_float(subgraph.drilling_time),
         safe_float(subgraph.separate_item_cost),
+        per_piece(subgraph.processing_cost_total),
         safe_float(subgraph.processing_cost_total),
         safe_float(feature.volume_mm3 if feature else None),      # 新增
-        _extract_abnormal_desc(feature.abnormal_situation if feature else None)  # 新增
+        _extract_abnormal_desc(
+            feature.abnormal_situation if feature else None,
+            include_nc_failed=is_nc_failed_row
+        )
     ]
 
 
@@ -581,6 +610,70 @@ def _build_missing_fields_map(subgraphs, features_dict):
         for item in completeness_result.get("missing_fields", [])
         if item.get("record_name")
     }
+
+
+def _order_subgraphs_for_export(subgraphs, features_dict):
+    indexed_subgraphs = list(enumerate(subgraphs))
+    part_code_to_subgraph_ids = {}
+    original_index_map = {}
+
+    for original_index, subgraph in indexed_subgraphs:
+        original_index_map[subgraph.subgraph_id] = original_index
+        normalized_code = _normalize_code(subgraph.part_code)
+        if not normalized_code:
+            continue
+        part_code_to_subgraph_ids.setdefault(normalized_code, []).append(subgraph.subgraph_id)
+
+    children_by_parent_id = {}
+    child_subgraph_ids = set()
+
+    for _, subgraph in indexed_subgraphs:
+        feature = features_dict.get(subgraph.subgraph_id)
+        parent_code = _normalize_code(_extract_material_preparation(feature))
+        if not parent_code:
+            continue
+
+        parent_ids = part_code_to_subgraph_ids.get(parent_code)
+        if not parent_ids:
+            continue
+
+        parent_id = min(parent_ids, key=lambda item: original_index_map.get(item, float("inf")))
+        if parent_id == subgraph.subgraph_id:
+            continue
+
+        children = children_by_parent_id.setdefault(parent_id, [])
+        children.append(subgraph.subgraph_id)
+        child_subgraph_ids.add(subgraph.subgraph_id)
+
+    for parent_id, child_ids in children_by_parent_id.items():
+        child_ids.sort(key=lambda item: original_index_map.get(item, float("inf")))
+
+    subgraph_by_id = {subgraph.subgraph_id: subgraph for _, subgraph in indexed_subgraphs}
+    ordered_subgraphs = []
+    emitted_ids = set()
+
+    def emit_with_children(subgraph_id):
+        if subgraph_id in emitted_ids:
+            return
+        subgraph = subgraph_by_id.get(subgraph_id)
+        if not subgraph:
+            return
+
+        emitted_ids.add(subgraph_id)
+        ordered_subgraphs.append(subgraph)
+
+        for child_id in children_by_parent_id.get(subgraph_id, []):
+            emit_with_children(child_id)
+
+    for _, subgraph in indexed_subgraphs:
+        if subgraph.subgraph_id in child_subgraph_ids:
+            continue
+        emit_with_children(subgraph.subgraph_id)
+
+    for _, subgraph in indexed_subgraphs:
+        emit_with_children(subgraph.subgraph_id)
+
+    return ordered_subgraphs
 
 
 def _extract_material_preparation(feature: Feature) -> str:

@@ -218,6 +218,95 @@ interface AppState {
   cancelLoadingHistory: () => void  // 新增：取消正在进行的历史加载
 }
 
+const isReviewTableMessage = (message?: Message | Omit<Message, 'id' | 'timestamp'> | null): boolean => {
+  if (!message) return false
+
+  return (
+    (message.type === 'progress' && message.progressData?.type === 'review_display_view' && Array.isArray(message.progressData?.data)) ||
+    (message.type === 'system' && Array.isArray(message.reviewData))
+  )
+}
+
+const isMissingFieldsMessage = (message?: Message | Omit<Message, 'id' | 'timestamp'> | null): boolean => {
+  return !!message?.missingFieldsData
+}
+
+const isStandaloneAwaitingConfirmMessage = (message?: Message | Omit<Message, 'id' | 'timestamp'> | null): boolean => {
+  return !!message && message.type === 'progress' && message.progressData?.stage === 'awaiting_confirm' && message.progressData?.type !== 'review_display_view'
+}
+
+const isNcReviewPredecessorStage = (stage?: string): boolean => {
+  return stage === 'nc_calculation_completed' || stage === 'nc_calculation_skipped'
+}
+
+const hasUserDrivenMessagesAfterReviewTable = (messages: Message[], reviewTableIndex: number): boolean => {
+  if (reviewTableIndex < 0) return false
+
+  return messages.slice(reviewTableIndex + 1).some(message => (
+    message.type === 'user' ||
+    !!message.operationCompleted ||
+    !!message.modificationConfirmation ||
+    ((message.type === 'assistant' || message.type === 'system') &&
+      !isMissingFieldsMessage(message) &&
+      !isStandaloneAwaitingConfirmMessage(message) &&
+      !isReviewTableMessage(message) &&
+      !!message.content?.trim())
+  ))
+}
+
+const insertMessageWithReviewGrouping = (messages: Message[], message: Message): Message[] => {
+  const nextMessages = [...messages]
+  const lastReviewTableIndex = nextMessages.reduce((foundIndex, currentMessage, currentIndex) => (
+    isReviewTableMessage(currentMessage) ? currentIndex : foundIndex
+  ), -1)
+
+  if (isReviewTableMessage(message)) {
+    if (hasUserDrivenMessagesAfterReviewTable(nextMessages, lastReviewTableIndex)) {
+      nextMessages.push(message)
+      return nextMessages
+    }
+
+    const lastNcIndex = nextMessages.reduce((foundIndex, currentMessage, currentIndex) => (
+      currentMessage.type === 'progress' && isNcReviewPredecessorStage(currentMessage.progressData?.stage)
+        ? currentIndex
+        : foundIndex
+    ), -1)
+
+    const insertIndex = lastNcIndex >= 0 ? lastNcIndex + 1 : nextMessages.length
+    nextMessages.splice(insertIndex, 0, message)
+    return nextMessages
+  }
+
+  if (isMissingFieldsMessage(message) || isStandaloneAwaitingConfirmMessage(message)) {
+    if (lastReviewTableIndex >= 0) {
+      let insertIndex = lastReviewTableIndex + 1
+      while (insertIndex < nextMessages.length && isMissingFieldsMessage(nextMessages[insertIndex])) {
+        insertIndex += 1
+      }
+      nextMessages.splice(insertIndex, 0, message)
+      return nextMessages
+    }
+  }
+
+  if (
+    message.type === 'progress' &&
+    isNcReviewPredecessorStage(message.progressData?.stage) &&
+    lastReviewTableIndex >= 0
+  ) {
+    nextMessages.splice(lastReviewTableIndex, 0, message)
+    return nextMessages
+  }
+
+  nextMessages.push(message)
+  return nextMessages
+}
+
+const normalizeReviewMessageOrder = (messages: Message[]): Message[] => {
+  return messages.reduce<Message[]>((orderedMessages, currentMessage) => {
+    return insertMessageWithReviewGrouping(orderedMessages, currentMessage)
+  }, [])
+}
+
 export const useAppStore = create<AppState>()(
   devtools(
     (set, get) => ({
@@ -292,7 +381,7 @@ export const useAppStore = create<AppState>()(
         const currentMessages = Array.isArray(state.messages) ? state.messages : []
         
         return {
-          messages: [...currentMessages, newMessage]
+          messages: normalizeReviewMessageOrder(insertMessageWithReviewGrouping(currentMessages, newMessage))
         }
       }),
       
@@ -517,8 +606,12 @@ export const useAppStore = create<AppState>()(
             return
           }
           
-          // 更新消息列表（确保是数组）
-          set({ messages: Array.isArray(messagesWithJobId) ? messagesWithJobId : [] })
+          // 更新消息列表（确保审核表格、缺失字段卡片和等待确认提示按同一审核块恢复）
+          const normalizedMessages = Array.isArray(messagesWithJobId)
+            ? normalizeReviewMessageOrder(messagesWithJobId)
+            : []
+
+          set({ messages: normalizedMessages })
           
           // 如果有session_info，更新当前jobId并创建/更新job数据
           if (historyData.session_info.job_id) {
