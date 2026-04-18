@@ -95,6 +95,7 @@ class Subgraph(Base):
     
     # 业务数据
     weight_kg = Column(DECIMAL(10, 3))
+    nc_roughing_weight = Column(DECIMAL(15, 3))
     
     # 材料和热处理
     material_unit_price = Column(DECIMAL(10, 2))

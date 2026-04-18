@@ -66,6 +66,8 @@ INVALID_MATERIAL_TOKENS = {
     'NW',
 }
 
+HEAT_TREATMENT_LABELS = ['热处理']
+
 
 def normalize_material(material: str) -> str:
     """
@@ -122,6 +124,72 @@ def get_text_content(entity) -> Optional[str]:
         return None
 
 
+def _clean_heat_treatment_candidate(text: str) -> str:
+    """清理热处理候选文本前后的分隔符，保留中间有效内容。"""
+    if not text:
+        return ''
+
+    cleaned = str(text).strip()
+    cleaned = re.sub(r'^[\s\-_=：:]+', '', cleaned)
+    cleaned = re.sub(r'[\s\-_=：:;,，；]+$', '', cleaned)
+    return cleaned.strip()
+
+
+def _extract_allowed_heat_treatment(candidate: str) -> Optional[Dict]:
+    """
+    仅识别允许的热处理类型，避免将尺寸说明/时效处理等误判为热处理。
+    """
+    cleaned = _clean_heat_treatment_candidate(candidate)
+    if not cleaned:
+        return None
+
+    hrc_match = re.search(r'(HRC\s*\d+(?:\s*[-~]\s*\d+)?)', cleaned, re.IGNORECASE)
+    if hrc_match:
+        hrc_code = re.sub(r'\s+', '', hrc_match.group(1)).upper()
+        return {
+            'heat_treatment': hrc_code,
+            'heat_treatment_type': 'HRC',
+            'heat_treated': True
+        }
+
+    if '超级深冷' in cleaned:
+        return {
+            'heat_treatment': '超级深冷',
+            'heat_treatment_type': '超级深冷',
+            'heat_treated': True
+        }
+
+    if '深冷' in cleaned:
+        return {
+            'heat_treatment': '深冷',
+            'heat_treatment_type': '深冷',
+            'heat_treated': True
+        }
+
+    if '普通热处理' in cleaned:
+        return {
+            'heat_treatment': '普通热处理',
+            'heat_treatment_type': '普通热处理',
+            'heat_treated': True
+        }
+
+    if '调质' in cleaned:
+        return {
+            'heat_treatment': '调质',
+            'heat_treatment_type': '调质',
+            'heat_treated': True
+        }
+
+    if '真空' in cleaned:
+        return {
+            'heat_treatment': '真空',
+            'heat_treatment_type': '真空',
+            'heat_treated': True
+        }
+
+    return None
+
+
 def extract_heat_treatment_from_text(text: str) -> Optional[Dict]:
     """
     从文本中提取热处理信息（基于优先级匹配 + 标签格式）
@@ -149,98 +217,17 @@ def extract_heat_treatment_from_text(text: str) -> Optional[Dict]:
     
     try:
         # 策略0: 标签格式匹配（优先级最高）
-        labeled_heat_treatment = extract_labeled_value(text, ['热处理'])
+        labeled_heat_treatment = extract_labeled_value(text, HEAT_TREATMENT_LABELS)
         if labeled_heat_treatment:
-            # 进一步识别热处理类型
-            ht_upper = labeled_heat_treatment.upper()
-            
-            # 检查是否是 HRC
-            if 'HRC' in ht_upper:
-                hrc_pattern = r'(HRC\s*\d+(?:\s*[-~]\s*\d+)?)'
-                hrc_match = re.search(hrc_pattern, labeled_heat_treatment, re.IGNORECASE)
-                if hrc_match:
-                    hrc_code = re.sub(r'\s+', '', hrc_match.group(1)).upper()
-                    logging.debug(f"从标签格式提取到 HRC 热处理: {hrc_code}")
-                    return {
-                        'heat_treatment': hrc_code,
-                        'heat_treatment_type': 'HRC',
-                        'heat_treated': True
-                    }
-            
-            # 检查其他类型
-            if '调质' in labeled_heat_treatment:
-                logging.debug(f"从标签格式提取到调质热处理")
-                return {
-                    'heat_treatment': '调质',
-                    'heat_treatment_type': '调质',
-                    'heat_treated': True
-                }
-            elif '激光' in labeled_heat_treatment:
-                logging.debug(f"从标签格式提取到激光热处理")
-                return {
-                    'heat_treatment': '激光热处理',
-                    'heat_treatment_type': '激光',
-                    'heat_treated': True
-                }
-            elif '深冷' in labeled_heat_treatment:
-                logging.debug(f"从标签格式提取到深冷热处理")
-                return {
-                    'heat_treatment': '深冷热处理',
-                    'heat_treatment_type': '深冷',
-                    'heat_treated': True
-                }
-            else:
-                # 其他热处理类型，直接返回
-                logging.debug(f"从标签格式提取到热处理: {labeled_heat_treatment}")
-                return {
-                    'heat_treatment': labeled_heat_treatment,
-                    'heat_treatment_type': '其他',
-                    'heat_treated': True
-                }
-        
-        # 策略1: HRC 硬度识别（优先级最高）
-        # 匹配: HRC58, HRC 58, HRC58-62, HRC 58 ~ 62, HRC58~62
-        hrc_pattern = r'(HRC\s*\d+(?:\s*[-~]\s*\d+)?)'
-        hrc_match = re.search(hrc_pattern, text, re.IGNORECASE)
-        
-        if hrc_match:
-            # 提取完整的 HRC 代码并去除空格
-            hrc_code = re.sub(r'\s+', '', hrc_match.group(1))
-            # 统一转换为大写（HRC 部分）
-            hrc_code = hrc_code.upper()
-            logging.debug(f"从文本中提取到 HRC 热处理: {hrc_code}")
-            return {
-                'heat_treatment': hrc_code,
-                'heat_treatment_type': 'HRC',
-                'heat_treated': True
-            }
-        
-        # 策略2: 调质识别
-        if '调质' in text:
-            logging.debug(f"从文本中提取到调质热处理")
-            return {
-                'heat_treatment': '调质',
-                'heat_treatment_type': '调质',
-                'heat_treated': True
-            }
-        
-        # 策略3: 激光热处理识别
-        if '激光' in text:
-            logging.debug(f"从文本中提取到激光热处理")
-            return {
-                'heat_treatment': '激光热处理',
-                'heat_treatment_type': '激光',
-                'heat_treated': True
-            }
-        
-        # 策略4: 深冷热处理识别
-        if '深冷' in text:
-            logging.debug(f"从文本中提取到深冷热处理")
-            return {
-                'heat_treatment': '深冷热处理',
-                'heat_treatment_type': '深冷',
-                'heat_treated': True
-            }
+            labeled_match = _extract_allowed_heat_treatment(labeled_heat_treatment)
+            if labeled_match:
+                logging.debug(f"从标签格式提取到热处理: {labeled_match['heat_treatment']}")
+                return labeled_match
+
+        direct_match = _extract_allowed_heat_treatment(text)
+        if direct_match:
+            logging.debug(f"从文本中提取到热处理: {direct_match['heat_treatment']}")
+            return direct_match
         
         return None
         
@@ -530,13 +517,9 @@ def parse_dimension_line(text: str) -> Optional[Dict]:
         # 解析热处理
         heat_treatment = None
         if heat_treatment_str:
-            # 清理空格和横线
-            cleaned = heat_treatment_str.replace(' ', '').replace('-', '')
-            # 如果清理后还有内容，说明是有效的热处理值
-            if cleaned:
-                heat_treatment = heat_treatment_str.strip()
-            else:
-                heat_treatment = None
+            heat_treatment_info = _extract_allowed_heat_treatment(heat_treatment_str)
+            if heat_treatment_info:
+                heat_treatment = heat_treatment_info['heat_treatment']
         
         return {
             'length': length,

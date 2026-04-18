@@ -753,6 +753,28 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
     const isSystem = message.type === 'system'
     const isProgress = message.type === 'progress'
     const isAssistant = message.type === 'assistant'
+    const laterMessages = messages.slice(index + 1)
+    const hasLaterStartedOrCompletedStageForSameJob = laterMessages.some(nextMessage => {
+      if (nextMessage.jobId !== message.jobId || nextMessage.type !== 'progress') {
+        return false
+      }
+
+      const nextStage = nextMessage.progressData?.stage
+
+      if (message.intent === 'PRICE_CALCULATION') {
+        return nextStage === 'pricing_started' || nextStage === 'pricing_completed' || nextStage === 'completed'
+      }
+
+      if (message.intent === 'FEATURE_RECOGNITION') {
+        return nextStage === 'feature_recognition_started' || nextStage === 'feature_recognition_completed' || nextStage === 'awaiting_confirm' || nextStage === 'completed'
+      }
+
+      if (message.intent === 'WEIGHT_PRICE_CALCULATION') {
+        return nextStage === 'cost_calculation_started' || nextStage === 'cost_calculation_completed' || nextStage === 'completed'
+      }
+
+      return false
+    })
     
     // 检查是否是最新的 AI 消息 - 需要考虑正在打字的状态
     const isLatestAIMessage = (isAssistant || isProgress) && (
@@ -1648,7 +1670,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
                     
                     {/* 确认按钮 - 当需要确认时显示（历史消息不显示） */}
                     {/* 历史消息：隐藏所有确认卡片和ModificationCard */}
-                    {message.requiresConfirmation && message.intent && !message.id.startsWith('history-') && (
+                    {message.requiresConfirmation && message.intent && !message.id.startsWith('history-') && !hasLaterStartedOrCompletedStageForSameJob && (
                       <div style={{ marginTop: message.content ? 0 : 0 }}>
                         {/* 数据修改：使用 ModificationCard 显示详细表格（仅非历史消息） */}
                         {message.intent === 'DATA_MODIFICATION' && message.intentData?.parsed_changes && (

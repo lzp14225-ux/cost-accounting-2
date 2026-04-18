@@ -155,7 +155,8 @@ class DataModificationHandler(BaseActionHandler):
             
             parsed_changes = self._override_price_snapshot_changes(
                 parsed_changes,
-                intent_result
+                intent_result,
+                raw_data
             )
             
             # 2. 验证修改
@@ -477,7 +478,8 @@ class DataModificationHandler(BaseActionHandler):
     def _override_price_snapshot_changes(
         self,
         parsed_changes: List[Dict[str, Any]],
-        intent_result: IntentResult
+        intent_result: IntentResult,
+        raw_data: Dict[str, Any]
     ) -> List[Dict[str, Any]]:
         """
         对价格类修改强制改写为 job_price_snapshots.price。
@@ -489,17 +491,24 @@ class DataModificationHandler(BaseActionHandler):
         params = intent_result.parameters or {}
         field = params.get("field")
         value = params.get("value")
+        if value is None:
+            for change in parsed_changes:
+                if change.get("value") is not None:
+                    value = change.get("value")
+                    break
         
-        from shared.process_code_mapping import extract_process_from_text
+        from shared.process_code_mapping import PROCESS_DETAIL_MAPPING, extract_process_from_text
         
-        process_info = extract_process_from_text(intent_result.raw_message or "")
         raw_message = intent_result.raw_message or ""
         has_price_keyword = any(keyword in raw_message for keyword in ["单价", "价格", "价钱"])
 
         if field not in ["material_unit_price", "process_unit_price", "price", "unit_price"] and not has_price_keyword:
             return parsed_changes
 
-        if not process_info:
+        snapshot_filter = self._match_price_snapshot_filter(raw_message, raw_data, PROCESS_DETAIL_MAPPING)
+        process_info = snapshot_filter or extract_process_from_text(raw_message)
+
+        if value is None or not process_info:
             return parsed_changes
         
         logger.info(
@@ -517,6 +526,100 @@ class DataModificationHandler(BaseActionHandler):
             },
             "original_text": intent_result.raw_message
         }]
+
+    def _match_price_snapshot_filter(
+        self,
+        raw_message: str,
+        raw_data: Dict[str, Any],
+        process_detail_mapping: Dict[str, Dict[str, Any]]
+    ) -> Dict[str, str] | None:
+        """
+        优先根据当前 job 的 job_price_snapshots 动态匹配价格修改目标。
+
+        规则：
+        1. 仅匹配 category 为 material / wire 的快照
+        2. 优先使用快照中的 sub_category / note / instruction
+        3. 线割额外补充静态中文别名，用于匹配“慢丝割一修一”等自然语言
+        """
+        snapshots = raw_data.get("job_price_snapshots") or raw_data.get("price_snapshots") or []
+        if not snapshots or not raw_message:
+            return None
+
+        normalized_message = self._normalize_price_match_text(raw_message)
+        prefer_material = any(keyword in raw_message for keyword in ["材质", "材料"])
+        prefer_wire = any(keyword in raw_message for keyword in ["线割", "慢丝", "中丝", "快丝", "割一修", "一刀"])
+
+        reverse_process_aliases: Dict[str, List[str]] = {}
+        for alias, info in process_detail_mapping.items():
+            if info.get("category") != "wire":
+                continue
+            sub_category = str(info.get("sub_category") or "").strip()
+            if not sub_category:
+                continue
+            reverse_process_aliases.setdefault(sub_category.lower(), []).append(alias)
+            note = info.get("note")
+            if note:
+                reverse_process_aliases[sub_category.lower()].append(str(note))
+
+        best_match: Dict[str, Any] | None = None
+
+        for snapshot in snapshots:
+            category = str(snapshot.get("category") or "").strip().lower()
+            sub_category = str(snapshot.get("sub_category") or "").strip()
+
+            if category not in {"material", "wire"} or not sub_category:
+                continue
+
+            if prefer_material and category != "material":
+                continue
+            if prefer_wire and category != "wire":
+                continue
+
+            aliases = {
+                sub_category,
+                str(snapshot.get("note") or "").strip(),
+                str(snapshot.get("instruction") or "").strip(),
+            }
+
+            if category == "wire":
+                aliases.update(reverse_process_aliases.get(sub_category.lower(), []))
+
+            matched_alias = None
+            for alias in aliases:
+                if not alias:
+                    continue
+                normalized_alias = self._normalize_price_match_text(alias)
+                if normalized_alias and normalized_alias in normalized_message:
+                    if matched_alias is None or len(normalized_alias) > len(matched_alias):
+                        matched_alias = normalized_alias
+
+            if matched_alias:
+                candidate = {
+                    "category": category,
+                    "sub_category": sub_category,
+                    "matched_alias": matched_alias,
+                }
+                if best_match is None or len(candidate["matched_alias"]) > len(best_match["matched_alias"]):
+                    best_match = candidate
+
+        if best_match:
+            logger.info(
+                "✅ 动态匹配到价格快照: category=%s, sub_category=%s, alias=%s",
+                best_match["category"],
+                best_match["sub_category"],
+                best_match["matched_alias"],
+            )
+            return {
+                "category": best_match["category"],
+                "sub_category": best_match["sub_category"],
+            }
+
+        return None
+
+    def _normalize_price_match_text(self, text: str) -> str:
+        if not text:
+            return ""
+        return "".join(str(text).upper().split())
 
     def _normalize_material(self, material: str) -> str:
         """

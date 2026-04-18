@@ -1,6 +1,17 @@
-2026-04-16 09:32:12 - aiormq.connection - ERROR - error when creating transport: <AMQPConnectionError: (22, '远程计算机拒绝网络连接。', None, 1225, None)>
-2026-04-16 10:29:35 - agent.OrchestratorAgent - ERROR - [编排器] Job 不存在: job_id=7306d8b3-300d-41a9-9074-ba250099b3c1
-2026-04-16 11:29:22 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+2026-04-18 09:00:21 - aiormq.connection - ERROR - error when creating transport: <AMQPConnectionError: (22, '远程计算机拒绝网络连接。', None, 1225, None)>
+2026-04-18 09:27:51 - agent.PricingAgent - ERROR - [计算失败] water_mill_high_cost: Unable to call MCP tool calculate_water_mill_high_cost on http://192.168.3.61:8201: Traceback (most recent call last):
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\mcp_services\cad_price_search_mcp\server.py", line 409, in call_tool
+    return await handle_price_tool(name, arguments)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\mcp_services\cad_price_search_mcp\server.py", line 725, in handle_price_tool
+    result = await price_water_mill_high_cost.calculate(search_data, job_id, subgraph_ids)
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\scripts\calculate\price_water_mill_high_cost.py", line 86, in calculate
+    result, db_data = await _calculate_part_price(
+  File "D:\AI\Pycharm\chengben2\mold_main\backend\scripts\calculate\price_water_mill_high_cost.py", line 316, in _calculate_part_price
+    "thickness_diff": abs(material_thickness - thickness_mm),
+TypeError: unsupported operand type(s) for -: 'float' and 'decimal.Decimal'
+
+2026-04-18 09:42:42 - shared.logging_middleware - ERROR - ❌ 响应完成: POST /api/v1/review/24cc5c1a-1556-49a7-bc77-4d04f57b946d/modify | 状态=500 | IP=192.168.3.61 | 耗时=19.499s
+2026-04-18 09:43:13 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
 task: <Task finished name='Task-12' coro=<AllTasksWorker._consume_job_processing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:156> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
 Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
@@ -49,7 +60,7 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
     raise ChannelInvalidStateError("Channel closed by RPC timeout")
 aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
-2026-04-16 11:29:22 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+2026-04-18 09:43:13 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
 task: <Task finished name='Task-13' coro=<AllTasksWorker._consume_pricing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:166> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
 Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
@@ -103,7 +114,7 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
     raise ChannelInvalidStateError("Channel closed by RPC timeout")
 aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
-2026-04-16 11:29:22 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+2026-04-18 09:43:13 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
 task: <Task finished name='Task-1' coro=<main() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:267> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
 Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
@@ -152,18 +163,7 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
     raise ChannelInvalidStateError("Channel closed by RPC timeout")
 aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
-2026-04-16 14:37:19 - agent.PricingAgent - ERROR - [计算失败] water_mill_high_cost: Unable to call MCP tool calculate_water_mill_high_cost on http://192.168.3.61:8201: Traceback (most recent call last):
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\mcp_services\cad_price_search_mcp\server.py", line 409, in call_tool
-    return await handle_price_tool(name, arguments)
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\mcp_services\cad_price_search_mcp\server.py", line 725, in handle_price_tool
-    result = await price_water_mill_high_cost.calculate(search_data, job_id, subgraph_ids)
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\scripts\calculate\price_water_mill_high_cost.py", line 86, in calculate
-    result, db_data = await _calculate_part_price(
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\scripts\calculate\price_water_mill_high_cost.py", line 316, in _calculate_part_price
-    "thickness_diff": abs(material_thickness - thickness_mm),
-TypeError: unsupported operand type(s) for -: 'float' and 'decimal.Decimal'
-
-2026-04-16 20:35:49 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+2026-04-18 09:44:47 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
 task: <Task finished name='Task-12' coro=<AllTasksWorker._consume_job_processing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:156> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
 Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
@@ -212,7 +212,7 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
     raise ChannelInvalidStateError("Channel closed by RPC timeout")
 aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
-2026-04-16 20:35:49 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+2026-04-18 09:44:47 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
 task: <Task finished name='Task-13' coro=<AllTasksWorker._consume_pricing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:166> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
 Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
@@ -266,170 +266,7 @@ Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
     raise ChannelInvalidStateError("Channel closed by RPC timeout")
 aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
-2026-04-16 20:35:49 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
-task: <Task finished name='Task-1' coro=<main() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:267> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
-Traceback (most recent call last):
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
-    return loop.run_until_complete(main)
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
-    self.run_forever()
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
-    super().run_forever()
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
-    self._run_once()
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
-    event_list = self._selector.select(timeout)
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
-    self._poll(timeout)
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
-    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
-KeyboardInterrupt
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 270, in main
-    await worker.start()
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 150, in start
-    await asyncio.gather(*tasks)
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 159, in _consume_job_processing_queue
-    await self.mq.consume(
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
-    async for message in queue_iter:
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
-    await close_coro
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
-    await self._on_close(self._amqp_queue, None)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
-    await self._amqp_queue.cancel(consumer_tag)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
-    result = await super().cancel(consumer_tag, timeout, nowait)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
-    return await channel.basic_cancel(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
-    return await self.rpc(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
-    return await self.create_task(func(self, *args, **kwargs))
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
-    return await self.task
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
-    raise ChannelInvalidStateError("Channel closed by RPC timeout")
-aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
-2026-04-16 20:56:04 - agent.PricingAgent - ERROR - [计算失败] water_mill_high_cost: Unable to call MCP tool calculate_water_mill_high_cost on http://192.168.3.61:8201: Traceback (most recent call last):
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\mcp_services\cad_price_search_mcp\server.py", line 409, in call_tool
-    return await handle_price_tool(name, arguments)
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\mcp_services\cad_price_search_mcp\server.py", line 725, in handle_price_tool
-    result = await price_water_mill_high_cost.calculate(search_data, job_id, subgraph_ids)
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\scripts\calculate\price_water_mill_high_cost.py", line 86, in calculate
-    result, db_data = await _calculate_part_price(
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\scripts\calculate\price_water_mill_high_cost.py", line 316, in _calculate_part_price
-    "thickness_diff": abs(material_thickness - thickness_mm),
-TypeError: unsupported operand type(s) for -: 'float' and 'decimal.Decimal'
-
-2026-04-16 21:05:38 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
-task: <Task finished name='Task-12' coro=<AllTasksWorker._consume_job_processing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:156> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
-Traceback (most recent call last):
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
-    return loop.run_until_complete(main)
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
-    self.run_forever()
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
-    super().run_forever()
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
-    self._run_once()
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
-    event_list = self._selector.select(timeout)
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
-    self._poll(timeout)
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
-    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
-KeyboardInterrupt
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 270, in main
-    await worker.start()
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 150, in start
-    await asyncio.gather(*tasks)
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 159, in _consume_job_processing_queue
-    await self.mq.consume(
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
-    async for message in queue_iter:
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
-    await close_coro
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
-    await self._on_close(self._amqp_queue, None)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
-    await self._amqp_queue.cancel(consumer_tag)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
-    result = await super().cancel(consumer_tag, timeout, nowait)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
-    return await channel.basic_cancel(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
-    return await self.rpc(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
-    return await self.create_task(func(self, *args, **kwargs))
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
-    return await self.task
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
-    raise ChannelInvalidStateError("Channel closed by RPC timeout")
-aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
-2026-04-16 21:05:38 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
-task: <Task finished name='Task-13' coro=<AllTasksWorker._consume_pricing_queue() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:166> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
-Traceback (most recent call last):
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run
-    return loop.run_until_complete(main)
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 636, in run_until_complete
-    self.run_forever()
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 321, in run_forever
-    super().run_forever()
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 603, in run_forever
-    self._run_once()
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\base_events.py", line 1868, in _run_once
-    event_list = self._selector.select(timeout)
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 439, in select
-    self._poll(timeout)
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\windows_events.py", line 792, in _poll
-    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
-KeyboardInterrupt
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 237, in __anext__
-    await coroutine
-  File "D:\AI\Anaconda\envs\NX\lib\asyncio\locks.py", line 214, in wait
-    await fut
-asyncio.exceptions.CancelledError
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py", line 169, in _consume_pricing_queue
-    await self.mq.consume(
-  File "D:\AI\Pycharm\chengben2\mold_main\backend\shared\message_queue.py", line 114, in consume
-    async for message in queue_iter:
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 261, in __anext__
-    await close_coro
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 453, in close
-    await self._on_close(self._amqp_queue, None)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 481, in _on_close
-    await self._amqp_queue.cancel(consumer_tag)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\robust_queue.py", line 156, in cancel
-    result = await super().cancel(consumer_tag, timeout, nowait)
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aio_pika\queue.py", line 294, in cancel
-    return await channel.basic_cancel(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 499, in basic_cancel
-    return await self.rpc(
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\base.py", line 164, in wrap
-    return await self.create_task(func(self, *args, **kwargs))
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\abc.py", line 44, in __inner
-    return await self.task
-  File "D:\AI\Anaconda\envs\NX\lib\site-packages\aiormq\channel.py", line 163, in rpc
-    raise ChannelInvalidStateError("Channel closed by RPC timeout")
-aiormq.exceptions.ChannelInvalidStateError: Channel closed by RPC timeout
-2026-04-16 21:05:38 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+2026-04-18 09:44:47 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
 task: <Task finished name='Task-1' coro=<main() done, defined at D:\AI\Pycharm\chengben2\mold_main\backend\workers\all_tasks_worker.py:267> exception=ChannelInvalidStateError('Channel closed by RPC timeout')>
 Traceback (most recent call last):
   File "D:\AI\Anaconda\envs\NX\lib\asyncio\runners.py", line 44, in run

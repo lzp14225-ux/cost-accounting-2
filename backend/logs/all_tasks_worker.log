@@ -1,43 +1,62 @@
-2026-04-17 09:21:09 | INFO     | __main__:<module>:79 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用 loguru，支持轮转和压缩)
-2026-04-17 09:21:09 | INFO     | __main__:__init__:114 - AllTasksWorker 初始化
-2026-04-17 09:21:09 | INFO     | __main__:start:119 - ================================================================================
-2026-04-17 09:21:09 | INFO     | __main__:start:120 - 全任务Worker启动中...
-2026-04-17 09:21:09 | INFO     | __main__:start:121 - ================================================================================
-2026-04-17 09:21:09 | INFO     | __main__:start:124 - 连接 RabbitMQ...
-2026-04-17 09:21:09 | INFO     | __main__:start:126 - ✅ RabbitMQ 连接成功
-2026-04-17 09:21:09 | INFO     | __main__:start:129 - 初始化 OrchestratorAgent...
-2026-04-17 09:21:09 | INFO     | __main__:start:131 - ✅ OrchestratorAgent 初始化成功
-2026-04-17 09:21:09 | INFO     | __main__:start:133 - 初始化 PricingAgent...
-2026-04-17 09:21:09 | INFO     | __main__:start:135 - ✅ PricingAgent 初始化成功
-2026-04-17 09:21:09 | INFO     | __main__:start:137 - ================================================================================
-2026-04-17 09:21:09 | INFO     | __main__:start:138 - 开始监听队列:
-2026-04-17 09:21:09 | INFO     | __main__:start:139 -   1. job_processing - 新任务编排 (并发数: 1)
-2026-04-17 09:21:09 | INFO     | __main__:start:140 -   2. pricing_recalculate - 价格重算 (并发数: 3)
-2026-04-17 09:21:09 | INFO     | __main__:start:141 - ================================================================================
-2026-04-17 09:21:09 | INFO     | __main__:_consume_job_processing_queue:158 - [任务处理队列] 开始监听 job_processing (并发数: 1)
-2026-04-17 09:21:09 | INFO     | __main__:_consume_pricing_queue:168 - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
-2026-04-17 09:21:43 | ERROR    | __main__:start:153 - Worker 启动失败: Channel closed by RPC timeout
-2026-04-17 09:21:43 | INFO     | __main__:<module>:277 - 
+2026-04-18 09:00:19 | INFO     | __main__:<module>:79 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用 loguru，支持轮转和压缩)
+2026-04-18 09:00:19 | INFO     | __main__:__init__:114 - AllTasksWorker 初始化
+2026-04-18 09:00:19 | INFO     | __main__:start:119 - ================================================================================
+2026-04-18 09:00:19 | INFO     | __main__:start:120 - 全任务Worker启动中...
+2026-04-18 09:00:19 | INFO     | __main__:start:121 - ================================================================================
+2026-04-18 09:00:19 | INFO     | __main__:start:124 - 连接 RabbitMQ...
+2026-04-18 09:00:21 | ERROR    | __main__:start:153 - Worker 启动失败: [WinError 1225] 远程计算机拒绝网络连接。
+2026-04-18 09:00:21 | ERROR    | __main__:<module>:279 - Worker 异常退出: [WinError 1225] 远程计算机拒绝网络连接。
+2026-04-18 09:00:53 | INFO     | __main__:<module>:79 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用 loguru，支持轮转和压缩)
+2026-04-18 09:00:53 | INFO     | __main__:__init__:114 - AllTasksWorker 初始化
+2026-04-18 09:00:53 | INFO     | __main__:start:119 - ================================================================================
+2026-04-18 09:00:53 | INFO     | __main__:start:120 - 全任务Worker启动中...
+2026-04-18 09:00:53 | INFO     | __main__:start:121 - ================================================================================
+2026-04-18 09:00:53 | INFO     | __main__:start:124 - 连接 RabbitMQ...
+2026-04-18 09:00:53 | ERROR    | __main__:start:153 - Worker 启动失败: Server connection unexpectedly closed. Read 0 bytes but 1 bytes expected
+2026-04-18 09:00:53 | ERROR    | __main__:<module>:279 - Worker 异常退出: Server connection unexpectedly closed. Read 0 bytes but 1 bytes expected
+2026-04-18 09:02:05 | INFO     | __main__:<module>:79 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用 loguru，支持轮转和压缩)
+2026-04-18 09:02:05 | INFO     | __main__:__init__:114 - AllTasksWorker 初始化
+2026-04-18 09:02:05 | INFO     | __main__:start:119 - ================================================================================
+2026-04-18 09:02:05 | INFO     | __main__:start:120 - 全任务Worker启动中...
+2026-04-18 09:02:05 | INFO     | __main__:start:121 - ================================================================================
+2026-04-18 09:02:05 | INFO     | __main__:start:124 - 连接 RabbitMQ...
+2026-04-18 09:02:05 | INFO     | __main__:start:126 - ✅ RabbitMQ 连接成功
+2026-04-18 09:02:05 | INFO     | __main__:start:129 - 初始化 OrchestratorAgent...
+2026-04-18 09:02:05 | INFO     | __main__:start:131 - ✅ OrchestratorAgent 初始化成功
+2026-04-18 09:02:05 | INFO     | __main__:start:133 - 初始化 PricingAgent...
+2026-04-18 09:02:05 | INFO     | __main__:start:135 - ✅ PricingAgent 初始化成功
+2026-04-18 09:02:05 | INFO     | __main__:start:137 - ================================================================================
+2026-04-18 09:02:05 | INFO     | __main__:start:138 - 开始监听队列:
+2026-04-18 09:02:05 | INFO     | __main__:start:139 -   1. job_processing - 新任务编排 (并发数: 1)
+2026-04-18 09:02:05 | INFO     | __main__:start:140 -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-04-18 09:02:05 | INFO     | __main__:start:141 - ================================================================================
+2026-04-18 09:02:05 | INFO     | __main__:_consume_job_processing_queue:158 - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-04-18 09:02:05 | INFO     | __main__:_consume_pricing_queue:168 - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-04-18 09:24:19 | INFO     | __main__:handle_job_processing_message:190 - [任务处理] 收到消息: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, action=start
+2026-04-18 09:27:35 | INFO     | __main__:handle_job_processing_message:206 - [任务处理] 任务处理成功: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 | INFO     | __main__:handle_pricing_message:235 - [价格重算] 收到消息: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 子图数量=69
+2026-04-18 09:41:52 | INFO     | __main__:handle_pricing_message:250 - [价格重算] 计算成功: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 总成本=80129.26
+2026-04-18 09:43:13 | ERROR    | __main__:start:153 - Worker 启动失败: Channel closed by RPC timeout
+2026-04-18 09:43:13 | INFO     | __main__:<module>:277 - 
 收到中断信号，Worker 正在关闭...
-2026-04-17 09:21:47 | INFO     | __main__:<module>:79 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用 loguru，支持轮转和压缩)
-2026-04-17 09:21:47 | INFO     | __main__:__init__:114 - AllTasksWorker 初始化
-2026-04-17 09:21:47 | INFO     | __main__:start:119 - ================================================================================
-2026-04-17 09:21:47 | INFO     | __main__:start:120 - 全任务Worker启动中...
-2026-04-17 09:21:47 | INFO     | __main__:start:121 - ================================================================================
-2026-04-17 09:21:47 | INFO     | __main__:start:124 - 连接 RabbitMQ...
-2026-04-17 09:21:47 | INFO     | __main__:start:126 - ✅ RabbitMQ 连接成功
-2026-04-17 09:21:47 | INFO     | __main__:start:129 - 初始化 OrchestratorAgent...
-2026-04-17 09:21:47 | INFO     | __main__:start:131 - ✅ OrchestratorAgent 初始化成功
-2026-04-17 09:21:47 | INFO     | __main__:start:133 - 初始化 PricingAgent...
-2026-04-17 09:21:47 | INFO     | __main__:start:135 - ✅ PricingAgent 初始化成功
-2026-04-17 09:21:47 | INFO     | __main__:start:137 - ================================================================================
-2026-04-17 09:21:47 | INFO     | __main__:start:138 - 开始监听队列:
-2026-04-17 09:21:47 | INFO     | __main__:start:139 -   1. job_processing - 新任务编排 (并发数: 1)
-2026-04-17 09:21:47 | INFO     | __main__:start:140 -   2. pricing_recalculate - 价格重算 (并发数: 3)
-2026-04-17 09:21:47 | INFO     | __main__:start:141 - ================================================================================
-2026-04-17 09:21:47 | INFO     | __main__:_consume_job_processing_queue:158 - [任务处理队列] 开始监听 job_processing (并发数: 1)
-2026-04-17 09:21:47 | INFO     | __main__:_consume_pricing_queue:168 - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
-2026-04-17 09:27:07 | INFO     | __main__:handle_job_processing_message:190 - [任务处理] 收到消息: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, action=start
-2026-04-17 09:32:28 | INFO     | __main__:handle_job_processing_message:206 - [任务处理] 任务处理成功: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:44:41 | INFO     | __main__:handle_job_processing_message:190 - [任务处理] 收到消息: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, action=start
-2026-04-17 09:44:54 | INFO     | __main__:handle_job_processing_message:206 - [任务处理] 任务处理成功: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
+2026-04-18 09:43:18 | INFO     | __main__:<module>:79 - 日志文件保存位置: D:\AI\Pycharm\chengben2\mold_main\backend\logs\all_tasks_worker.log (使用 loguru，支持轮转和压缩)
+2026-04-18 09:43:18 | INFO     | __main__:__init__:114 - AllTasksWorker 初始化
+2026-04-18 09:43:18 | INFO     | __main__:start:119 - ================================================================================
+2026-04-18 09:43:18 | INFO     | __main__:start:120 - 全任务Worker启动中...
+2026-04-18 09:43:18 | INFO     | __main__:start:121 - ================================================================================
+2026-04-18 09:43:18 | INFO     | __main__:start:124 - 连接 RabbitMQ...
+2026-04-18 09:43:18 | INFO     | __main__:start:126 - ✅ RabbitMQ 连接成功
+2026-04-18 09:43:18 | INFO     | __main__:start:129 - 初始化 OrchestratorAgent...
+2026-04-18 09:43:18 | INFO     | __main__:start:131 - ✅ OrchestratorAgent 初始化成功
+2026-04-18 09:43:18 | INFO     | __main__:start:133 - 初始化 PricingAgent...
+2026-04-18 09:43:18 | INFO     | __main__:start:135 - ✅ PricingAgent 初始化成功
+2026-04-18 09:43:18 | INFO     | __main__:start:137 - ================================================================================
+2026-04-18 09:43:18 | INFO     | __main__:start:138 - 开始监听队列:
+2026-04-18 09:43:18 | INFO     | __main__:start:139 -   1. job_processing - 新任务编排 (并发数: 1)
+2026-04-18 09:43:18 | INFO     | __main__:start:140 -   2. pricing_recalculate - 价格重算 (并发数: 3)
+2026-04-18 09:43:18 | INFO     | __main__:start:141 - ================================================================================
+2026-04-18 09:43:18 | INFO     | __main__:_consume_job_processing_queue:158 - [任务处理队列] 开始监听 job_processing (并发数: 1)
+2026-04-18 09:43:18 | INFO     | __main__:_consume_pricing_queue:168 - [价格重算队列] 开始监听 pricing_recalculate (并发数: 3)
+2026-04-18 09:44:47 | ERROR    | __main__:start:153 - Worker 启动失败: Channel closed by RPC timeout
+2026-04-18 09:44:47 | INFO     | __main__:<module>:277 - 
+收到中断信号，Worker 正在关闭...

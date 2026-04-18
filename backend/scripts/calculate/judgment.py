@@ -1,4 +1,4 @@
-"""
+﻿"""
 数据清理和校验脚本（阶段 7）
 负责人：李志鹏
 
@@ -148,7 +148,9 @@ async def _cleanup_material_preparation(
     """
     logger.info(f"Cleaning up material preparation for {subgraph_id}: {has_material_preparation}")
     
-    # 清空 subgraphs 表的所有成本相关字段
+    # 备料件导出时只保留：零件名称、编号、异常情况、其它（备料于）
+    # 因此这里把 subgraphs / features / processing_cost_calculation_details 中
+    # 与其他导出列相关的字段统一清空。
     subgraphs_sql = """
         UPDATE subgraphs
         SET 
@@ -158,9 +160,15 @@ async def _cleanup_material_preparation(
             heat_treatment_unit_price = NULL,
             heat_treatment_cost = NULL,
             process_description = NULL,
+            nc_z_time = NULL,
+            nc_b_time = NULL,
+            nc_c_time = NULL,
+            nc_c_b_time = NULL,
             drilling_time = NULL,
             nc_roughing_time = NULL,
             nc_milling_time = NULL,
+            large_grinding_time = NULL,
+            small_grinding_time = NULL,
             milling_machine_time = NULL,
             edm_time = NULL,
             engraving_time = NULL,
@@ -168,8 +176,17 @@ async def _cleanup_material_preparation(
             slow_wire_side_length = NULL,
             mid_wire_length = NULL,
             fast_wire_length = NULL,
+            wire_time = NULL,
             separate_item = NULL,
             total_cost = NULL,
+            nc_z_fee = NULL,
+            nc_b_fee = NULL,
+            nc_c_fee = NULL,
+            nc_c_b_fee = NULL,
+            nc_z_view_time = NULL,
+            nc_b_view_time = NULL,
+            nc_z_view_fee = NULL,
+            nc_b_view_fee = NULL,
             wire_process_note = NULL,
             milling_machine_cost = NULL,
             slow_wire_cost = NULL,
@@ -204,11 +221,54 @@ async def _cleanup_material_preparation(
             updated_at = NOW()
         WHERE job_id = $1::uuid AND subgraph_id = $2::text
     """
+
+    features_sql = """
+        UPDATE features
+        SET
+            length_mm = NULL,
+            width_mm = NULL,
+            thickness_mm = NULL,
+            material = NULL,
+            heat_treatment = NULL,
+            volume_mm3 = NULL,
+            calculated_weight_kg = NULL,
+            top_view_wire_length = NULL,
+            front_view_wire_length = NULL,
+            side_view_wire_length = NULL,
+            has_auto_material = false,
+            needs_heat_treatment = false,
+            boring_length_mm = NULL,
+            nc_time_cost = NULL,
+            processing_instructions = NULL,
+            is_complete = false,
+            missing_params = NULL,
+            created_by = NULL,
+            metadata = NULL
+        WHERE job_id = $1::uuid AND subgraph_id = $2::text
+    """
     
-    # 清空 processing_cost_calculation_details 表的 calculation_steps
+    # 清空 processing_cost_calculation_details 表的费用/工时明细，只保留备料说明
     details_sql = """
         UPDATE processing_cost_calculation_details
         SET 
+            process_type = NULL,
+            adjusted_thickness = NULL,
+            weight = NULL,
+            multiplier_coefficient = NULL,
+            standard_hours = NULL,
+            actual_hours = NULL,
+            basic_processing_cost = NULL,
+            special_base_cost = NULL,
+            standard_base_cost = NULL,
+            selected_base_cost = NULL,
+            base_cost_selection = NULL,
+            material_additional_cost = NULL,
+            material_cost = NULL,
+            heat_treatment_cost = NULL,
+            heat_additional_cost = NULL,
+            additional_cost_total = NULL,
+            final_cost = NULL,
+            weight_price_steps = NULL,
             calculation_steps = jsonb_build_array(
                 jsonb_build_object(
                     'category', 'material_preparation',
@@ -225,6 +285,7 @@ async def _cleanup_material_preparation(
     
     try:
         await db.execute(subgraphs_sql, job_id, subgraph_id)
+        await db.execute(features_sql, job_id, subgraph_id)
         await db.execute(details_sql, job_id, subgraph_id, f"该物料备料于: {has_material_preparation}")
         logger.info(f"Successfully cleaned up material preparation for {subgraph_id}")
     except Exception as e:
@@ -355,3 +416,4 @@ if __name__ == "__main__":
     print("\n使用方式：")
     print("1. 先执行 base_itemcode_search.py 获取零件信息")
     print("2. 调用本脚本进行数据清理和校验")
+

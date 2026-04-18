@@ -1,446 +1,463 @@
-2026-04-17 09:21:43 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
-2026-04-17 09:21:43 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
-2026-04-17 09:21:43 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
-2026-04-17 09:21:43 - api_gateway.main - INFO - Unified backend stopped
-2026-04-17 09:21:52 - api_gateway.main - INFO - Speech services router mounted into unified backend
-2026-04-17 09:21:52 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
-2026-04-17 09:21:52 - api_gateway.main - INFO - Unified backend starting
-2026-04-17 09:21:52 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.3.61:5672
-2026-04-17 09:21:52 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
-2026-04-17 09:21:52 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
-2026-04-17 09:21:52 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.3.61:6379
-2026-04-17 09:21:52 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
-2026-04-17 09:21:52 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
-2026-04-17 09:21:52 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
-2026-04-17 09:21:52 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
-2026-04-17 09:21:52 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
-2026-04-17 09:21:52 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
-2026-04-17 09:21:52 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
-2026-04-17 09:26:48 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c, 当前连接数=1
-2026-04-17 09:26:48 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c
-2026-04-17 09:26:48 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c
-2026-04-17 09:26:48 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
-2026-04-17 09:26:50 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c
-2026-04-17 09:26:50 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c
-2026-04-17 09:26:50 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c
-2026-04-17 09:27:03 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
-2026-04-17 09:27:03 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: M250238-P6-20260414.dwg
-2026-04-17 09:27:03 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: M250238-P6-20260414.dwg
-2026-04-17 09:27:03 - api_gateway.utils.validators - WARNING - ⚠️ PRT文件MIME类型异常: application/nx，但允许继续
-2026-04-17 09:27:03 - api_gateway.utils.validators - INFO - ✅ PRT文件验证通过: M250238-P6-20260414.prt
-2026-04-17 09:27:03 - api_gateway.services.job_service - INFO - ✅ PRT文件验证通过: M250238-P6-20260414.prt
-2026-04-17 09:27:03 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
-2026-04-17 09:27:03 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
-2026-04-17 09:27:03 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
-2026-04-17 09:27:03 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
-2026-04-17 09:27:03 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: M250238-P6-20260414.dwg
-2026-04-17 09:27:04 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/04/6d15c141-58d4-4691-8de1-3d92ee7683d9.dwg (4555956 bytes)
-2026-04-17 09:27:04 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/04/6d15c141-58d4-4691-8de1-3d92ee7683d9.dwg
-2026-04-17 09:27:04 - api_gateway.services.job_service - INFO - 📤 开始上传PRT文件: M250238-P6-20260414.prt
-2026-04-17 09:27:07 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: prt/2026/04/773a4782-51f0-4feb-a464-03edef9be158.prt (113627136 bytes)
-2026-04-17 09:27:07 - api_gateway.services.job_service - INFO - ✅ PRT文件上传成功: prt/2026/04/773a4782-51f0-4feb-a464-03edef9be158.prt
-2026-04-17 09:27:07 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:07 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e, name=M250238-P6-20260414
-2026-04-17 09:27:07 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, count=169
-2026-04-17 09:27:07 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 169}
-2026-04-17 09:27:07 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:07 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:07 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:07 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:07 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:07 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 当前连接数=1
-2026-04-17 09:27:07 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:08 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.3.61:6379
-2026-04-17 09:27:08 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1a5e96f2-5264-40df-9ab3-af8f7f23e79e:progress
-2026-04-17 09:27:08 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 09:27:08 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:08 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:08 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, type=progress
-2026-04-17 09:27:08 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=progress, type=progress
-2026-04-17 09:27:22 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=1
-2026-04-17 09:27:37 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=2
-2026-04-17 09:27:53 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=3
-2026-04-17 09:27:59 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:59 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:59 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:27:59 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c, 当前连接数=1
-2026-04-17 09:27:59 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c
-2026-04-17 09:27:59 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c
-2026-04-17 09:27:59 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
-2026-04-17 09:28:02 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c
-2026-04-17 09:28:02 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c
-2026-04-17 09:28:02 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=1c3d074f-ff0d-4df6-b6c5-bad5f90e989c
-2026-04-17 09:28:02 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 当前连接数=1
-2026-04-17 09:28:02 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:28:17 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=1
-2026-04-17 09:28:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=2
-2026-04-17 09:28:47 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=3
-2026-04-17 09:29:02 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=4
-2026-04-17 09:29:17 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=5
-2026-04-17 09:29:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=6
-2026-04-17 09:29:47 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=7
-2026-04-17 09:29:48 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 09:29:48 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:29:48 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:29:48 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, type=progress
-2026-04-17 09:29:48 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=progress, type=progress
-2026-04-17 09:29:48 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 09:29:48 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:29:48 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:29:48 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, type=progress
-2026-04-17 09:29:48 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=progress, type=progress
-2026-04-17 09:29:48 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 09:29:48 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:29:48 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:29:48 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, type=progress
-2026-04-17 09:29:48 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=progress, type=progress
-2026-04-17 09:29:48 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1a5e96f2-5264-40df-9ab3-af8f7f23e79e:progress
-2026-04-17 09:30:02 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=8
-2026-04-17 09:30:17 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=9
-2026-04-17 09:30:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=10
-2026-04-17 09:30:47 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=11
-2026-04-17 09:31:02 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=12
-2026-04-17 09:31:17 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=13
-2026-04-17 09:31:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=14
-2026-04-17 09:31:47 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=15
-2026-04-17 09:32:02 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=16
-2026-04-17 09:32:17 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=17
-2026-04-17 09:32:23 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1a5e96f2-5264-40df-9ab3-af8f7f23e79e:progress
-2026-04-17 09:32:23 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 09:32:23 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:23 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:23 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, type=progress
-2026-04-17 09:32:23 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=progress, type=progress
-2026-04-17 09:32:23 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
-2026-04-17 09:32:23 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:23 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
-2026-04-17 09:32:23 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:23 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:23 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:23 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 118 条记录
-2026-04-17 09:32:23 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:23 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 169 条记录
-2026-04-17 09:32:23 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:23 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 118 条记录
-2026-04-17 09:32:23 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:23 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 118 条记录
-2026-04-17 09:32:23 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=118, job_price_snapshots=169, subgraphs=118, processing_cost_calculation_details=118
-2026-04-17 09:32:23 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1a5e96f2-5264-40df-9ab3-af8f7f23e79e:review
-2026-04-17 09:32:23 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 09:32:23 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:25 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:25 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=review, type=review_display_view
-2026-04-17 09:32:28 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1a5e96f2-5264-40df-9ab3-af8f7f23e79e:progress
-2026-04-17 09:32:28 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 09:32:28 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:28 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1a5e96f2-5264-40df-9ab3-af8f7f23e79e:progress
-2026-04-17 09:32:28 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:28 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, type=progress
-2026-04-17 09:32:28 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=progress, type=progress
-2026-04-17 09:32:28 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 09:32:28 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:28 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:28 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, type=progress
-2026-04-17 09:32:28 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=progress, type=progress
-2026-04-17 09:32:28 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
-2026-04-17 09:32:28 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:28 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
-2026-04-17 09:32:28 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=18
-2026-04-17 09:32:38 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:38 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:38 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:38 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=ce4951b3-39ab-4f10-9b94-fb2b1cf4a0f7, 当前连接数=1
-2026-04-17 09:32:38 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=ce4951b3-39ab-4f10-9b94-fb2b1cf4a0f7
-2026-04-17 09:32:38 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=ce4951b3-39ab-4f10-9b94-fb2b1cf4a0f7
-2026-04-17 09:32:38 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 118 条记录
-2026-04-17 09:32:42 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=ce4951b3-39ab-4f10-9b94-fb2b1cf4a0f7
-2026-04-17 09:32:42 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=ce4951b3-39ab-4f10-9b94-fb2b1cf4a0f7
-2026-04-17 09:32:42 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=ce4951b3-39ab-4f10-9b94-fb2b1cf4a0f7
-2026-04-17 09:32:43 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 当前连接数=1
-2026-04-17 09:32:43 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:43 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:43 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 118 条记录
-2026-04-17 09:32:43 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
-2026-04-17 09:32:43 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:43 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
-2026-04-17 09:32:43 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:54 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:54 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:54 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:57 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 当前连接数=1
-2026-04-17 09:32:57 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:57 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:57 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 118 条记录
-2026-04-17 09:32:57 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
-2026-04-17 09:32:57 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:32:57 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
-2026-04-17 09:32:57 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:33:00 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1a5e96f2-5264-40df-9ab3-af8f7f23e79e:review
-2026-04-17 09:33:00 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 09:33:00 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:33:00 - api_gateway.routers.review_router - INFO - ✅ 审核启动成功: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:33:00 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:33:00 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=review, type=completion_request
-2026-04-17 09:33:28 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=1
-2026-04-17 09:33:58 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=2
-2026-04-17 09:34:28 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=3
-2026-04-17 09:34:58 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=4
-2026-04-17 09:35:28 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=5
-2026-04-17 09:35:58 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=6
-2026-04-17 09:36:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=7
-2026-04-17 09:37:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=8
-2026-04-17 09:38:03 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:38:03 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:38:03 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:38:07 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 当前连接数=1
-2026-04-17 09:38:07 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:38:07 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:38:07 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 118 条记录
-2026-04-17 09:38:38 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=1
-2026-04-17 09:39:08 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=2
-2026-04-17 09:39:38 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=3
-2026-04-17 09:40:08 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=4
-2026-04-17 09:40:38 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=5
-2026-04-17 09:41:08 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=6
-2026-04-17 09:42:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=7
-2026-04-17 09:43:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=8
-2026-04-17 09:44:26 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=9
-2026-04-17 09:44:31 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:44:31 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:44:31 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:44:41 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
-2026-04-17 09:44:41 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: 3d1.dwg
-2026-04-17 09:44:41 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: 3d1.dwg
-2026-04-17 09:44:41 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
-2026-04-17 09:44:41 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
-2026-04-17 09:44:41 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: 3d1.dwg
-2026-04-17 09:44:41 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/04/9b23baa1-ffae-44c6-9a69-9cb3784c8296.dwg (545936 bytes)
-2026-04-17 09:44:41 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/04/9b23baa1-ffae-44c6-9a69-9cb3784c8296.dwg
-2026-04-17 09:44:41 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:41 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: 3042a75b-e043-4034-9d75-bca60c752ca2, name=3d1
-2026-04-17 09:44:41 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, count=169
-2026-04-17 09:44:41 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 169}
-2026-04-17 09:44:41 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:41 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:41 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:41 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:41 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:41 - api_gateway.websocket - WARNING - ⚠️  没有活跃连接: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:41 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:3042a75b-e043-4034-9d75-bca60c752ca2:progress
-2026-04-17 09:44:41 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:41 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:41 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, type=progress
-2026-04-17 09:44:41 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, channel=progress, type=progress
-2026-04-17 09:44:41 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, 当前连接数=1
-2026-04-17 09:44:41 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:43 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:43 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:43 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:43 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 当前连接数=1
-2026-04-17 09:44:43 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:44:43 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:44:43 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 118 条记录
-2026-04-17 09:44:48 - api_gateway.websocket - WARNING - ⚠️  没有活跃连接: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:48 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:48 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:48 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, type=progress
-2026-04-17 09:44:48 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, channel=progress, type=progress
-2026-04-17 09:44:48 - api_gateway.websocket - WARNING - ⚠️  没有活跃连接: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:48 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:48 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:48 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, type=progress
-2026-04-17 09:44:48 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, channel=progress, type=progress
-2026-04-17 09:44:48 - api_gateway.websocket - WARNING - ⚠️  没有活跃连接: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:48 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:48 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:48 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, type=progress
-2026-04-17 09:44:48 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, channel=progress, type=progress
-2026-04-17 09:44:48 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:3042a75b-e043-4034-9d75-bca60c752ca2:progress
-2026-04-17 09:44:54 - api_gateway.websocket - WARNING - ⚠️  没有活跃连接: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:54 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:3042a75b-e043-4034-9d75-bca60c752ca2:progress
-2026-04-17 09:44:54 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:54 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:54 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, type=progress
-2026-04-17 09:44:54 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, channel=progress, type=progress
-2026-04-17 09:44:54 - api_gateway.websocket - WARNING - ⚠️  没有活跃连接: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:54 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:3042a75b-e043-4034-9d75-bca60c752ca2:progress
-2026-04-17 09:44:54 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:54 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:54 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, type=progress
-2026-04-17 09:44:54 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, channel=progress, type=progress
-2026-04-17 09:44:54 - api_gateway.websocket - WARNING - ⚠️  没有活跃连接: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:54 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:3042a75b-e043-4034-9d75-bca60c752ca2:progress
-2026-04-17 09:44:54 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:54 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:44:54 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, type=progress
-2026-04-17 09:44:54 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, channel=progress, type=progress
-2026-04-17 09:44:58 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=1
-2026-04-17 09:45:04 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:45:04 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:45:04 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 09:45:04 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, 当前连接数=1
-2026-04-17 09:45:04 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:45:04 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
-2026-04-17 09:45:04 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:45:04 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
-2026-04-17 09:45:04 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:45:04 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:45:04 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:45:04 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 5 条记录
-2026-04-17 09:45:04 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:45:04 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 169 条记录
-2026-04-17 09:45:04 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:45:04 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 5 条记录
-2026-04-17 09:45:04 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:45:04 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 5 条记录
-2026-04-17 09:45:04 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=5, job_price_snapshots=169, subgraphs=5, processing_cost_calculation_details=5
-2026-04-17 09:45:04 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:3042a75b-e043-4034-9d75-bca60c752ca2:review
-2026-04-17 09:45:04 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, 接收者=1
-2026-04-17 09:45:04 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:45:04 - api_gateway.routers.review_router - INFO - ✅ 审核启动成功: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:45:04 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 09:45:04 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, channel=review, type=review_display_view
-2026-04-17 09:45:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=1
-2026-04-17 09:45:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=2
-2026-04-17 09:45:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=3
-2026-04-17 09:46:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=4
-2026-04-17 09:46:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=5
-2026-04-17 09:46:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=6
-2026-04-17 09:46:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=7
-2026-04-17 09:47:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=8
-2026-04-17 09:47:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=9
-2026-04-17 09:47:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=10
-2026-04-17 09:47:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=11
-2026-04-17 09:48:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=12
-2026-04-17 09:48:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=13
-2026-04-17 09:48:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=14
-2026-04-17 09:48:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=15
-2026-04-17 09:49:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=16
-2026-04-17 09:49:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=17
-2026-04-17 09:49:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=18
-2026-04-17 09:49:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=19
-2026-04-17 09:50:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=20
-2026-04-17 09:50:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=21
-2026-04-17 09:50:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=22
-2026-04-17 09:50:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=23
-2026-04-17 09:51:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=24
-2026-04-17 09:51:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=25
-2026-04-17 09:51:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=26
-2026-04-17 09:51:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=27
-2026-04-17 09:52:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=28
-2026-04-17 09:52:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=29
-2026-04-17 09:52:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=30
-2026-04-17 09:52:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=31
-2026-04-17 09:53:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=32
-2026-04-17 09:53:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=33
-2026-04-17 09:53:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=34
-2026-04-17 09:53:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=35
-2026-04-17 09:54:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=36
-2026-04-17 09:54:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=37
-2026-04-17 09:54:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=38
-2026-04-17 09:54:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=39
-2026-04-17 09:55:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=40
-2026-04-17 09:55:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=41
-2026-04-17 09:55:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=42
-2026-04-17 09:55:50 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=43
-2026-04-17 09:56:05 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=44
-2026-04-17 09:56:20 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=45
-2026-04-17 09:57:21 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=46
-2026-04-17 09:58:22 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=47
-2026-04-17 09:59:23 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=48
-2026-04-17 10:00:24 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=49
-2026-04-17 10:01:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=50
-2026-04-17 10:02:26 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=51
-2026-04-17 10:03:27 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=52
-2026-04-17 10:04:28 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=53
-2026-04-17 10:05:29 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=54
-2026-04-17 10:06:30 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=55
-2026-04-17 10:07:31 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=56
-2026-04-17 10:08:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=57
-2026-04-17 10:09:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=58
-2026-04-17 10:10:09 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=59
-2026-04-17 10:10:20 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=60
-2026-04-17 10:10:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=61
-2026-04-17 10:10:50 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=62
-2026-04-17 10:11:05 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=63
-2026-04-17 10:11:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=64
-2026-04-17 10:12:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=65
-2026-04-17 10:12:38 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=66
-2026-04-17 10:12:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=67
-2026-04-17 10:13:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=68
-2026-04-17 10:13:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=69
-2026-04-17 10:13:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=70
-2026-04-17 10:13:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=71
-2026-04-17 10:14:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=72
-2026-04-17 10:14:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=73
-2026-04-17 10:14:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=74
-2026-04-17 10:14:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=75
-2026-04-17 10:15:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=3042a75b-e043-4034-9d75-bca60c752ca2, sequence=76
-2026-04-17 10:15:18 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 10:15:18 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 10:15:18 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=3042a75b-e043-4034-9d75-bca60c752ca2
-2026-04-17 10:15:18 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 当前连接数=1
-2026-04-17 10:15:18 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:18 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:18 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 118 条记录
-2026-04-17 10:15:20 - api_gateway.routers.jobs - INFO - 收到继续核算请求: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
-2026-04-17 10:15:20 - api_gateway.routers.jobs - INFO - 继续核算任务已调度: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:20 - api_gateway.routers.jobs - INFO - 后台继续核算任务开始: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:20 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1a5e96f2-5264-40df-9ab3-af8f7f23e79e:progress
-2026-04-17 10:15:20 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 10:15:20 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:20 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1a5e96f2-5264-40df-9ab3-af8f7f23e79e:progress
-2026-04-17 10:15:20 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:20 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, type=progress
-2026-04-17 10:15:20 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=progress, type=progress
-2026-04-17 10:15:20 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 10:15:20 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:20 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:20 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, type=progress
-2026-04-17 10:15:20 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=progress, type=progress
-2026-04-17 10:15:24 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1a5e96f2-5264-40df-9ab3-af8f7f23e79e:progress
-2026-04-17 10:15:24 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 10:15:24 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:24 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:24 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, type=progress
-2026-04-17 10:15:24 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=progress, type=progress
-2026-04-17 10:15:24 - api_gateway.routers.jobs - INFO - 后台继续核算任务完成: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, status=ok
-2026-04-17 10:15:24 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, 接收者=1
-2026-04-17 10:15:24 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:1a5e96f2-5264-40df-9ab3-af8f7f23e79e:progress
-2026-04-17 10:15:24 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:24 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 1a5e96f2-5264-40df-9ab3-af8f7f23e79e
-2026-04-17 10:15:24 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, type=progress
-2026-04-17 10:15:24 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, channel=progress, type=progress
-2026-04-17 10:15:33 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=1
-2026-04-17 10:15:48 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=2
-2026-04-17 10:16:03 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=3
-2026-04-17 10:16:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=4
-2026-04-17 10:16:33 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=5
-2026-04-17 10:16:48 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=6
-2026-04-17 10:17:03 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=7
-2026-04-17 10:17:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=8
-2026-04-17 10:17:33 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=9
-2026-04-17 10:17:48 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=10
-2026-04-17 10:18:03 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=11
-2026-04-17 10:18:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=12
-2026-04-17 10:18:33 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=13
-2026-04-17 10:18:48 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=14
-2026-04-17 10:19:03 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=15
-2026-04-17 10:19:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=16
-2026-04-17 10:19:33 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=17
-2026-04-17 10:19:48 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=18
-2026-04-17 10:20:03 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=19
-2026-04-17 10:20:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=20
-2026-04-17 10:20:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=21
-2026-04-17 10:20:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=22
-2026-04-17 10:21:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=23
-2026-04-17 10:21:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=24
-2026-04-17 10:22:10 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=25
-2026-04-17 10:22:18 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=26
-2026-04-17 10:22:33 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=27
-2026-04-17 10:22:49 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=28
-2026-04-17 10:23:04 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=29
-2026-04-17 10:23:19 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=30
-2026-04-17 10:23:34 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=31
-2026-04-17 10:24:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=1a5e96f2-5264-40df-9ab3-af8f7f23e79e, sequence=32
+2026-04-18 09:01:03 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-04-18 09:01:03 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
+2026-04-18 09:01:03 - api_gateway.main - INFO - Unified backend starting
+2026-04-18 09:01:03 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.3.61:5672
+2026-04-18 09:01:03 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-04-18 09:01:03 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-04-18 09:01:03 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.3.61:6379
+2026-04-18 09:01:04 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-04-18 09:01:04 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-04-18 09:01:04 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-04-18 09:01:04 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-04-18 09:01:04 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-04-18 09:01:04 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-04-18 09:01:04 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-04-18 09:02:00 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-04-18 09:02:00 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-04-18 09:02:00 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-04-18 09:02:00 - api_gateway.main - INFO - Unified backend stopped
+2026-04-18 09:02:09 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-04-18 09:02:09 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
+2026-04-18 09:02:09 - api_gateway.main - INFO - Unified backend starting
+2026-04-18 09:02:09 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.3.61:5672
+2026-04-18 09:02:09 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-04-18 09:02:09 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-04-18 09:02:09 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.3.61:6379
+2026-04-18 09:02:09 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-04-18 09:02:09 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-04-18 09:02:09 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-04-18 09:02:09 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-04-18 09:02:09 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-04-18 09:02:09 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-04-18 09:02:09 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-04-18 09:24:18 - api_gateway.services.job_service - INFO - 📤 用户 a63b7863-5faf-4b00-9ec3-758495b0fb66 开始创建任务
+2026-04-18 09:24:18 - api_gateway.utils.validators - INFO - ✅ DWG文件验证通过: M250238-P4-20260411.dwg
+2026-04-18 09:24:18 - api_gateway.services.job_service - INFO - ✅ DWG文件验证通过: M250238-P4-20260411.dwg
+2026-04-18 09:24:18 - api_gateway.utils.validators - WARNING - ⚠️ PRT文件MIME类型异常: application/nx，但允许继续
+2026-04-18 09:24:18 - api_gateway.utils.validators - INFO - ✅ PRT文件验证通过: M250238-P4-20260411.prt
+2026-04-18 09:24:18 - api_gateway.services.job_service - INFO - ✅ PRT文件验证通过: M250238-P4-20260411.prt
+2026-04-18 09:24:18 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-04-18 09:24:18 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-04-18 09:24:18 - api_gateway.utils.encryption - DEBUG - 检查文件加密状态（当前未实现，返回False）
+2026-04-18 09:24:18 - api_gateway.utils.encryption - DEBUG - 文件未加密，无需解密
+2026-04-18 09:24:18 - api_gateway.services.job_service - INFO - 📤 开始上传DWG文件: M250238-P4-20260411.dwg
+2026-04-18 09:24:18 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: dwg/2026/04/c65d02db-00a9-4690-986f-3403c93d5e13.dwg (3785733 bytes)
+2026-04-18 09:24:18 - api_gateway.services.job_service - INFO - ✅ DWG文件上传成功: dwg/2026/04/c65d02db-00a9-4690-986f-3403c93d5e13.dwg
+2026-04-18 09:24:18 - api_gateway.services.job_service - INFO - 📤 开始上传PRT文件: M250238-P4-20260411.prt
+2026-04-18 09:24:19 - api_gateway.utils.minio_client - INFO - ✅ 文件上传成功: prt/2026/04/d27504fe-0e0c-464e-976c-6eab1ed0762a.prt (93470720 bytes)
+2026-04-18 09:24:19 - api_gateway.services.job_service - INFO - ✅ PRT文件上传成功: prt/2026/04/d27504fe-0e0c-464e-976c-6eab1ed0762a.prt
+2026-04-18 09:24:19 - api_gateway.repositories.job_repository - INFO - ✅ Job记录已创建: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:24:19 - api_gateway.services.job_service - INFO - ✅ 聊天会话已创建: 24cc5c1a-1556-49a7-bc77-4d04f57b946d, name=M250238-P4-20260411
+2026-04-18 09:24:19 - api_gateway.repositories.snapshot_repository - INFO - ✅ 价格快照已创建: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, count=173
+2026-04-18 09:24:19 - api_gateway.services.job_service - INFO - ✅ 快照创建完成: {'price_items_count': 173}
+2026-04-18 09:24:19 - api_gateway.repositories.audit_repository - INFO - ✅ 审计日志已记录: file_upload - 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:24:19 - api_gateway.services.job_service - INFO - ✅ 数据库事务提交成功: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:24:19 - api_gateway.utils.rabbitmq_client - INFO - ✅ 消息已发送到队列 [job_processing]: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:24:19 - api_gateway.services.job_service - INFO - ✅ 消息已发送到RabbitMQ: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:24:19 - api_gateway.services.job_service - INFO - 🎉 任务创建完成: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:24:20 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 当前连接数=1
+2026-04-18 09:24:20 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:24:20 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.3.61:6379
+2026-04-18 09:24:20 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:progress
+2026-04-18 09:24:20 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:24:20 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:24:20 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:24:20 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:24:20 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:24:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=1
+2026-04-18 09:24:50 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=2
+2026-04-18 09:25:05 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=3
+2026-04-18 09:25:20 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=4
+2026-04-18 09:25:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=5
+2026-04-18 09:25:50 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=6
+2026-04-18 09:26:01 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:26:01 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:26:01 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:26:01 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:26:01 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:26:01 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:26:01 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:26:01 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:26:01 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:26:01 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:26:01 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:26:01 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:26:01 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:26:01 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:26:01 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:26:01 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:progress
+2026-04-18 09:26:05 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=7
+2026-04-18 09:26:20 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=8
+2026-04-18 09:26:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=9
+2026-04-18 09:26:50 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=10
+2026-04-18 09:27:05 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=11
+2026-04-18 09:27:20 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=12
+2026-04-18 09:27:31 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:progress
+2026-04-18 09:27:31 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:27:31 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:31 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:31 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:27:31 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:27:31 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-18 09:27:31 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:31 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-18 09:27:31 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:31 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:31 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:31 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:27:31 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:31 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 173 条记录
+2026-04-18 09:27:31 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:31 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:27:31 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:31 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:27:31 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=69, job_price_snapshots=173, subgraphs=69, processing_cost_calculation_details=69
+2026-04-18 09:27:32 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:review
+2026-04-18 09:27:32 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:27:32 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:33 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:33 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=review, type=review_display_view
+2026-04-18 09:27:35 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:progress
+2026-04-18 09:27:35 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:27:35 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:35 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:progress
+2026-04-18 09:27:35 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:35 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:27:35 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:27:35 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:27:35 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:35 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:35 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:27:35 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:27:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=13
+2026-04-18 09:27:35 - api_gateway.routers.review_router - INFO - 📋 启动审核: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-18 09:27:35 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:35 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-18 09:27:35 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:43 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:review
+2026-04-18 09:27:43 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:27:43 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:43 - api_gateway.routers.review_router - INFO - ✅ 审核启动成功: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:43 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:43 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=review, type=completion_request
+2026-04-18 09:27:48 - api_gateway.routers.jobs - INFO - 收到继续核算请求: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-18 09:27:48 - api_gateway.routers.jobs - INFO - 继续核算任务已调度: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:48 - api_gateway.routers.jobs - INFO - 后台继续核算任务开始: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:49 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:progress
+2026-04-18 09:27:49 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:27:49 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:49 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:49 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:27:49 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:27:49 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:progress
+2026-04-18 09:27:49 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:27:49 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:49 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:49 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:27:49 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:27:50 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=14
+2026-04-18 09:27:52 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:progress
+2026-04-18 09:27:52 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:27:52 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:52 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:52 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:27:52 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:27:52 - api_gateway.routers.jobs - INFO - 后台继续核算任务完成: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, status=ok
+2026-04-18 09:27:52 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:progress
+2026-04-18 09:27:52 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:27:52 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:52 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:27:52 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:27:52 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:28:05 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=15
+2026-04-18 09:28:10 - api_gateway.routers.review_router - INFO - ✏️ 处理修改: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-18 09:28:10 - api_gateway.routers.review_router - DEBUG - 修改内容: B2-05怎么计算的
+2026-04-18 09:28:10 - api_gateway.routers.review_router - INFO - 开始写入修改会话消息: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:28:10 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:28:10 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-18 09:28:10 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:28:10 - api_gateway.utils.chat_logger - DEBUG - 用户消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:28:10 - api_gateway.routers.review_router - INFO - 修改会话消息写入完成: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:28:10 - api_gateway.routers.review_router - INFO - 🔍 步骤2.5.5: 数字选择检测
+2026-04-18 09:28:10 - api_gateway.routers.review_router - INFO - 🔍 步骤2.6: LLM 确认检测
+2026-04-18 09:28:10 - api_gateway.routers.review_router - INFO - 📚 获取到 10 条聊天历史
+2026-04-18 09:28:10 - api_gateway.routers.review_router - DEBUG -   消息 0: role=system, content=任务进度：pricing_completed (90%)
+价格计算完成，总成本: 80129.26 ..., metadata={'stage': 'pricing_completed', 'progress': 90, 'message_type': 'progress', 'original_ws_message': {'data': {'stage': 'pricing_completed', 'job_id': '24cc5c1a-1556-49a7-bc77-4d04f57b946d', 'details': {'source': 'pricing_agent', 'currency': 'CNY', 'total_cost': 80129.26, 'total_batches': 2, 'subgraph_count': 69, 'total_duration': 3.7280664443969727}, 'message': '价格计算完成，总成本: 80129.26 CNY', 'progress': 90}, 'type': 'progress', 'job_id': '24cc5c1a-1556-49a7-bc77-4d04f57b946d', 'timestamp': '2026-04-18T09:27:52.756925'}}
+2026-04-18 09:28:10 - api_gateway.routers.review_router - DEBUG -   消息 1: role=system, content=任务进度：completed (100%)
+任务完成！..., metadata={'stage': 'completed', 'progress': 100, 'message_type': 'progress', 'original_ws_message': {'data': {'stage': 'completed', 'job_id': '24cc5c1a-1556-49a7-bc77-4d04f57b946d', 'details': {'duration_ms': 3775}, 'message': '任务完成！', 'progress': 100}, 'type': 'progress', 'job_id': '24cc5c1a-1556-49a7-bc77-4d04f57b946d', 'timestamp': '2026-04-18T09:27:52.777936'}}
+2026-04-18 09:28:10 - api_gateway.routers.review_router - DEBUG -   消息 2: role=user, content=B2-05怎么计算的..., metadata={'action': 'modify', 'user_id': 'a63b7863-5faf-4b00-9ec3-758495b0fb66'}
+2026-04-18 09:28:10 - api_gateway.routers.review_router - INFO - 🔍 步骤3: 输入澄清检查
+2026-04-18 09:28:15 - api_gateway.routers.review_router - INFO - ✅ 输入规范，置信度: 0.00
+2026-04-18 09:28:20 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=16
+2026-04-18 09:28:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=17
+2026-04-18 09:28:50 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=18
+2026-04-18 09:29:05 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=19
+2026-04-18 09:29:16 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:29:16 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-18 09:29:16 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:29:16 - api_gateway.utils.chat_logger - DEBUG - 助手回复已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:29:16 - api_gateway.routers.review_router - INFO - ✅ 修改处理成功: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, intent=QUERY_DETAILS
+2026-04-18 09:29:20 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=20
+2026-04-18 09:29:35 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=21
+2026-04-18 09:29:38 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:29:38 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:29:38 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:29:38 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=5f5b2e20-34b8-46a8-a907-b6cfd03476e8, 当前连接数=1
+2026-04-18 09:29:38 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=5f5b2e20-34b8-46a8-a907-b6cfd03476e8
+2026-04-18 09:29:38 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=5f5b2e20-34b8-46a8-a907-b6cfd03476e8
+2026-04-18 09:29:38 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:29:39 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=5f5b2e20-34b8-46a8-a907-b6cfd03476e8
+2026-04-18 09:29:39 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=5f5b2e20-34b8-46a8-a907-b6cfd03476e8
+2026-04-18 09:29:39 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=5f5b2e20-34b8-46a8-a907-b6cfd03476e8
+2026-04-18 09:29:40 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 当前连接数=1
+2026-04-18 09:29:40 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:29:40 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:29:40 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:29:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=1
+2026-04-18 09:30:10 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=2
+2026-04-18 09:30:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=3
+2026-04-18 09:30:40 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=4
+2026-04-18 09:30:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=5
+2026-04-18 09:31:10 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=6
+2026-04-18 09:31:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=7
+2026-04-18 09:31:40 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=8
+2026-04-18 09:31:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=9
+2026-04-18 09:32:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=10
+2026-04-18 09:33:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=11
+2026-04-18 09:34:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=12
+2026-04-18 09:35:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=13
+2026-04-18 09:36:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=14
+2026-04-18 09:37:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=15
+2026-04-18 09:38:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=16
+2026-04-18 09:38:46 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=17
+2026-04-18 09:38:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=18
+2026-04-18 09:39:10 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=19
+2026-04-18 09:39:14 - api_gateway.routers.review_router - INFO - ✏️ 处理修改: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-18 09:39:14 - api_gateway.routers.review_router - DEBUG - 修改内容: 重新计算
+2026-04-18 09:39:14 - api_gateway.routers.review_router - INFO - 开始写入修改会话消息: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:14 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:14 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-18 09:39:14 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:14 - api_gateway.utils.chat_logger - DEBUG - 用户消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:14 - api_gateway.routers.review_router - INFO - 修改会话消息写入完成: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:14 - api_gateway.routers.review_router - INFO - 🔍 步骤2.5.5: 数字选择检测
+2026-04-18 09:39:14 - api_gateway.routers.review_router - INFO - 🔍 步骤2.6: LLM 确认检测
+2026-04-18 09:39:14 - api_gateway.routers.review_router - INFO - 📚 获取到 10 条聊天历史
+2026-04-18 09:39:14 - api_gateway.routers.review_router - DEBUG -   消息 0: role=user, content=B2-05怎么计算的..., metadata={'action': 'modify', 'user_id': 'a63b7863-5faf-4b00-9ec3-758495b0fb66'}
+2026-04-18 09:39:14 - api_gateway.routers.review_router - DEBUG -   消息 1: role=assistant, content=B2-05 的成本计算由材料费、线割费、水磨费和 NC 加工费四大部分构成，总费用为 920.10 ..., metadata={'action': 'modify_response', 'intent': 'QUERY_DETAILS', 'requires_confirmation': False}
+2026-04-18 09:39:14 - api_gateway.routers.review_router - DEBUG -   消息 2: role=user, content=重新计算..., metadata={'action': 'modify', 'user_id': 'a63b7863-5faf-4b00-9ec3-758495b0fb66'}
+2026-04-18 09:39:14 - api_gateway.routers.review_router - INFO - 🔍 步骤3: 输入澄清检查
+2026-04-18 09:39:18 - api_gateway.routers.review_router - INFO - ✅ 输入规范，置信度: 0.00
+2026-04-18 09:39:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=20
+2026-04-18 09:39:25 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:25 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:25 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:39:25 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:25 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 173 条记录
+2026-04-18 09:39:25 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:25 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:39:25 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:25 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:39:25 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=69, job_price_snapshots=173, subgraphs=69, processing_cost_calculation_details=69
+2026-04-18 09:39:25 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:25 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-18 09:39:25 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:25 - api_gateway.utils.chat_logger - DEBUG - 助手回复已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:39:25 - api_gateway.routers.review_router - INFO - ✅ 修改处理成功: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, intent=PRICE_CALCULATION
+2026-04-18 09:39:40 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=21
+2026-04-18 09:39:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=22
+2026-04-18 09:40:10 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=23
+2026-04-18 09:40:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=24
+2026-04-18 09:41:32 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=25
+2026-04-18 09:41:46 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=26
+2026-04-18 09:41:49 - api_gateway.routers.review_router - INFO - ✅ 确认审核: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-18 09:41:49 - api_gateway.routers.review_router - INFO - 📝 开始确保会话存在...
+2026-04-18 09:41:49 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-18 09:41:49 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.routers.review_router - INFO - ✅ 会话检查完成
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 173 条记录
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=69, job_price_snapshots=173, subgraphs=69, processing_cost_calculation_details=69
+2026-04-18 09:41:49 - api_gateway.routers.pricing - INFO - 收到价格计算请求: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 子图数量=69, 用户参数=None
+2026-04-18 09:41:49 - api_gateway.routers.pricing - INFO - 价格计算任务已发布到队列: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:41:49 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:41:49 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:progress
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 173 条记录
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:41:49 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=69, job_price_snapshots=173, subgraphs=69, processing_cost_calculation_details=69
+2026-04-18 09:41:49 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:review
+2026-04-18 09:41:49 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:41:49 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:49 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=review, type=review_display_view
+2026-04-18 09:41:52 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:progress
+2026-04-18 09:41:52 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:41:52 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:52 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:52 - api_gateway.websocket - DEBUG - 💾 消息已持久化到数据库: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, type=progress
+2026-04-18 09:41:52 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=progress, type=progress
+2026-04-18 09:41:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=27
+2026-04-18 09:41:57 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:review
+2026-04-18 09:41:57 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:41:57 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:57 - api_gateway.routers.review_router - INFO - ✅ 审核确认成功: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, modifications=None
+2026-04-18 09:41:57 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:41:57 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=review, type=completion_request
+2026-04-18 09:42:10 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=28
+2026-04-18 09:42:23 - api_gateway.routers.review_router - INFO - ✏️ 处理修改: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-18 09:42:23 - api_gateway.routers.review_router - DEBUG - 修改内容: 把Cr12mov单价改为31
+2026-04-18 09:42:23 - api_gateway.routers.review_router - INFO - 开始写入修改会话消息: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:42:23 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:42:23 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-18 09:42:23 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:42:23 - api_gateway.utils.chat_logger - DEBUG - 用户消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:42:23 - api_gateway.routers.review_router - INFO - 修改会话消息写入完成: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:42:23 - api_gateway.routers.review_router - INFO - 🔍 步骤2.5.5: 数字选择检测
+2026-04-18 09:42:23 - api_gateway.routers.review_router - INFO - 🔍 步骤2.6: LLM 确认检测
+2026-04-18 09:42:23 - api_gateway.routers.review_router - INFO - 📚 获取到 10 条聊天历史
+2026-04-18 09:42:23 - api_gateway.routers.review_router - DEBUG -   消息 0: role=system, content=任务进度：pricing_completed (90%)
+价格计算完成，总成本: 80129.26 ..., metadata={'stage': 'pricing_completed', 'progress': 90, 'message_type': 'progress', 'original_ws_message': {'data': {'stage': 'pricing_completed', 'job_id': '24cc5c1a-1556-49a7-bc77-4d04f57b946d', 'details': {'source': 'pricing_agent', 'currency': 'CNY', 'total_cost': 80129.26, 'total_batches': 2, 'subgraph_count': 69, 'total_duration': 3.403198003768921}, 'message': '价格计算完成，总成本: 80129.26 CNY', 'progress': 90}, 'type': 'progress', 'job_id': '24cc5c1a-1556-49a7-bc77-4d04f57b946d', 'timestamp': '2026-04-18T09:41:52.686931'}}
+2026-04-18 09:42:23 - api_gateway.routers.review_router - DEBUG -   消息 1: role=system, content=发现部分必填字段为空，且有部分物料 NC 识别失败，请先处理这些记录
+
+缺失字段：
+- 未知 - 未..., metadata={'message_type': 'completion_request', 'original_ws_message': {'data': {'message': '发现部分必填字段为空，且有部分物料 NC 识别失败，请先处理这些记录', 'summary': '发现 4 条记录缺少必填字段，2 条物料 NC 识别失败', 'suggestion': '零件 B03 的长度设为 50mm, 宽度设为 30mm, 厚度设为 1.5mm, 数量设为 80, 材质设为 SECC  \n零件 限位块 的长度设为 40mm, 宽度设为 25mm, 厚度设为 10mm, 数量设为 4, 材质设为 45#  \n零件 PS2-01 的长度设为 220mm, 宽度设为 150mm, 厚度设为 12mm, 数量设为 1, 材质设为 45#  \n零件 A02 的长度设为 180mm, 宽度设为 100mm, 厚度设为 3mm, 数量设为 1, 材质设为 A3', 'missing_fields': [{'table': 'features', 'missing': {'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'B03', 'part_name': '定位片', 'record_id': '5225', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_B03', 'current_values': {'material': 'SECC', 'quantity': 80, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'material': '材质', 'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': '材料：', 'part_name': '限位块', 'record_id': '5291', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_材料：', 'current_values': {'material': None, 'quantity': 4, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'material': '材质', 'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'PS2-01', 'part_name': '下脱板', 'record_id': '5251', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_PS2-01', 'current_values': {'material': None, 'quantity': 1, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'A02', 'part_name': '钣金件', 'record_id': '5224', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_A02', 'current_values': {'material': 'A3', 'quantity': 1, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}], 'nc_failed_items': [{'reason': 'NC识别失败', 'part_code': 'PU-08', 'part_name': '冲头', 'record_id': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-08', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-08', 'subgraph_id': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-08'}, {'reason': 'NC识别失败', 'part_code': 'PU-09', 'part_name': '冲头', 'record_id': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-09', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-09', 'subgraph_id': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-09'}]}, 'type': 'completion_request', 'job_id': '24cc5c1a-1556-49a7-bc77-4d04f57b946d', 'timestamp': '2026-04-18T09:41:57.377794'}, 'missing_fields_count': 4, 'nc_failed_items_count': 2}
+2026-04-18 09:42:23 - api_gateway.routers.review_router - DEBUG -   消息 2: role=user, content=把Cr12mov单价改为31..., metadata={'action': 'modify', 'user_id': 'a63b7863-5faf-4b00-9ec3-758495b0fb66'}
+2026-04-18 09:42:23 - api_gateway.routers.review_router - INFO - 🔍 步骤3: 输入澄清检查
+2026-04-18 09:42:25 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=29
+2026-04-18 09:42:30 - api_gateway.routers.review_router - INFO - ✅ 输入规范，置信度: 0.00
+2026-04-18 09:42:40 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=30
+2026-04-18 09:42:55 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=31
+2026-04-18 09:43:10 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=32
+2026-04-18 09:43:13 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:13 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:13 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:13 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-04-18 09:43:13 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-04-18 09:43:13 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-04-18 09:43:13 - api_gateway.main - INFO - Unified backend stopped
+2026-04-18 09:43:22 - api_gateway.main - INFO - Speech services router mounted into unified backend
+2026-04-18 09:43:22 - api_gateway.main - WARNING - TTS services router skipped: No module named 'hyperpyyaml'
+2026-04-18 09:43:22 - api_gateway.main - INFO - Unified backend starting
+2026-04-18 09:43:22 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接成功: 192.168.3.61:5672
+2026-04-18 09:43:22 - api_gateway.utils.rabbitmq_client - INFO - ✅ 队列已声明: job_processing
+2026-04-18 09:43:22 - api_gateway.utils.rabbitmq_client - INFO - ✅ 死信队列已声明: job_processing_dlx
+2026-04-18 09:43:22 - api_gateway.utils.redis_client - INFO - ✅ Redis连接成功: redis://192.168.3.61:6379
+2026-04-18 09:43:22 - api_gateway.websocket - INFO - 🚀 启动Redis订阅器...
+2026-04-18 09:43:22 - api_gateway.utils.redis_client - INFO - ✅ Redis订阅成功: patterns=('job:*:progress', 'job:*:review')
+2026-04-18 09:43:22 - api_gateway.websocket - INFO - ✅ Redis订阅器已启动
+2026-04-18 09:43:22 - api_gateway.websocket - INFO -    - job:*:progress (编排Agent进度)
+2026-04-18 09:43:22 - api_gateway.websocket - INFO -    - job:*:review (交互Agent审核)
+2026-04-18 09:43:22 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:progress', 'data': 1}
+2026-04-18 09:43:22 - api_gateway.websocket - DEBUG - 📝 订阅确认: {'type': 'psubscribe', 'pattern': None, 'channel': 'job:*:review', 'data': 2}
+2026-04-18 09:43:23 - api_gateway.websocket - INFO - ✅ WebSocket连接建立: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 当前连接数=1
+2026-04-18 09:43:23 - api_gateway.routers.websocket_router - INFO - 📨 欢迎消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:24 - api_gateway.routers.review_router - INFO - ✏️ 处理修改: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-18 09:43:24 - api_gateway.routers.review_router - DEBUG - 修改内容: 把Cr12mov单价改为31
+2026-04-18 09:43:24 - api_gateway.routers.review_router - INFO - 开始写入修改会话消息: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:24 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:24 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-18 09:43:24 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:24 - api_gateway.utils.chat_logger - DEBUG - 用户消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:24 - api_gateway.routers.review_router - INFO - 修改会话消息写入完成: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:24 - api_gateway.routers.review_router - INFO - 🔍 步骤2.5.5: 数字选择检测
+2026-04-18 09:43:24 - api_gateway.routers.review_router - INFO - 🔍 步骤2.6: LLM 确认检测
+2026-04-18 09:43:24 - api_gateway.routers.review_router - INFO - 📚 获取到 10 条聊天历史
+2026-04-18 09:43:24 - api_gateway.routers.review_router - DEBUG -   消息 0: role=system, content=发现部分必填字段为空，且有部分物料 NC 识别失败，请先处理这些记录
+
+缺失字段：
+- 未知 - 未..., metadata={'message_type': 'completion_request', 'original_ws_message': {'data': {'message': '发现部分必填字段为空，且有部分物料 NC 识别失败，请先处理这些记录', 'summary': '发现 4 条记录缺少必填字段，2 条物料 NC 识别失败', 'suggestion': '零件 B03 的长度设为 50mm, 宽度设为 30mm, 厚度设为 1.5mm, 数量设为 80, 材质设为 SECC  \n零件 限位块 的长度设为 40mm, 宽度设为 25mm, 厚度设为 10mm, 数量设为 4, 材质设为 45#  \n零件 PS2-01 的长度设为 220mm, 宽度设为 150mm, 厚度设为 12mm, 数量设为 1, 材质设为 45#  \n零件 A02 的长度设为 180mm, 宽度设为 100mm, 厚度设为 3mm, 数量设为 1, 材质设为 A3', 'missing_fields': [{'table': 'features', 'missing': {'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'B03', 'part_name': '定位片', 'record_id': '5225', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_B03', 'current_values': {'material': 'SECC', 'quantity': 80, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'material': '材质', 'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': '材料：', 'part_name': '限位块', 'record_id': '5291', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_材料：', 'current_values': {'material': None, 'quantity': 4, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'material': '材质', 'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'PS2-01', 'part_name': '下脱板', 'record_id': '5251', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_PS2-01', 'current_values': {'material': None, 'quantity': 1, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}, {'table': 'features', 'missing': {'width_mm': '宽度(mm)', 'length_mm': '长度(mm)', 'thickness_mm': '厚度(mm)'}, 'part_code': 'A02', 'part_name': '钣金件', 'record_id': '5224', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_A02', 'current_values': {'material': 'A3', 'quantity': 1, 'width_mm': None, 'length_mm': None, 'thickness_mm': None}}], 'nc_failed_items': [{'reason': 'NC识别失败', 'part_code': 'PU-08', 'part_name': '冲头', 'record_id': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-08', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-08', 'subgraph_id': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-08'}, {'reason': 'NC识别失败', 'part_code': 'PU-09', 'part_name': '冲头', 'record_id': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-09', 'record_name': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-09', 'subgraph_id': 'c65d02db-00a9-4690-986f-3403c93d5e13_PU-09'}]}, 'type': 'completion_request', 'job_id': '24cc5c1a-1556-49a7-bc77-4d04f57b946d', 'timestamp': '2026-04-18T09:41:57.377794'}, 'missing_fields_count': 4, 'nc_failed_items_count': 2}
+2026-04-18 09:43:24 - api_gateway.routers.review_router - DEBUG -   消息 1: role=user, content=把Cr12mov单价改为31..., metadata={'action': 'modify', 'user_id': 'a63b7863-5faf-4b00-9ec3-758495b0fb66'}
+2026-04-18 09:43:24 - api_gateway.routers.review_router - DEBUG -   消息 2: role=user, content=把Cr12mov单价改为31..., metadata={'action': 'modify', 'user_id': 'a63b7863-5faf-4b00-9ec3-758495b0fb66'}
+2026-04-18 09:43:24 - api_gateway.routers.review_router - INFO - 🔍 步骤3: 输入澄清检查
+2026-04-18 09:43:29 - api_gateway.routers.review_router - INFO - ✅ 输入规范，置信度: 0.00
+2026-04-18 09:43:37 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:37 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:38 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:43:38 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:38 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 173 条记录
+2026-04-18 09:43:38 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:38 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:43:38 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:38 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:43:38 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=69, job_price_snapshots=173, subgraphs=69, processing_cost_calculation_details=69
+2026-04-18 09:43:38 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:38 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-18 09:43:38 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:38 - api_gateway.utils.chat_logger - DEBUG - 助手回复已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:38 - api_gateway.routers.review_router - INFO - ✅ 修改处理成功: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, intent=DATA_MODIFICATION
+2026-04-18 09:43:39 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=1
+2026-04-18 09:43:46 - api_gateway.routers.review_router - INFO - ✅ 确认审核: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, user_id=a63b7863-5faf-4b00-9ec3-758495b0fb66
+2026-04-18 09:43:46 - api_gateway.routers.review_router - INFO - 📝 开始确保会话存在...
+2026-04-18 09:43:46 - api_gateway.utils.chat_logger - INFO - 📝 开始检查会话: session_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:46 - api_gateway.utils.chat_logger - DEBUG - 查询会话信息...
+2026-04-18 09:43:46 - api_gateway.utils.chat_logger - DEBUG - ✅ 会话已存在: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:46 - api_gateway.routers.review_router - INFO - ✅ 会话检查完成
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 173 条记录
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=69, job_price_snapshots=173, subgraphs=69, processing_cost_calculation_details=69
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - 💾 批量更新审核数据: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - 💾 更新 features: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, count=69
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - ✅ 更新完成
+2026-04-18 09:43:46 - api_gateway.repositories.review_repository - INFO - 💾 更新 price_snapshots: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - ✅ 更新完成
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - 💾 更新 subgraphs: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - ✅ 更新完成
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - ✅ 批量更新完成
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - 📊 批量查询审核数据（4表架构）: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - 📊 查询 features: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - 📊 查询 price_snapshots: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 173 条记录
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - 📊 查询 subgraphs: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - 📊 查询 processing_cost_calculation_details: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - ✅ 查询完成: 69 条记录
+2026-04-18 09:43:47 - api_gateway.repositories.review_repository - INFO - ✅ 批量查询完成: features=69, job_price_snapshots=173, subgraphs=69, processing_cost_calculation_details=69
+2026-04-18 09:43:47 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:review
+2026-04-18 09:43:47 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:43:47 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:47 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:43:47 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=review, type=review_display_view
+2026-04-18 09:43:53 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=2
+2026-04-18 09:44:07 - api_gateway.utils.redis_client - DEBUG - 📤 Redis消息已发布: channel=job:24cc5c1a-1556-49a7-bc77-4d04f57b946d:review
+2026-04-18 09:44:07 - api_gateway.websocket - INFO - 📤 消息已发送: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, 接收者=1
+2026-04-18 09:44:07 - api_gateway.utils.chat_logger - DEBUG - 系统消息已记录: 24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:44:07 - api_gateway.routers.review_router - INFO - ✅ 审核确认成功: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, modifications=None
+2026-04-18 09:44:07 - api_gateway.websocket - DEBUG - 💾 消息已保存到历史: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:44:07 - api_gateway.websocket - INFO - ✅ Redis消息已处理: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, channel=review, type=completion_request
+2026-04-18 09:44:08 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=3
+2026-04-18 09:44:23 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=4
+2026-04-18 09:44:38 - api_gateway.routers.websocket_router - DEBUG - 📥 收到 ping: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d, sequence=5
+2026-04-18 09:44:47 - api_gateway.websocket - INFO - ❌ WebSocket连接断开: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:44:47 - api_gateway.websocket - INFO - 🗑️  任务连接池已清空: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:44:47 - api_gateway.routers.websocket_router - INFO - 🔌 客户端主动断开连接: job_id=24cc5c1a-1556-49a7-bc77-4d04f57b946d
+2026-04-18 09:44:48 - api_gateway.websocket - INFO - 🛑 Redis订阅器已取消
+2026-04-18 09:44:48 - api_gateway.utils.redis_client - INFO - ❌ Redis连接已关闭
+2026-04-18 09:44:48 - api_gateway.utils.rabbitmq_client - INFO - ✅ RabbitMQ连接已关闭
+2026-04-18 09:44:48 - api_gateway.main - INFO - Unified backend stopped

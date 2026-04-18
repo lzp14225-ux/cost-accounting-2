@@ -16,6 +16,7 @@ import asyncio
 from pathlib import Path
 from urllib.parse import quote
 import json
+import re
 
 from shared.database import get_db
 from shared.models import Job, Subgraph, Feature
@@ -36,14 +37,16 @@ REPORT_EXPIRY_DAYS = 7
 # 表头定义
 HEADERS = [
     '序号', '零件名称', '编号', '数量', '长/mm', '宽/mm', '厚/mm', '重量/kg',
-    '材质', '材料单价', '材料费（元）', '热处理', '热处理单价', '热处理费（元）',
-    '工艺', '单件费用总计（元）', '费用总计（元）', 'NC主视图(h)', 'NC背面(h)', 'NC侧面正面(h)', 'NC侧背(h)',
-    'NC正面(h)', 'NC正面的背面(h)', 'NC主视图（元）', 'NC背面（元）', 'NC侧面正面（元）', 'NC侧背（元）',
-    'NC正面（元）', 'NC正面的背面（元）', '大水磨 M(h)', '小磨床 YM(个)', '大磨床（元）', '小磨床（元）',
-    '慢丝 W/E(mm)', '侧割长度(mm)', '中丝 W/Z(mm)', '快丝 W/C(mm)', '线割工艺说明',
-    '放电 EDM(h)', '雕刻 DK(h)', '线割时间', '慢丝（元）', '侧割（元）', '中丝（元）', '快丝（元）',
-    '放电（元）', '雕刻（元）', '开粗实际时间', '精铣实际时间', '钻床实际时间',
-    '单独计费（元）', '单件加工费合计（元）', '加工费合计（元）', '体积/mm³', '异常情况'  # 最后两项
+    '材质', '热处理', '工艺', '材料单价', '材料费（元）', '开粗后体积', '开粗后重量', '热处理单价', '热处理费（元）',
+    '单件加工费合计（元）', '加工费合计（元）', '热处理+加工费（元）', '单件费用总计（元）', '费用合计（元） 材料费+热处理+加工费',
+    'NC开粗时间(单件/h)', 'NC精铣时间(单件/h)', 'NC加工面数量', 'NC钻孔时间(单件/h)',
+    'A面(单件/h)', 'B面(单件/h)', 'C面(单件/h)', 'D面(单件/h)', 'E面(单件/h)', 'F面(单件/h)',
+    'NC加工费（单件/元）',
+    '小磨床 YM(个)', '小磨床（元）', '大水磨 M(h)', '大磨床（元）',
+    '慢丝 W/E(mm)', '侧割长度(mm)', '中丝 W/Z(mm)', '快丝 W/C(mm)', '线割时间', '线割工艺说明',
+    '慢丝（元）', '侧割（元）', '中丝（元）', '快丝（元）',
+    '放电 EDM(h)', '放电（元）', '雕刻 DK(h)', '雕刻（元）',
+    '单独计费（元）', '异常情况'
 ]
 
 # 需要合计的列索引（基于0的索引）
@@ -51,15 +54,17 @@ HEADERS = [*HEADERS, '其它（备料于）']
 
 SUM_COLUMNS = [
     3,   # 数量
-    10,  # 材料费（元）
-    13,  # 热处理费（元）
-    15, 16, 17, 18, 19, 20, 21, 22,  # 单件费用总计 + 费用总计 + NC工时列
-    23, 24, 25, 26, 27, 28,          # NC费用列
-    29, 30, 31, 32,                  # 水磨时间/数量/费用
-    38, 39, 40,                      # 放电/雕刻/线割时间
-    41, 42, 43, 44, 45, 46,          # 线割/放电/雕刻费用
-    47, 48, 49,                      # 开粗/精铣/钻床实际时间
-    50, 51, 52                       # 单独计费/单件加工费合计/加工费合计
+    12,  # 材料费（元）
+    15, 16,                          # 开粗后重量/热处理费
+    17, 18, 19, 20,                  # 加工费/费用合计
+    21, 22, 24,                      # NC开粗/精铣/钻孔时间
+    25, 26, 27, 28, 29, 30,          # A-F面工时
+    31,                              # NC加工费（单件/元）
+    32, 33, 34, 35,                  # 磨床
+    36, 37, 38, 39, 40,              # 线割长度/时间
+    42, 43, 44, 45,                  # 线割费用
+    46, 47, 48, 49,                  # 放电/雕刻工时费用
+    50                               # 单独计费
 ]
 
 
@@ -407,10 +412,15 @@ def generate_excel_report(job_data: dict) -> BytesIO:
     })
     
     # 设置列宽
-    column_widths = [6, 12, 10, 10, 8, 8, 8, 6, 10, 12, 10, 12, 10, 12, 8, 12,
-                     12, 10, 10, 12, 12, 12, 18, 12, 12, 12, 12, 10, 14, 20,
-                     12, 12, 10, 10, 12, 12, 10, 12, 10, 10, 10, 10, 12, 14,
-                     14, 12, 12, 20, 20, 8, 20]
+    column_widths = [
+        5, 8, 6, 4, 6, 6, 6, 6, 7, 7, 12, 7, 8, 10, 10, 8, 8, 9, 9, 10, 8, 15,
+        12, 12, 8, 12, 10, 10, 10, 10, 10, 10, 12,
+        9, 9, 9, 9,
+        10, 10, 10, 10, 9, 12,
+        9, 9, 9, 9,
+        9, 9, 9, 9,
+        10, 18, 12
+    ]
     
     for col_idx, width in enumerate(column_widths):
         worksheet.set_column(col_idx, col_idx, width)
@@ -418,10 +428,11 @@ def generate_excel_report(job_data: dict) -> BytesIO:
     # 设置行高
     worksheet.set_row(0, 30)
     worksheet.set_row(1, 40)
+    worksheet.freeze_panes(2, 22)
     
     # 标题行
     job = job_data['job']
-    title_text = f"M{job.dwg_file_name or job.job_id} P4 {datetime.now().strftime('%Y.%m.%d')}模具核算清单"
+    title_text = f"{_extract_report_mold_code(job.dwg_file_name, job.job_id)}-{datetime.now().strftime('%Y.%m.%d')}模具核算清单"
     worksheet.merge_range('A1:O1', title_text, title_format)
     
     # 表头行
@@ -495,6 +506,26 @@ def generate_excel_report(job_data: dict) -> BytesIO:
     logger.info(f"[xlsxwriter] 完成")
     return output
 
+
+def _extract_report_mold_code(dwg_file_name: str | None, job_id) -> str:
+    """从图纸文件名中提取报表标题使用的模号。"""
+    if not dwg_file_name:
+        return str(job_id)
+
+    stem = Path(dwg_file_name).stem.strip()
+    if not stem:
+        return str(job_id)
+
+    stem = re.sub(r'-\d{8}$', '', stem)
+    if stem.startswith('MM'):
+        stem = stem[1:]
+
+    match = re.match(r'^(M\d+(?:-[A-Za-z0-9]+)*)', stem, re.IGNORECASE)
+    if match:
+        return match.group(1).upper()
+
+    return stem.upper()
+
 def _extract_abnormal_desc(abnormal_situation, include_nc_failed: bool = False):
     descriptions = []
 
@@ -530,6 +561,33 @@ def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature, is_nc_failed
         if value is None:
             return default
         return float(value) / quantity
+
+    nc_processing_fee_per_piece = (
+        per_piece(subgraph.nc_z_fee)
+        + per_piece(subgraph.nc_b_fee)
+        + per_piece(subgraph.nc_c_fee)
+        + per_piece(subgraph.nc_c_b_fee)
+        + per_piece(subgraph.nc_z_view_fee)
+        + per_piece(subgraph.nc_b_view_fee)
+    )
+
+    heat_plus_processing_total = safe_float(subgraph.processing_cost_total) + safe_float(subgraph.heat_treatment_cost)
+    roughing_volume_value = (
+        safe_float(feature.volume_mm3 if feature else None, '')
+        if feature and feature.heat_treatment
+        else ''
+    )
+    nc_face_count = sum(
+        1 for value in [
+            subgraph.nc_z_time,
+            subgraph.nc_b_time,
+            subgraph.nc_c_time,
+            subgraph.nc_c_b_time,
+            subgraph.nc_z_view_time,
+            subgraph.nc_b_view_time,
+        ]
+        if value not in (None, 0, 0.0)
+    )
     
     return [
         idx,
@@ -541,51 +599,49 @@ def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature, is_nc_failed
         safe_float(feature.thickness_mm if feature else None, ''),
         per_piece(subgraph.weight_kg),
         feature.material if feature else '',
+        feature.heat_treatment if feature else '',
+        subgraph.process_description or '',  # 工艺描述字段
         safe_float(subgraph.material_unit_price),
         per_piece(subgraph.material_cost),
-        feature.heat_treatment if feature else '',
+        roughing_volume_value,
+        safe_float(subgraph.nc_roughing_weight),
         safe_float(subgraph.heat_treatment_unit_price),
         per_piece(subgraph.heat_treatment_cost),
-        subgraph.process_description or '',  # 工艺描述字段
+        per_piece(subgraph.processing_cost_total),
+        safe_float(subgraph.processing_cost_total),
+        heat_plus_processing_total,
         per_piece(subgraph.total_cost),
         safe_float(subgraph.total_cost),
-        per_piece(subgraph.nc_z_time),  # NC主视图时间
-        per_piece(subgraph.nc_b_time),  # NC背面时间
-        per_piece(subgraph.nc_c_time),  # NC侧面正面时间
-        per_piece(subgraph.nc_c_b_time),  # NC侧背时间
-        per_piece(subgraph.nc_z_view_time),  # NC正面时间
-        per_piece(subgraph.nc_b_view_time),  # NC正面的背面时间
-        per_piece(subgraph.nc_z_fee),  # NC主视图费用
-        per_piece(subgraph.nc_b_fee),  # NC背面费用
-        per_piece(subgraph.nc_c_fee),  # NC侧面正面费用
-        per_piece(subgraph.nc_c_b_fee),  # NC侧背费用
-        per_piece(subgraph.nc_z_view_fee),  # NC正面费用
-        per_piece(subgraph.nc_b_view_fee),  # NC正面的背面费用
-        per_piece(subgraph.large_grinding_time),
+        per_piece(subgraph.nc_roughing_time),
+        per_piece(subgraph.nc_milling_time),
+        nc_face_count,
+        per_piece(subgraph.drilling_time),
+        per_piece(subgraph.nc_z_time),  # A面时间
+        per_piece(subgraph.nc_b_time),  # B面时间
+        per_piece(subgraph.nc_c_time),  # C面时间
+        per_piece(subgraph.nc_c_b_time),  # D面时间
+        per_piece(subgraph.nc_z_view_time),  # E面时间
+        per_piece(subgraph.nc_b_view_time),  # F面时间
+        nc_processing_fee_per_piece,
         safe_int(subgraph.small_grinding_count),
-        per_piece(subgraph.large_grinding_cost),
         per_piece(subgraph.small_grinding_cost),
+        per_piece(subgraph.large_grinding_time),
+        per_piece(subgraph.large_grinding_cost),
         safe_float(subgraph.slow_wire_length),
         safe_float(subgraph.slow_wire_side_length),
         safe_float(subgraph.mid_wire_length),
         safe_float(subgraph.fast_wire_length),
-        subgraph.wire_process_note or '',
-        safe_float(subgraph.edm_time),
-        safe_float(subgraph.engraving_time),
         per_piece(subgraph.wire_time),
+        subgraph.wire_process_note or '',
         per_piece(subgraph.slow_wire_cost),
         per_piece(subgraph.slow_wire_side_cost),
         per_piece(subgraph.mid_wire_cost),
         per_piece(subgraph.fast_wire_cost),
+        safe_float(subgraph.edm_time),
         safe_float(subgraph.edm_cost),
+        safe_float(subgraph.engraving_time),
         safe_float(subgraph.engraving_cost),
-        safe_float(subgraph.nc_roughing_time),
-        safe_float(subgraph.nc_milling_time),
-        safe_float(subgraph.drilling_time),
         safe_float(subgraph.separate_item_cost),
-        per_piece(subgraph.processing_cost_total),
-        safe_float(subgraph.processing_cost_total),
-        safe_float(feature.volume_mm3 if feature else None),      # 新增
         _extract_abnormal_desc(
             feature.abnormal_situation if feature else None,
             include_nc_failed=is_nc_failed_row

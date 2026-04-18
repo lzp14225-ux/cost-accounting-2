@@ -9,23 +9,19 @@
 4. 判断 needs_heat_treatment 是否为 True，如果不需要热处理则跳过
 5. 根据 material 匹配 sub_category 获取单价（不区分大小写，支持材质别名映射）
 6. 根据 material 匹配密度值（不区分大小写，支持材质别名映射）
-7. 计算重量：weight = density * length_mm * width_mm * thickness_mm
-8. 计算热处理费：heat_treatment_cost = weight * price
-9. 更新 processing_cost_calculation_details 表的 heat_treatment_cost 字段和步骤字段
+7. 根据 job_id + subgraph_id 从 features 表读取 volume_mm3
+8. 计算 NC 开粗后重量：nc_roughing_weight = density * volume_mm3
+9. 计算热处理费：heat_treatment_cost = nc_roughing_weight * price
+10. 更新 processing_cost_calculation_details 表和 subgraphs 表
 """
 from typing import List, Dict, Any
 from decimal import Decimal, ROUND_HALF_UP
 import logging
 import asyncio
-import json
 
 from api_gateway.database import db
 from ._batch_update_helper import batch_upsert_with_steps
-from .material_shape_helper import (
-    get_material_shape,
-    get_shape_price_category,
-    get_stock_volume_mm3,
-)
+from .material_shape_helper import get_material_shape, get_shape_price_category
 
 logger = logging.getLogger(__name__)
 
@@ -37,6 +33,8 @@ MATERIAL_ALIASES = {
 
 # 默认密度（钢材，当找不到匹配材料时使用）
 DEFAULT_DENSITY = Decimal("0.00000785")
+WEIGHT_PRECISION = Decimal("0.001")
+MONEY_PRECISION = Decimal("0.01")
 
 # MCP 工具元数据
 MCP_TOOL_META = {
@@ -114,6 +112,53 @@ def _get_material_density(material: str, density_map: Dict[str, Decimal]) -> tup
     return DEFAULT_DENSITY, f"{material}(使用默认密度)"
 
 
+async def _fetch_feature_volume_map(job_id: str, subgraph_ids: List[str]) -> Dict[str, Decimal]:
+    """按 job_id + subgraph_id 批量读取 features.volume_mm3。"""
+    if not subgraph_ids:
+        return {}
+
+    sql = """
+        SELECT subgraph_id, volume_mm3
+        FROM features
+        WHERE job_id = $1::uuid
+          AND subgraph_id = ANY($2::text[])
+    """
+    rows = await db.fetch_all(sql, job_id, subgraph_ids)
+    return {
+        row["subgraph_id"]: Decimal(str(row["volume_mm3"]))
+        for row in rows
+        if row["volume_mm3"] is not None
+    }
+
+
+async def _batch_update_subgraphs_heat(db_updates: List[Dict[str, Any]]):
+    """批量回写 subgraphs 热处理单价、热处理费、NC开粗后重量。"""
+    if not db_updates:
+        return
+
+    sql = """
+        UPDATE subgraphs
+        SET
+            heat_treatment_unit_price = $3,
+            heat_treatment_cost = $4,
+            nc_roughing_weight = $5,
+            updated_at = NOW()
+        WHERE job_id = $1::uuid AND subgraph_id = $2::text
+    """
+
+    await asyncio.gather(*[
+        db.execute(
+            sql,
+            item["job_id"],
+            item["subgraph_id"],
+            item["heat_treatment_unit_price"],
+            item["heat_treatment_cost"],
+            item["nc_roughing_weight"],
+        )
+        for item in db_updates
+    ])
+
+
 async def calculate(
     search_data: Dict[str, Any],
     job_id: str = None,
@@ -158,13 +203,19 @@ async def calculate(
             "original_sub_category": sub_category  # 保留原始值用于显示
         }
     
-    # Step 3: 计算每个零件的热处理费（不写数据库）
+    # Step 3: 预取 features.volume_mm3，热处理统一基于 NC 开粗后体积计算
+    volume_map = await _fetch_feature_volume_map(
+        job_id,
+        [part["subgraph_id"] for part in base_data.get("parts", [])]
+    )
+
+    # Step 4: 计算每个零件的热处理费（不写数据库）
     results = []
     db_updates = []
     
     for part in base_data["parts"]:
         result, db_data = await _calculate_part_cost(
-            job_id, part, price_map, density_map
+            job_id, part, price_map, density_map, volume_map.get(part["subgraph_id"])
         )
         results.append(result)
         if db_data:
@@ -182,6 +233,7 @@ async def calculate(
             for d in db_updates
         ]
         await batch_upsert_with_steps(updates_for_batch, "heat", "heat_treatment_cost")
+        await _batch_update_subgraphs_heat(db_updates)
     
     logger.info(f"Completed calculation for {len(results)} parts")
     
@@ -195,7 +247,8 @@ async def _calculate_part_cost(
     job_id: str,
     part: Dict,
     price_map: Dict,
-    density_map: Dict[str, Decimal]
+    density_map: Dict[str, Decimal],
+    volume_mm3: Decimal | None
 ) -> tuple[Dict[str, Any], Dict[str, Any]]:
     """
     计算单个零件的热处理费
@@ -227,6 +280,8 @@ async def _calculate_part_cost(
         db_data = {
             "job_id": job_id,
             "subgraph_id": subgraph_id,
+            "heat_treatment_unit_price": 0.0,
+            "nc_roughing_weight": None,
             "heat_treatment_cost": 0.0,
             "calculation_steps": [{
                 "step": "判断是否需要热处理",
@@ -268,6 +323,8 @@ async def _calculate_part_cost(
         }, {
             "job_id": job_id,
             "subgraph_id": subgraph_id,
+            "heat_treatment_unit_price": 0.0,
+            "nc_roughing_weight": None,
             "heat_treatment_cost": 0.0,
             "calculation_steps": calculation_steps
         }
@@ -294,6 +351,8 @@ async def _calculate_part_cost(
         }, {
             "job_id": job_id,
             "subgraph_id": subgraph_id,
+            "heat_treatment_unit_price": 0.0,
+            "nc_roughing_weight": None,
             "heat_treatment_cost": 0.0,
             "calculation_steps": calculation_steps
         }
@@ -337,6 +396,8 @@ async def _calculate_part_cost(
         }, {
             "job_id": job_id,
             "subgraph_id": subgraph_id,
+            "heat_treatment_unit_price": 0.0,
+            "nc_roughing_weight": None,
             "heat_treatment_cost": 0.0,
             "calculation_steps": calculation_steps
         }
@@ -347,65 +408,42 @@ async def _calculate_part_cost(
     
     # 获取材料密度
     density, matched_density_material = _get_material_density(material, density_map)
-    
-    # 转换为 Decimal 进行精确计算
-    length = Decimal(str(length_mm))
-    width = Decimal(str(width_mm))
-    thickness = Decimal(str(thickness_mm))
-    
-    # 计算重量: weight = density * length_mm * width_mm * thickness_mm
-    volume_mm3 = get_stock_volume_mm3(part)
-    weight = (density * volume_mm3).quantize(
-        Decimal("0.0001"), ROUND_HALF_UP
-    )
-    
-    # 计算热处理费: heat_treatment_cost = weight * price
-    heat_treatment_cost = (weight * Decimal(str(unit_price))).quantize(
-        Decimal("0.01"), ROUND_HALF_UP
-    )
-    
-    # 构建计算步骤
-    calculation_steps = [
-        {
-            "step": "判断是否需要热处理",
-            "needs_heat_treatment": True
-        },
-        {
-            "step": "匹配材料价格",
-            "material_shape": material_shape,
-            "price_category": price_category,
-            "material": original_material,
-            "matched_sub_category": matched_sub_category,
-            "match_note": f"不区分大小写匹配: {original_material} -> {matched_sub_category}" + (f" (别名映射: {material_upper} -> {material_mapped})" if material_upper in MATERIAL_ALIASES else ""),
-            "unit_price": unit_price,
-            "unit": unit
-        },
-        {
-            "step": "匹配材料密度",
-            "material": original_material,
-            "matched_material": matched_density_material,
-            "density": float(density),
-            "unit": "g/cm³"
-        },
-        {
-            "step": "获取尺寸数据",
-            "length_mm": float(length_mm),
-            "width_mm": float(width_mm),
-            "thickness_mm": float(thickness_mm)
-        },
-        {
-            "step": "计算重量",
-            "formula": f"{density} * volume_mm3({volume_mm3})",
-            "weight": float(weight)
-        },
-        {
-            "step": "计算热处理费",
-            "formula": f"{float(weight)} * {unit_price}",
-            "heat_treatment_cost": float(heat_treatment_cost)
+
+    if volume_mm3 is None:
+        logger.warning(f"Missing features.volume_mm3 for {part_name} ({subgraph_id}), skipping calculation")
+
+        calculation_steps = [{
+            "step": "数据验证",
+            "status": "failed",
+            "needs_heat_treatment": True,
+            "reason": "features.volume_mm3为空",
+            "heat_treatment_cost": 0.0
+        }]
+
+        return {
+            "subgraph_id": subgraph_id,
+            "part_name": part_name,
+            "needs_heat_treatment": True,
+            "material": material,
+            "heat_treatment_cost": 0.0,
+            "note": "features.volume_mm3为空"
+        }, {
+            "job_id": job_id,
+            "subgraph_id": subgraph_id,
+            "heat_treatment_unit_price": 0.0,
+            "nc_roughing_weight": None,
+            "heat_treatment_cost": 0.0,
+            "calculation_steps": calculation_steps
         }
-    ]
+
+    nc_roughing_weight = (density * volume_mm3).quantize(
+        WEIGHT_PRECISION, ROUND_HALF_UP
+    )
+
+    heat_treatment_cost = (nc_roughing_weight * Decimal(str(unit_price))).quantize(
+        MONEY_PRECISION, ROUND_HALF_UP
+    )
     
-    # 构建计算步骤
     calculation_steps = [
         {
             "step": "判断是否需要热处理",
@@ -420,25 +458,30 @@ async def _calculate_part_cost(
             "unit": unit
         },
         {
-            "step": "获取尺寸数据",
-            "length_mm": float(length_mm),
-            "width_mm": float(width_mm),
-            "thickness_mm": float(thickness_mm)
+            "step": "匹配材料密度",
+            "material": original_material,
+            "matched_material": matched_density_material,
+            "density": float(density),
+            "unit": "g/cm³"
         },
         {
-            "step": "计算重量",
-            "formula": f"0.00000785 * {length_mm} * {width_mm} * {thickness_mm}",
-            "weight": float(weight)
+            "step": "读取开粗后体积",
+            "volume_mm3": float(volume_mm3)
+        },
+        {
+            "step": "计算NC开粗后重量",
+            "formula": f"{density} * volume_mm3({volume_mm3})",
+            "nc_roughing_weight": float(nc_roughing_weight)
         },
         {
             "step": "计算热处理费",
-            "formula": f"{float(weight)} * {unit_price}",
+            "formula": f"{float(nc_roughing_weight)} * {unit_price}",
             "heat_treatment_cost": float(heat_treatment_cost)
         }
     ]
     
     logger.info(
-        f"[{subgraph_id}] {part_name}: material={material}, weight={weight}, "
+        f"[{subgraph_id}] {part_name}: material={material}, nc_roughing_weight={nc_roughing_weight}, "
         f"unit_price={unit_price}, heat_treatment_cost={heat_treatment_cost}"
     )
     
@@ -448,10 +491,8 @@ async def _calculate_part_cost(
         "part_name": part_name,
         "needs_heat_treatment": True,
         "material": material,
-        "length_mm": float(length_mm),
-        "width_mm": float(width_mm),
-        "thickness_mm": float(thickness_mm),
-        "weight": float(weight),
+        "volume_mm3": float(volume_mm3),
+        "nc_roughing_weight": float(nc_roughing_weight),
         "unit_price": unit_price,
         "unit": unit,
         "heat_treatment_cost": float(heat_treatment_cost)
@@ -460,6 +501,8 @@ async def _calculate_part_cost(
     db_data = {
         "job_id": job_id,
         "subgraph_id": subgraph_id,
+        "heat_treatment_unit_price": unit_price,
+        "nc_roughing_weight": float(nc_roughing_weight),
         "heat_treatment_cost": float(heat_treatment_cost),
         "calculation_steps": calculation_steps
     }
@@ -524,7 +567,7 @@ if __name__ == "__main__":
         else:
             print(f"\n零件: {result['part_name']} ({result['subgraph_id']})")
             print(f"  材料: {result['material']}")
-            print(f"  尺寸: {result['length_mm']} x {result['width_mm']} x {result['thickness_mm']} mm")
-            print(f"  重量: {result['weight']} kg")
+            print(f"  开粗后体积: {result.get('volume_mm3')} mm³")
+            print(f"  NC开粗后重量: {result.get('nc_roughing_weight')} kg")
             print(f"  单价: {result['unit_price']} {result['unit']}")
             print(f"  热处理费: {result['heat_treatment_cost']} 元")
