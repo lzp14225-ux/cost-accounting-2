@@ -1,3 +1,9 @@
 backend/logs/
 backend/output/
 __pycache__/
+backend/logs/agents.log
+backend/logs/all_tasks_worker.log
+backend/logs/api_gateway.log
+backend/logs/app.log
+backend/logs/mcp_service.log
+backend/logs/shared.log
