@@ -15,12 +15,14 @@ InteractionAgent - 数据审核和交互Agent (重构版)
 """
 from typing import Dict, Any, List, Optional
 from .base_agent import BaseAgent, OpResult
+import asyncio
 import logging
 import json
 from datetime import datetime
 import uuid
 import hashlib
 import os
+from shared.database import AsyncSessionLocal
 from shared.timezone_utils import now_shanghai, format_shanghai_time
 
 logger = logging.getLogger(__name__)
@@ -151,6 +153,9 @@ class InteractionAgent(BaseAgent):
             
             logger.info(f"🔍 检查数据完整性...")
             completeness_result = CompletenessValidator.check_data_completeness(raw_data)
+            if self._has_pending_completion(completeness_result, raw_data) and not raw_data.get("nc_failed_items"):
+                raw_data = await self._refresh_nc_failed_items(job_id, raw_data)
+                completeness_result = CompletenessValidator.check_data_completeness(raw_data)
             logger.info(f"📋 完整性检查结果: {completeness_result['summary']}")
             
             # 5. 计算数据版本（乐观锁）
@@ -232,6 +237,46 @@ class InteractionAgent(BaseAgent):
                 status="error",
                 message=f"启动审核失败: {str(e)}"
             )
+
+    async def _refresh_nc_failed_items(
+        self,
+        job_id: str,
+        raw_data: Dict[str, Any],
+        retries: int = 10,
+        retry_delay: float = 0.5,
+    ) -> Dict[str, Any]:
+        if not isinstance(raw_data, dict):
+            return raw_data
+
+        subgraphs = raw_data.get("subgraphs")
+        if not isinstance(subgraphs, list) or not subgraphs:
+            return raw_data
+
+        refreshed_data = raw_data
+        for attempt in range(retries):
+            async with AsyncSessionLocal() as refresh_db:
+                job_meta_data = await self.review_repo.get_job_meta_data(refresh_db, job_id)
+                nc_failed_itemcodes = self.review_repo._extract_nc_failed_itemcodes(job_meta_data)  # noqa: SLF001
+                nc_failed_items = self.review_repo._build_nc_failed_items(nc_failed_itemcodes, subgraphs)  # noqa: SLF001
+
+            if nc_failed_items:
+                if attempt > 0:
+                    logger.info(
+                        "🔄 审核启动前补到 NC 失败物料: job_id=%s, attempt=%s, count=%s",
+                        job_id,
+                        attempt + 1,
+                        len(nc_failed_items),
+                    )
+                refreshed_data = dict(raw_data)
+                refreshed_data["job_meta_data"] = job_meta_data
+                refreshed_data["nc_failed_itemcodes"] = nc_failed_itemcodes
+                refreshed_data["nc_failed_items"] = nc_failed_items
+                return refreshed_data
+
+            if attempt < retries - 1:
+                await asyncio.sleep(retry_delay)
+
+        return refreshed_data
 
     
     async def handle_modification(

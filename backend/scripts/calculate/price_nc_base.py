@@ -141,14 +141,19 @@ def _build_nc_base_config(nc_prices: List[Dict]) -> Dict[str, Any]:
     
     for item in nc_prices:
         sub_category = item.get("sub_category")
+        min_num = str(item.get("min_num") or "").strip()
         
         if sub_category == "nc_base":
             # nc_base 的 price 就是时间（小时）
             hours = float(item.get("price", 0))
-            if hours == 1.0:
+            if min_num == "nc模板基本工时":
                 nc_base_hours["template"] = hours
-            elif hours == 0.5:
+            elif min_num == "nc零件基本工时":
                 nc_base_hours["component"] = hours
+            else:
+                logger.warning(
+                    f"Unknown nc_base rule for min_num='{min_num}', price={item.get('price')}"
+                )
     
     logger.info(f"NC base hours: {nc_base_hours}")
     

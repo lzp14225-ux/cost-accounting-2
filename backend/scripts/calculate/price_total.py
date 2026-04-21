@@ -16,7 +16,7 @@
 阶段 7: 数据清理和校验 (judgment.py) ← 先执行
 阶段 8: 最终总价计算 (本脚本) ← 后执行
 """
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Set
 from decimal import Decimal, InvalidOperation
 import logging
 import asyncio
@@ -24,6 +24,8 @@ import asyncio
 from api_gateway.database import db
 
 logger = logging.getLogger(__name__)
+
+EXPORT_EXCLUDE_KEYWORDS = ["订购", "附图订购", "二次加工", "钣金"]
 
 # MCP 工具元数据
 MCP_TOOL_META = {
@@ -102,7 +104,12 @@ async def calculate(
             except (TypeError, ValueError):
                 quantity_map[part["subgraph_id"]] = 1
     
-    logger.info(f"Calculating final total cost for job_id: {job_id}, parts count: {len(cost_summary)}")
+    excluded_subgraph_ids = await _get_excluded_subgraph_ids_for_job_total(job_id, cost_summary)
+
+    logger.info(
+        f"Calculating final total cost for job_id: {job_id}, parts count: {len(cost_summary)}, "
+        f"excluded_from_job_total={len(excluded_subgraph_ids)}"
+    )
     
     # 计算每个零件的总价
     results = []
@@ -118,7 +125,8 @@ async def calculate(
         results.append(result)
         if db_data:
             db_updates.append(db_data)
-            job_total_cost += Decimal(str(db_data["total_cost"]))
+            if subgraph_id not in excluded_subgraph_ids:
+                job_total_cost += Decimal(str(db_data["total_cost"]))
     
     # 批量更新 subgraphs 表
     if db_updates:
@@ -139,6 +147,88 @@ async def calculate(
         "parts_count": len(results),
         "results": results
     }
+
+
+def _contains_export_exclude_keyword(text: str) -> bool:
+    normalized = str(text or "").strip()
+    if not normalized:
+        return False
+    return any(keyword in normalized for keyword in EXPORT_EXCLUDE_KEYWORDS)
+
+
+def _flatten_processing_instructions(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, dict):
+        return " ".join(_flatten_processing_instructions(item) for item in value.values())
+    if isinstance(value, (list, tuple, set)):
+        return " ".join(_flatten_processing_instructions(item) for item in value)
+    return str(value)
+
+
+async def _should_exclude_from_job_total(summary: Dict[str, Any], feature_row: Dict[str, Any]) -> bool:
+    part_name = str(summary.get("part_name") or "").strip()
+    if _contains_export_exclude_keyword(part_name):
+        return True
+
+    processing_text = _flatten_processing_instructions(
+        (feature_row or {}).get("processing_instructions")
+    )
+    return _contains_export_exclude_keyword(processing_text)
+
+
+async def _get_excluded_subgraph_ids_for_job_total(
+    job_id: str,
+    cost_summary: List[Dict[str, Any]],
+) -> Set[str]:
+    if not job_id or not cost_summary:
+        return set()
+
+    subgraph_ids = [
+        str(item.get("subgraph_id") or "").strip()
+        for item in cost_summary
+        if str(item.get("subgraph_id") or "").strip()
+    ]
+    if not subgraph_ids:
+        return set()
+
+    sql = """
+        SELECT s.subgraph_id, s.part_name, f.processing_instructions
+        FROM subgraphs s
+        LEFT JOIN features f
+            ON s.job_id = f.job_id AND s.subgraph_id = f.subgraph_id
+        WHERE s.job_id = $1::uuid AND s.subgraph_id = ANY($2::text[])
+    """
+    rows = await db.fetch_all(sql, job_id, subgraph_ids)
+    feature_map = {
+        str(row["subgraph_id"]): dict(row)
+        for row in rows
+        if row.get("subgraph_id") is not None
+    }
+
+    tasks = [
+        _should_exclude_from_job_total(summary, feature_map.get(summary["subgraph_id"], {}))
+        for summary in cost_summary
+        if summary.get("subgraph_id")
+    ]
+    decisions = await asyncio.gather(*tasks)
+
+    excluded_subgraph_ids = {
+        str(summary["subgraph_id"])
+        for summary, should_exclude in zip(
+            [item for item in cost_summary if item.get("subgraph_id")],
+            decisions
+        )
+        if should_exclude
+    }
+
+    if excluded_subgraph_ids:
+        logger.info(
+            "Excluded subgraphs from job total by export filter: %s",
+            sorted(excluded_subgraph_ids),
+        )
+
+    return excluded_subgraph_ids
 
 
 def _safe_divide_decimal(value: Decimal, divisor: int) -> Decimal:

@@ -33,31 +33,29 @@ report_status = {}
 ASYNC_THRESHOLD = 500
 REPORT_BUCKET = "reports"
 REPORT_EXPIRY_DAYS = 7
+EXPORT_EXCLUDE_KEYWORDS = ["订购", "附图订购", "二次加工", "钣金"]
 
 # 表头定义
 HEADERS = [
-    '序号', '零件名称', '编号', '数量', '长/mm', '宽/mm', '厚/mm', '重量/kg',
-    '材质', '热处理', '工艺', '材料单价', '材料费（元）', '开粗后体积', '开粗后重量', '热处理单价', '热处理费（元）',
-    '单件加工费合计（元）', '加工费合计（元）', '热处理+加工费（元）', '单件费用总计（元）', '费用合计（元） 材料费+热处理+加工费',
-    'NC开粗时间(单件/h)', 'NC精铣时间(单件/h)', 'NC加工面数量', 'NC钻孔时间(单件/h)',
+    '序号', '编号', '零件名称', '材质', '备料于', '数量', '长/mm', '宽/mm', '厚/mm', '重量/kg',
+    '热处理', '工艺', '材料单价', '材料费（元）', '开粗后体积', '开粗后重量', '热处理单价', '热处理费（元）',
+    '单件加工费合计（元）', '热处理+加工费（元）', '单件费用合计（元）', '费用合计（元） 材料费+热处理+加工费',
+    'NC开粗时间(单件/h)', 'NC精铣时间(单件/h)', 'NC钻孔时间(单件/h)', 'NC加工面数量',
     'A面(单件/h)', 'B面(单件/h)', 'C面(单件/h)', 'D面(单件/h)', 'E面(单件/h)', 'F面(单件/h)',
     'NC加工费（单件/元）',
-    '小磨床 YM(个)', '小磨床（元）', '大水磨 M(h)', '大磨床（元）',
+    '小磨床 YM(个)', '小磨床（元）', '大水磨 M(h)', '大水磨（元）',
     '慢丝 W/E(mm)', '侧割长度(mm)', '中丝 W/Z(mm)', '快丝 W/C(mm)', '线割时间', '线割工艺说明',
     '慢丝（元）', '侧割（元）', '中丝（元）', '快丝（元）',
     '放电 EDM(h)', '放电（元）', '雕刻 DK(h)', '雕刻（元）',
     '单独计费（元）', '异常情况'
 ]
 
-# 需要合计的列索引（基于0的索引）
-HEADERS = [*HEADERS, '其它（备料于）']
-
 SUM_COLUMNS = [
-    3,   # 数量
-    12,  # 材料费（元）
-    15, 16,                          # 开粗后重量/热处理费
-    17, 18, 19, 20,                  # 加工费/费用合计
-    21, 22, 24,                      # NC开粗/精铣/钻孔时间
+    5,   # 数量
+    13,  # 材料费（元）
+    16, 17,                          # 开粗后重量/热处理费
+    18, 19, 20,                      # 加工费/费用合计
+    21, 22, 23,                      # NC开粗/精铣/钻孔时间
     25, 26, 27, 28, 29, 30,          # A-F面工时
     31,                              # NC加工费（单件/元）
     32, 33, 34, 35,                  # 磨床
@@ -142,14 +140,70 @@ async def _fetch_report_data(db: AsyncSession, job_uuid: UUID) -> dict:
     for feature in features:
         if feature.subgraph_id not in features_dict:
             features_dict[feature.subgraph_id] = feature
+
+    filtered_subgraphs = await _filter_export_subgraphs(list(job.subgraphs), features_dict)
+    if not filtered_subgraphs:
+        raise HTTPException(status_code=404, detail="过滤后没有可导出的子图数据")
     
-    logger.info(f"[数据查询] 完成: {len(job.subgraphs)} 个子图")
+    logger.info(
+        f"[数据查询] 完成: 原始 {len(job.subgraphs)} 个子图, "
+        f"过滤后 {len(filtered_subgraphs)} 个子图"
+    )
     
     return {
         'job': job,
-        'subgraphs': list(job.subgraphs),
+        'subgraphs': filtered_subgraphs,
         'features_dict': features_dict
     }
+
+
+async def _filter_export_subgraphs(subgraphs: list[Subgraph], features_dict: dict) -> list[Subgraph]:
+    """导出前过滤不需要进入报表的零件。"""
+    tasks = [
+        _should_exclude_from_report(subgraph, features_dict.get(subgraph.subgraph_id))
+        for subgraph in subgraphs
+    ]
+    exclude_flags = await asyncio.gather(*tasks)
+    return [
+        subgraph
+        for subgraph, should_exclude in zip(subgraphs, exclude_flags)
+        if not should_exclude
+    ]
+
+
+async def _should_exclude_from_report(subgraph: Subgraph, feature: Feature | None) -> bool:
+    """两层判断：
+    1. 先按零件名称模糊匹配；
+    2. 再按 processing_instructions 内容模糊匹配。
+    """
+    part_name = str(subgraph.part_name or "").strip()
+    if _contains_export_exclude_keyword(part_name):
+        return True
+
+    processing_text = _flatten_processing_instructions(
+        getattr(feature, "processing_instructions", None)
+    )
+    return _contains_export_exclude_keyword(processing_text)
+
+
+def _contains_export_exclude_keyword(text: str) -> bool:
+    normalized = str(text or "").strip()
+    if not normalized:
+        return False
+    return any(keyword in normalized for keyword in EXPORT_EXCLUDE_KEYWORDS)
+
+
+def _flatten_processing_instructions(value) -> str:
+    """把 processing_instructions 递归压平成字符串，便于模糊匹配。"""
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        return value
+    if isinstance(value, dict):
+        return " ".join(_flatten_processing_instructions(item) for item in value.values())
+    if isinstance(value, (list, tuple, set)):
+        return " ".join(_flatten_processing_instructions(item) for item in value)
+    return str(value)
 
 
 def _start_async_export(job_id: str, job_data: dict, background_tasks: BackgroundTasks):
@@ -413,8 +467,8 @@ def generate_excel_report(job_data: dict) -> BytesIO:
     
     # 设置列宽
     column_widths = [
-        5, 8, 6, 4, 6, 6, 6, 6, 7, 7, 12, 7, 8, 10, 10, 8, 8, 9, 9, 10, 8, 15,
-        12, 12, 8, 12, 10, 10, 10, 10, 10, 10, 12,
+        5, 8, 10, 8, 6, 7.5, 6, 6, 7, 7, 12, 20, 8, 10, 10, 8, 8, 9, 9, 10, 10, 15,
+        12, 12, 8, 12, 10, 12, 12, 12, 12, 12, 12,
         9, 9, 9, 9,
         10, 10, 10, 10, 9, 12,
         9, 9, 9, 9,
@@ -428,7 +482,8 @@ def generate_excel_report(job_data: dict) -> BytesIO:
     # 设置行高
     worksheet.set_row(0, 30)
     worksheet.set_row(1, 40)
-    worksheet.freeze_panes(2, 22)
+    # 冻结行列
+    worksheet.freeze_panes(2, 12)
     
     # 标题行
     job = job_data['job']
@@ -450,12 +505,15 @@ def generate_excel_report(job_data: dict) -> BytesIO:
         feature = features_dict.get(subgraph.subgraph_id)
         normalized_part_code = _normalize_code(subgraph.part_code)
         is_nc_failed_row = normalized_part_code in nc_failed_part_codes
+        has_wire_time = getattr(subgraph, "wire_time", None) not in (None, 0, 0.0)
+        has_wire_process_note = bool((getattr(subgraph, "wire_process_note", None) or "").strip())
+        is_wire_process_without_time_row = has_wire_process_note and not has_wire_time
         is_warning_row = (
             subgraph.subgraph_id in missing_fields_map
             and not _has_material_preparation(feature)
         )
 
-        if is_nc_failed_row:
+        if is_nc_failed_row or is_wire_process_without_time_row:
             current_wrap_format = nc_fail_wrap_format
             current_data_format = nc_fail_data_format
             current_data_left_format = nc_fail_data_left_format
@@ -473,17 +531,16 @@ def generate_excel_report(job_data: dict) -> BytesIO:
 
         row_data = _build_row_data(idx, subgraph, feature, is_nc_failed_row=is_nc_failed_row)
         
+        abnormal_col_idx = HEADERS.index('异常情况')
         for col_idx, value in enumerate(row_data):
-            if col_idx == len(row_data) - 1:  # 异常情况列
+            if col_idx == abnormal_col_idx:
                 worksheet.write(row, col_idx, value, current_wrap_format)
-            elif col_idx == 1:
+            elif col_idx in (1, 2):
                 worksheet.write(row, col_idx, value, current_data_left_format)
             elif col_idx > 7 and isinstance(value, (int, float)):
                 worksheet.write(row, col_idx, value, current_number_format)
             else:
                 worksheet.write(row, col_idx, value, current_data_format)
-        # 加在这里↓
-        worksheet.write(row, len(row_data), _extract_material_preparation(feature), current_wrap_format)
     
     # 合计行
     total_row = len(subgraphs) + 2
@@ -562,6 +619,11 @@ def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature, is_nc_failed
             return default
         return float(value) / quantity
 
+    wire_time_value = per_piece(subgraph.wire_time)
+    wire_process_note = (subgraph.wire_process_note or '').strip()
+    if wire_time_value not in (None, 0, 0.0, '') and not wire_process_note:
+        wire_process_note = '快丝割一刀'
+
     nc_processing_fee_per_piece = (
         per_piece(subgraph.nc_z_fee)
         + per_piece(subgraph.nc_b_fee)
@@ -591,14 +653,15 @@ def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature, is_nc_failed
     
     return [
         idx,
-        subgraph.part_name or '',
         subgraph.part_code or '',
+        subgraph.part_name or '',
+        feature.material if feature else '',
+        _extract_material_preparation(feature),
         quantity,
         safe_float(feature.length_mm if feature else None, ''),
         safe_float(feature.width_mm if feature else None, ''),
         safe_float(feature.thickness_mm if feature else None, ''),
         per_piece(subgraph.weight_kg),
-        feature.material if feature else '',
         feature.heat_treatment if feature else '',
         subgraph.process_description or '',  # 工艺描述字段
         safe_float(subgraph.material_unit_price),
@@ -608,14 +671,13 @@ def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature, is_nc_failed
         safe_float(subgraph.heat_treatment_unit_price),
         per_piece(subgraph.heat_treatment_cost),
         per_piece(subgraph.processing_cost_total),
-        safe_float(subgraph.processing_cost_total),
         heat_plus_processing_total,
         per_piece(subgraph.total_cost),
         safe_float(subgraph.total_cost),
-        per_piece(subgraph.nc_roughing_time),
-        per_piece(subgraph.nc_milling_time),
+        safe_float(subgraph.nc_roughing_time),
+        safe_float(subgraph.nc_milling_time),
+        safe_float(subgraph.drilling_time),
         nc_face_count,
-        per_piece(subgraph.drilling_time),
         per_piece(subgraph.nc_z_time),  # A面时间
         per_piece(subgraph.nc_b_time),  # B面时间
         per_piece(subgraph.nc_c_time),  # C面时间
@@ -631,8 +693,8 @@ def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature, is_nc_failed
         safe_float(subgraph.slow_wire_side_length),
         safe_float(subgraph.mid_wire_length),
         safe_float(subgraph.fast_wire_length),
-        per_piece(subgraph.wire_time),
-        subgraph.wire_process_note or '',
+        wire_time_value,
+        wire_process_note,
         per_piece(subgraph.slow_wire_cost),
         per_piece(subgraph.slow_wire_side_cost),
         per_piece(subgraph.mid_wire_cost),

@@ -343,13 +343,14 @@ class PricingAgent(BaseAgent):
             # 发布进度：价格计算完成（仅在 publish_progress=True 时发送）
             if self.progress_publisher and publish_progress and final_result.get("status") in ["ok", "partial"]:
                 total_cost = final_result.get("total_cost", 0)
+                total_cost_display = f"{float(total_cost):.2f}"
                 currency = "CNY"
                 
                 self.progress_publisher.publish_progress(
                     job_id=job_id,
                     stage=ProgressStage.PRICING_COMPLETED,
                     progress=ProgressPercent.PRICING_COMPLETED,
-                    message=f"价格计算完成，总成本: {total_cost} {currency}",
+                    message=f"价格计算完成，总成本: {total_cost_display} {currency}",
                     details={
                         "source": "pricing_agent",
                         "total_cost": total_cost,
@@ -832,13 +833,14 @@ class PricingAgent(BaseAgent):
             # 发布进度：价格计算完成（只推送1次）
             if self.progress_publisher and final_result.get("status") in ["ok", "partial"]:
                 total_cost = final_result.get("total_cost", 0)
+                total_cost_display = f"{float(total_cost):.2f}"
                 currency = "CNY"
                 
                 self.progress_publisher.publish_progress(
                     job_id=job_id,
                     stage=ProgressStage.PRICING_COMPLETED,
                     progress=ProgressPercent.PRICING_COMPLETED,
-                    message=f"价格计算完成，总成本: {total_cost} {currency}",
+                    message=f"价格计算完成，总成本: {total_cost_display} {currency}",
                     details={
                         "source": "pricing_agent",
                         "total_cost": total_cost,

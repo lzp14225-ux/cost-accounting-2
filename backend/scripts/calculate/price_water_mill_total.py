@@ -472,7 +472,10 @@ async def _batch_update_subgraphs(job_id: str, updates: List[Dict]):
             small_grinding_cost = $3,
             large_grinding_cost = $4,
             small_grinding_time = $5,
-            large_grinding_time = $6,
+            large_grinding_time = CASE
+                WHEN large_grinding_time IS NOT NULL THEN large_grinding_time
+                ELSE $6
+            END,
             updated_at = NOW()
         WHERE job_id = $1::uuid AND subgraph_id = $2::text
     """

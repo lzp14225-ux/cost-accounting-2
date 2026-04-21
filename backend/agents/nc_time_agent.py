@@ -108,78 +108,95 @@ class NCTimeAgent(BaseAgent):
         
         self.logger.info(f"[NCTimeAgent] 开始处理 NC 时间计算: job_id={job_id}")
 
-        excel_result = await self._process_nc_excel_workbooks(job_id, context)
-        if excel_result is not None:
-            return excel_result
+        # Excel 解析链路已停用，保留代码作参考，不删除。
+        # excel_result = await self._process_nc_excel_workbooks(job_id, context)
+        # if excel_result is not None:
+        #     return excel_result
 
         minio_json_result = await self._process_nc_json_from_minio(job_id)
         if minio_json_result is not None:
             return minio_json_result
-        
-        # 发布进度：NC 时间计算开始
-        self._maybe_cleanup_nc_log_files()
-        self._maybe_cleanup_nc_log_files()
+
+        # 旧逻辑保留作参考：此前 MinIO JSON 未命中时，会继续回退到外部 NC HTTP 服务。
+        # 现在这条链路已停用，只保留最新的 MinIO JSON 解析逻辑。
+        #
+        # # 发布进度：NC 时间计算开始
+        # self._maybe_cleanup_nc_log_files()
+        # self._maybe_cleanup_nc_log_files()
+        # if self.progress_publisher:
+        #     from shared.progress_stages import ProgressStage, ProgressPercent
+        #     self.progress_publisher.publish_progress(
+        #         job_id=job_id,
+        #         stage=ProgressStage.NC_CALCULATION_STARTED,
+        #         progress=ProgressPercent.NC_CALCULATION_STARTED,
+        #         message="NC 时间计算开始",
+        #         details={"nc_agent_url": self.nc_agent_url}
+        #     )
+        #
+        # # 临时文件列表（用于清理）
+        # temp_files = []
+        #
+        # try:
+        #     # 1. 获取文件路径（如果是 MinIO 路径，需要先下载）
+        #     dwg_file_path = context.get("dwg_file_path")
+        #     prt_file_path = context.get("prt_file_path")
+        #
+        #     if not dwg_file_path or not prt_file_path:
+        #         return {"status": "error", "message": "缺少 dwg_file_path 或 prt_file_path 参数"}
+        #
+        #     # 检查是否为 MinIO 路径（不以 / 或盘符开头）
+        #     dwg_local_path = await self._ensure_local_file(dwg_file_path, job_id, "dwg")
+        #     prt_local_path = await self._ensure_local_file(prt_file_path, job_id, "prt")
+        #
+        #     if dwg_local_path != dwg_file_path:
+        #         temp_files.append(dwg_local_path)
+        #     if prt_local_path != prt_file_path:
+        #         temp_files.append(prt_local_path)
+        #
+        #     # 2. 调用外部 NC Agent
+        #     nc_result = await self.call_nc_agent_workflow(
+        #         job_id=job_id,
+        #         dwg_file=dwg_local_path,
+        #         prt_file=prt_local_path
+        #     )
+        #
+        #     fail_itemcodes = self._extract_fail_itemcodes(nc_result)
+        #     await self._save_nc_failed_itemcodes(job_id, fail_itemcodes)
+        #
+        #     return await self._process_nc_result_payload(job_id, nc_result, source="http")
+        #
+        # except Exception as e:
+        #     self.logger.error(f"[NCTimeAgent] NC 时间计算失败: {e}", exc_info=True)
+        #
+        #     # 发布进度：NC 时间计算失败
+        #     if self.progress_publisher:
+        #         from shared.progress_stages import ProgressStage, ProgressPercent
+        #         self.progress_publisher.publish_progress(
+        #             job_id=job_id,
+        #             stage=ProgressStage.NC_CALCULATION_FAILED,
+        #             progress=ProgressPercent.NC_CALCULATION_STARTED,
+        #             message=f"NC 时间计算失败: {str(e)}",
+        #             details={"error": str(e)}
+        #         )
+        #
+        #     return {"status": "error", "message": f"NC 时间计算失败: {str(e)}"}
+        #
+        # finally:
+        #     # 清理临时文件
+        #     await self._cleanup_temp_files(temp_files)
+
+        error_message = "NC 时间计算失败: 未命中可用的 MinIO JSON 数据，且外部 NC HTTP 回退链路已停用"
+        self.logger.error(f"[NCTimeAgent] {error_message}")
         if self.progress_publisher:
             from shared.progress_stages import ProgressStage, ProgressPercent
             self.progress_publisher.publish_progress(
                 job_id=job_id,
-                stage=ProgressStage.NC_CALCULATION_STARTED,
+                stage=ProgressStage.NC_CALCULATION_FAILED,
                 progress=ProgressPercent.NC_CALCULATION_STARTED,
-                message="NC 时间计算开始",
-                details={"nc_agent_url": self.nc_agent_url}
+                message=error_message,
+                details={"error": error_message, "source": "minio_json_only"}
             )
-        
-        # 临时文件列表（用于清理）
-        temp_files = []
-        
-        try:
-            # 1. 获取文件路径（如果是 MinIO 路径，需要先下载）
-            dwg_file_path = context.get("dwg_file_path")
-            prt_file_path = context.get("prt_file_path")
-            
-            if not dwg_file_path or not prt_file_path:
-                return {"status": "error", "message": "缺少 dwg_file_path 或 prt_file_path 参数"}
-            
-            # 检查是否为 MinIO 路径（不以 / 或盘符开头）
-            dwg_local_path = await self._ensure_local_file(dwg_file_path, job_id, "dwg")
-            prt_local_path = await self._ensure_local_file(prt_file_path, job_id, "prt")
-            
-            if dwg_local_path != dwg_file_path:
-                temp_files.append(dwg_local_path)
-            if prt_local_path != prt_file_path:
-                temp_files.append(prt_local_path)
-            
-            # 2. 调用外部 NC Agent
-            nc_result = await self.call_nc_agent_workflow(
-                job_id=job_id,
-                dwg_file=dwg_local_path,
-                prt_file=prt_local_path
-            )
-
-            fail_itemcodes = self._extract_fail_itemcodes(nc_result)
-            await self._save_nc_failed_itemcodes(job_id, fail_itemcodes)
-            
-            return await self._process_nc_result_payload(job_id, nc_result, source="http")
-            
-        except Exception as e:
-            self.logger.error(f"[NCTimeAgent] NC 时间计算失败: {e}", exc_info=True)
-            
-            # 发布进度：NC 时间计算失败
-            if self.progress_publisher:
-                from shared.progress_stages import ProgressStage, ProgressPercent
-                self.progress_publisher.publish_progress(
-                    job_id=job_id,
-                    stage=ProgressStage.NC_CALCULATION_FAILED,
-                    progress=ProgressPercent.NC_CALCULATION_STARTED,
-                    message=f"NC 时间计算失败: {str(e)}",
-                    details={"error": str(e)}
-                )
-            
-            return {"status": "error", "message": f"NC 时间计算失败: {str(e)}"}
-        
-        finally:
-            # 清理临时文件
-            await self._cleanup_temp_files(temp_files)
+        return {"status": "error", "message": error_message}
     
     async def call_nc_agent_workflow(
         self,
@@ -783,6 +800,8 @@ class NCTimeAgent(BaseAgent):
     
     def _parse_operations(self, operations: List[Dict[str, Any]], volume_data: Dict[str, Any] = None) -> Dict[str, Any]:
         """
+        旧版 NC JSON 解析逻辑（已停用，保留作参考，不删除）
+
         解析操作数据，按面编码组织时间信息
         
         新规则（按面编码组织）：
@@ -1170,6 +1189,7 @@ class NCTimeAgent(BaseAgent):
         job_id: str,
         context: Dict[str, Any]
     ) -> Optional[Dict[str, Any]]:
+        """旧版 Excel NC 解析入口（已停用，保留作参考，不删除）"""
         mold_code = await self._get_job_mold_code(job_id)
         subgraphs = await self._get_job_subgraphs(job_id)
         self._log_visible(
@@ -1371,14 +1391,22 @@ class NCTimeAgent(BaseAgent):
             )
 
         if debug_nc_result is not None:
-            self.logger.warning(
-                "[NCTimeAgent] MinIO 仅命中 debug JSON，未命中 subgraph JSON，回退到 debug JSON 全量解析"
+            # 旧逻辑保留作参考：此前 MinIO 仅命中 debug JSON 时，会回退到
+            # _process_nc_result_payload() 继续走旧版全量解析。
+            # self.logger.warning(
+            #     "[NCTimeAgent] MinIO 仅命中 debug JSON，未命中 subgraph JSON，回退到 debug JSON 全量解析"
+            # )
+            # return await self._process_nc_result_payload(job_id, debug_nc_result, source="minio_json_debug")
+            self.logger.error(
+                "[NCTimeAgent] MinIO 仅命中 debug JSON，未命中 subgraph JSON；旧版 debug 全量解析已停用"
             )
-            return await self._process_nc_result_payload(job_id, debug_nc_result, source="minio_json_debug")
+            return {
+                "status": "error",
+                "message": "NC 时间计算失败: MinIO 仅命中 debug JSON，缺少 subgraph JSON"
+            }
 
-        self.logger.info(
-            f"[NCTimeAgent] MinIO 路径下未命中 Excel 或 JSON NC 文件，继续走旧 HTTP NC 流程: "
-            f"mold_code={mold_code}, path={minio_prefix}"
+        self.logger.error(
+            f"[NCTimeAgent] MinIO 路径下未命中可用的 subgraph JSON: mold_code={mold_code}, path={minio_prefix}"
         )
         return None
 
@@ -1497,9 +1525,14 @@ class NCTimeAgent(BaseAgent):
                         f"[NCTimeAgent] 跳过本地子图 JSON 落盘: source={source}, "
                         f"subgraph={subgraph_name}, subgraph_id={subgraph_id}"
                     )
-                volume_data = subgraph_data.get("batch_meta", {}).get("volume_data", {})
                 operations = subgraph_data.get("operations", [])
-                time_data = self._parse_operations(operations, volume_data)
+                # 旧逻辑保留作参考：此前完整响应分支仍会走 _parse_operations()，
+                # 其面别判断依赖 Z/B/X/Z_VIEW/B_VIEW/C_B 等旧前缀规则。
+                # volume_data = subgraph_data.get("batch_meta", {}).get("volume_data", {})
+                # time_data = self._parse_operations(operations, volume_data)
+
+                # 新逻辑：统一按 parent_group -> 面别映射解析，避免完整响应分支继续使用旧前缀切面。
+                time_data = self._parse_subgraph_json_operations(operations)
                 await self._save_nc_time_data(subgraph_id, time_data)
 
                 success_count += 1
@@ -1871,6 +1904,7 @@ class NCTimeAgent(BaseAgent):
         return None
 
     def _parse_nc_excel_workbook(self, workbook_path: Path) -> Dict[str, Any]:
+        """旧版 Excel workbook 解析逻辑（已停用，保留作参考，不删除）"""
         workbook = load_workbook(filename=str(workbook_path), data_only=True, read_only=True)
         try:
             nc_details = []
@@ -1887,6 +1921,7 @@ class NCTimeAgent(BaseAgent):
             workbook.close()
 
     def _parse_nc_excel_sheet(self, workbook, sheet_name: str) -> List[Dict[str, Any]]:
+        """旧版 Excel sheet 解析逻辑（已停用，保留作参考，不删除）"""
         if sheet_name not in workbook.sheetnames:
             self.logger.warning(f"[NCTimeAgent] Excel 缺少工作表: {sheet_name}")
             return []

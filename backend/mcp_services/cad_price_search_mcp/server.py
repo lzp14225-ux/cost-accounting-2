@@ -24,12 +24,40 @@ from dotenv import load_dotenv
 import logging
 from decimal import Decimal
 
+EXPORT_EXCLUDE_KEYWORDS = ["订购", "附图订购", "二次加工", "钣金"]
+
 # 自定义 JSON 编码器，处理 Decimal 类型
 class DecimalEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Decimal):
             return float(obj)
         return super(DecimalEncoder, self).default(obj)
+
+
+def _contains_export_exclude_keyword(text: str) -> bool:
+    normalized = str(text or "").strip()
+    if not normalized:
+        return False
+    return any(keyword in normalized for keyword in EXPORT_EXCLUDE_KEYWORDS)
+
+
+def _flatten_processing_instructions(value) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, dict):
+        return " ".join(_flatten_processing_instructions(item) for item in value.values())
+    if isinstance(value, (list, tuple, set)):
+        return " ".join(_flatten_processing_instructions(item) for item in value)
+    return str(value)
+
+
+async def _should_exclude_from_job_total_row(row: dict) -> bool:
+    part_name = str(row.get("part_name") or "").strip()
+    if _contains_export_exclude_keyword(part_name):
+        return True
+
+    processing_text = _flatten_processing_instructions(row.get("processing_instructions"))
+    return _contains_export_exclude_keyword(processing_text)
 
 # 加载环境变量
 load_dotenv()
@@ -811,17 +839,38 @@ async def handle_price_tool(name: str, arguments: dict) -> list[TextContent]:
         logger.info(f"[MCP] judgment_cleanup completed")
     
     elif name == "update_job_total_cost_only":
-        # 只更新 jobs.total_cost，从所有子图汇总
+        # 只更新 jobs.total_cost，但需排除报表过滤命中的子图
         logger.info(f"[MCP] update_job_total_cost_only: job_id={job_id}")
-        # 查询所有子图的 total_cost 并汇总
         from api_gateway.database import db
         query_sql = """
-            SELECT COALESCE(SUM(total_cost), 0) as total_cost
-            FROM subgraphs
-            WHERE job_id = $1::uuid
+            SELECT s.subgraph_id, s.part_name, s.total_cost, f.processing_instructions
+            FROM subgraphs s
+            LEFT JOIN features f
+                ON s.job_id = f.job_id AND s.subgraph_id = f.subgraph_id
+            WHERE s.job_id = $1::uuid
         """
-        row = await db.fetch_one(query_sql, job_id)
-        total_cost = float(row["total_cost"]) if row else 0.0
+        rows = await db.fetch_all(query_sql, job_id)
+
+        decisions = await asyncio.gather(
+            *[_should_exclude_from_job_total_row(dict(row)) for row in rows]
+        )
+
+        excluded_subgraph_ids = [
+            str(row["subgraph_id"])
+            for row, should_exclude in zip(rows, decisions)
+            if should_exclude
+        ]
+
+        total_cost = sum(
+            float(row["total_cost"] or 0)
+            for row, should_exclude in zip(rows, decisions)
+            if not should_exclude
+        )
+
+        if excluded_subgraph_ids:
+            logger.info(
+                f"[MCP] update_job_total_cost_only excluded subgraphs: {excluded_subgraph_ids}"
+            )
         
         # 更新 jobs 表
         update_sql = """
