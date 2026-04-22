@@ -203,6 +203,36 @@ class OrchestratorAgent(BaseAgent):
                 await self._handle_failure(job_id, "feature_recognition", feature_result)
                 return feature_result
 
+            # ========== 清理排除零件 ==========
+            # 特征识别完成后，根据零件名称和加工说明过滤掉不需要参与报价的零件
+            try:
+                from scripts.cleanup.excluded_parts_cleaner import clean_excluded_parts
+                cleanup_result = await clean_excluded_parts(job_id)
+                excluded_count = cleanup_result.get("excluded_count", 0)
+                if excluded_count > 0:
+                    self.logger.info(
+                        f"[编排器] 排除零件清理完成: 删除 {excluded_count} 个, "
+                        f"保留 {cleanup_result.get('remaining_count', 0)} 个"
+                    )
+                    # 更新 subgraph_count 为清理后的数量
+                    subgraph_count = cleanup_result.get("remaining_count", subgraph_count)
+                else:
+                    self.logger.info("[编排器] 排除零件清理完成: 无需删除")
+
+                self._publish_progress(
+                    job_id,
+                    ProgressStage.FEATURE_RECOGNITION_COMPLETED,
+                    ProgressPercent.FEATURE_RECOGNITION_COMPLETED,
+                    f"已清理掉钣金件及附图订购等，共{excluded_count}张",
+                    details={
+                        "source": "excluded_parts_cleaner",
+                        "excluded_count": excluded_count,
+                        "remaining_count": cleanup_result.get("remaining_count", subgraph_count),
+                    }
+                )
+            except Exception as e:
+                self.logger.warning(f"[编排器] 排除零件清理失败（不阻断流程）: {e}")
+
             # 任务2：NC 时间计算（仅当特征识别成功且有 NC Agent 且 prt_file_path 不为空时执行）
             if self.nc_time_agent:
                 if prt_file_path and prt_file_path.strip():

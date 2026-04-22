@@ -7,8 +7,10 @@
 2. 从 total_search.py 获取成本明细（包含各项水磨费用）
 3. 从 water_mill_search.py 获取水磨价格信息（50元/小时、60元/小时）
 4. 判断大小磨床：
-   - 小磨床：计算 small_grinding_cost = (chamfer_cost+bevel_cost+oil_tank_cost)*quantity*50 + (thread_ends_cost+hanging_table_cost+high_cost)*quantity
-              计算 small_grinding_time = (chamfer_cost+bevel_cost+oil_tank_cost)*quantity（小时）
+   - 小磨床：先将 (thread_ends_cost+hanging_table_cost+high_cost) / hourly_rate 换算为时间，
+              再加上 (chamfer_cost/60 + bevel_cost/60 + oil_tank_cost) 得到单件时间
+              计算 small_grinding_time = 单件时间 * quantity（小时）
+              计算 small_grinding_cost = small_grinding_time * hourly_rate
    - 大水磨：计算 large_grinding_cost = (long_strip_cost+component_cost)*quantity*60 + plate_cost*quantity
               计算 large_grinding_time = (long_strip_cost+component_cost)*quantity（小时）
 5. 批量更新 subgraphs 表（费用和时间）
@@ -282,7 +284,12 @@ def _calculate_small_grinding_cost(costs: Dict, quantity: int, hourly_rate: floa
     """
     计算小磨床费用和时间
 
-    公式：(chamfer_cost+bevel_cost+oil_tank_cost)*quantity*50 + (thread_ends_cost+hanging_table_cost+high_cost)*quantity
+    公式：
+    1. fixed_cost = thread_ends_cost + hanging_table_cost + high_cost
+    2. fixed_cost_hours = fixed_cost / hourly_rate
+    3. unit_time_hours = fixed_cost_hours + (chamfer_cost / 60) + (bevel_cost / 60) + oil_tank_cost
+    4. total_time_hours = unit_time_hours * quantity
+    5. total_cost = total_time_hours * hourly_rate
 
     单位说明：
     - thread_ends_cost: 元（单件）
@@ -327,51 +334,63 @@ def _calculate_small_grinding_cost(costs: Dict, quantity: int, hourly_rate: floa
         "note": "分钟转换为小时"
     })
     
-    # 计算时间费用部分：(chamfer_cost+bevel_cost+oil_tank_cost) * quantity * hourly_rate
+    # 计算倒角、斜面、油槽的单件时间
     time_cost_hours = chamfer_cost_hours + bevel_cost_hours + oil_tank_cost
-    time_cost_total = time_cost_hours * quantity * hourly_rate
     
     calculation_steps.append({
-        "step": "计算时间费用",
-        "formula": f"({round(chamfer_cost_hours, 4)} + {round(bevel_cost_hours, 4)} + {oil_tank_cost}) × {quantity} × {hourly_rate}",
+        "step": "计算倒角斜面油槽时间",
+        "formula": f"{round(chamfer_cost_hours, 4)} + {round(bevel_cost_hours, 4)} + {oil_tank_cost}",
         "time_cost_hours": round(time_cost_hours, 4),
-        "quantity": quantity,
-        "hourly_rate": hourly_rate,
-        "time_cost_total": round(time_cost_total, 2)
+        "note": "单件时间"
     })
     
-    # 计算固定费用部分：(thread_ends_cost + hanging_table_cost + high_cost) * quantity
-    fixed_cost_total = (thread_ends_cost + hanging_table_cost + high_cost) * quantity
+    # 将固定金额换算为单件时间
+    fixed_cost_amount = thread_ends_cost + hanging_table_cost + high_cost
+    if hourly_rate > 0:
+        fixed_cost_hours = fixed_cost_amount / hourly_rate
+        fixed_cost_note = "固定金额按时薪换算为单件时间"
+    else:
+        fixed_cost_hours = 0
+        fixed_cost_note = "小磨床时薪为0，固定金额无法换算时间，按0处理"
 
-    
     calculation_steps.append({
-    "step": "计算固定费用",
-    "formula": f"({thread_ends_cost} + {hanging_table_cost} + {high_cost}) × {quantity}",
+    "step": "将挂台费线头费高度费换算为时间",
+    "formula": f"({thread_ends_cost} + {hanging_table_cost} + {high_cost}) / {hourly_rate}" if hourly_rate > 0 else None,
     "thread_ends_cost": thread_ends_cost,
     "hanging_table_cost": hanging_table_cost,
     "high_cost": high_cost,
-    "quantity": quantity,
-    "fixed_cost_total": round(fixed_cost_total, 2)
+    "fixed_cost_amount": round(fixed_cost_amount, 2),
+    "hourly_rate": hourly_rate,
+    "fixed_cost_hours": round(fixed_cost_hours, 4),
+    "note": fixed_cost_note
     })
 
-    
-    # 总费用
-    total_cost = time_cost_total + fixed_cost_total
-    
+    # 计算单件总时间
+    unit_time_hours = fixed_cost_hours + time_cost_hours
+
+    calculation_steps.append({
+        "step": "计算单件小磨床总时间",
+        "formula": f"{round(fixed_cost_hours, 4)} + {round(time_cost_hours, 4)}",
+        "unit_time_hours": round(unit_time_hours, 4)
+    })
+
     # 总时间（小时）= 单件时间 * 数量
-    total_time_hours = time_cost_hours * quantity
+    total_time_hours = unit_time_hours * quantity
+
+    # 总费用 = 总时间 * 时薪
+    total_cost = total_time_hours * hourly_rate
     
     calculation_steps.append({
         "step": "计算小磨床总费用和总时间",
-        "formula": f"{round(time_cost_total, 2)} + {round(fixed_cost_total, 2)}",
+        "formula": f"{round(unit_time_hours, 4)} × {quantity} × {hourly_rate}",
         "total_cost": round(total_cost, 2),
         "total_time_hours": round(total_time_hours, 2)
     })
     
     logger.info(
         f"Small grinding: chamfer={chamfer_cost}min, bevel={bevel_cost}min, oil_tank={oil_tank_cost}h, "
-        f"time_hours={time_cost_hours:.2f}h, time_cost={time_cost_total:.2f}, "
-        f"fixed_cost={fixed_cost_total:.2f}, total={total_cost:.2f}, total_time={total_time_hours:.2f}h"
+        f"process_time={time_cost_hours:.2f}h, fixed_time={fixed_cost_hours:.2f}h, "
+        f"unit_time={unit_time_hours:.2f}h, total={total_cost:.2f}, total_time={total_time_hours:.2f}h"
     )
     
     cost_rounded = float(Decimal(str(total_cost)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))

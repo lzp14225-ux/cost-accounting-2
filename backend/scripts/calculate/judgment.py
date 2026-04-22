@@ -148,7 +148,8 @@ async def _cleanup_material_preparation(
     """
     logger.info(f"Cleaning up material preparation for {subgraph_id}: {has_material_preparation}")
     
-    # 备料件导出时只保留：零件名称、编号、异常情况、其它（备料于）
+    # 备料件导出时只保留：零件名称、编号、异常情况、其它（备料于）、
+    # 小磨工时/费用，以及 NC 相关工时/费用
     # 因此这里把 subgraphs / features / processing_cost_calculation_details 中
     # 与其他导出列相关的字段统一清空。
     subgraphs_sql = """
@@ -160,15 +161,7 @@ async def _cleanup_material_preparation(
             heat_treatment_unit_price = NULL,
             heat_treatment_cost = NULL,
             process_description = NULL,
-            nc_z_time = NULL,
-            nc_b_time = NULL,
-            nc_c_time = NULL,
-            nc_c_b_time = NULL,
-            drilling_time = NULL,
-            nc_roughing_time = NULL,
-            nc_milling_time = NULL,
             large_grinding_time = NULL,
-            small_grinding_time = NULL,
             milling_machine_time = NULL,
             edm_time = NULL,
             engraving_time = NULL,
@@ -179,14 +172,6 @@ async def _cleanup_material_preparation(
             wire_time = NULL,
             separate_item = NULL,
             total_cost = NULL,
-            nc_z_fee = NULL,
-            nc_b_fee = NULL,
-            nc_c_fee = NULL,
-            nc_c_b_fee = NULL,
-            nc_z_view_time = NULL,
-            nc_b_view_time = NULL,
-            nc_z_view_fee = NULL,
-            nc_b_view_fee = NULL,
             wire_process_note = NULL,
             milling_machine_cost = NULL,
             slow_wire_cost = NULL,
@@ -195,7 +180,6 @@ async def _cleanup_material_preparation(
             fast_wire_cost = NULL,
             edm_cost = NULL,
             engraving_cost = NULL,
-            small_grinding_cost = NULL,
             large_grinding_cost = NULL,
             separate_item_cost = NULL,
             processing_cost_total = NULL,

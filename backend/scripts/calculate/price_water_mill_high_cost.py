@@ -7,7 +7,7 @@
 2. 调用 water_mill_search 获取水磨价格信息
 3. 判断是大水磨还是小磨床
 4. 如果 has_material_preparation 不为空，查询备料零件的厚度
-5. 如果厚度不同，计算高度费：quantity * price
+5. 如果厚度不同，计算高度费：price
 6. 更新 processing_cost_calculation_details 表的 high_cost
 """
 from typing import List, Dict, Any
@@ -328,14 +328,14 @@ async def _calculate_part_price(
         "unit": unit
     })
     
-    # Step 6: 计算高度费
-    high_cost = quantity * high_unit_price
+    # Step 6: 计算高度费（单件，不乘数量）
+    high_cost = high_unit_price
     
     calculation_steps.append({
         "step": "计算高度费",
         "quantity": quantity,
         "unit_price": high_unit_price,
-        "formula": f"{quantity} * {high_unit_price}",
+        "formula": f"{high_unit_price}",
         "high_cost": round(high_cost, 2)
     })
     

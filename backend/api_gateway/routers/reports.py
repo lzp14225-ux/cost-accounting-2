@@ -43,7 +43,7 @@ HEADERS = [
     'NC开粗时间(单件/h)', 'NC精铣时间(单件/h)', 'NC钻孔时间(单件/h)', 'NC加工面数量',
     'A面(单件/h)', 'B面(单件/h)', 'C面(单件/h)', 'D面(单件/h)', 'E面(单件/h)', 'F面(单件/h)',
     'NC加工费（单件/元）',
-    '小磨床 YM(个)', '小磨床（元）', '大水磨 M(h)', '大水磨（元）',
+    '小磨床 YM(h)', '小磨床（元）', '大水磨 M(h)', '大水磨（元）',
     '慢丝 W/E(mm)', '侧割长度(mm)', '中丝 W/Z(mm)', '快丝 W/C(mm)', '线割时间', '线割工艺说明',
     '慢丝（元）', '侧割（元）', '中丝（元）', '快丝（元）',
     '放电 EDM(h)', '放电（元）', '雕刻 DK(h)', '雕刻（元）',
@@ -685,7 +685,7 @@ def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature, is_nc_failed
         per_piece(subgraph.nc_z_view_time),  # E面时间
         per_piece(subgraph.nc_b_view_time),  # F面时间
         nc_processing_fee_per_piece,
-        safe_int(subgraph.small_grinding_count),
+        per_piece(subgraph.small_grinding_time),
         per_piece(subgraph.small_grinding_cost),
         per_piece(subgraph.large_grinding_time),
         per_piece(subgraph.large_grinding_cost),

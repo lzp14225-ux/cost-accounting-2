@@ -59,6 +59,7 @@ const ChatInterface: React.FC = () => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const { token } = theme.useToken();
     const loadedSessionRef = useRef<string | null>(null); // 记录已加载的sessionId，避免重复加载
+    const historyLoadedSessionRef = useRef<string | null>(null); // 仅标记真正完成历史消息加载的会话
     const reviewFallbackStartedRef = useRef<Set<string>>(new Set()); // 避免同一会话重复补调 /review/start
 
     const {
@@ -409,6 +410,7 @@ const ChatInterface: React.FC = () => {
             // 如果是新会话，跳过加载历史消息
             if (isNewSession) {
                 loadedSessionRef.current = currentJobId; // 标记为已处理
+                historyLoadedSessionRef.current = null; // 新上传流程，不应触发“历史补调”审核启动
                 setIsNewSession(false); // 重置标记
                 return;
             }
@@ -421,17 +423,20 @@ const ChatInterface: React.FC = () => {
                 // loadHistoryMessages 内部已经有防止竞态条件的逻辑
                 loadHistoryMessages(currentJobId).catch(error => {
                     console.error('❌ 加载历史消息失败:', error);
+                    historyLoadedSessionRef.current = null;
                     // 加载失败时，只有当前仍然是这个会话时才清除标记
                     if (loadedSessionRef.current === currentJobId) {
                         loadedSessionRef.current = null; // 加载失败，清除标记以便重试
                     }
                 });
+                historyLoadedSessionRef.current = currentJobId;
             } else {
                 // console.log('⏭️ 跳过加载 - 已经加载过该会话:', currentJobId);
             }
         } else if (!currentJobId) {
             // 当 currentJobId 为空时（新建对话），重置加载标记
             loadedSessionRef.current = null;
+            historyLoadedSessionRef.current = null;
             setIsNewSession(false); // 重置新会话标记
         }
     }, [currentJobId, isLoggedIn, isNewSession, loadHistoryMessages, setIsNewSession]);
@@ -439,6 +444,11 @@ const ChatInterface: React.FC = () => {
     // 历史会话切回后，如果没有审核表格，则补调一次 /review/start 以恢复表格
     useEffect(() => {
         if (!currentJobId || !isLoggedIn || isNewSession || isLoadingHistory || historyLoadError) {
+            return;
+        }
+
+        // 只允许“真正从历史加载完成”的会话触发补调，避免新上传流程在清理完成前提前启动审核。
+        if (historyLoadedSessionRef.current !== currentJobId) {
             return;
         }
 
