@@ -159,6 +159,32 @@ class PricingAgent(BaseAgent):
             calc_results = await self._concurrent_calculate(search_data, subgraph_ids)
             timings["stage2_concurrent_calculate"] = time.time() - stage_start
             self.logger.info(f"[性能] 阶段2-并发计算: {timings['stage2_concurrent_calculate']*1000:.0f}ms")
+
+            # 阶段2.5: 按重量计价（模座/托板/垫脚），必须在成本汇总和最终总价前落库
+            stage_start = time.time()
+            self.logger.info(f"[按重量计价] 开始")
+            try:
+                from api_gateway.routers.weight_price import PriceWgBatchRequest, calculate_weight_price
+
+                weight_price_result = await calculate_weight_price(
+                    PriceWgBatchRequest(
+                        job_id=job_id,
+                        subgraph_ids=subgraph_ids
+                    )
+                )
+
+                if weight_price_result.status != "success":
+                    self.logger.warning(f"[按重量计价] 失败但继续执行: {weight_price_result.message}")
+                else:
+                    data = weight_price_result.data or {}
+                    self.logger.info(
+                        f"[按重量计价] 完成: success={data.get('success', 0)}, "
+                        f"skipped={data.get('skipped', 0)}, error={data.get('error', 0)}"
+                    )
+            except Exception as e:
+                self.logger.warning(f"[按重量计价] 异常但继续执行: {e}", exc_info=True)
+            timings["stage2_5_weight_price"] = time.time() - stage_start
+            self.logger.info(f"[性能] 阶段2.5-按重量计价: {timings['stage2_5_weight_price']*1000:.0f}ms")
             
             # 阶段3: 汇总搜索（从 processing_cost_calculation_details 表读取所有计算结果）
             stage_start = time.time()
@@ -331,6 +357,7 @@ class PricingAgent(BaseAgent):
                 self.logger.info("[性能汇总] 价格计算各阶段耗时:")
                 self.logger.info(f"  阶段1-并发搜索:     {timings['stage1_concurrent_search']*1000:6.0f}ms ({timings['stage1_concurrent_search']/total_duration*100:5.1f}%)")
                 self.logger.info(f"  阶段2-并发计算:     {timings['stage2_concurrent_calculate']*1000:6.0f}ms ({timings['stage2_concurrent_calculate']/total_duration*100:5.1f}%)")
+                self.logger.info(f"  阶段2.5-按重量计价: {timings['stage2_5_weight_price']*1000:6.0f}ms ({timings['stage2_5_weight_price']/total_duration*100:5.1f}%)")
                 self.logger.info(f"  阶段3-汇总搜索:     {timings['stage3_total_search']*1000:6.0f}ms ({timings['stage3_total_search']/total_duration*100:5.1f}%)")
                 self.logger.info(f"  阶段4-6-并发执行:   {timings['stage4_6_concurrent']*1000:6.0f}ms ({timings['stage4_6_concurrent']/total_duration*100:5.1f}%)")
                 self.logger.info(f"  阶段7-数据清理:     {timings['stage7_judgment']*1000:6.0f}ms ({timings['stage7_judgment']/total_duration*100:5.1f}%)")
@@ -423,6 +450,9 @@ class PricingAgent(BaseAgent):
             
             self.price_search_mcp.call_tool("unified-mcp", "search_material", 
                 {"job_id": job_id, "subgraph_ids": subgraph_ids}),
+
+            self.price_search_mcp.call_tool("unified-mcp", "search_auto",
+                {"job_id": job_id, "subgraph_ids": subgraph_ids}),
             
             self.price_search_mcp.call_tool("unified-mcp", "search_density", 
                 {"job_id": job_id, "subgraph_ids": subgraph_ids}),
@@ -473,6 +503,7 @@ class PricingAgent(BaseAgent):
             "job_id": job_id,
             "base_itemcode": {},
             "material": {},
+            "auto": {},
             "density": {},
             "heat": {},
             "tooth_hole": {},
@@ -484,7 +515,7 @@ class PricingAgent(BaseAgent):
         }
         
         tool_names = [
-            "base_itemcode", "material", "density", "heat", "tooth_hole", "water_mill",
+            "base_itemcode", "material", "auto", "density", "heat", "tooth_hole", "water_mill",
             "wire_base", "wire_special", "wire_standard", "nc"
         ]
         

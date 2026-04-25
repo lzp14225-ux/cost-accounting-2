@@ -11,8 +11,9 @@
               再加上 (chamfer_cost/60 + bevel_cost/60 + oil_tank_cost) 得到单件时间
               计算 small_grinding_time = 单件时间 * quantity（小时）
               计算 small_grinding_cost = small_grinding_time * hourly_rate
-   - 大水磨：计算 large_grinding_cost = (long_strip_cost+component_cost)*quantity*60 + plate_cost*quantity
-              计算 large_grinding_time = (long_strip_cost+component_cost)*quantity（小时）
+   - 大水磨：先计算 plate_time_hours = plate_cost / hourly_rate（将单件板费换算为单件时间）
+              计算单件时间和单件费用，再乘数量得到总时间和总费用
+              如果数量命中 water_num 阶梯倍率，最后将总时间和总费用乘对应倍率
 5. 批量更新 subgraphs 表（费用和时间）
 """
 from typing import List, Dict, Any
@@ -146,19 +147,21 @@ async def calculate(
     }
 
 
-def _build_price_map(water_mill_data: Dict[str, Any]) -> Dict[str, float]:
+def _build_price_map(water_mill_data: Dict[str, Any]) -> Dict[str, Any]:
     """
     构建价格映射
     
     Returns:
         {
             "small_hourly_rate": 50,  # 小磨床时薪（元/小时）
-            "large_hourly_rate": 60   # 大水磨时薪（元/小时）
+            "large_hourly_rate": 60,  # 大水磨时薪（元/小时）
+            "large_quantity_multipliers": [...]  # 大水磨数量倍率阶梯，按 min_num 从大到小排序
         }
     """
     price_map = {
         "small_hourly_rate": 0,
-        "large_hourly_rate": 0
+        "large_hourly_rate": 0,
+        "large_quantity_multipliers": []
     }
     
     logger.info(f"Building price map from water_mill_data keys: {water_mill_data.keys()}")
@@ -192,6 +195,36 @@ def _build_price_map(water_mill_data: Dict[str, Any]) -> Dict[str, float]:
                 break
             except (ValueError, TypeError) as e:
                 logger.warning(f"Failed to parse large water_mill price: {price_value}, error: {e}")
+
+    # 处理大水磨数量倍率（water_num），按 min_num 从大到小排序，后续优先匹配最高门槛
+    quantity_multipliers = []
+    quantity_multiplier_sources = (
+        water_mill_data.get("water_mill_prices", [])
+        + water_mill_data.get("l_water_mill_prices", [])
+    )
+    for price in quantity_multiplier_sources:
+        sub_category = price.get("sub_category")
+        price_value = price.get("price")
+        unit = price.get("unit")
+        min_num = price.get("min_num")
+
+        if sub_category == "water_num" and unit == "倍" and min_num is not None:
+            try:
+                quantity_multipliers.append({
+                    "min_num": float(min_num),
+                    "multiplier": float(price_value)
+                })
+            except (ValueError, TypeError) as e:
+                logger.warning(
+                    f"Failed to parse water_num multiplier: price={price_value}, min_num={min_num}, error: {e}"
+                )
+
+    price_map["large_quantity_multipliers"] = sorted(
+        quantity_multipliers,
+        key=lambda item: item["min_num"],
+        reverse=True
+    )
+    logger.info(f"Set large_quantity_multipliers to {price_map['large_quantity_multipliers']}")
     
     logger.info(f"Final price_map: {price_map}")
     return price_map
@@ -245,7 +278,7 @@ async def _calculate_part_total(
     elif mill_type == "l_water_mill":
         # 大水磨计算
         large_grinding_cost, large_grinding_time, large_steps = _calculate_large_grinding_cost(
-            costs, quantity, price_map["large_hourly_rate"]
+            costs, quantity, price_map["large_hourly_rate"], price_map.get("large_quantity_multipliers", [])
         )
         calculation_steps.extend(large_steps)
     
@@ -399,21 +432,35 @@ def _calculate_small_grinding_cost(costs: Dict, quantity: int, hourly_rate: floa
     return cost_rounded, time_rounded, calculation_steps
 
 
-def _calculate_large_grinding_cost(costs: Dict, quantity: int, hourly_rate: float) -> tuple[float, float, List[Dict]]:
+def _calculate_large_grinding_cost(
+    costs: Dict,
+    quantity: int,
+    hourly_rate: float,
+    quantity_multipliers: List[Dict[str, float]] = None
+) -> tuple[float, float, List[Dict]]:
     """
     计算大水磨费用和时间
     
-    公式：(long_strip_cost+component_cost)*quantity*60 + plate_cost*quantity
+    公式：
+    1. plate_time_hours = plate_cost / hourly_rate
+    2. unit_time_hours = long_strip_cost + component_cost + plate_time_hours
+    3. unit_cost = (long_strip_cost + component_cost) * hourly_rate + plate_cost
+    4. base_total_time_hours = unit_time_hours * quantity
+    5. base_total_cost = unit_cost * quantity
+    6. 如果 quantity 命中 water_num 阶梯：
+       total_time_hours = base_total_time_hours * multiplier
+       total_cost = base_total_cost * multiplier
     
     单位说明：
     - long_strip_cost: 小时
     - component_cost: 小时
-    - plate_cost: 元
+    - plate_cost: 元（单件金额）
     
     Returns:
         tuple: (cost, time_hours, calculation_steps) - (费用, 时间（小时）, 计算步骤)
     """
     calculation_steps = []
+    quantity_multipliers = quantity_multipliers or []
     
     # 获取各项费用
     plate_cost = costs.get("plate_cost", 0.0)  # 元
@@ -427,51 +474,117 @@ def _calculate_large_grinding_cost(costs: Dict, quantity: int, hourly_rate: floa
         "component_cost_hours": component_cost
     })
     
-    # 计算时间费用部分：(long_strip_cost + component_cost) * quantity * hourly_rate
+    # 计算单件时间费用部分：(long_strip_cost + component_cost) * hourly_rate
     time_cost_hours = long_strip_cost + component_cost
-    time_cost_total = time_cost_hours * quantity * hourly_rate
+    unit_time_cost = time_cost_hours * hourly_rate
     
     calculation_steps.append({
-        "step": "计算时间费用",
-        "formula": f"({long_strip_cost} + {component_cost}) × {quantity} × {hourly_rate}",
+        "step": "计算单件时间费用",
+        "formula": f"({long_strip_cost} + {component_cost}) × {hourly_rate}",
         "time_cost_hours": round(time_cost_hours, 4),
-        "quantity": quantity,
         "hourly_rate": hourly_rate,
-        "time_cost_total": round(time_cost_total, 2)
+        "unit_time_cost": round(unit_time_cost, 2)
+    })
+
+    if hourly_rate > 0:
+        plate_time_hours = plate_cost / hourly_rate
+        plate_time_note = "将单件板费按大水磨时薪换算为单件时间"
+    else:
+        plate_time_hours = 0
+        plate_time_note = "大水磨时薪为0，板费无法换算时间，按0处理"
+
+    calculation_steps.append({
+        "step": "将板费换算为时间",
+        "formula": f"{plate_cost} / {hourly_rate}" if hourly_rate > 0 else None,
+        "plate_cost": round(plate_cost, 2),
+        "hourly_rate": hourly_rate,
+        "plate_time_hours": round(plate_time_hours, 4),
+        "note": plate_time_note
+    })
+
+    # 单件总时间 = 长条时间 + 零件时间 + 板费换算时间
+    unit_time_hours = time_cost_hours + plate_time_hours
+
+    calculation_steps.append({
+        "step": "计算单件大水磨总时间",
+        "formula": f"{round(time_cost_hours, 4)} + {round(plate_time_hours, 4)}",
+        "unit_time_hours": round(unit_time_hours, 4)
+    })
+
+    # 单件总费用 = 时间费用 + 板费
+    unit_cost = unit_time_cost + plate_cost
+
+    calculation_steps.append({
+        "step": "计算单件大水磨总费用",
+        "formula": f"{round(unit_time_cost, 2)} + {round(plate_cost, 2)}",
+        "unit_time_cost": round(unit_time_cost, 2),
+        "plate_cost": round(plate_cost, 2),
+        "unit_cost": round(unit_cost, 2)
     })
     
-    # 计算板费部分：plate_cost * quantity
-    plate_cost_total = plate_cost * quantity
+    # 总时间和总费用 = 单件结果 * 数量
+    base_total_time_hours = unit_time_hours * quantity
+    base_total_cost = unit_cost * quantity
     
     calculation_steps.append({
-        "step": "计算板费",
-        "formula": f"{plate_cost} × {quantity}",
-        "plate_cost_total": round(plate_cost_total, 2)
+        "step": "计算大水磨基础总费用和总时间",
+        "time_formula": f"{round(unit_time_hours, 4)} × {quantity}",
+        "cost_formula": f"{round(unit_cost, 2)} × {quantity}",
+        "quantity": quantity,
+        "base_total_cost": round(base_total_cost, 2),
+        "base_total_time_hours": round(base_total_time_hours, 2)
     })
-    
-    # 总费用
-    total_cost = time_cost_total + plate_cost_total
-    
-    # 总时间（小时）= 单件时间 * 数量
-    total_time_hours = time_cost_hours * quantity
-    
+
+    quantity_multiplier = _match_quantity_multiplier(quantity, quantity_multipliers)
+    multiplier_value = quantity_multiplier["multiplier"] if quantity_multiplier else 1.0
+    total_time_hours = base_total_time_hours * multiplier_value
+    total_cost = base_total_cost * multiplier_value
+
     calculation_steps.append({
-        "step": "计算大水磨总费用和总时间",
-        "formula": f"{round(time_cost_total, 2)} + {round(plate_cost_total, 2)}",
+        "step": "应用大水磨数量倍率",
+        "quantity": quantity,
+        "matched_min_num": quantity_multiplier["min_num"] if quantity_multiplier else None,
+        "multiplier": multiplier_value,
+        "available_multipliers": quantity_multipliers,
+        "time_formula": f"{round(base_total_time_hours, 4)} × {multiplier_value}",
+        "cost_formula": f"{round(base_total_cost, 2)} × {multiplier_value}",
         "total_cost": round(total_cost, 2),
-        "total_time_hours": round(total_time_hours, 2)
+        "total_time_hours": round(total_time_hours, 2),
+        "note": "命中 water_num 阶梯倍率" if quantity_multiplier else "数量未达到 water_num 最小门槛，不应用倍率"
     })
     
     logger.info(
         f"Large grinding: long_strip={long_strip_cost}h, component={component_cost}h, "
-        f"time_hours={time_cost_hours:.2f}h, time_cost={time_cost_total:.2f}, "
-        f"plate_cost={plate_cost_total:.2f}, total={total_cost:.2f}, total_time={total_time_hours:.2f}h"
+        f"unit_time={unit_time_hours:.2f}h, unit_cost={unit_cost:.2f}, "
+        f"multiplier={multiplier_value}, total={total_cost:.2f}, total_time={total_time_hours:.2f}h"
     )
     
     cost_rounded = float(Decimal(str(total_cost)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
     time_rounded = float(Decimal(str(total_time_hours)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
     
     return cost_rounded, time_rounded, calculation_steps
+
+
+def _match_quantity_multiplier(quantity: int, quantity_multipliers: List[Dict[str, float]]) -> Dict[str, float] | None:
+    """
+    根据数量匹配大水磨 water_num 阶梯倍率。
+
+    多个门槛同时满足时，取 min_num 最大的一档。
+    """
+    for item in quantity_multipliers:
+        try:
+            min_num = float(item["min_num"])
+            multiplier = float(item["multiplier"])
+        except (KeyError, ValueError, TypeError):
+            continue
+
+        if quantity >= min_num:
+            return {
+                "min_num": min_num,
+                "multiplier": multiplier
+            }
+
+    return None
 
 
 async def _batch_update_subgraphs(job_id: str, updates: List[Dict]):
@@ -491,10 +604,7 @@ async def _batch_update_subgraphs(job_id: str, updates: List[Dict]):
             small_grinding_cost = $3,
             large_grinding_cost = $4,
             small_grinding_time = $5,
-            large_grinding_time = CASE
-                WHEN large_grinding_time IS NOT NULL THEN large_grinding_time
-                ELSE $6
-            END,
+            large_grinding_time = $6,
             updated_at = NOW()
         WHERE job_id = $1::uuid AND subgraph_id = $2::text
     """

@@ -143,15 +143,6 @@ def _extract_allowed_heat_treatment(candidate: str) -> Optional[Dict]:
     if not cleaned:
         return None
 
-    hrc_match = re.search(r'(HRC\s*\d+(?:\s*[-~]\s*\d+)?)', cleaned, re.IGNORECASE)
-    if hrc_match:
-        hrc_code = re.sub(r'\s+', '', hrc_match.group(1)).upper()
-        return {
-            'heat_treatment': hrc_code,
-            'heat_treatment_type': 'HRC',
-            'heat_treated': True
-        }
-
     if '超级深冷' in cleaned:
         return {
             'heat_treatment': '超级深冷',
@@ -173,6 +164,13 @@ def _extract_allowed_heat_treatment(candidate: str) -> Optional[Dict]:
             'heat_treated': True
         }
 
+    if '激光热处理' in cleaned or ('热处理' in cleaned and '激光' in cleaned):
+        return {
+            'heat_treatment': '激光热处理',
+            'heat_treatment_type': '激光热处理',
+            'heat_treated': True
+        }
+
     if '调质' in cleaned:
         return {
             'heat_treatment': '调质',
@@ -187,6 +185,15 @@ def _extract_allowed_heat_treatment(candidate: str) -> Optional[Dict]:
             'heat_treated': True
         }
 
+    hrc_match = re.search(r'(HRC\s*\d+(?:\s*[-~]\s*\d+)?)', cleaned, re.IGNORECASE)
+    if hrc_match:
+        hrc_code = re.sub(r'\s+', '', hrc_match.group(1)).upper()
+        return {
+            'heat_treatment': hrc_code,
+            'heat_treatment_type': 'HRC',
+            'heat_treated': True
+        }
+
     return None
 
 
@@ -196,10 +203,8 @@ def extract_heat_treatment_from_text(text: str) -> Optional[Dict]:
     
     优先级顺序：
     0. 标签格式：热处理：xxx（最高优先级）
-    1. HRC 硬度 - 如 HRC58-62, HRC58
-    2. 调质
-    3. 激光热处理
-    4. 深冷热处理
+    1. 中文热处理关键词（超级深冷、深冷、普通热处理、激光热处理、调质、真空）
+    2. HRC 硬度 - 如 HRC58-62, HRC58
     
     Args:
         text: 文本内容

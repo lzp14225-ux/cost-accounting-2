@@ -588,7 +588,8 @@ async def chaitu_process(dwg_url: Optional[str], job_id: str, minio_client=None,
                         job_id,
                         file_info['part_name'],
                         file_info.get('part_code'),
-                        xt_url_map.get(sub_code)  # .x_t MinIO 路径，无则 None
+                        xt_url_map.get(sub_code),  # .x_t MinIO 路径，无则 None
+                        str(file_info.get('index')) if file_info.get('index') is not None else None
                     )
                     
                     if not success:

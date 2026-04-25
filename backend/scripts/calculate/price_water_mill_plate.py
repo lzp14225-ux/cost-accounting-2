@@ -102,7 +102,6 @@ async def calculate(
             for d in db_updates
         ]
         await batch_upsert_with_steps(updates_for_batch, "water_mill_plate", "plate_cost")
-        await _batch_update_large_grinding_time(job_id, db_updates)
     
     logger.info(f"Completed calculation for {len(results)} parts")
     
@@ -121,16 +120,14 @@ def _build_price_map(water_mill_data: Dict[str, Any]) -> Dict[str, Any]:
             "plate_no_heat": 0.15,           # 不需要热处理的单价
             "plate_heat_45": 0.17,           # 需要热处理且材料为45#的单价
             "plate_heat_other": 0.2,         # 需要热处理且材料为其他的单价
-            "min_area": 1290,                # 除数（mm²）
-            "large_hourly_rate": 60          # 大水磨时薪（元/小时）
+            "min_area": 1290                 # 除数（mm²）
         }
     """
     price_map = {
         "plate_no_heat": 0,
         "plate_heat_45": 0,
         "plate_heat_other": 0,
-        "min_area": 0,
-        "large_hourly_rate": 0
+        "min_area": 0
     }
     
     # 处理大水磨价格
@@ -162,12 +159,6 @@ def _build_price_map(water_mill_data: Dict[str, Any]) -> Dict[str, Any]:
                     
             except (ValueError, TypeError) as e:
                 logger.warning(f"Failed to parse plate price: {price_value}, error: {e}")
-        elif sub_category == "water_mill":
-            try:
-                price_map["large_hourly_rate"] = float(price_value)
-            except (ValueError, TypeError) as e:
-                logger.warning(f"Failed to parse large water mill hourly rate: {price_value}, error: {e}")
-    
     return price_map
 
 
@@ -178,6 +169,11 @@ async def _calculate_part_price(
 ) -> tuple[Dict[str, Any], Dict[str, Any]]:
     """
     计算单个零件的水磨板费
+
+    说明：
+    - 该脚本只计算单件板费金额（plate_cost）
+    - quantity 不在此脚本中参与计算，统一由 price_water_mill_total.py 做总价/总时间汇总
+    - 板费对应的加工时间也统一由 price_water_mill_total.py 按大水磨时薪换算
     
     Returns:
         tuple: (result_dict, db_update_dict)
@@ -218,13 +214,11 @@ async def _calculate_part_price(
             "subgraph_id": subgraph_id,
             "part_name": part_name,
             "mill_type": mill_type,
-            "large_grinding_time": 0,
             "plate_cost": 0,
             "note": "小磨床不计算板费"
         }, {
             "job_id": job_id,
             "subgraph_id": subgraph_id,
-            "large_grinding_time": 0,
             "plate_cost": 0,
             "calculation_steps": calculation_steps
         }
@@ -241,7 +235,6 @@ async def _calculate_part_price(
             "subgraph_id": subgraph_id,
             "part_name": part_name,
             "mill_type": mill_type,
-            "large_grinding_time": 0,
             "plate_cost": 0,
             "note": "长或宽为0"
         }, None
@@ -274,7 +267,6 @@ async def _calculate_part_price(
             "part_name": part_name,
             "mill_type": mill_type,
             "part_type": part_type,
-            "large_grinding_time": 0,
             "plate_cost": 0,
             "note": "不是板类型"
         }, None
@@ -317,7 +309,7 @@ async def _calculate_part_price(
         "note": f"面积 = {length_mm} * {width_mm} = {area}mm²，除数 = {min_area}mm²"
     })
     
-    # Step 8: 计算板费
+    # Step 8: 计算单件板费金额
     # 确保所有值都是 float 类型，避免 Decimal 和 float 混合运算
     area = float(area)
     min_area = float(min_area)
@@ -349,26 +341,6 @@ async def _calculate_part_price(
             "note": "除数为0，无法计算板费"
         })
     
-    hourly_rate = float(price_map.get("large_hourly_rate") or 0)
-    if hourly_rate > 0:
-        large_grinding_time = plate_cost / hourly_rate
-        calculation_steps.append({
-            "step": "计算大磨床时间",
-            "plate_cost": round(plate_cost, 2),
-            "hourly_rate": hourly_rate,
-            "formula": f"{round(plate_cost, 2)} / {hourly_rate}",
-            "large_grinding_time": round(large_grinding_time, 2)
-        })
-    else:
-        large_grinding_time = 0
-        calculation_steps.append({
-            "step": "计算大磨床时间",
-            "plate_cost": round(plate_cost, 2),
-            "hourly_rate": hourly_rate,
-            "large_grinding_time": 0,
-            "note": "大水磨时薪为0，无法换算时间"
-        })
-
     # 返回结果和数据库更新数据
     result = {
         "subgraph_id": subgraph_id,
@@ -379,14 +351,12 @@ async def _calculate_part_price(
         "material": material,
         "area": area,
         "unit_price": unit_price,
-        "large_grinding_time": round(large_grinding_time, 2),
         "plate_cost": round(plate_cost, 2)
     }
     
     db_data = {
         "job_id": job_id,
         "subgraph_id": subgraph_id,
-        "large_grinding_time": round(large_grinding_time, 2),
         "plate_cost": plate_cost,
         "calculation_steps": calculation_steps
     }
@@ -406,30 +376,6 @@ def _get_part_type_reason(dimensions: List[float], part_type: str) -> str:
         return f"最大值{max_dim}mm >= 中间值{mid_dim}mm * 2，判定为长条"
     else:
         return f"不满足板和长条条件，判定为零件"
-
-
-async def _batch_update_large_grinding_time(job_id: str, updates: List[Dict[str, Any]]) -> None:
-    """批量更新 subgraphs.large_grinding_time。"""
-    if not updates:
-        return
-
-    sql = """
-        UPDATE subgraphs
-        SET
-            large_grinding_time = $3,
-            updated_at = NOW()
-        WHERE job_id = $1::uuid AND subgraph_id = $2::text
-    """
-
-    try:
-        tasks = [
-            db.execute(sql, job_id, data["subgraph_id"], data["large_grinding_time"])
-            for data in updates
-        ]
-        await asyncio.gather(*tasks)
-    except Exception as e:
-        logger.error(f"Failed to update subgraphs.large_grinding_time: {e}")
-        raise
 
 
 # 便捷同步调用接口

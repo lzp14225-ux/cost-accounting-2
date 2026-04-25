@@ -3,15 +3,19 @@
 负责人：李志鹏
 
 计算流程：
-1. 调用 base_itemcode_search 获取零件基础信息（has_auto_material, material, length_mm, width_mm, thickness_mm）
+1. 调用 base_itemcode_search 获取零件基础信息（has_auto_material, material, length_mm, width_mm, thickness_mm, boring_num）
 2. 调用 material_search 获取材料价格信息
 3. 调用 density_search 获取材料密度数据
-4. 判断 has_auto_material 是否为 True（自找料）
-5. 如果是自找料，根据 material 匹配 sub_category 获取单价（不区分大小写，支持材质别名映射）
-6. 根据 material 匹配密度值（不区分大小写，支持材质别名映射）
-7. 计算重量：weight = density * length_mm * width_mm * thickness_mm
-8. 计算材料费：material_additional_cost = weight * price
-9. 更新 processing_cost_calculation_details 表的 material_additional_cost 字段和步骤字段
+4. 调用 auto_search 获取自找料穿孔费规则（auto_material）
+5. 判断 has_auto_material 是否为 True（自找料）
+6. 如果是自找料，根据 material 匹配 sub_category 获取单价（不区分大小写，支持材质别名映射）
+7. 根据 material 匹配密度值（不区分大小写，支持材质别名映射）
+8. 根据备料形状计算体积：方料 length*width*thickness；圆料 PI*(diameter/2)^2*thickness
+9. 计算重量：weight = density * stock_volume_mm3
+10. 计算基础材料费：base_material_cost = weight * price
+11. 根据 auto_search 返回的规则和 boring_num、thickness_mm 计算穿孔费
+12. 汇总：material_additional_cost = base_material_cost + perforation_cost
+13. 更新 processing_cost_calculation_details 表的 material_additional_cost 字段和步骤字段
 
 材质别名映射（价格表中存储的是 T00L0X33 和 T00L0X44）：
 - TOOLOX33 -> T00L0X33
@@ -46,13 +50,13 @@ DEFAULT_DENSITY = Decimal("0.00000785")
 # MCP 工具元数据
 MCP_TOOL_META = {
     "name": "calculate_add_auto_material_cost",
-    "description": "计算自找料材料费：根据零件信息、材料价格和密度计算自找料费用",
+    "description": "计算自找料材料费：根据零件信息、材料价格、密度和自找料穿孔规则计算自找料费用",
     "inputSchema": {
         "type": "object",
         "properties": {
             "search_data": {
                 "type": "object",
-                "description": "检索数据，包含 base_itemcode、material 和 density"
+                "description": "检索数据，包含 base_itemcode、material、density 和 auto"
             },
             "job_id": {
                 "type": "string",
@@ -67,7 +71,7 @@ MCP_TOOL_META = {
         "required": ["search_data"]
     },
     "handler": "calculate",
-    "needs": ["base_itemcode", "material", "density"]
+    "needs": ["base_itemcode", "material", "density", "auto"]
 }
 
 
@@ -119,6 +123,60 @@ def _get_material_density(material: str, density_map: Dict[str, Decimal]) -> tup
     return DEFAULT_DENSITY, f"{material}(使用默认密度)"
 
 
+def _build_auto_rule_list(auto_prices: List[Dict]) -> List[Dict[str, Any]]:
+    """
+    构建自找料穿孔规则列表
+
+    Returns:
+        [
+            {
+                "min_num": 5,
+                "price": Decimal("0.1"),
+                "unit": "元/mm",
+                "note": "..."
+            },
+            ...
+        ]
+    """
+    rules = []
+
+    for item in auto_prices:
+        try:
+            min_num = int(item.get("min_num", 0))
+            price = Decimal(str(item.get("price", 0)))
+            if min_num < 0 or price < 0:
+                continue
+            rules.append({
+                "min_num": min_num,
+                "price": price,
+                "unit": item.get("unit", ""),
+                "note": item.get("note", "")
+            })
+        except (ValueError, TypeError, ArithmeticError) as e:
+            logger.warning(f"Failed to parse auto material rule: {item}, error: {e}")
+
+    rules.sort(key=lambda x: x["min_num"], reverse=True)
+    logger.info(f"Built auto material rule list with {len(rules)} rules")
+    return rules
+
+
+def _normalize_boring_num(boring_num: Any) -> int:
+    """将孔数标准化为非负整数"""
+    try:
+        value = int(boring_num or 0)
+        return max(value, 0)
+    except (ValueError, TypeError):
+        return 0
+
+
+def _match_auto_rule(boring_num: int, auto_rules: List[Dict[str, Any]]) -> Dict[str, Any] | None:
+    """按孔数匹配自找料穿孔费规则，优先取最严格的匹配规则"""
+    for rule in auto_rules:
+        if boring_num >= rule["min_num"]:
+            return rule
+    return None
+
+
 async def calculate(
     search_data: Dict[str, Any],
     job_id: str = None,
@@ -128,7 +186,7 @@ async def calculate(
     计算自找料材料费
     
     Args:
-        search_data: 检索数据，包含 base_itemcode、material 和 density
+        search_data: 检索数据，包含 base_itemcode、material、density 和 auto
         job_id: 任务ID（可选，用于日志和数据库更新）
         subgraph_ids: 子图ID列表（可选，用于过滤）
         
@@ -139,6 +197,7 @@ async def calculate(
     base_data = search_data["base_itemcode"]
     material_data = search_data["material"]
     density_data = search_data["density"]
+    auto_data = search_data.get("auto", {})
     
     # 提取 job_id（如果未传入）
     if not job_id:
@@ -148,8 +207,11 @@ async def calculate(
     
     # Step 1: 构建密度映射表
     density_map = _build_density_map(density_data.get("density_data", []))
-    
-    # Step 2: 构建价格映射 (sub_category 转大写作为 key -> {price, unit})
+
+    # Step 2: 构建自找料穿孔规则
+    auto_rules = _build_auto_rule_list(auto_data.get("auto_prices", []))
+
+    # Step 3: 构建价格映射 (sub_category 转大写作为 key -> {price, unit})
     price_map = {}
     for price_item in material_data.get("material_prices", []):
         category = price_item.get("category", "material")
@@ -163,18 +225,18 @@ async def calculate(
             "original_sub_category": sub_category  # 保留原始值用于显示
         }
     
-    # Step 3: 计算每个零件的自找料材料费（不写数据库）
+    # Step 4: 计算每个零件的自找料材料费（不写数据库）
     results = []
     db_updates = []
     
     for part in base_data["parts"]:
         result, db_data = await _calculate_part_cost(
-            job_id, part, price_map, density_map
+            job_id, part, price_map, density_map, auto_rules
         )
         results.append(result)
         if db_data:
             db_updates.append(db_data)
-    
+
     # Step 5: 批量写入数据库
     if db_updates:
         updates_for_batch = [
@@ -200,7 +262,8 @@ async def _calculate_part_cost(
     job_id: str,
     part: Dict,
     price_map: Dict,
-    density_map: Dict[str, Decimal]
+    density_map: Dict[str, Decimal],
+    auto_rules: List[Dict[str, Any]]
 ) -> tuple[Dict[str, Any], Dict[str, Any]]:
     """
     计算单个零件的自找料材料费
@@ -215,6 +278,7 @@ async def _calculate_part_cost(
     length_mm = part.get("length_mm")
     width_mm = part.get("width_mm")
     thickness_mm = part.get("thickness_mm")
+    boring_num = _normalize_boring_num(part.get("boring_num", 0))
     
     logger.info(f"Calculating cost for part: {part_name} ({subgraph_id}), has_auto_material: {has_auto_material}, material: {material}")
     
@@ -358,14 +422,28 @@ async def _calculate_part_cost(
     width = Decimal(str(width_mm))
     thickness = Decimal(str(thickness_mm))
     
-    # 计算重量: weight = density * length_mm * width_mm * thickness_mm
+    # 计算重量：先按备料形状计算体积，再乘材料密度
     volume_mm3 = get_stock_volume_mm3(part)
     weight = (density * volume_mm3).quantize(
         Decimal("0.0001"), ROUND_HALF_UP
     )
     
-    # 计算自找料材料费: material_additional_cost = weight * price
-    material_additional_cost = (weight * Decimal(str(unit_price))).quantize(
+    # 计算自找料基础材料费: base_material_cost = weight * price
+    base_material_cost = (weight * Decimal(str(unit_price))).quantize(
+        Decimal("0.01"), ROUND_HALF_UP
+    )
+
+    # 根据 boring_num 和厚度计算自找料穿孔费
+    matched_auto_rule = _match_auto_rule(boring_num, auto_rules)
+    thickness = Decimal(str(thickness_mm))
+    perforation_cost = Decimal("0.00")
+    if matched_auto_rule:
+        perforation_cost = (
+            thickness * matched_auto_rule["price"] * Decimal(str(boring_num))
+        ).quantize(Decimal("0.01"), ROUND_HALF_UP)
+
+    # 汇总自找料额外费用
+    material_additional_cost = (base_material_cost + perforation_cost).quantize(
         Decimal("0.01"), ROUND_HALF_UP
     )
     
@@ -391,29 +469,63 @@ async def _calculate_part_cost(
             "material": original_material,
             "matched_material": matched_density_material,
             "density": float(density),
-            "unit": "g/cm³"
+            "unit": "kg/mm³"
         },
         {
             "step": "获取尺寸数据",
             "length_mm": float(length_mm),
             "width_mm": float(width_mm),
-            "thickness_mm": float(thickness_mm)
+            "thickness_mm": float(thickness_mm),
+            "boring_num": boring_num
         },
         {
             "step": "计算重量",
             "formula": f"{density} * volume_mm3({volume_mm3})",
+            "volume_mm3": float(volume_mm3),
             "weight": float(weight)
         },
         {
-            "step": "计算自找料材料费",
+            "step": "计算自找料基础材料费",
             "formula": f"{float(weight)} * {unit_price}",
-            "material_additional_cost": float(material_additional_cost)
+            "base_material_cost": float(base_material_cost)
         }
     ]
-    
+
+    if matched_auto_rule:
+        calculation_steps.append({
+            "step": "计算自找料穿孔费",
+            "boring_num": boring_num,
+            "thickness_mm": float(thickness),
+            "threshold": matched_auto_rule["min_num"],
+            "unit_price": float(matched_auto_rule["price"]),
+            "unit": matched_auto_rule["unit"],
+            "note": matched_auto_rule["note"],
+            "formula": f"{float(thickness)} * {float(matched_auto_rule['price'])} * {boring_num}",
+            "perforation_cost": float(perforation_cost)
+        })
+    else:
+        calculation_steps.append({
+            "step": "计算自找料穿孔费",
+            "boring_num": boring_num,
+            "perforation_cost": 0.0,
+            "note": "未匹配到自找料穿孔费规则或孔数未达到阈值"
+        })
+
+    calculation_steps.append(
+        {
+            "step": "汇总自找料额外费用",
+            "base_material_cost": float(base_material_cost),
+            "perforation_cost": float(perforation_cost),
+            "material_additional_cost": float(material_additional_cost),
+            "formula": f"{float(base_material_cost)} + {float(perforation_cost)}"
+        }
+    )
+
     logger.info(
         f"[{subgraph_id}] {part_name}: material={original_material}, weight={weight}, "
-        f"unit_price={unit_price}, material_additional_cost={material_additional_cost}"
+        f"unit_price={unit_price}, boring_num={boring_num}, "
+        f"base_material_cost={base_material_cost}, perforation_cost={perforation_cost}, "
+        f"material_additional_cost={material_additional_cost}"
     )
     
     # 返回结果和数据库更新数据
@@ -425,9 +537,12 @@ async def _calculate_part_cost(
         "length_mm": float(length_mm),
         "width_mm": float(width_mm),
         "thickness_mm": float(thickness_mm),
+        "boring_num": boring_num,
         "weight": float(weight),
         "unit_price": unit_price,
         "unit": unit,
+        "base_material_cost": float(base_material_cost),
+        "perforation_cost": float(perforation_cost),
         "material_additional_cost": float(material_additional_cost)
     }
     

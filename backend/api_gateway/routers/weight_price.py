@@ -5,13 +5,14 @@
 提供 price_wg 接口
 
 计算流程：
-1. 根据 job_id 和 subgraph_id 从 features 表查询 length_mm, width_mm, thickness_mm, material
-2. 根据 job_id 从 job_price_snapshots 表查询 category 为 rule 和 density 的数据
-3. 根据 material 匹配 density 数据计算重量：weight(kg) = length_mm * width_mm * thickness_mm * density
-4. 根据 weight 匹配 rule 数据获取价格系数
-5. 计算加权价格：weight_price = weight * rule_price
-6. 更新 subgraphs 表的 separate_item_cost 字段
-7. 更新 processing_cost_calculation_details 表的 weight_price_steps 字段
+1. 根据 job_id 和 subgraph_id 从 subgraphs 表查询 part_name，并从 features 表查询尺寸和材料
+2. 对 part_name 做关键词模糊匹配，默认只处理：模座、托板、垫脚
+3. 根据 job_id 从 job_price_snapshots 表查询 category 为 rule 和 density 的数据
+4. 根据 material 匹配 density 数据计算重量：weight(kg) = length_mm * width_mm * thickness_mm * density
+5. 根据 weight 匹配 rule 数据获取价格系数
+6. 计算加权价格：weight_price = weight * rule_price
+7. 更新 subgraphs 表的 separate_item_cost 字段
+8. 更新 processing_cost_calculation_details 表的 weight_price_steps 字段
 """
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field, ConfigDict
@@ -39,10 +40,31 @@ class PriceWgSettings(BaseSettings):
     
     # Price WG 服务配置
     price_wg_rule_weight_unit: str = Field(default="kg", description="Rule 数据的重量单位: kg 或 g")
+    price_wg_part_name_keywords: str = Field(default="模座,托板,垫脚", description="按重量计价的零件名称关键词，逗号分隔")
 
 
 # 全局配置实例
 settings = PriceWgSettings()
+
+
+def _get_part_name_keywords() -> List[str]:
+    """读取按重量计价的零件名关键词配置。"""
+    return [
+        keyword.strip()
+        for keyword in settings.price_wg_part_name_keywords.split(",")
+        if keyword.strip()
+    ]
+
+
+def _match_part_name_keyword(part_name: str) -> Optional[str]:
+    """对零件名称做关键词模糊匹配，返回命中的关键词。"""
+    if not part_name:
+        return None
+
+    for keyword in _get_part_name_keywords():
+        if keyword in part_name:
+            return keyword
+    return None
 
 
 # ========== 请求/响应模型 ==========
@@ -122,7 +144,7 @@ async def calculate_weight_price(request: PriceWgBatchRequest):
         
         logger.info(f"Batch calculating weight price for job_id: {request.job_id}, {len(request.subgraph_ids)} parts")
         
-        # Step 1: 并发查询所有 features 数据和共享的 rule/density 数据
+        # Step 1: 并发查询所有零件数据和共享的 rule/density 数据
         import asyncio
         
         # 构建所有查询任务
@@ -151,27 +173,39 @@ async def calculate_weight_price(request: PriceWgBatchRequest):
         for rule in rule_data:
             logger.info(f"  - sub_category: {rule.get('sub_category')}, price: {rule.get('price')}, min_num: {rule.get('min_num')}")
         
-        # 验证共享数据
-        if not rule_data:
-            return PriceWgResponse(
-                status="error",
-                message=f"未找到 rule 数据: job_id={request.job_id}"
-            )
-        
-        if not density_data:
-            return PriceWgResponse(
-                status="error",
-                message=f"未找到 density 数据: job_id={request.job_id}"
-            )
-        
-        # Step 2: 并发计算所有零件的加权价格（不更新数据库）
+        # Step 2: 先按 part_name 关键词过滤，只计算模座/托板/垫脚等目标零件
         calc_start = time.time()
         calc_tasks = []
         valid_subgraph_ids = []
+        skipped_results = []
+        skipped_subgraph_ids = []
         
         for i, subgraph_id in enumerate(request.subgraph_ids):
             feature_data = feature_data_list[i]
             if feature_data:
+                part_name = feature_data.get("part_name", "")
+                matched_keyword = _match_part_name_keyword(part_name)
+                if not matched_keyword:
+                    logger.info(
+                        f"[按重量计价] 跳过: subgraph_id='{subgraph_id}', "
+                        f"part_name='{part_name}', keywords={_get_part_name_keywords()}"
+                    )
+                    skipped_subgraph_ids.append(subgraph_id)
+                    skipped_results.append({
+                        "job_id": request.job_id,
+                        "subgraph_id": subgraph_id,
+                        "part_name": part_name,
+                        "weight_price": None,
+                        "matched_keyword": None,
+                        "note": f"零件名称未匹配按重量计价关键词: {', '.join(_get_part_name_keywords())}"
+                    })
+                    continue
+
+                logger.info(
+                    f"[按重量计价] 命中: subgraph_id='{subgraph_id}', "
+                    f"part_name='{part_name}', matched_keyword='{matched_keyword}'"
+                )
+                feature_data["matched_keyword"] = matched_keyword
                 calc_tasks.append(
                     _calculate_weight_price_no_update(
                         request.job_id,
@@ -184,6 +218,49 @@ async def calculate_weight_price(request: PriceWgBatchRequest):
                 valid_subgraph_ids.append(subgraph_id)
             else:
                 logger.warning(f"No feature data for subgraph_id: {subgraph_id}")
+
+        if skipped_subgraph_ids:
+            await _clear_skipped_weight_price(request.job_id, skipped_subgraph_ids)
+            logger.info(
+                f"Skipped {len(skipped_subgraph_ids)} parts for weight price because part_name did not match keywords"
+            )
+
+        if not calc_tasks:
+            total_time = time.time() - start_time
+            return PriceWgResponse(
+                status="success",
+                message=f"没有匹配按重量计价关键词的零件，已跳过: {len(skipped_results)} 个",
+                data={
+                    "job_id": request.job_id,
+                    "total": len(request.subgraph_ids),
+                    "success": 0,
+                    "skipped": len(skipped_results),
+                    "error": 0,
+                    "matched_keywords": _get_part_name_keywords(),
+                    "performance": {
+                        "query_time": f"{query_time:.3f}s",
+                        "calc_time": "0.000s",
+                        "update_time": "0.000s",
+                        "total_time": f"{total_time:.3f}s",
+                        "avg_per_part": f"{total_time/len(request.subgraph_ids):.4f}s"
+                    },
+                    "results": [],
+                    "skipped_results": skipped_results[:10]
+                }
+            )
+
+        # 只有存在命中关键词的零件时，才要求重量规则和密度数据存在
+        if not rule_data:
+            return PriceWgResponse(
+                status="error",
+                message=f"未找到 rule 数据: job_id={request.job_id}"
+            )
+        
+        if not density_data:
+            return PriceWgResponse(
+                status="error",
+                message=f"未找到 density 数据: job_id={request.job_id}"
+            )
         
         # 并发执行所有计算
         calc_results = await asyncio.gather(*calc_tasks, return_exceptions=True)
@@ -224,7 +301,9 @@ async def calculate_weight_price(request: PriceWgBatchRequest):
                 "job_id": request.job_id,
                 "total": len(request.subgraph_ids),
                 "success": len(success_results),
+                "skipped": len(skipped_results),
                 "error": error_count,
+                "matched_keywords": _get_part_name_keywords(),
                 "performance": {
                     "query_time": f"{query_time:.3f}s",
                     "calc_time": f"{calc_time:.3f}s",
@@ -232,7 +311,8 @@ async def calculate_weight_price(request: PriceWgBatchRequest):
                     "total_time": f"{total_time:.3f}s",
                     "avg_per_part": f"{total_time/len(request.subgraph_ids):.4f}s"
                 },
-                "results": success_results[:10]  # 只返回前10个结果，避免响应过大
+                "results": success_results[:10],  # 只返回前10个结果，避免响应过大
+                "skipped_results": skipped_results[:10]
             }
         )
         
@@ -248,17 +328,25 @@ async def calculate_weight_price(request: PriceWgBatchRequest):
 
 async def _get_feature_data(job_id: str, subgraph_id: str) -> Optional[Dict[str, Any]]:
     """
-    从 features 表查询零件信息
+    从 subgraphs / features 表查询零件信息
     
     Returns:
-        Dict: {length_mm, width_mm, thickness_mm, material}
+        Dict: {part_name, length_mm, width_mm, thickness_mm, material}
     """
     from api_gateway.database import db
     
     sql = """
-        SELECT length_mm, width_mm, thickness_mm, material
-        FROM features
-        WHERE job_id = $1::uuid AND subgraph_id = $2
+        SELECT
+            s.part_name,
+            f.length_mm,
+            f.width_mm,
+            f.thickness_mm,
+            f.material
+        FROM subgraphs s
+        LEFT JOIN features f
+          ON f.job_id = s.job_id
+         AND f.subgraph_id = s.subgraph_id
+        WHERE s.job_id = $1::uuid AND s.subgraph_id = $2
     """
     
     row = await db.fetch_one(sql, job_id, subgraph_id)
@@ -267,6 +355,7 @@ async def _get_feature_data(job_id: str, subgraph_id: str) -> Optional[Dict[str,
         return None
     
     return {
+        "part_name": row["part_name"],
         "length_mm": row["length_mm"],
         "width_mm": row["width_mm"],
         "thickness_mm": row["thickness_mm"],
@@ -441,6 +530,8 @@ async def _calculate_weight_price_no_update(
     width_mm = feature_data["width_mm"]
     thickness_mm = feature_data["thickness_mm"]
     material = feature_data["material"]
+    part_name = feature_data.get("part_name")
+    matched_keyword = feature_data.get("matched_keyword")
     
     # 检查必需字段
     if not all([length_mm, width_mm, thickness_mm]):
@@ -466,6 +557,7 @@ async def _calculate_weight_price_no_update(
         return {
             "job_id": job_id,
             "subgraph_id": subgraph_id,
+            "part_name": part_name,
             "weight_price": 0.0,
             "note": f"缺少必需字段: {', '.join(missing)}"
         }
@@ -487,6 +579,7 @@ async def _calculate_weight_price_no_update(
         return {
             "job_id": job_id,
             "subgraph_id": subgraph_id,
+            "part_name": part_name,
             "material": material,
             "weight_price": 0.0,
             "note": f"未找到材料对应的密度: {material}"
@@ -520,6 +613,7 @@ async def _calculate_weight_price_no_update(
         return {
             "job_id": job_id,
             "subgraph_id": subgraph_id,
+            "part_name": part_name,
             "weight": float(weight),
             "weight_price": 0.0,
             "note": f"未找到重量对应的规则: {weight} kg"
@@ -536,6 +630,8 @@ async def _calculate_weight_price_no_update(
     weight_price_steps = [
         {
             "step": "获取零件信息",
+            "part_name": part_name,
+            "matched_keyword": matched_keyword,
             "length_mm": float(length_mm),
             "width_mm": float(width_mm),
             "thickness_mm": float(thickness_mm),
@@ -577,6 +673,8 @@ async def _calculate_weight_price_no_update(
     return {
         "job_id": job_id,
         "subgraph_id": subgraph_id,
+        "part_name": part_name,
+        "matched_keyword": matched_keyword,
         "material": material,
         "length_mm": float(length_mm),
         "width_mm": float(width_mm),
@@ -629,6 +727,39 @@ async def _update_database(job_id: str, subgraph_id: str, weight_price: float, w
     
     await db.execute(sql_subgraphs, job_id, subgraph_id, weight_price)
     await db.execute(sql_details, job_id, subgraph_id, steps_json)
+
+
+async def _clear_skipped_weight_price(job_id: str, subgraph_ids: List[str]):
+    """清理未命中关键词零件的按重量计价结果，避免旧数据残留进总价。"""
+    if not subgraph_ids:
+        return
+
+    from api_gateway.database import db
+    import asyncio
+
+    sql_subgraphs = """
+        UPDATE subgraphs
+        SET separate_item_cost = NULL,
+            updated_at = NOW()
+        WHERE job_id = $1::uuid AND subgraph_id = ANY($2::text[])
+    """
+
+    sql_details = """
+        UPDATE processing_cost_calculation_details
+        SET weight_price_steps = (
+            SELECT COALESCE(jsonb_agg(elem), '[]'::jsonb)
+            FROM jsonb_array_elements(
+                COALESCE(weight_price_steps, '[]'::jsonb)
+            ) AS elem
+            WHERE elem->>'category' != 'weight_price'
+        )
+        WHERE job_id = $1::uuid AND subgraph_id = ANY($2::text[])
+    """
+
+    await asyncio.gather(
+        db.execute(sql_subgraphs, job_id, subgraph_ids),
+        db.execute(sql_details, job_id, subgraph_ids)
+    )
 
 
 async def _batch_update_database(results: List[Dict[str, Any]]):

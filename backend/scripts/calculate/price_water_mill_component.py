@@ -69,6 +69,31 @@ def _parse_price_value(price_value) -> float:
     raise ValueError(f"Cannot parse price value: {price_str}")
 
 
+def _parse_size_range(range_value) -> dict | None:
+    """
+    解析尺寸区间，支持 "[500,800)"、"(0,200)"、"[1500,9999)"、"[200,+∞)"。
+    """
+    import re
+
+    if not range_value:
+        return None
+
+    range_str = str(range_value).strip()
+    match = re.match(r'([\[\(])\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?|\+|∞|\+∞)\s*([\]\)])', range_str)
+    if not match:
+        return None
+
+    max_str = match.group(3)
+    max_val = float('inf') if max_str in ("+", "∞", "+∞") else float(max_str)
+
+    return {
+        "min": float(match.group(2)),
+        "max": max_val,
+        "min_inclusive": match.group(1) == '[',
+        "max_inclusive": match.group(4) == ']'
+    }
+
+
 # MCP 工具元数据
 MCP_TOOL_META = {
     "name": "calculate_water_mill_component_price",
@@ -195,7 +220,8 @@ def _build_price_map(water_mill_data: Dict[str, Any]) -> Dict[str, Any]:
     """
     import re
     price_map = {
-        "grinding_rules": []
+        "grinding_rules": [],
+        "component_four_rules": []
     }
     
     # 处理大水磨价格
@@ -220,22 +246,13 @@ def _build_price_map(water_mill_data: Dict[str, Any]) -> Dict[str, Any]:
                     min_num_str = str(min_num).strip()
                     
                     # 尝试匹配 "数字, 区间" 格式
-                    match = re.match(r'(\d+)\s*,\s*([\[\(])(\d+),\s*(\d+|[+∞∞]+)([\]\)])', min_num_str)
+                    match = re.match(r'(\d+)\s*,\s*(.+)', min_num_str)
                     if match:
                         grinding_faces = int(match.group(1))
-                        min_bracket = match.group(2)
-                        min_val = float(match.group(3))
-                        max_str = match.group(4)
-                        max_bracket = match.group(5)
-                        
-                        max_val = float('inf') if '+' in max_str or '∞' in max_str else float(max_str)
-                        
-                        size_range = {
-                            "min": min_val,
-                            "max": max_val,
-                            "min_inclusive": min_bracket == '[',
-                            "max_inclusive": max_bracket == ']'
-                        }
+                        size_range = _parse_size_range(match.group(2))
+                        if not size_range:
+                            logger.warning(f"Failed to parse component size range: {min_num}")
+                            continue
                     else:
                         # 尝试匹配纯数字格式
                         try:
@@ -254,6 +271,27 @@ def _build_price_map(water_mill_data: Dict[str, Any]) -> Dict[str, Any]:
                     
             except (ValueError, TypeError) as e:
                 logger.warning(f"Failed to parse component price: {price_value}, error: {e}")
+
+        elif sub_category == "component_four":
+            try:
+                price_float = _parse_price_value(price_value)
+                size_range = _parse_size_range(min_num)
+                if not size_range:
+                    logger.warning(f"Failed to parse component_four size range: {min_num}")
+                    continue
+
+                price_map["component_four_rules"].append({
+                    "price": price_float,
+                    "unit": unit,
+                    "size_range": size_range
+                })
+            except (ValueError, TypeError) as e:
+                logger.warning(f"Failed to parse component_four price: {price_value}, error: {e}")
+
+    price_map["component_four_rules"] = sorted(
+        price_map["component_four_rules"],
+        key=lambda item: item["size_range"]["min"]
+    )
     
     return price_map
 
@@ -453,13 +491,16 @@ async def _calculate_part_price(
             "note": "未找到研磨规则配置"
         }, None
     
-    # 获取长宽的最大值（用于尺寸判断）
+    # 获取长宽的最大值（用于原有6面基础规则判断）
     max_length_width = max(length_mm, width_mm)
+    # 获取最长边（用于 component_four 区间规则判断）
+    max_dimension = max(length_mm, width_mm, thickness_mm)
     
     # 查找匹配的规则
     # 逻辑：
     # 1. 如果是6面研磨，直接查找有尺寸限制的规则（unit="小时"）
-    # 2. 如果是2面或4面研磨，先找6面研磨的基础时间，再乘以倍数（unit=None）
+    # 2. 如果是4面研磨，优先用 component_four 按最长边命中的基础时间，再乘以4面倍数
+    # 3. 如果是2面研磨，或4面未命中 component_four，先找6面研磨的基础时间，再乘以倍数（unit=None）
     
     matched_rule = None
     base_rule = None  # 6面研磨的基础规则
@@ -526,10 +567,26 @@ async def _calculate_part_price(
                 "note": f"未找到{grinding_value}面研磨的倍数规则"
             }, None
         
-        # 计算：6面研磨基础时间 * 倍数
-        component_cost = base_rule["price"] * multiplier_rule["price"]
+        component_four_rule = None
+        if grinding_value == 4:
+            for rule in price_map.get("component_four_rules", []):
+                if _in_range(max_dimension, rule["size_range"]):
+                    component_four_rule = rule
+                    break
+
+        if component_four_rule:
+            base_time = component_four_rule["price"]
+            base_time_source = "component_four"
+            active_range = component_four_rule["size_range"]
+        else:
+            base_time = base_rule["price"]
+            base_time_source = "6面研磨基础规则"
+            active_range = base_rule["size_range"]
+
+        # 计算：基础时间 * 研磨面数倍数
+        component_cost = base_time * multiplier_rule["price"]
         
-        size_range = base_rule["size_range"]
+        size_range = active_range
         min_bracket = '[' if size_range["min_inclusive"] else '('
         max_bracket = ']' if size_range["max_inclusive"] else ')'
         max_str = '+∞' if size_range["max"] == float('inf') else str(size_range["max"])
@@ -537,13 +594,15 @@ async def _calculate_part_price(
         calculation_steps.append({
             "step": f"计算{grinding_value}面研磨费用",
             "max_length_width": max_length_width,
+            "max_dimension": max_dimension,
+            "base_time_source": base_time_source,
             "size_range": f"{min_bracket}{size_range['min']},{max_str}{max_bracket}",
-            "base_6_face_time": base_rule["price"],
+            "base_time": base_time,
             "multiplier": multiplier_rule["price"],
-            "formula": f"{base_rule['price']} × {multiplier_rule['price']}",
+            "formula": f"{base_time} × {multiplier_rule['price']}",
             "component_cost": round(component_cost, 2),
             "unit": "小时",
-            "note": f"先计算6面研磨时间({base_rule['price']}小时)，再乘以{grinding_value}面研磨倍数({multiplier_rule['price']})"
+            "note": f"先取基础时间({base_time}小时，来源：{base_time_source})，再乘以{grinding_value}面研磨倍数({multiplier_rule['price']})"
         })
     
     result = {

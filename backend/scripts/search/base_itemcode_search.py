@@ -107,6 +107,8 @@ async def _fetch_parts_with_join(job_id: str, subgraph_ids: List[str]) -> List[D
             s.part_code,
             s.wire_process_note,
             s.wire_process,
+            s.process_description,
+            f.processing_instructions,
             f.length_mm,
             f.width_mm,
             f.thickness_mm,
@@ -254,4 +256,5 @@ if __name__ == "__main__":
         print(f"    metadata: {part['metadata']}")
         print(f"    water_mill: {part['water_mill']}")
         print(f"    nc_time_cost: {part['nc_time_cost']}")
-        print()
+        print(f"    process_description: {part['process_description']}")
+        print(f"    processing_instructions: {part['processing_instructions']}")

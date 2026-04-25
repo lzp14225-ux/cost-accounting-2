@@ -16,7 +16,7 @@
 阶段 7: 数据清理和校验 (judgment.py) ← 先执行
 阶段 8: 最终总价计算 (本脚本) ← 后执行
 """
-from typing import List, Dict, Any, Set
+from typing import List, Dict, Any, Set, Optional, Tuple
 from decimal import Decimal, InvalidOperation
 import logging
 import asyncio
@@ -614,7 +614,7 @@ async def _update_process_descriptions(job_id: str, subgraph_ids: List[str], nc_
       - SS: 精铣（code为"精铣"、"半精"、"全精"）
       - Z: 钻床（其他所有code，如M、T、L、A、D等）
     - heat_treatment ->
-      - HRC -> ZKR
+      - HRC -> PTR
       - 调质 -> 调质
       - 激光 -> 激光
       - 深冷 -> 深冷
@@ -639,9 +639,6 @@ async def _update_process_descriptions(job_id: str, subgraph_ids: List[str], nc_
     process_fields = [
         ("large_grinding_cost", "M"),
         ("small_grinding_cost", "YM"),
-        ("slow_wire_length", "WE"),
-        ("mid_wire_length", "WZ"),
-        ("fast_wire_length", "WC"),
         ("edm_time", "EDM"),
         ("engraving_cost", "DK")
     ]
@@ -652,7 +649,8 @@ async def _update_process_descriptions(job_id: str, subgraph_ids: List[str], nc_
     
     # 查询所有零件的工艺字段值
     query_sql = f"""
-        SELECT s.subgraph_id, {field_list}, f.heat_treatment
+        SELECT s.subgraph_id, s.process_description, s.slow_wire_length, s.slow_wire_side_length,
+               s.mid_wire_length, s.fast_wire_length, {field_list}, f.heat_treatment
         FROM subgraphs s
         LEFT JOIN features f
             ON s.job_id = f.job_id AND s.subgraph_id = f.subgraph_id
@@ -666,32 +664,67 @@ async def _update_process_descriptions(job_id: str, subgraph_ids: List[str], nc_
         update_tasks = []
         for row in rows:
             subgraph_id = row["subgraph_id"]
-            
-            # 收集有值的工艺
-            processes = []
-            
-            # 1. 判断NC工艺（从nc_time_cost判断）
+            process_entries = []
+            seen_categories = set()
+
+            raw_process_entries = _extract_process_entries_from_source_description(
+                row.get("process_description")
+            )
+            has_raw_processing = bool(raw_process_entries)
+            if has_raw_processing:
+                for category, code in raw_process_entries:
+                    if category in seen_categories or not code:
+                        continue
+                    process_entries.append((category, code))
+                    seen_categories.add(category)
+            else:
+                nc_time_cost = nc_time_cost_map.get(subgraph_id)
+                for category, code in _build_db_nc_process_entries(nc_time_cost):
+                    if category in seen_categories:
+                        continue
+                    process_entries.append((category, code))
+                    seen_categories.add(category)
+
+            # 热处理以数据库字段为准；数据库没有值时，再保留 raw processing 的判断。
+            _upsert_process_entry(
+                process_entries,
+                seen_categories,
+                "heat",
+                _determine_heat_treatment_process(row.get("heat_treatment")),
+                append_if_missing=True,
+            )
+
+            # 线割以数据库字段为准；数据库没有值时，再保留 raw processing 的判断。
+            _upsert_process_entry(
+                process_entries,
+                seen_categories,
+                "wire",
+                _determine_wire_process(row),
+                append_if_missing=True,
+            )
+
+            # 补充原先数据库可判断出的工艺，避免 raw processing 缺项时丢工艺。
             nc_time_cost = nc_time_cost_map.get(subgraph_id)
-            nc_processes = _determine_nc_processes(nc_time_cost)
-            processes.extend(nc_processes)
+            for category, code in _build_db_nc_process_entries(nc_time_cost):
+                if category in seen_categories:
+                    continue
+                process_entries.append((category, code))
+                seen_categories.add(category)
 
-            # 2. 热处理工艺（补在NC后面）
-            heat_treatment_process = _determine_heat_treatment_process(row.get("heat_treatment"))
-            if heat_treatment_process:
-                processes.append(heat_treatment_process)
-
-            # 3. 其他工艺字段
             for field_name, abbr in process_fields:
                 value = row.get(field_name)
-                # 判断字段是否有值（不为 None 且不为 0）
                 if value is not None and value != 0:
-                    processes.append(abbr)
-            
-            # 添加固定的 QC
-            processes.append("QC")
-            
-            # 生成工艺描述
-            process_description = "-".join(processes)
+                    category = _field_name_to_process_category(field_name)
+                    if category in seen_categories:
+                        continue
+                    process_entries.append((category, abbr))
+                    seen_categories.add(category)
+
+            if "qc" not in seen_categories:
+                process_entries.append(("qc", "QC"))
+                seen_categories.add("qc")
+
+            process_description = "-".join(code for _, code in process_entries if code)
             
             logger.info(f"[{subgraph_id}] process_description: {process_description}")
             
@@ -774,15 +807,169 @@ def _determine_nc_processes(nc_time_cost: Any) -> List[str]:
     return nc_processes
 
 
+def _build_db_nc_process_entries(nc_time_cost: Any) -> List[Tuple[str, str]]:
+    """根据 nc_time_cost 构建数据库口径下的 NC 工艺列表。"""
+    nc_processes = _determine_nc_processes(nc_time_cost)
+    results: List[Tuple[str, str]] = []
+
+    if "S" in nc_processes:
+        results.append(("nc_roughing", "S"))
+    if "SS" in nc_processes:
+        results.append(("nc_milling", "SS"))
+    if "Z" in nc_processes:
+        results.append(("drilling", "Z"))
+
+    return results
+
+
+def _looks_like_raw_process_description(text: Any) -> bool:
+    normalized_text = str(text or "").strip()
+    if not normalized_text:
+        return False
+
+    raw_markers = [
+        "->", "CNC", "钻孔", "热处理", "大水磨", "小磨床",
+        "慢丝", "中丝", "快丝", "放电", "雕刻", "质检"
+    ]
+    return any(marker in normalized_text for marker in raw_markers)
+
+
+def _split_raw_process_description(text: str) -> List[str]:
+    normalized_text = str(text or "").replace("→", "->").strip()
+    if not normalized_text:
+        return []
+
+    if "->" in normalized_text:
+        return [segment.strip() for segment in normalized_text.split("->") if segment.strip()]
+
+    return [normalized_text]
+
+
+def _map_raw_process_segment(segment: str) -> Optional[Tuple[str, str]]:
+    normalized_segment = str(segment or "").strip()
+    if not normalized_segment:
+        return None
+
+    if "深冷" in normalized_segment:
+        return "heat", "深冷"
+    if "真空热处理" in normalized_segment or ("热处理" in normalized_segment and "真空" in normalized_segment):
+        return "heat", "ZKR"
+    if "激光热处理" in normalized_segment or ("热处理" in normalized_segment and "激光" in normalized_segment):
+        return "heat", "JGR"
+    if "普通热处理" in normalized_segment or "调质" in normalized_segment or "淬火" in normalized_segment or "热处理" in normalized_segment:
+        return "heat", "PTR"
+    if "慢丝" in normalized_segment:
+        return "wire", "WE"
+    if "中丝" in normalized_segment:
+        return "wire", "WZ"
+    if "快丝" in normalized_segment:
+        return "wire", "WC"
+    if "钻孔" in normalized_segment:
+        return "drilling", "Z"
+    if "CNC开粗" in normalized_segment or "开粗" in normalized_segment:
+        return "nc_roughing", "S"
+    if "CNC精铣" in normalized_segment or "精铣" in normalized_segment:
+        return "nc_milling", "SS"
+    if "大水磨" in normalized_segment:
+        return "large_grinding", "M"
+    if "小磨床" in normalized_segment or "小水磨" in normalized_segment:
+        return "small_grinding", "YM"
+    if "放电" in normalized_segment:
+        return "edm", "EDM"
+    if "雕刻" in normalized_segment:
+        return "engraving", "DK"
+    if "质检" in normalized_segment:
+        return "qc", "QC"
+
+    return None
+
+
+def _extract_process_entries_from_source_description(text: Any) -> List[Tuple[str, str]]:
+    """从原始 processing 文本中提取工艺代码，保持原始顺序。"""
+    if not _looks_like_raw_process_description(text):
+        return []
+
+    results: List[Tuple[str, str]] = []
+    seen_categories: Set[str] = set()
+
+    for segment in _split_raw_process_description(str(text or "")):
+        mapped = _map_raw_process_segment(segment)
+        if not mapped:
+            continue
+        category, code = mapped
+        if category in seen_categories:
+            continue
+        results.append((category, code))
+        seen_categories.add(category)
+
+    return results
+
+
+def _replace_process_entry(entries: List[Tuple[str, str]], category: str, code: str) -> bool:
+    for index, (existing_category, _) in enumerate(entries):
+        if existing_category == category:
+            entries[index] = (category, code)
+            return True
+    return False
+
+
+def _upsert_process_entry(
+    entries: List[Tuple[str, str]],
+    seen_categories: Set[str],
+    category: str,
+    code: Optional[str],
+    append_if_missing: bool = True,
+):
+    if not code:
+        return
+
+    if category in seen_categories:
+        _replace_process_entry(entries, category, code)
+        return
+
+    if append_if_missing:
+        entries.append((category, code))
+        seen_categories.add(category)
+
+
+def _field_name_to_process_category(field_name: str) -> str:
+    category_map = {
+        "large_grinding_cost": "large_grinding",
+        "small_grinding_cost": "small_grinding",
+        "edm_time": "edm",
+        "engraving_cost": "engraving",
+    }
+    return category_map.get(field_name, field_name)
+
+
+def _determine_wire_process(row: Dict[str, Any]) -> str | None:
+    """根据数据库现有线割字段判断最终线割工艺代码。"""
+    slow_wire_length = row.get("slow_wire_length")
+    slow_wire_side_length = row.get("slow_wire_side_length")
+    mid_wire_length = row.get("mid_wire_length")
+    fast_wire_length = row.get("fast_wire_length")
+
+    if (slow_wire_length is not None and slow_wire_length != 0) or (
+        slow_wire_side_length is not None and slow_wire_side_length != 0
+    ):
+        return "WE"
+    if mid_wire_length is not None and mid_wire_length != 0:
+        return "WZ"
+    if fast_wire_length is not None and fast_wire_length != 0:
+        return "WC"
+
+    return None
+
+
 def _determine_heat_treatment_process(heat_treatment: Any) -> str | None:
     """
     根据 features.heat_treatment 映射热处理工艺代码。
 
     映射规则：
-    - HRC -> ZKR
-    - 调质 -> 调质
-    - 激光 -> 激光
+    - 真空热处理 -> ZKR
+    - 激光热处理 -> JGR
     - 深冷 -> 深冷
+    - HRC / 普通热处理 / 调质 / 淬火 -> PTR
     """
     if not heat_treatment:
         return None
@@ -791,14 +978,17 @@ def _determine_heat_treatment_process(heat_treatment: Any) -> str | None:
     if not heat_treatment_text:
         return None
 
-    return (
-        "ZKR" if "HRC" in heat_treatment_text.upper() else
-        "调质" if "调质" in heat_treatment_text else
-        "激光" if "激光" in heat_treatment_text else
-        "深冷" if "深冷" in heat_treatment_text else
-        "淬火" if "淬火" in heat_treatment_text else
-        None
-    )
+    upper_text = heat_treatment_text.upper()
+    if "深冷" in heat_treatment_text:
+        return "深冷"
+    if "真空" in heat_treatment_text:
+        return "ZKR"
+    if "激光" in heat_treatment_text:
+        return "JGR"
+    if "HRC" in upper_text or "普通" in heat_treatment_text or "调质" in heat_treatment_text or "淬火" in heat_treatment_text:
+        return "PTR"
+
+    return None
 
 
 async def _update_single_process_description(job_id: str, subgraph_id: str, process_description: str):

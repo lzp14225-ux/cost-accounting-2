@@ -235,7 +235,37 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
       return;
     }
 
+    const shouldUpdatePendingMessage = (msg: Message) => {
+      const isCurrentMessage = msg.id === messageId;
+      const isSamePendingIntent =
+        !!jobId &&
+        msg.jobId === jobId &&
+        !msg.id.startsWith('history-') &&
+        msg.requiresConfirmation === true &&
+        !msg.confirmationStatus &&
+        ((intent === 'DATA_MODIFICATION' && ((msg as any).modificationData || msg.intent === 'DATA_MODIFICATION')) ||
+          (intent !== 'DATA_MODIFICATION' && msg.intent === intent));
+
+      return isCurrentMessage || isSamePendingIntent;
+    };
+
     setConfirmingMessageId(messageId);
+
+    // 乐观更新：用户确认后立即隐藏确认卡片，失败再恢复
+    setMessages((prevMessages) => {
+      const currentMessages = Array.isArray(prevMessages) ? prevMessages : [];
+      return currentMessages.map((msg) => {
+        if (!shouldUpdatePendingMessage(msg)) {
+          return msg;
+        }
+
+        return {
+          ...msg,
+          requiresConfirmation: false,
+          confirmationStatus: 'confirmed' as const
+        };
+      });
+    });
 
     // 如果是重新识别或重新计算，立即禁用发送按钮
     if (
@@ -249,32 +279,6 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
     try {
       // 调用确认接口，传递 comment 参数
       const result = await chatService.confirmModification(jobId, '确认操作');
-      
-      // 更新消息状态，标记为已确认，并添加确认状态
-      setMessages((prevMessages) => {
-        const currentMessages = Array.isArray(prevMessages) ? prevMessages : [];
-        return currentMessages.map((msg) => {
-          const isCurrentMessage = msg.id === messageId;
-          const isSamePendingIntent =
-            !!jobId &&
-            msg.jobId === jobId &&
-            !msg.id.startsWith('history-') &&
-            msg.requiresConfirmation === true &&
-            !msg.confirmationStatus &&
-            ((intent === 'DATA_MODIFICATION' && ((msg as any).modificationData || msg.intent === 'DATA_MODIFICATION')) ||
-              (intent !== 'DATA_MODIFICATION' && msg.intent === intent));
-
-          if (!isCurrentMessage && !isSamePendingIntent) {
-            return msg;
-          }
-
-          return {
-            ...msg,
-            requiresConfirmation: false,
-            confirmationStatus: 'confirmed' as const
-          };
-        });
-      });
 
       // 不再添加确认成功的系统消息，等待 WebSocket 推送
       // WebSocket 会推送相关的状态消息
@@ -326,6 +330,22 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
 
     } catch (error: any) {
       console.error('确认操作失败:', error);
+
+      // 确认失败时恢复确认卡片
+      setMessages((prevMessages) => {
+        const currentMessages = Array.isArray(prevMessages) ? prevMessages : [];
+        return currentMessages.map((msg) => {
+          if (!shouldUpdatePendingMessage(msg)) {
+            return msg;
+          }
+
+          return {
+            ...msg,
+            requiresConfirmation: true,
+            confirmationStatus: undefined
+          };
+        });
+      });
       
       // 如果是重新识别或重新计算，确认失败时恢复发送按钮
       if (
@@ -771,6 +791,10 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isTyping, scrollCon
 
       if (message.intent === 'WEIGHT_PRICE_CALCULATION') {
         return nextStage === 'cost_calculation_started' || nextStage === 'cost_calculation_completed' || nextStage === 'completed'
+      }
+
+      if (message.intent === 'DATA_MODIFICATION') {
+        return nextStage === 'pricing_started' || nextStage === 'pricing_completed' || nextStage === 'completed'
       }
 
       return false

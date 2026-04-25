@@ -1096,6 +1096,30 @@ class NCTimeAgent(BaseAgent):
             
             break
 
+    async def _save_subgraph_processing_description(
+        self,
+        subgraph_id: str,
+        processing_text: Any,
+    ):
+        """将 NC JSON 中的原始 processing 文本暂存到 subgraphs.process_description。"""
+        normalized_text = str(processing_text or "").strip()
+        if not normalized_text:
+            return
+
+        async for db in get_db():
+            await db.execute(
+                update(Subgraph)
+                .where(Subgraph.subgraph_id == subgraph_id)
+                .values(process_description=normalized_text)
+            )
+            await db.commit()
+
+            self.logger.debug(
+                f"[NCTimeAgent] 保存原始 processing 到 subgraphs.process_description: "
+                f"subgraph_id={subgraph_id}, processing={normalized_text}"
+            )
+            break
+
     def _summarize_actual_nc_times(self, nc_details: List[Dict[str, Any]]) -> Dict[str, float]:
         """汇总 NC 原始明细中的开粗/精铣/钻床实际加工时间，不乘数量。"""
         roughing_minutes = Decimal("0")
@@ -1533,6 +1557,10 @@ class NCTimeAgent(BaseAgent):
 
                 # 新逻辑：统一按 parent_group -> 面别映射解析，避免完整响应分支继续使用旧前缀切面。
                 time_data = self._parse_subgraph_json_operations(operations)
+                await self._save_subgraph_processing_description(
+                    subgraph_id,
+                    (subgraph_data.get("meta_data") or {}).get("processing"),
+                )
                 await self._save_nc_time_data(subgraph_id, time_data)
 
                 success_count += 1
@@ -1601,6 +1629,10 @@ class NCTimeAgent(BaseAgent):
 
                 operations = data.get("operations", [])
                 time_data = self._parse_subgraph_json_operations(operations)
+                await self._save_subgraph_processing_description(
+                    subgraph_id,
+                    (data.get("meta_data") or {}).get("processing"),
+                )
                 await self._save_nc_time_data(subgraph_id, time_data)
 
                 success_count += 1
@@ -1989,20 +2021,30 @@ class NCTimeAgent(BaseAgent):
         if not operation_name:
             return ""
 
+        chinese_code = ""
         if "开粗" in operation_name:
-            return "开粗"
-        if "半精" in operation_name:
-            return "半精"
-        if "全精" in operation_name:
-            return "全精"
-        if "精" in operation_name:
-            return "精铣"
+            chinese_code = "开粗"
+        elif "半精" in operation_name:
+            chinese_code = "半精"
+        elif "全精" in operation_name:
+            chinese_code = "全精"
+        elif "台阶线割槽" in operation_name:
+            chinese_code = "台阶线割槽"
+        elif "线割槽" in operation_name:
+            chinese_code = "线割槽"
+        elif "预钻" in operation_name:
+            chinese_code = "预钻"
+        elif "精" in operation_name:
+            chinese_code = "精铣"
+
+        if chinese_code:
+            return chinese_code
 
         parts = [part.strip() for part in operation_name.split("_") if part and part.strip()]
-        if len(parts) >= 2 and re.fullmatch(r"[A-F]", parts[0], re.IGNORECASE):
-            return parts[1]
+        if len(parts) >= 3 and parts[-1] == "台阶":
+            return parts[-3]
         if len(parts) >= 2:
-            return parts[1]
+            return parts[-2]
 
         tool_value = (tool_name or "").strip()
         return tool_value or operation_name

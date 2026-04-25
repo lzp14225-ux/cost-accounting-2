@@ -185,6 +185,7 @@ from shared.progress_stages import ProgressStage, ProgressPercent
 from scripts.search import (
     base_itemcode_search,
     material_search,
+    auto_search,
     heat_search,
     tooth_hole_search,
     water_mill_search,
@@ -243,7 +244,7 @@ mcp_server = Server("cad-price-search-mcp")
 def _tool_counts() -> dict:
     """Return current tool counts based on the registered config lists."""
     cad_count = 3 if CAD_AVAILABLE else 0
-    search_count = 13
+    search_count = 15
     calculate_count = 24
     total = cad_count + search_count + calculate_count
     return {
@@ -324,6 +325,7 @@ async def list_tools() -> list[Tool]:
     search_tool_configs = [
         ("search_base_itemcode", base_itemcode_search.MCP_TOOL_META),
         ("search_material", material_search.MCP_TOOL_META),
+        ("search_auto", auto_search.MCP_TOOL_META),
         ("search_heat", heat_search.MCP_TOOL_META),
         ("search_tooth_hole", tooth_hole_search.MCP_TOOL_META),
         ("search_water_mill", water_mill_search.MCP_TOOL_META),
@@ -645,6 +647,8 @@ async def handle_price_tool(name: str, arguments: dict) -> list[TextContent]:
         result = await base_itemcode_search.search_by_job_id(job_id, subgraph_ids)
     elif name == "search_material":
         result = await material_search.search_by_job_id(job_id, subgraph_ids)
+    elif name == "search_auto":
+        result = await auto_search.search_by_job_id(job_id, subgraph_ids)
     elif name == "search_heat":
         result = await heat_search.search_by_job_id(job_id, subgraph_ids)
     elif name == "search_tooth_hole":
@@ -719,7 +723,13 @@ async def handle_price_tool(name: str, arguments: dict) -> list[TextContent]:
         base_data = await base_itemcode_search.search_by_job_id(job_id, subgraph_ids)
         material_data = await material_search.search_by_job_id(job_id, subgraph_ids)
         density_data = await density_search.search_by_job_id(job_id, subgraph_ids)
-        search_data = {"base_itemcode": base_data, "material": material_data, "density": density_data}
+        auto_data = await auto_search.search_by_job_id(job_id, subgraph_ids)
+        search_data = {
+            "base_itemcode": base_data,
+            "material": material_data,
+            "density": density_data,
+            "auto": auto_data
+        }
         result = await price_add_auto_material.calculate(search_data, job_id, subgraph_ids)
         
     elif name == "calculate_water_mill_bevel_cost":
@@ -804,7 +814,8 @@ async def handle_price_tool(name: str, arguments: dict) -> list[TextContent]:
     elif name == "calculate_nc_time_cost":
         base_data = await base_itemcode_search.search_by_job_id(job_id, subgraph_ids)
         nc_data = await nc_search.search_by_job_id(job_id, subgraph_ids)
-        search_data = {"base_itemcode": base_data, "nc": nc_data}
+        wire_base_data = await wire_base_search.search_by_job_id(job_id, subgraph_ids)
+        search_data = {"base_itemcode": base_data, "nc": nc_data, "wire_base": wire_base_data}
         result = await price_nc_time.calculate(search_data, job_id, subgraph_ids)
         
     elif name == "calculate_nc_total_cost":

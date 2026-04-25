@@ -8,9 +8,10 @@
 3. 调用 density_search 获取材料密度数据
 4. 根据 material 匹配 sub_category 获取单价（不区分大小写，支持材质别名映射）
 5. 根据 material 匹配密度值（不区分大小写，支持材质别名映射）
-6. 计算重量：weight = density * length_mm * width_mm * thickness_mm
-7. 计算材料费：material_cost = weight * price
-8. 更新 processing_cost_calculation_details 表的 material_cost 字段和步骤字段
+6. 根据备料形状计算体积：方料 length*width*thickness；圆料 PI*(diameter/2)^2*thickness
+7. 计算重量：weight = density * stock_volume_mm3
+8. 计算材料费：material_cost = weight * price
+9. 更新 processing_cost_calculation_details 表的 material_cost 字段和步骤字段
 
 材质别名映射（价格表中存储的是 T00L0X33 和 T00L0X44）：
 - TOOLOX33 -> T00L0X33
@@ -327,7 +328,7 @@ async def _calculate_part_cost(
     width = Decimal(str(width_mm))
     thickness = Decimal(str(thickness_mm))
     
-    # 计算重量: weight = density * length_mm * width_mm * thickness_mm
+    # 计算重量：先按备料形状计算体积，再乘材料密度
     volume_mm3 = get_stock_volume_mm3(part)
     weight = (density * volume_mm3).quantize(
         Decimal("0.0001"), ROUND_HALF_UP
@@ -355,7 +356,7 @@ async def _calculate_part_cost(
             "material": original_material,
             "matched_material": matched_density_material,
             "density": float(density),
-            "unit": "g/cm³"
+            "unit": "kg/mm³"
         },
         {
             "step": "获取尺寸数据",
@@ -366,6 +367,7 @@ async def _calculate_part_cost(
         {
             "step": "计算重量",
             "formula": f"{density} * volume_mm3({volume_mm3})",
+            "volume_mm3": float(volume_mm3),
             "weight": float(weight)
         },
         {

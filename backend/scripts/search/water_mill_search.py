@@ -3,7 +3,7 @@
 负责人：李志鹏
 
 查询流程：
-Step 1: job_price_snapshots表 -> 查询 category 为 S_water_mill、L_water_mill 的 sub_category、price、unit、min_num
+Step 1: job_price_snapshots表 -> 查询 category 为 water_mill、S_water_mill、L_water_mill 的 sub_category、price、unit、min_num
 注：查询时忽略 subgraph_id 字段，只根据 job_id 查询
 """
 from typing import List, Dict, Any
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
     # MCP 工具元数据
 MCP_TOOL_META = {
     "name": "search_water_mill_by_job_id",
-    "description": "按job_id查询水磨价格数据：从job_price_snapshots获取S_water_mill、L_water_mill价格（注：subgraph_ids参数被忽略，因为水磨价格是全局配置）",
+    "description": "按job_id查询水磨价格数据：从job_price_snapshots获取water_mill、S_water_mill、L_water_mill价格（注：subgraph_ids参数被忽略，因为水磨价格是全局配置）",
     "inputSchema": {
         "type": "object",
         "properties": {
@@ -47,6 +47,7 @@ async def search_by_job_id(job_id: str, subgraph_ids: List[str] = None) -> Dict[
         
     Returns:
         Dict: {
+            "water_mill_prices": [...],      # water_mill 价格列表
             "s_water_mill_prices": [...],    # S_water_mill 价格列表
             "l_water_mill_prices": [...]     # L_water_mill 价格列表
         }
@@ -54,18 +55,23 @@ async def search_by_job_id(job_id: str, subgraph_ids: List[str] = None) -> Dict[
     # 注意：subgraph_ids 参数被忽略，因为水磨价格数据是全局配置，不按零件存储
     logger.info(f"Searching water_mill price info for job_id: {job_id} (subgraph_ids ignored)")
     
-    # Step 1: 查询价格表 - category 为 S_water_mill、L_water_mill
+    # Step 1: 查询价格表 - category 为 water_mill、S_water_mill、L_water_mill
     all_prices = await _fetch_price_data(job_id)
     
     # 按 category 分组
+    water_mill_prices = [p for p in all_prices if p.get("category") == "water_mill"]
     s_water_mill_prices = [p for p in all_prices if p.get("category") == "S_water_mill"]
     l_water_mill_prices = [p for p in all_prices if p.get("category") == "L_water_mill"]
     
-    logger.info(f"Found {len(s_water_mill_prices)} S_water_mill, {len(l_water_mill_prices)} L_water_mill prices")
+    logger.info(
+        f"Found {len(water_mill_prices)} water_mill, "
+        f"{len(s_water_mill_prices)} S_water_mill, {len(l_water_mill_prices)} L_water_mill prices"
+    )
     
     return {
         "data_type": "water_mill",
         "job_id": job_id,
+        "water_mill_prices": water_mill_prices,
         "s_water_mill_prices": s_water_mill_prices,
         "l_water_mill_prices": l_water_mill_prices
     }
@@ -74,14 +80,14 @@ async def search_by_job_id(job_id: str, subgraph_ids: List[str] = None) -> Dict[
 async def _fetch_price_data(job_id: str) -> List[Dict]:
     """
     Step 1: 查询 job_price_snapshots 表
-    条件: job_id + category IN ('S_water_mill', 'L_water_mill')
+    条件: job_id + category IN ('water_mill', 'S_water_mill', 'L_water_mill')
     获取: category, sub_category, price, unit, min_num
     注：忽略 subgraph_id 字段
     """
     sql = """
         SELECT DISTINCT category, sub_category, price, unit, min_num
         FROM job_price_snapshots
-        WHERE job_id = $1::uuid AND category IN ('S_water_mill', 'L_water_mill')
+        WHERE job_id = $1::uuid AND category IN ('water_mill', 'S_water_mill', 'L_water_mill')
     """
     try:
         rows = await db.fetch_all(sql, job_id)
@@ -119,6 +125,10 @@ if __name__ == "__main__":
     print(f"\n=== 查询结果 (job_id: {job_id}) ===")
     print(f"data_type: {results['data_type']}")
     
+    print("\n--- Water Mill 价格列表 ---")
+    for p in results["water_mill_prices"]:
+        print(f"  sub_category: {p['sub_category']}, price: {p['price']}, unit: {p['unit']}, min_num: {p.get('min_num', 'N/A')}")
+
     print("\n--- S_Water Mill 价格列表 ---")
     for p in results["s_water_mill_prices"]:
         print(f"  sub_category: {p['sub_category']}, price: {p['price']}, unit: {p['unit']}, min_num: {p.get('min_num', 'N/A')}")

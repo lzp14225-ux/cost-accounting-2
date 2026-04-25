@@ -24,12 +24,14 @@ def get_shape_info(part: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def get_material_shape(part: Dict[str, Any]) -> str:
+    """读取备料形状；未声明或非法值默认按方料处理。"""
     shape_info = get_shape_info(part)
     shape = shape_info.get("material_shape")
     return shape if shape in {"rect", "round"} else "rect"
 
 
 def get_round_diameter_mm(part: Dict[str, Any]) -> Optional[Decimal]:
+    """读取圆料直径，来自 metadata.shape.diameter_mm。"""
     shape_info = get_shape_info(part)
     diameter = shape_info.get("diameter_mm")
     if diameter in (None, ""):
@@ -38,10 +40,17 @@ def get_round_diameter_mm(part: Dict[str, Any]) -> Optional[Decimal]:
 
 
 def get_shape_price_category(part: Dict[str, Any], rect_category: str, round_category: str) -> str:
+    """根据备料形状选择价格类别，圆料使用 round_category。"""
     return round_category if get_material_shape(part) == "round" else rect_category
 
 
 def get_stock_volume_mm3(part: Dict[str, Any]) -> Decimal:
+    """
+    计算备料体积。
+
+    方料：length_mm * width_mm * thickness_mm
+    圆料：PI * (diameter_mm / 2)^2 * thickness_mm，缺少 diameter_mm 时用 length_mm 作为直径
+    """
     thickness_mm = Decimal(str(part.get("thickness_mm")))
     material_shape = get_material_shape(part)
 

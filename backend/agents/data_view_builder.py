@@ -65,6 +65,7 @@ class DataViewBuilder:
         
         subgraphs = raw_data.get("subgraphs", [])
         features = raw_data.get("features", [])
+        include_process_description = DataViewBuilder._should_include_process_description(raw_data)
         # 🔑 支持两种键名（向后兼容）
         price_snapshots = raw_data.get("job_price_snapshots") or raw_data.get("price_snapshots", [])
         # 🆕 获取成本计算详情（向后兼容：如果不存在则为空列表）
@@ -120,7 +121,9 @@ class DataViewBuilder:
                 "part_code": subgraph.get("part_code"),
                 "part_name": subgraph.get("part_name"),
                 "subgraph_file_url": subgraph.get("subgraph_file_url"),
-                "process_description": subgraph.get("process_description"),  # 工艺说明
+                "process_description": (
+                    subgraph.get("process_description") if include_process_description else None
+                ),  # 工艺说明：仅在价格计算完成后展示
                 
                 # 特征信息（来自 feature）- ❌ 移除了4个不需要的字段
                 "material": feature.get("material") if feature else None,
@@ -194,6 +197,51 @@ class DataViewBuilder:
         
         logger.info(f"✅ 展示视图构建完成（4表架构）: {len(display_items)} 条记录")
         return display_items
+
+    @staticmethod
+    def _should_include_process_description(raw_data: Dict[str, List[Dict]]) -> bool:
+        """
+        工艺说明仅在价格计算完成后展示。
+
+        规则：
+        - 任一 subgraph 已有 total_cost / processing_cost_total
+        - 或任一 subgraph 已有明确的加工费用字段
+        满足其一则认为进入了报价完成后的展示阶段。
+        """
+        subgraphs = raw_data.get("subgraphs", [])
+        if not isinstance(subgraphs, list):
+            return False
+
+        cost_fields = [
+            "total_cost",
+            "processing_cost_total",
+            "material_cost",
+            "heat_treatment_cost",
+            "large_grinding_cost",
+            "small_grinding_cost",
+            "slow_wire_cost",
+            "slow_wire_side_cost",
+            "mid_wire_cost",
+            "fast_wire_cost",
+            "edm_cost",
+            "engraving_cost",
+            "nc_z_fee",
+            "nc_b_fee",
+            "nc_c_fee",
+            "nc_c_b_fee",
+            "nc_z_view_fee",
+            "nc_b_view_fee",
+        ]
+
+        for subgraph in subgraphs:
+            if not isinstance(subgraph, dict):
+                continue
+            for field_name in cost_fields:
+                value = subgraph.get(field_name)
+                if value is not None and value != 0:
+                    return True
+
+        return False
     
     @staticmethod
     def _find_feature(features: List[Dict], job_id: str, subgraph_id: str) -> Optional[Dict]:

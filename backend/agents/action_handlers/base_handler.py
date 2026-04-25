@@ -196,7 +196,10 @@ class BaseActionHandler(ABC):
                 subgraph_id = source.get("subgraph_id")
                 if subgraph_id:
                     matched_ids.append(subgraph_id)
-                    logger.debug(f"✅ 包含匹配: {part_name} (关键词: {keyword})")
+                    logger.info(
+                        f"✅ 包含匹配: keyword='{keyword}', "
+                        f"part_name='{part_name}', subgraph_id='{subgraph_id}'"
+                    )
         
         logger.info(f"✅ 关键词 '{keyword}' 匹配到 {len(matched_ids)} 个子图")
         return matched_ids

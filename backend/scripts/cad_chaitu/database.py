@@ -120,7 +120,7 @@ class DatabaseManager:
             if conn:
                 self.db_pool.putconn(conn)
     
-    def save_subgraph(self, sub_code: str, file_url: str, source_file: str, job_id: str, part_name: str = None, part_code: str = None, xt_file_url: str = None) -> bool:
+    def save_subgraph(self, sub_code: str, file_url: str, source_file: str, job_id: str, part_name: str = None, part_code: str = None, xt_file_url: str = None, sort_order: str = None) -> bool:
         """
         保存子图信息到数据库
         
@@ -132,6 +132,7 @@ class DatabaseManager:
             part_name: 零件名称
             part_code: 零件编号
             xt_file_url: .x_t 文件路径（可选）
+            sort_order: 拆图顺序（可选）
         
         Returns:
             bool: 保存成功返回 True，失败返回 False
@@ -190,20 +191,22 @@ class DatabaseManager:
                     part_code, 
                     subgraph_file_url,
                     xt_file_url,
+                    sort_order,
                     created_at,
                     updated_at
                 )
-                VALUES (%s, %s, %s, %s, %s, %s, NOW(), NOW())
+                VALUES (%s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
                 ON CONFLICT (subgraph_id) 
                 DO UPDATE SET 
                     part_name = EXCLUDED.part_name,
                     part_code = EXCLUDED.part_code,
                     subgraph_file_url = EXCLUDED.subgraph_file_url,
                     xt_file_url = EXCLUDED.xt_file_url,
+                    sort_order = EXCLUDED.sort_order,
                     updated_at = NOW()
             """
             
-            cursor.execute(insert_sql, (subgraph_id, str(job_uuid), part_name, part_code, file_url, xt_file_url))
+            cursor.execute(insert_sql, (subgraph_id, str(job_uuid), part_name, part_code, file_url, xt_file_url, sort_order))
             conn.commit()
             
             logger.debug(f"✅ 子图已保存到数据库: sub_code={sub_code}, 品名={part_name}, 编号={part_code}, 文件={file_url}")

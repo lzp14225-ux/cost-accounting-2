@@ -745,15 +745,25 @@ class InteractionAgent(BaseAgent):
             # await self._push_operation_completed(job_id, result, db_session=db_session)
             
             logger.info(f"✅ 操作确认完成，审核继续")
+
+            operation_message = "操作已执行，可以继续修改"
+            result_data = result.get("data", {})
+            if result_data.get("action_type") == "DATA_MODIFICATION":
+                if result_data.get("auto_recalculation_submitted"):
+                    operation_message = "修改已保存，已自动提交重新计算"
+                elif result_data.get("auto_recalculation_attempted"):
+                    operation_message = "修改已保存，但自动重新计算提交失败，可手动重新计算"
+                else:
+                    operation_message = "修改已保存，可以继续修改"
             
             return OpResult(
                 status="ok",
-                message="操作已执行，可以继续修改",
+                message=operation_message,
                 data={
                     "job_id": job_id,
                     "confirm_count": state.get("confirm_count", 1),
                     "auto_refresh_status": auto_refresh_result.status if auto_refresh_result else "error",
-                    **result.get("data", {})
+                    **result_data
                 }
             )
         

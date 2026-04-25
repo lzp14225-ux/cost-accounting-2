@@ -21,7 +21,7 @@ import asyncio
 
 from api_gateway.database import db
 from ._batch_update_helper import batch_upsert_with_steps
-from .material_shape_helper import get_material_shape, get_shape_price_category
+from .material_shape_helper import get_shape_price_category
 
 logger = logging.getLogger(__name__)
 
@@ -369,8 +369,7 @@ async def _calculate_part_cost(
         material_mapped = material_upper
     
     # 获取对应的价格信息（使用映射后的材质进行匹配）
-    material_shape = get_material_shape(part)
-    price_category = get_shape_price_category(part, "heat", "r_heat")
+    price_category = get_shape_price_category(part, "heat", "heat")
     price_info = price_map.get(price_category, {}).get(material_mapped)
     if not price_info:
         logger.warning(f"No price found for material: {material} (mapped to: {material_mapped}), skipping calculation")
@@ -462,7 +461,7 @@ async def _calculate_part_cost(
             "material": original_material,
             "matched_material": matched_density_material,
             "density": float(density),
-            "unit": "g/cm³"
+            "unit": "kg/mm³"
         },
         {
             "step": "读取开粗后体积",

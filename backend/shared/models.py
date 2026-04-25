@@ -90,6 +90,7 @@ class Subgraph(Base):
     # 基本信息
     part_name = Column(String(100))
     part_code = Column(String(100))
+    sort_order = Column(Integer)
     # material = Column(String(50))  # SQL 设计中有此字段，但实际数据库表中不存在
     subgraph_file_url = Column(String(500))
     

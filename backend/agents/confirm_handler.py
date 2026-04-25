@@ -7,7 +7,7 @@ ConfirmHandler - 确认处理器
 import logging
 import json
 import os
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List, Set
 from datetime import datetime
 import httpx
 from shared.config import settings
@@ -155,6 +155,76 @@ class ConfirmHandler:
                             pass  # 保持原值
         
         return data
+
+    def _extract_all_subgraph_ids(self, modified_data: Dict[str, Any]) -> List[str]:
+        """从修改后的审核数据中提取全部子图 ID。"""
+        subgraph_ids: List[str] = []
+        seen: Set[str] = set()
+
+        for record in modified_data.get("subgraphs", []) or []:
+            subgraph_id = record.get("subgraph_id")
+            if not subgraph_id:
+                continue
+            subgraph_id = str(subgraph_id)
+            if subgraph_id in seen:
+                continue
+            seen.add(subgraph_id)
+            subgraph_ids.append(subgraph_id)
+
+        return subgraph_ids
+
+    def _collect_recalculation_subgraph_ids(self, pending_action: Dict[str, Any]) -> List[str]:
+        """
+        自动重算与原先“重新计算”指令保持一致，一律按整单所有物料重算。
+        """
+        modified_data = pending_action.get("modified_data") or {}
+        all_subgraph_ids = self._extract_all_subgraph_ids(modified_data)
+        logger.info("🔄 自动重新计算按整单执行，子图数量=%s", len(all_subgraph_ids))
+        return all_subgraph_ids
+
+    async def _trigger_auto_recalculation(
+        self,
+        job_id: str,
+        subgraph_ids: List[str]
+    ) -> Dict[str, Any]:
+        """提交自动重算任务，但不影响已落库的数据修改结果。"""
+        if not subgraph_ids:
+            return {
+                "attempted": False,
+                "submitted": False,
+                "message": "未找到可重算的子图",
+                "subgraph_ids": []
+            }
+
+        try:
+            recalc_result = await self._confirm_price_calculation(
+                job_id,
+                {
+                    "api_params": {
+                        "job_id": job_id,
+                        "subgraph_ids": subgraph_ids,
+                        "user_params": {}
+                    }
+                }
+            )
+
+            return {
+                "attempted": True,
+                "submitted": recalc_result.get("status") == "ok",
+                "message": recalc_result.get("message"),
+                "subgraph_ids": subgraph_ids,
+                "task_id": recalc_result.get("data", {}).get("task_id"),
+                "api_response": recalc_result.get("data", {}).get("api_response"),
+                "details": recalc_result.get("details")
+            }
+        except Exception as e:
+            logger.error(f"❌ 自动提交重新计算异常: {e}", exc_info=True)
+            return {
+                "attempted": True,
+                "submitted": False,
+                "message": f"自动重新计算提交异常: {str(e)}",
+                "subgraph_ids": subgraph_ids
+            }
     
     async def _confirm_data_modification(
         self,
@@ -199,13 +269,45 @@ class ConfirmHandler:
             await db_session.commit()
             
             logger.info(f"✅ 数据修改已保存到数据库")
+
+            auto_recalculation_result = {
+                "attempted": False,
+                "submitted": False,
+                "message": "未触发自动重新计算",
+                "subgraph_ids": []
+            }
+
+            recalculation_subgraph_ids = self._collect_recalculation_subgraph_ids(pending_action)
+            if recalculation_subgraph_ids:
+                logger.info(
+                    "🔄 数据修改确认完成，开始自动提交重新计算: job_id=%s, subgraph_count=%s",
+                    job_id,
+                    len(recalculation_subgraph_ids)
+                )
+                auto_recalculation_result = await self._trigger_auto_recalculation(
+                    job_id,
+                    recalculation_subgraph_ids
+                )
+            else:
+                logger.warning("⚠️  数据修改已保存，但未解析出可重算的子图范围: job_id=%s", job_id)
+
+            message = "数据修改已保存"
+            if auto_recalculation_result.get("submitted"):
+                message = "数据修改已保存，已自动提交重新计算"
+            elif auto_recalculation_result.get("attempted"):
+                message = "数据修改已保存，但自动重新计算提交失败，请手动重新计算"
             
             return {
                 "status": "ok",
-                "message": "数据修改已保存",
+                "message": message,
                 "data": {
                     "action_type": "DATA_MODIFICATION",
-                    "changes_count": len(pending_action.get("changes", []))
+                    "changes_count": len(pending_action.get("changes", [])),
+                    "auto_recalculation_attempted": auto_recalculation_result.get("attempted", False),
+                    "auto_recalculation_submitted": auto_recalculation_result.get("submitted", False),
+                    "auto_recalculation_message": auto_recalculation_result.get("message"),
+                    "auto_recalculation_subgraph_ids": auto_recalculation_result.get("subgraph_ids", []),
+                    "auto_recalculation_task_id": auto_recalculation_result.get("task_id")
                 }
             }
         

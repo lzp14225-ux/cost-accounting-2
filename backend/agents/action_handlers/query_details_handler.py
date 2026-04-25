@@ -92,7 +92,15 @@ class QueryDetailsHandler(BaseActionHandler):
         
         try:
             # 1. 提取 subgraph_id
-            subgraph_id = intent_result.parameters.get("subgraph_id")
+            subgraph_id = await self._resolve_pending_query_detail_selection(
+                db_session,
+                job_id,
+                intent_result.raw_message
+            )
+            if subgraph_id:
+                logger.info(f"✅ 从待确认查询候选中解析出 subgraph_id: {subgraph_id}")
+            else:
+                subgraph_id = intent_result.parameters.get("subgraph_id")
             
             # 🆕 如果 subgraph_id 为空，或者看起来不对（比如不是最近提到的），尝试从历史消息中推断
             if not subgraph_id and self.use_chat_history:
@@ -127,6 +135,42 @@ class QueryDetailsHandler(BaseActionHandler):
             # 2. 提取查询类型（可选）
             query_type = intent_result.parameters.get("query_type")  # 如: "material", "heat", "weight"
             price_scope = intent_result.parameters.get("price_scope")
+
+            # 先按 subgraph_id / part_code 解析候选。若同一 part_code 对应多个子图，先追问用户。
+            candidates = await self._resolve_subgraph_candidates(db_session, job_id, subgraph_id)
+            if len(candidates) > 1:
+                selected_subgraph_id = self._select_candidate_from_text(
+                    candidates,
+                    intent_result.raw_message
+                )
+                if selected_subgraph_id:
+                    logger.info(f"✅ 当前输入已明确匹配候选品名: {selected_subgraph_id}")
+                    subgraph_id = selected_subgraph_id
+                else:
+                    message = self._format_subgraph_disambiguation_message(subgraph_id, candidates)
+                    await self._save_query_detail_disambiguation(
+                        db_session,
+                        job_id,
+                        subgraph_id,
+                        candidates,
+                        query_type,
+                        price_scope
+                    )
+                    return ActionResult(
+                        status="ok",
+                        message=message,
+                        requires_confirmation=False,
+                        data={
+                            "needs_user_selection": True,
+                            "selection_type": "query_detail_subgraph_disambiguation",
+                            "input_code": subgraph_id,
+                            "query_type": query_type,
+                            "price_scope": price_scope,
+                            "candidates": candidates
+                        }
+                    )
+            if len(candidates) == 1:
+                subgraph_id = candidates[0]["subgraph_id"]
             
             # 3. 查询数据库
             detail = await self._query_calculation_detail(
@@ -212,6 +256,171 @@ class QueryDetailsHandler(BaseActionHandler):
                 data={}
             )
     
+    async def _resolve_subgraph_candidates(
+        self,
+        db_session,
+        job_id: str,
+        input_code: str
+    ) -> List[Dict[str, Any]]:
+        """先匹配 subgraph_id，再匹配 part_code，返回去重后的候选子图。"""
+        if not input_code:
+            return []
+
+        from shared.models import Subgraph
+
+        code = str(input_code).strip()
+        if not code:
+            return []
+
+        result = await db_session.execute(
+            select(Subgraph)
+            .where(
+                Subgraph.job_id == job_id,
+                (
+                    (Subgraph.subgraph_id == code) |
+                    (Subgraph.subgraph_id.like(f'%_{code}')) |
+                    (Subgraph.part_code == code)
+                )
+            )
+            .order_by(Subgraph.sort_order.asc().nullslast(), Subgraph.subgraph_id.asc())
+        )
+        rows = result.scalars().all()
+
+        candidates = []
+        seen = set()
+        for row in rows:
+            if row.subgraph_id in seen:
+                continue
+            seen.add(row.subgraph_id)
+            candidates.append({
+                "subgraph_id": row.subgraph_id,
+                "part_code": row.part_code,
+                "part_name": row.part_name,
+                "sort_order": row.sort_order
+            })
+
+        return candidates
+
+    def _select_candidate_from_text(
+        self,
+        candidates: List[Dict[str, Any]],
+        raw_message: str
+    ) -> Optional[str]:
+        text = str(raw_message or "").strip()
+        if not text:
+            return None
+
+        normalized_text = text.lower()
+        exact_matches = []
+        fuzzy_matches = []
+
+        for candidate in candidates:
+            part_name = str(candidate.get("part_name") or "").strip()
+            part_code = str(candidate.get("part_code") or "").strip()
+            subgraph_id = str(candidate.get("subgraph_id") or "").strip()
+            values = [part_name, part_code, subgraph_id]
+
+            if any(normalized_text == value.lower() for value in values if value):
+                exact_matches.append(candidate)
+            elif part_name and part_name.lower() in normalized_text:
+                fuzzy_matches.append(candidate)
+
+        matched = exact_matches if exact_matches else fuzzy_matches
+        if len(matched) == 1:
+            return matched[0].get("subgraph_id")
+
+        return None
+
+    def _format_subgraph_disambiguation_message(
+        self,
+        input_code: str,
+        candidates: List[Dict[str, Any]]
+    ) -> str:
+        lines = [f"找到 {len(candidates)} 个编号为 {input_code} 的零件，请回复品名或序号："]
+        for index, candidate in enumerate(candidates, start=1):
+            part_name = candidate.get("part_name") or "未识别品名"
+            lines.append(f"{index}. {part_name}")
+        return "\n".join(lines)
+
+    async def _save_query_detail_disambiguation(
+        self,
+        db_session,
+        job_id: str,
+        input_code: str,
+        candidates: List[Dict[str, Any]],
+        query_type: Optional[str],
+        price_scope: Optional[str]
+    ) -> None:
+        try:
+            from shared.database import AsyncSessionLocal
+
+            async with AsyncSessionLocal() as chat_db:
+                await self.chat_history_repo.add_message(
+                    chat_db,
+                    session_id=job_id,
+                    role="system",
+                    content=f"查询详情候选确认: {input_code}",
+                    metadata={
+                        "action": "query_detail_disambiguation",
+                        "input_code": input_code,
+                        "query_type": query_type,
+                        "price_scope": price_scope,
+                        "candidates": candidates
+                    }
+                )
+                await chat_db.commit()
+        except Exception as e:
+            logger.warning(f"⚠️ 保存查询详情候选状态失败: {e}", exc_info=True)
+
+    async def _resolve_pending_query_detail_selection(
+        self,
+        db_session,
+        job_id: str,
+        raw_message: str
+    ) -> Optional[str]:
+        """用户回复品名或序号时，从最近的查询详情候选中解析具体 subgraph_id。"""
+        text = str(raw_message or "").strip()
+        if not text:
+            return None
+
+        try:
+            history = await self.chat_history_repo.get_recent_session_history(
+                db_session,
+                session_id=job_id,
+                limit=20
+            )
+        except Exception as e:
+            logger.warning(f"⚠️ 读取查询详情候选历史失败: {e}")
+            return None
+
+        for msg in reversed(history):
+            metadata = msg.get("metadata") or {}
+            if isinstance(metadata, str):
+                try:
+                    metadata = json.loads(metadata)
+                except Exception:
+                    metadata = {}
+
+            if metadata.get("action") != "query_detail_disambiguation":
+                continue
+
+            candidates = metadata.get("candidates") or []
+            if not candidates:
+                continue
+
+            if text.isdigit():
+                index = int(text) - 1
+                if 0 <= index < len(candidates):
+                    return candidates[index].get("subgraph_id")
+
+            selected = self._select_candidate_from_text(candidates, text)
+            if selected:
+                return selected
+
+            return None
+
+        return None
+
     async def _query_calculation_detail(
         self,
         db_session,

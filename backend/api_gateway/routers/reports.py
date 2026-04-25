@@ -39,7 +39,7 @@ EXPORT_EXCLUDE_KEYWORDS = ["订购", "附图订购", "二次加工", "钣金"]
 HEADERS = [
     '序号', '编号', '零件名称', '材质', '备料于', '数量', '长/mm', '宽/mm', '厚/mm', '重量/kg',
     '热处理', '工艺', '材料单价', '材料费（元）', '开粗后体积', '开粗后重量', '热处理单价', '热处理费（元）',
-    '单件加工费合计（元）', '热处理+加工费（元）', '单件费用合计（元）', '费用合计（元） 材料费+热处理+加工费',
+    '单件加工费合计（元）', '热处理+加工费（元）', '加工费（按重量计算）', '单件费用合计（元）', '费用合计（元） 材料费+热处理+加工费',
     'NC开粗时间(单件/h)', 'NC精铣时间(单件/h)', 'NC钻孔时间(单件/h)', 'NC加工面数量',
     'A面(单件/h)', 'B面(单件/h)', 'C面(单件/h)', 'D面(单件/h)', 'E面(单件/h)', 'F面(单件/h)',
     'NC加工费（单件/元）',
@@ -47,22 +47,21 @@ HEADERS = [
     '慢丝 W/E(mm)', '侧割长度(mm)', '中丝 W/Z(mm)', '快丝 W/C(mm)', '线割时间', '线割工艺说明',
     '慢丝（元）', '侧割（元）', '中丝（元）', '快丝（元）',
     '放电 EDM(h)', '放电（元）', '雕刻 DK(h)', '雕刻（元）',
-    '单独计费（元）', '异常情况'
+    '异常情况'
 ]
 
 SUM_COLUMNS = [
     5,   # 数量
     13,  # 材料费（元）
     16, 17,                          # 开粗后重量/热处理费
-    18, 19, 20,                      # 加工费/费用合计
-    21, 22, 23,                      # NC开粗/精铣/钻孔时间
-    25, 26, 27, 28, 29, 30,          # A-F面工时
-    31,                              # NC加工费（单件/元）
-    32, 33, 34, 35,                  # 磨床
-    36, 37, 38, 39, 40,              # 线割长度/时间
-    42, 43, 44, 45,                  # 线割费用
-    46, 47, 48, 49,                  # 放电/雕刻工时费用
-    50                               # 单独计费
+    18, 19, 20, 21, 22,              # 加工费/单独计费/费用合计
+    23, 24, 25,                      # NC开粗/精铣/钻孔时间
+    27, 28, 29, 30, 31, 32,          # A-F面工时
+    33,                              # NC加工费（单件/元）
+    34, 35, 36, 37,                  # 磨床
+    38, 39, 40, 41, 42,              # 线割长度/时间
+    44, 45, 46, 47,                  # 线割费用
+    48, 49, 50, 51                   # 放电/雕刻工时费用
 ]
 
 
@@ -672,6 +671,7 @@ def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature, is_nc_failed
         per_piece(subgraph.heat_treatment_cost),
         per_piece(subgraph.processing_cost_total),
         heat_plus_processing_total,
+        safe_float(subgraph.separate_item_cost),
         per_piece(subgraph.total_cost),
         safe_float(subgraph.total_cost),
         safe_float(subgraph.nc_roughing_time),
@@ -703,7 +703,6 @@ def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature, is_nc_failed
         safe_float(subgraph.edm_cost),
         safe_float(subgraph.engraving_time),
         safe_float(subgraph.engraving_cost),
-        safe_float(subgraph.separate_item_cost),
         _extract_abnormal_desc(
             feature.abnormal_situation if feature else None,
             include_nc_failed=is_nc_failed_row
@@ -731,7 +730,10 @@ def _build_missing_fields_map(subgraphs, features_dict):
 
 
 def _order_subgraphs_for_export(subgraphs, features_dict):
-    indexed_subgraphs = list(enumerate(subgraphs))
+    indexed_subgraphs = sorted(
+        enumerate(subgraphs),
+        key=lambda item: _subgraph_export_sort_key(item[0], item[1])
+    )
     part_code_to_subgraph_ids = {}
     original_index_map = {}
 
@@ -792,6 +794,19 @@ def _order_subgraphs_for_export(subgraphs, features_dict):
         emit_with_children(subgraph.subgraph_id)
 
     return ordered_subgraphs
+
+
+def _subgraph_export_sort_key(original_index, subgraph):
+    sort_order = getattr(subgraph, "sort_order", None)
+    if sort_order is not None:
+        sort_text = str(sort_order).strip()
+        if sort_text:
+            try:
+                return (0, int(sort_text), subgraph.subgraph_id or "")
+            except (TypeError, ValueError):
+                return (1, sort_text, subgraph.subgraph_id or "")
+
+    return (2, original_index, subgraph.subgraph_id or "")
 
 
 def _extract_material_preparation(feature: Feature) -> str:

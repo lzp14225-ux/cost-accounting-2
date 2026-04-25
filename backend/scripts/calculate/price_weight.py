@@ -6,8 +6,9 @@
 1. 调用 base_itemcode_search 获取零件基础信息（material, length_mm, width_mm, thickness_mm）
 2. 调用 density_search 获取材料密度数据
 3. 根据 material 匹配对应的密度值（不区分大小写，支持材质别名映射）
-4. 计算公式: weight = density * length_mm * width_mm * thickness_mm
-5. 更新表: subgraphs.weight_kg, features.calculated_weight_kg, processing_cost_calculation_details.weight
+4. 根据备料形状计算体积：方料 length*width*thickness；圆料 PI*(diameter/2)^2*thickness
+5. 计算公式: weight = density * stock_volume_mm3
+6. 更新表: subgraphs.weight_kg, features.calculated_weight_kg, processing_cost_calculation_details.weight
 """
 from typing import List, Dict, Any, Optional
 from decimal import Decimal, ROUND_HALF_UP
@@ -24,7 +25,7 @@ logger = logging.getLogger(__name__)
 # MCP 工具元数据
 MCP_TOOL_META = {
     "name": "calculate_weight",
-    "description": "重量计算：根据材料密度计算重量 weight = density * length_mm * width_mm * thickness_mm",
+    "description": "重量计算：根据材料密度和备料体积计算重量 weight = density * stock_volume_mm3",
     "inputSchema": {
         "type": "object",
         "properties": {
@@ -174,7 +175,9 @@ async def _calculate_part_weight(job_id: str, part: Dict, density_map: Dict[str,
     """
     计算单个零件的重量
     
-    公式: weight = density * length_mm * width_mm * thickness_mm
+    公式: weight = density * stock_volume_mm3
+    方料体积 = length_mm * width_mm * thickness_mm
+    圆料体积 = PI * (diameter_mm / 2)^2 * thickness_mm
     """
     subgraph_id = part["subgraph_id"]
     part_name = part["part_name"]
@@ -226,7 +229,7 @@ async def _calculate_part_weight(job_id: str, part: Dict, density_map: Dict[str,
         width = Decimal(str(width_mm))
         thickness = Decimal(str(thickness_mm))
         
-        # 计算重量: weight = density * length_mm * width_mm * thickness_mm
+        # 计算重量：先按备料形状计算体积，再乘材料密度
         material_shape = get_material_shape(part)
         volume_mm3 = get_stock_volume_mm3(part)
         weight = (density * volume_mm3).quantize(
@@ -248,7 +251,7 @@ async def _calculate_part_weight(job_id: str, part: Dict, density_map: Dict[str,
                 "material": material,
                 "matched_material": matched_material,
                 "density": float(density),
-                "unit": "g/cm³"
+                "unit": "kg/mm³"
             },
             {
                 "step": "计算重量",
