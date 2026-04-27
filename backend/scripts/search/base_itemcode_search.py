@@ -120,6 +120,7 @@ async def _fetch_parts_with_join(job_id: str, subgraph_ids: List[str]) -> List[D
             f.has_auto_material,
             f.has_material_preparation,
             f.needs_heat_treatment,
+            f.heat_treatment,
             f.tooth_hole,
             f.nc_time_cost
         FROM subgraphs s
@@ -196,11 +197,11 @@ async def _fetch_feature_data(job_id: str, subgraph_ids: List[str]) -> List[Dict
     """
     Step 2: 查询 features 表
     条件: job_id + subgraph_id IN (...)
-    获取: subgraph_id, length_mm, width_mm, thickness_mm, metadata, water_mill, quantity, boring_num, material, has_auto_material, has_material_preparation, needs_heat_treatment, nc_time_cost
+    获取: subgraph_id, length_mm, width_mm, thickness_mm, metadata, water_mill, quantity, boring_num, material, has_auto_material, has_material_preparation, needs_heat_treatment, heat_treatment, nc_time_cost
     """
     sql = """
         SELECT subgraph_id, length_mm, width_mm, thickness_mm, metadata, water_mill, quantity, boring_num,
-               material, has_auto_material, has_material_preparation, needs_heat_treatment, tooth_hole, nc_time_cost
+               material, has_auto_material, has_material_preparation, needs_heat_treatment, heat_treatment, tooth_hole, nc_time_cost
         FROM features
         WHERE job_id = $1::uuid AND subgraph_id = ANY($2::text[])
     """

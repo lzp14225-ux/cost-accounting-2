@@ -632,16 +632,44 @@ def analyze_dxf_features(dxf_file_path: str, job_id: Optional[str] = None) -> Op
         boring_num = calculate_boring_num(wire_cut_details)
         logging.info(f"✅ 孔数量计算完成: {boring_num} 个")
         
-        # 匹配 "x丝割xxxx" 文字
-        import re
+        # 先精确匹配完整线割工艺；未匹配时再按线割类型关键词兜底
         wire_process_note = None
-        wire_pattern = re.compile(r'[^\s]*丝割[^\s]*')
+        exact_wire_process_notes = [
+            '慢丝割一刀',
+            '慢丝割一修一',
+            '慢丝割一修二',
+            '慢丝割一修三',
+            '中丝割一修一',
+            '快丝割一刀'
+        ]
+
         for text in all_texts:
-            match = wire_pattern.search(text)
-            if match:
-                wire_process_note = match.group(0)
-                logging.info(f"✅ 匹配到线割工艺说明: {wire_process_note}")
+            normalized_text = str(text).replace(" ", "").replace("\t", "").replace("\n", "")
+            for process_note in exact_wire_process_notes:
+                if process_note in normalized_text:
+                    wire_process_note = process_note
+                    logging.info(f"✅ 精确匹配到线割工艺说明: {wire_process_note}")
+                    break
+            if wire_process_note:
                 break
+
+        if not wire_process_note:
+            fuzzy_wire_process_defaults = [
+                ('慢丝', '慢丝割一修一'),
+                ('中丝', '中丝割一修一'),
+                ('快丝', '快丝割一刀')
+            ]
+            for text in all_texts:
+                normalized_text = str(text).replace(" ", "").replace("\t", "").replace("\n", "")
+                for keyword, default_process_note in fuzzy_wire_process_defaults:
+                    if keyword in normalized_text:
+                        wire_process_note = default_process_note
+                        logging.info(
+                            f"✅ 模糊匹配到线割关键词: {keyword}，默认工艺说明: {wire_process_note}"
+                        )
+                        break
+                if wire_process_note:
+                    break
         
         # 根据 wire_process_note 映射 wire_process
         wire_process = None

@@ -1322,7 +1322,7 @@ class NCTimeAgent(BaseAgent):
             self.logger.warning(f"[NCTimeAgent] 缺少模号，跳过 MinIO JSON 解析: job_id={job_id}")
             return None
 
-        minio_prefix = self._query_nc_excel_minio_prefix(mold_code)
+        minio_prefix = self._query_nc_archive_minio_prefix(mold_code)
         self._log_visible(
             "info",
             f"[NCTimeAgent] NC MinIO JSON 查询路径: mold_code={mold_code}, minio_prefix={minio_prefix or '<empty>'}"
@@ -1332,10 +1332,11 @@ class NCTimeAgent(BaseAgent):
             return None
 
         try:
-            objects = self._list_nc_minio_objects(minio_prefix)
+            json_prefix = self._build_nc_archive_json_prefix(minio_prefix)
+            objects = self._list_nc_minio_objects(json_prefix)
             self._log_visible(
                 "info",
-                f"[NCTimeAgent] NC MinIO 对象枚举完成: mold_code={mold_code}, path={minio_prefix}, "
+                f"[NCTimeAgent] NC MinIO 对象枚举完成: mold_code={mold_code}, path={json_prefix}, "
                 f"object_count={len(objects)}"
             )
             if objects:
@@ -1352,19 +1353,19 @@ class NCTimeAgent(BaseAgent):
 
         debug_json_objects = sorted(
             obj for obj in objects
-            if "/nc_agent_debug/" in obj.replace("\\", "/") and obj.lower().endswith(".json")
+            if Path(obj.replace("\\", "/")).name.lower() == "_all_enriched.json"
         )
         self._log_visible(
             "info",
-            f"[NCTimeAgent] NC MinIO debug JSON 命中数: {len(debug_json_objects)}"
+            f"[NCTimeAgent] NC MinIO all enriched JSON 命中数: {len(debug_json_objects)}"
         )
         local_debug_files: List[Path] = []
         if debug_json_objects:
-            debug_download_root = self.logs_root / "nc_agent_debug"
+            debug_download_root = self.logs_root / "nc_agent_debug" / mold_code
             debug_download_root.mkdir(parents=True, exist_ok=True)
             self._log_visible(
                 "info",
-                f"[NCTimeAgent] NC MinIO debug JSON 下载列表: {debug_json_objects}"
+                f"[NCTimeAgent] NC MinIO all enriched JSON 下载列表: {debug_json_objects}"
             )
             for object_name in debug_json_objects:
                 local_path = debug_download_root / Path(object_name).name
@@ -1373,9 +1374,11 @@ class NCTimeAgent(BaseAgent):
 
         subgraph_json_objects = sorted(
             obj for obj in objects
-            if "/nc_responses/" in obj.replace("\\", "/")
-            and "/subgraphs/" in obj.replace("\\", "/")
-            and obj.lower().endswith(".json")
+            if obj.lower().endswith(".json")
+            and Path(obj.replace("\\", "/")).name.lower() not in {
+                "_all_enriched.json",
+                "_enrichment_report.json",
+            }
         )
         self._log_visible(
             "info",
@@ -1383,7 +1386,7 @@ class NCTimeAgent(BaseAgent):
         )
         local_subgraph_files: List[Path] = []
         if subgraph_json_objects:
-            download_root = self.logs_root / "nc_responses" / job_id / "subgraphs"
+            download_root = self.logs_root / "nc_responses" / job_id / mold_code / "subgraphs"
             download_root.mkdir(parents=True, exist_ok=True)
             self._log_visible(
                 "info",
@@ -1776,7 +1779,7 @@ class NCTimeAgent(BaseAgent):
             self.logger.warning(f"[NCTimeAgent] 缺少模号，无法从 NC MinIO 下载 Excel: job_id={job_id}")
             return None
 
-        minio_prefix = self._query_nc_excel_minio_prefix(mold_code)
+        minio_prefix = self._query_nc_archive_minio_prefix(mold_code)
         self._log_visible(
             "info",
             f"[NCTimeAgent] NC Excel 查询路径: job_id={job_id}, mold_code={mold_code}, "
@@ -1804,13 +1807,13 @@ class NCTimeAgent(BaseAgent):
                 )
             if not xlsx_objects:
                 self.logger.warning(
-                    f"[NCTimeAgent] NC MinIO 路径下未找到 .xlsx 文件: bucket={os.getenv('NC_SOURCE_MINIO_BUCKET', 'ncresult')}, "
+                f"[NCTimeAgent] NC MinIO 路径下未找到 .xlsx 文件: bucket={os.getenv('NC_SOURCE_MINIO_BUCKET', 'nc-archives')}, "
                     f"path={minio_prefix}"
                 )
                 return None
 
             self.logger.info(
-                f"[NCTimeAgent] NC Excel 下载开始: bucket={os.getenv('NC_SOURCE_MINIO_BUCKET', 'ncresult')}, "
+                f"[NCTimeAgent] NC Excel 下载开始: bucket={os.getenv('NC_SOURCE_MINIO_BUCKET', 'nc-archives')}, "
                 f"path={minio_prefix}, files={len(xlsx_objects)}"
             )
 
@@ -1828,10 +1831,16 @@ class NCTimeAgent(BaseAgent):
             )
             return None
 
-    def _query_nc_excel_minio_prefix(self, mold_code: str) -> Optional[str]:
+    def _query_nc_archive_minio_prefix(self, mold_code: str) -> Optional[str]:
         import psycopg2
 
-        query = f"SELECT url FROM {os.getenv('NC_SOURCE_TABLE', 'nc')} WHERE code = %s ORDER BY url LIMIT 1"
+        table_name = os.getenv("NC_SOURCE_TABLE", "archive_projects")
+        query = f"""
+            SELECT project_name, minio_prefix
+            FROM {table_name}
+            WHERE project_name ILIKE %s
+            ORDER BY project_name DESC
+        """
         conn = None
         try:
             conn = psycopg2.connect(
@@ -1842,14 +1851,39 @@ class NCTimeAgent(BaseAgent):
                 password=os.getenv("NC_SOURCE_DB_PASSWORD"),
             )
             with conn.cursor() as cursor:
-                cursor.execute(query, (mold_code,))
-                row = cursor.fetchone()
-                if not row or not row[0]:
-                    return None
-                return str(row[0]).strip().replace("\\", "/").strip("/")
+                cursor.execute(query, (f"{mold_code}%",))
+                rows = cursor.fetchall()
+                for project_name, minio_prefix in rows:
+                    project_mold_code = self._extract_mold_code_from_project_name(project_name)
+                    if project_mold_code == mold_code and minio_prefix:
+                        return self._normalize_nc_minio_prefix(str(minio_prefix))
+                return None
         finally:
             if conn:
                 conn.close()
+
+    def _query_nc_excel_minio_prefix(self, mold_code: str) -> Optional[str]:
+        """旧名称保留兼容，当前实际查询 archive_projects.minio_prefix。"""
+        return self._query_nc_archive_minio_prefix(mold_code)
+
+    def _extract_mold_code_from_project_name(self, project_name: Any) -> str:
+        text = str(project_name or "").strip()
+        match = re.search(r"(M\d+-P\d+)", text, re.IGNORECASE)
+        return match.group(1).upper() if match else ""
+
+    def _normalize_nc_minio_prefix(self, minio_prefix: str) -> str:
+        bucket = os.getenv("NC_SOURCE_MINIO_BUCKET", "nc-archives").strip().strip("/")
+        normalized = str(minio_prefix or "").strip().replace("\\", "/").strip("/")
+        if normalized == bucket:
+            return ""
+        if normalized.startswith(f"{bucket}/"):
+            normalized = normalized[len(bucket) + 1:]
+        return normalized.strip("/")
+
+    def _build_nc_archive_json_prefix(self, minio_prefix: str) -> str:
+        normalized = self._normalize_nc_minio_prefix(minio_prefix)
+        json_dir = os.getenv("NC_SOURCE_JSON_DIR", "JSON数据_Enriched").strip().strip("/\\")
+        return f"{normalized}/{json_dir}".strip("/")
 
     def _create_nc_minio_client(self):
         from minio import Minio
@@ -1870,7 +1904,7 @@ class NCTimeAgent(BaseAgent):
 
     def _list_nc_minio_objects(self, prefix: str) -> List[str]:
         client = self._create_nc_minio_client()
-        bucket = os.getenv("NC_SOURCE_MINIO_BUCKET", "ncresult")
+        bucket = os.getenv("NC_SOURCE_MINIO_BUCKET", "nc-archives")
         normalized_prefix = prefix.strip().replace("\\", "/").strip("/")
         if normalized_prefix and not normalized_prefix.endswith("/"):
             normalized_prefix = normalized_prefix + "/"
@@ -1883,7 +1917,7 @@ class NCTimeAgent(BaseAgent):
 
     def _download_nc_minio_object(self, object_name: str, local_path: Path):
         client = self._create_nc_minio_client()
-        bucket = os.getenv("NC_SOURCE_MINIO_BUCKET", "ncresult")
+        bucket = os.getenv("NC_SOURCE_MINIO_BUCKET", "nc-archives")
         self._log_visible("info", f"[NCTimeAgent] MinIO 下载文件: bucket={bucket}, path={object_name}, local_path={local_path}")
         client.fget_object(
             bucket_name=bucket,

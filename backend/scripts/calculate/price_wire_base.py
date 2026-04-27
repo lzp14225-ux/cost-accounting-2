@@ -439,6 +439,18 @@ async def _calculate_part_price(
     unit_price = float(wire_part["price"])
     process_description = wire_part["description"]  # 使用 description 而不是 name
     conditions = wire_part["conditions"]
+
+    fast_cut_part = wire_map.get("fast_cut")
+    if fast_cut_part and fast_cut_part.get("price") is not None:
+        fast_cut_unit_price = float(fast_cut_part["price"])
+        fast_cut_description = fast_cut_part.get("description", "fast_cut")
+    else:
+        fast_cut_unit_price = unit_price
+        fast_cut_description = process_description
+        logger.warning(
+            f"fast_cut price not found for part: {part_name}, "
+            f"slider detail will fallback to matched wire_process price"
+        )
     
     # 解析 metadata
     if not metadata:
@@ -544,14 +556,19 @@ async def _calculate_part_price(
         instruction = detail.get("instruction", "")
         area_num = detail.get("area_num", 0)  # 从每个 detail 中获取 area_num
         cone = detail.get("cone", "f")  # 是否带锥加工，默认为 "f"
+        is_slider_detail = code == "滑块"
         
         # 记录该视图是否有带锥加工
         if view and cone == "t":
             view_cone_flags[view] = True
         
-        # 计算实际的 total_length：原始长度 + area_num × 每单位增加的线长 + 牙孔周长
-        added_length = area_num * area_num_length_per_unit if area_num and area_num_length_per_unit else 0
-        tooth_hole_length = tooth_hole_perimeter_by_view.get(view, 0) if view else 0
+        # 计算实际的 total_length：滑块使用红色面面积，其它线割沿用原始长度 + area_num补偿 + 牙孔周长
+        if is_slider_detail:
+            added_length = 0
+            tooth_hole_length = 0
+        else:
+            added_length = area_num * area_num_length_per_unit if area_num and area_num_length_per_unit else 0
+            tooth_hole_length = tooth_hole_perimeter_by_view.get(view, 0) if view else 0
         total_length = original_total_length + added_length + tooth_hole_length
         
         if not view or original_total_length == 0:
@@ -576,14 +593,25 @@ async def _calculate_part_price(
         elif dimension_name == "length_mm":
             original_dimension = length_mm
 
-        # 基础价格计算：如果 slider_angle 不为空，不乘尺寸
-        if slider_angle and slider_angle != 0:
-            base_price = total_length * unit_price
-            base_calculation_formula = f"{round(total_length, 4)} * {unit_price}"
+        detail_unit_price = fast_cut_unit_price if is_slider_detail else unit_price
+        unit_price_source = (
+            f"滑块固定使用快丝割一刀单价({fast_cut_description})"
+            if is_slider_detail
+            else f"零件工艺单价({process_description})"
+        )
+
+        # 基础价格计算：滑块按红色面面积计价；其它工艺保持原逻辑
+        if is_slider_detail:
+            base_price = total_length * detail_unit_price
+            base_calculation_formula = f"{round(total_length, 4)} * {detail_unit_price}"
+            calculation_note = "滑块按红色面面积计价，固定使用快丝割一刀单价"
+        elif slider_angle and slider_angle != 0:
+            base_price = total_length * detail_unit_price
+            base_calculation_formula = f"{round(total_length, 4)} * {detail_unit_price}"
             calculation_note = "slider_angle不为空，不乘尺寸"
         else:
-            base_price = total_length * dimension * unit_price
-            base_calculation_formula = f"{round(total_length, 4)} * {dimension} * {unit_price}"
+            base_price = total_length * dimension * detail_unit_price
+            base_calculation_formula = f"{round(total_length, 4)} * {dimension} * {detail_unit_price}"
             calculation_note = "常规计算"
 
         
@@ -612,7 +640,9 @@ async def _calculate_part_price(
             "dimension_name": dimension_name,
             "dimension_note": f"原始{original_dimension}mm，按{dimension}mm计算" if original_dimension < 15 else f"{dimension}mm",
             "view_dimension_note": view_dimension_note,
-            "unit_price": unit_price,
+            "unit_price": detail_unit_price,
+            "matched_process_unit_price": unit_price,
+            "unit_price_source": unit_price_source,
             "calculation_note": calculation_note,  # 添加计算说明
             "base_calculation": f"{base_calculation_formula} = {round(base_price, 4)}",
             "base_price": round(base_price, 4),

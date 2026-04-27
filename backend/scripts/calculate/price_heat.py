@@ -112,6 +112,22 @@ def _get_material_density(material: str, density_map: Dict[str, Decimal]) -> tup
     return DEFAULT_DENSITY, f"{material}(使用默认密度)"
 
 
+def _is_special_heat_treatment(heat_treatment: str) -> bool:
+    """深冷或激光热处理使用特殊热处理单价。"""
+    text = str(heat_treatment or "").strip()
+    return "深冷" in text or "激光" in text
+
+
+def _find_special_heat_price_info(price_map: Dict) -> Dict[str, Any] | None:
+    """动态查找 heat 类别下的激光/深冷热处理价格规则。"""
+    heat_prices = price_map.get("heat", {})
+    for key, price_info in heat_prices.items():
+        sub_category = str(price_info.get("original_sub_category") or key)
+        if "激光" in sub_category and "深冷" in sub_category:
+            return price_info
+    return None
+
+
 async def _fetch_feature_volume_map(job_id: str, subgraph_ids: List[str]) -> Dict[str, Decimal]:
     """按 job_id + subgraph_id 批量读取 features.volume_mm3。"""
     if not subgraph_ids:
@@ -259,6 +275,7 @@ async def _calculate_part_cost(
     subgraph_id = part["subgraph_id"]
     part_name = part["part_name"]
     needs_heat_treatment = part.get("needs_heat_treatment")  # True/False
+    heat_treatment = part.get("heat_treatment")
     material = part.get("material")  # 例如: CR12MOV
     length_mm = part.get("length_mm")
     width_mm = part.get("width_mm")
@@ -368,20 +385,35 @@ async def _calculate_part_cost(
     else:
         material_mapped = material_upper
     
-    # 获取对应的价格信息（使用映射后的材质进行匹配）
     price_category = get_shape_price_category(part, "heat", "heat")
-    price_info = price_map.get(price_category, {}).get(material_mapped)
+    if _is_special_heat_treatment(heat_treatment):
+        price_info = _find_special_heat_price_info(price_map)
+        price_match_mode = "special_heat_treatment"
+        price_match_target = heat_treatment
+    else:
+        # 获取对应的价格信息（使用映射后的材质进行匹配）
+        price_info = price_map.get(price_category, {}).get(material_mapped)
+        price_match_mode = "material"
+        price_match_target = material_mapped
+
     if not price_info:
-        logger.warning(f"No price found for material: {material} (mapped to: {material_mapped}), skipping calculation")
+        if price_match_mode == "special_heat_treatment":
+            reason = f"未找到深冷/激光热处理对应的热处理价格规则: {heat_treatment}"
+        else:
+            reason = f"未找到material对应的热处理价格: {material}"
+        logger.warning(f"{reason}, skipping calculation")
         
         # 返回 0 并写入数据库
         calculation_steps = [{
-            "step": "匹配材料价格",
+            "step": "匹配热处理价格",
             "status": "failed",
             "needs_heat_treatment": True,
+            "heat_treatment": heat_treatment,
             "material": material,
             "mapped_material": material_mapped,
-            "reason": f"未找到material对应的热处理价格: {material}",
+            "price_match_mode": price_match_mode,
+            "price_match_target": price_match_target,
+            "reason": reason,
             "heat_treatment_cost": 0.0
         }]
         
@@ -391,7 +423,7 @@ async def _calculate_part_cost(
             "needs_heat_treatment": True,
             "material": material,
             "heat_treatment_cost": 0.0,
-            "note": f"未找到material对应的热处理价格: {material}"
+            "note": reason
         }, {
             "job_id": job_id,
             "subgraph_id": subgraph_id,
@@ -449,10 +481,16 @@ async def _calculate_part_cost(
             "needs_heat_treatment": True
         },
         {
-            "step": "匹配材料",
+            "step": "匹配热处理价格",
+            "heat_treatment": heat_treatment,
             "material": material,
             "matched_sub_category": matched_sub_category,
-            "match_note": f"不区分大小写匹配: {material} -> {matched_sub_category}",
+            "price_match_mode": price_match_mode,
+            "match_note": (
+                f"深冷/激光热处理按特殊热处理规则匹配: {heat_treatment} -> {matched_sub_category}"
+                if price_match_mode == "special_heat_treatment"
+                else f"不区分大小写匹配: {material} -> {matched_sub_category}"
+            ),
             "unit_price": unit_price,
             "unit": unit
         },
@@ -489,6 +527,7 @@ async def _calculate_part_cost(
         "subgraph_id": subgraph_id,
         "part_name": part_name,
         "needs_heat_treatment": True,
+        "heat_treatment": heat_treatment,
         "material": material,
         "volume_mm3": float(volume_mm3),
         "nc_roughing_weight": float(nc_roughing_weight),

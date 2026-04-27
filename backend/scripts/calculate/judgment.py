@@ -6,7 +6,7 @@
 在所有成本计算完成后、price_total.py 执行前运行，根据物料的实际情况清理不应该存在的计算数据
 
 判断逻辑：
-1. has_material_preparation 不为空 -> 清空所有成本相关字段（该物料是备料）
+1. has_material_preparation 不为空 -> 只清空材料费和热处理费相关字段（该物料是备料）
 2. metadata 为空或 total_length 为 0 -> 清空线割相关字段和计算步骤
 
 执行顺序：
@@ -113,8 +113,13 @@ async def _process_part_judgment(job_id: str, part: Dict) -> Dict[str, Any]:
         cleanup_actions.append({
             "type": "material_preparation",
             "reason": f"该物料备料于: {has_material_preparation}",
-            "action": "清空所有成本相关字段"
+            "action": "清空材料费和热处理费相关字段"
         })
+        return {
+            "subgraph_id": subgraph_id,
+            "part_name": part_name,
+            "cleanup_actions": cleanup_actions
+        }
     
     # 判断2：metadata 线割数据
     # 如果 metadata 为空或 total_length 为 0，清空线割相关字段
@@ -144,133 +149,36 @@ async def _cleanup_material_preparation(
     has_material_preparation: str
 ):
     """
-    判断1：清空备料物料的所有成本相关字段
+    判断1：清空备料物料的材料费和热处理费相关字段
     """
     logger.info(f"Cleaning up material preparation for {subgraph_id}: {has_material_preparation}")
     
-    # 备料件导出时只保留：零件名称、编号、异常情况、其它（备料于）、
-    # 小磨工时/费用，以及 NC 相关工时/费用
-    # 因此这里把 subgraphs / features / processing_cost_calculation_details 中
-    # 与其他导出列相关的字段统一清空。
+    # 备料件只不再单独计算材料费和热处理费，其它识别、工时和加工费用正常保留。
     subgraphs_sql = """
         UPDATE subgraphs
         SET 
-            weight_kg = NULL,
             material_unit_price = NULL,
             material_cost = NULL,
             heat_treatment_unit_price = NULL,
             heat_treatment_cost = NULL,
-            process_description = NULL,
-            large_grinding_time = NULL,
-            milling_machine_time = NULL,
-            edm_time = NULL,
-            engraving_time = NULL,
-            slow_wire_length = NULL,
-            slow_wire_side_length = NULL,
-            mid_wire_length = NULL,
-            fast_wire_length = NULL,
-            wire_time = NULL,
-            separate_item = NULL,
-            total_cost = NULL,
-            wire_process_note = NULL,
-            milling_machine_cost = NULL,
-            slow_wire_cost = NULL,
-            slow_wire_side_cost = NULL,
-            mid_wire_cost = NULL,
-            fast_wire_cost = NULL,
-            edm_cost = NULL,
-            engraving_cost = NULL,
-            large_grinding_cost = NULL,
-            separate_item_cost = NULL,
-            processing_cost_total = NULL,
-            applied_snapshot_ids = NULL,
-            rule_reason = NULL,
-            override_by_user = false,
-            cost_calculation_method = NULL,
-            has_sheet_line = false,
-            sheet_area_mm2 = NULL,
-            sheet_perimeter_mm = NULL,
-            sheet_line_data = NULL,
-            has_single_nc_calc = false,
-            single_prt_file = NULL,
-            process_changed = false,
-            original_process = NULL,
-            prt_3d_file = NULL,
-            recalc_count = 0,
-            last_recalc_at = NULL,
-            last_recalc_by = NULL,
-            status = 'pending',
-            metadata = NULL,
-            wire_process = NULL,
             updated_at = NOW()
         WHERE job_id = $1::uuid AND subgraph_id = $2::text
     """
 
-    features_sql = """
-        UPDATE features
-        SET
-            length_mm = NULL,
-            width_mm = NULL,
-            thickness_mm = NULL,
-            material = NULL,
-            heat_treatment = NULL,
-            volume_mm3 = NULL,
-            calculated_weight_kg = NULL,
-            top_view_wire_length = NULL,
-            front_view_wire_length = NULL,
-            side_view_wire_length = NULL,
-            has_auto_material = false,
-            needs_heat_treatment = false,
-            boring_length_mm = NULL,
-            nc_time_cost = NULL,
-            processing_instructions = NULL,
-            is_complete = false,
-            missing_params = NULL,
-            created_by = NULL,
-            metadata = NULL
-        WHERE job_id = $1::uuid AND subgraph_id = $2::text
-    """
-    
-    # 清空 processing_cost_calculation_details 表的费用/工时明细，只保留备料说明
+    # 清空 processing_cost_calculation_details 表的材料费和热处理费，其它明细正常保留。
     details_sql = """
         UPDATE processing_cost_calculation_details
         SET 
-            process_type = NULL,
-            adjusted_thickness = NULL,
-            weight = NULL,
-            multiplier_coefficient = NULL,
-            standard_hours = NULL,
-            actual_hours = NULL,
-            basic_processing_cost = NULL,
-            special_base_cost = NULL,
-            standard_base_cost = NULL,
-            selected_base_cost = NULL,
-            base_cost_selection = NULL,
             material_additional_cost = NULL,
             material_cost = NULL,
             heat_treatment_cost = NULL,
-            heat_additional_cost = NULL,
-            additional_cost_total = NULL,
-            final_cost = NULL,
-            weight_price_steps = NULL,
-            calculation_steps = jsonb_build_array(
-                jsonb_build_object(
-                    'category', 'material_preparation',
-                    'steps', jsonb_build_array(
-                        jsonb_build_object(
-                            'step', '备料说明',
-                            'note', $3::text
-                        )
-                    )
-                )
-            )
+            heat_additional_cost = NULL
         WHERE job_id = $1::uuid AND subgraph_id = $2::text
     """
     
     try:
         await db.execute(subgraphs_sql, job_id, subgraph_id)
-        await db.execute(features_sql, job_id, subgraph_id)
-        await db.execute(details_sql, job_id, subgraph_id, f"该物料备料于: {has_material_preparation}")
+        await db.execute(details_sql, job_id, subgraph_id)
         logger.info(f"Successfully cleaned up material preparation for {subgraph_id}")
     except Exception as e:
         logger.error(f"Failed to cleanup material preparation for {subgraph_id}: {e}")

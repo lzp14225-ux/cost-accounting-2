@@ -197,6 +197,18 @@ def _extract_allowed_heat_treatment(candidate: str) -> Optional[Dict]:
     return None
 
 
+def _is_chinese_heat_treatment_type(heat_treatment_type: str) -> bool:
+    """中文热处理关键词优先于 HRC 硬度描述。"""
+    return heat_treatment_type in {
+        '超级深冷',
+        '深冷',
+        '普通热处理',
+        '激光热处理',
+        '调质',
+        '真空',
+    }
+
+
 def extract_heat_treatment_from_text(text: str) -> Optional[Dict]:
     """
     从文本中提取热处理信息（基于优先级匹配 + 标签格式）
@@ -741,10 +753,18 @@ def parse_material_info_from_texts(texts: List[str]) -> Dict:
                     result['material'] = material
                     logging.info(f"✅ [字典匹配] 找到材质: {material}")
             
-            # 提取热处理（如果第一轮没找到）
-            if result['heat_treatment'] is None:
-                heat_treatment_info = extract_heat_treatment_from_text(content)
-                if heat_treatment_info is not None:
+            # 提取热处理：中文热处理关键词允许覆盖标准尺寸行里先识别到的 HRC
+            heat_treatment_info = extract_heat_treatment_from_text(content)
+            if heat_treatment_info is not None:
+                current_heat_treatment = result.get('heat_treatment')
+                should_update_heat_treatment = (
+                    current_heat_treatment is None
+                    or (
+                        current_heat_treatment.upper().startswith('HRC')
+                        and _is_chinese_heat_treatment_type(heat_treatment_info.get('heat_treatment_type'))
+                    )
+                )
+                if should_update_heat_treatment:
                     result['heat_treatment'] = heat_treatment_info['heat_treatment']
                     logging.info(f"✅ [字典匹配] 找到热处理: {result['heat_treatment']} (类型: {heat_treatment_info['heat_treatment_type']})")
             
