@@ -46,7 +46,17 @@ MCP_TOOL_META = {
     },
     "handler": "calculate",
     "needs": ["base_itemcode", "water_mill"]
-}
+    }
+
+
+def _to_float(value: Any, default: float = 0.0) -> float:
+    """将数据库 numeric/Decimal 等数值统一转为 float，避免混合类型计算报错。"""
+    if value is None:
+        return default
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
 
 
 async def calculate(
@@ -207,8 +217,8 @@ async def _calculate_part_price(
     part_name = part["part_name"]
     has_auto_material = part.get("has_auto_material", False)
     has_material_preparation = part.get("has_material_preparation")
-    thickness_mm = part.get("thickness_mm") or 0
-    quantity = part.get("quantity") or 1
+    thickness_mm = _to_float(part.get("thickness_mm"))
+    quantity = _to_float(part.get("quantity"), 1.0)
     
     logger.info(f"Calculating high cost for part: {part_name} ({subgraph_id})")
     

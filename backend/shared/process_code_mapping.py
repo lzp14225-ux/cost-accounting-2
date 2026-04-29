@@ -47,7 +47,7 @@ CATEGORY_MAPPING = {
 # 材质根据实际数据库对应关系：
 # CR12, 45#, SKD11, CR12MOV, SKH-51, SKH-9, T00L0X33, T00L0X44, P20, DC53
 PROCESS_DETAIL_MAPPING = {
-    # 线割工艺 - 慢丝（只保留完整明确的名称）
+    # 线割工艺 - 慢丝
     "慢丝割一修三": {
         "category": "wire",
         "sub_category": "slow_and_three",
@@ -68,16 +68,31 @@ PROCESS_DETAIL_MAPPING = {
         "sub_category": "slow_cut",
         "note": "慢丝割一刀"
     },
+    "慢丝": {
+        "category": "wire",
+        "sub_category": "slow_and_one",
+        "note": "慢丝割一修一"
+    },
     
-    # 线割工艺 - 中丝（只保留完整明确的名称）
+    # 线割工艺 - 中丝
     "中丝割一修一": {
         "category": "wire",
         "sub_category": "middle_and_one",
         "note": "中丝割一修一"
     },
+    "中丝": {
+        "category": "wire",
+        "sub_category": "middle_and_one",
+        "note": "中丝割一修一"
+    },
     
-    # 线割工艺 - 快丝（只保留完整明确的名称）
+    # 线割工艺 - 快丝
     "快丝割一刀": {
+        "category": "wire",
+        "sub_category": "fast_cut",
+        "note": "快丝割一刀"
+    },
+    "快丝": {
         "category": "wire",
         "sub_category": "fast_cut",
         "note": "快丝割一刀"

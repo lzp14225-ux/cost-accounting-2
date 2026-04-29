@@ -708,6 +708,9 @@ class QueryDetailsHandler(BaseActionHandler):
    - 从 nc_b 类别中找 total_hours（B面/背面时间）
    - 从 nc_c 类别中找 total_hours（C面/侧面时间）
    - 如果某个面的 category 不存在，才说该面无数据
+   - 🔴 如果某个面的步骤里有 `process_groups`，必须展开每个分段的计算过程，不能只回答 total_hours
+   - 分段展开时要写清：该段包含哪些工序、原始加工时间、装夹时间、基础工时、取大后的实际工时
+   - 优先使用 `process_groups[].formula` 中已有公式，不要自己重算或改写数值
    
 5. ✅ **第五步：提取费用信息**
    - 从 nc_total 类别的 final_fees 中提取各面费用
@@ -840,6 +843,13 @@ class QueryDetailsHandler(BaseActionHandler):
    - 每个工序有 code（如 ZXZ, C1, M, 开粗, 半精, 全精）和 value（时间，单位：分钟）
    - 按分类汇总：精铣（半精、全精）、开粗、钻床（其他所有 code）
    - 将分钟转换为小时：total_hours = total_minutes / 60
+   - 如果步骤中有 `process_groups`，表示已经按工艺路线分段计算：
+     - `included_items` 是该段参与计算的工序和小时数
+     - `clamp_hours` 是该段装夹时间
+     - `nc_base_hours` 是基础工时
+     - `combined_hours_before_base` 是加工时间 + 装夹时间
+     - `final_hours` 是与基础工时比较后取大的实际工时
+     - `formula` 是最终应展示给用户的计算公式
    - **重要**：nc_z、nc_b、nc_c 等 category 包含了实际的加工时间数据
 3. **nc_total**: 计算 NC 总费用
    - 判断工时单价（根据零件尺寸）
@@ -873,9 +883,10 @@ class QueryDetailsHandler(BaseActionHandler):
 ### 回答 NC 相关问题的要点
 - **如果用户问"NC是怎么算的"**：
   1. 先说明 nc_base（基础工时）
-  2. 然后列出各面的实际工时（从 nc_z、nc_b、nc_c 等 category 中获取）
-  3. 说明与基础工时比较取最大值的逻辑
+  2. 如果各面步骤里存在 `process_groups`，必须按工艺段展开，例如“开粗/钻孔段：开粗0.4h + 钻孔0.2h + 装夹0.2h = 0.8h，与基础工时0.5h比较，取0.8h”
+  3. 然后列出各面的实际总工时（每个工艺段 final_hours 相加）
   4. 最后给出各面费用和总费用（从 nc_total 的 final_fees 中获取）
+- **如果存在 process_groups，不要只写“经工艺分段、装夹合并、倍率调整后”，必须把每个分段的公式和取大结果列出来**
 - **如果用户问"主视图的时间"或"Z面的时间"**：从 `nc_z` 类别中找 `total_hours` 字段
 - **如果用户问"背面的时间"或"B面的时间"**：从 `nc_b` 类别中找 `total_hours` 字段
 - **如果用户问"侧面的时间"或"C面的时间"**：从 `nc_c` 类别中找 `total_hours` 字段
@@ -1721,7 +1732,10 @@ PU-02 的 NC（数控铣削）费用计算如下：
                     step_desc = step.get("step", "")
                     
                     # 根据不同的字段格式化输出
-                    if "formula" in step:
+                    if "process_groups" in step:
+                        lines.extend(self._format_nc_process_groups_step(step))
+                    
+                    elif "formula" in step:
                         # 有公式的步骤
                         result_key = self._find_result_key(step)
                         if result_key:
@@ -1790,6 +1804,65 @@ PU-02 的 NC（数控铣削）费用计算如下：
         except Exception as e:
             logger.error(f"❌ 格式化计算步骤失败: {e}", exc_info=True)
             return f"{subgraph_id} 的计算详情格式化失败：{str(e)}"
+
+    def _format_nc_process_groups_step(self, step: Dict[str, Any]) -> List[str]:
+        """格式化 NC 按工艺分段后的面工时明细。"""
+        face_labels = {
+            "Z": "主视图（Z面）",
+            "B": "背面（B面）",
+            "C": "侧面正面（C面）",
+            "C_B": "侧背（C_B面）",
+            "Z_VIEW": "正面（Z_VIEW面）",
+            "B_VIEW": "正面的背面（B_VIEW面）",
+        }
+
+        step_desc = step.get("step", "")
+        face_code = step.get("face_code", "")
+        face_name = face_labels.get(face_code, face_code or "当前面")
+        total_hours = step.get("total_hours", 0)
+
+        lines = [f"  {step_desc or face_name}"]
+        if face_code:
+            lines.append(f"    面别: {face_name}")
+
+        process_groups = step.get("process_groups") or []
+        if not process_groups:
+            if "note" in step or "reason" in step:
+                lines.append(f"    说明: {step.get('note') or step.get('reason')}")
+            return lines
+
+        for group in process_groups:
+            group_sequence = group.get("group_sequence") or group.get("group_processes") or f"第{group.get('group_index', '')}段"
+            included_items = group.get("included_items") or []
+            item_parts = []
+            for item in included_items:
+                process_name = item.get("process_name") or item.get("process_type") or "工序"
+                hours = item.get("hours", 0)
+                item_parts.append(f"{process_name}{hours:g}h")
+
+            if item_parts:
+                lines.append(f"    {group_sequence}: {' + '.join(item_parts)}")
+            else:
+                lines.append(f"    {group_sequence}: 无对应加工时间，跳过")
+
+            formula = group.get("formula")
+            if formula:
+                lines.append(f"      公式: {formula}")
+            else:
+                raw_hours = group.get("raw_processing_hours", 0)
+                clamp_hours = group.get("clamp_hours", 0)
+                base_hours = group.get("nc_base_hours", 0)
+                final_hours = group.get("final_hours", 0)
+                lines.append(
+                    f"      计算: 加工{raw_hours:g}h + 装夹{clamp_hours:g}h，与基础工时{base_hours:g}h比较，取{final_hours:g}h"
+                )
+
+            note = group.get("note")
+            if note:
+                lines.append(f"      说明: {note}")
+
+        lines.append(f"    该面实际 NC 时间: {total_hours:g} 小时")
+        return lines
 
     def _build_price_scope_summary(
         self,
@@ -2075,7 +2148,10 @@ PU-02 的 NC（数控铣削）费用计算如下：
             for step in target_item.get("steps", []):
                 step_desc = step.get("step", "")
                 
-                if "formula" in step:
+                if "process_groups" in step:
+                    lines.extend(self._format_nc_process_groups_step(step))
+
+                elif "formula" in step:
                     result_key = self._find_result_key(step)
                     if result_key:
                         lines.append(f"  {step_desc}: {step[result_key]}")

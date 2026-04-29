@@ -8,7 +8,9 @@
 import psycopg2
 from datetime import datetime
 import logging
+import math
 import os
+import re
 import tempfile
 import shutil
 import json
@@ -148,13 +150,76 @@ def _prepare_local_dxf_path(local_source_path: str) -> Optional[str]:
     return result_path
 
 
+def _extract_mold_code_from_filename(filename: Optional[str]) -> str:
+    if not filename:
+        return ""
+
+    stem = Path(str(filename)).stem.strip()
+    if not stem:
+        return ""
+
+    stem = re.sub(r'-\d{8}$', '', stem)
+    if stem.startswith('MM'):
+        stem = stem[1:]
+
+    match = re.search(r'(M\d+(?:-[A-Za-z0-9]+)*)', stem, re.IGNORECASE)
+    if match:
+        return match.group(1).upper()
+
+    return ""
+
+
+def _sanitize_output_folder_name(folder_name: Optional[str]) -> str:
+    safe_name = re.sub(r'[<>:"/\\|?*\x00-\x1f]', '_', str(folder_name or '').strip())
+    safe_name = safe_name.strip(' .')
+    return safe_name or 'unknown_job'
+
+
+def _get_job_mold_code(job_id: Optional[str]) -> str:
+    if not job_id:
+        return ""
+
+    conn = None
+    cursor = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT dwg_file_name, prt_file_name
+            FROM jobs
+            WHERE job_id = %s
+            """,
+            (job_id,)
+        )
+        row = cursor.fetchone()
+        if not row:
+            logging.warning("未查询到任务文件名，板料线输出目录回退 job_id: job_id=%s", job_id)
+            return ""
+
+        for filename in row:
+            mold_code = _extract_mold_code_from_filename(filename)
+            if mold_code:
+                return mold_code
+        return ""
+    except Exception as exc:
+        logging.warning("查询任务模号失败，板料线输出目录回退 job_id: job_id=%s, error=%s", job_id, exc)
+        return ""
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
 def _save_plate_line_output(doc, source_dxf_file_path: str, job_id: Optional[str] = None) -> Optional[str]:
     try:
-        output_dir = PLATE_LINE_OUTPUT_DIR / (job_id or 'unknown_job') / 'subgraphs'
+        output_folder_name = _sanitize_output_folder_name(_get_job_mold_code(job_id) or job_id)
+        output_dir = PLATE_LINE_OUTPUT_DIR / output_folder_name / 'subgraphs'
         output_dir.mkdir(parents=True, exist_ok=True)
         output_path = output_dir / f"{Path(source_dxf_file_path).stem}_plate_line.dxf"
         doc.saveas(str(output_path))
-        logging.info("板料线补线文件已保存: %s", output_path)
+        logging.info("板料线补线文件已保存: folder=%s, path=%s", output_folder_name, output_path)
         return str(output_path)
     except Exception as exc:
         logging.warning("板料线补线文件保存失败: %s", exc)
@@ -261,6 +326,295 @@ def _build_view_anomalies(views: Optional[Dict[str, Dict[str, Any]]]) -> List[Di
         'description': f"视图识别异常: {', '.join(missing_views)}未识别到",
         'missing_views': missing_views,
     }]
+
+
+def _normalize_diameter_instruction(instruction: str) -> str:
+    return (
+        str(instruction or '')
+        .replace('%%C', 'Φ')
+        .replace('%%c', 'Φ')
+        .replace('φ', 'Φ')
+        .replace('∅', 'Φ')
+    )
+
+
+def _parse_diameter_wire_formula(instruction: str) -> Optional[Dict[str, Any]]:
+    normalized = _normalize_diameter_instruction(instruction).strip()
+    if '割' not in normalized:
+        return None
+
+    match = re.match(
+        r'^\s*:?\s*(?:(?P<count>\d+)\s*[-－]\s*)?Φ\s*(?P<diameter>\d+(?:\.\d+)?)',
+        normalized,
+    )
+    if not match:
+        return None
+
+    count = int(match.group('count') or 1)
+    diameter = float(match.group('diameter'))
+    if count <= 0 or diameter <= 0:
+        return None
+
+    single_length = math.pi * diameter
+    total_length = single_length * count
+    return {
+        'instruction': normalized,
+        'count': count,
+        'diameter': diameter,
+        'single_length': round(single_length, 2),
+        'total_length': round(total_length, 2),
+    }
+
+
+def _detail_total_length(detail: Dict[str, Any]) -> float:
+    try:
+        return float(detail.get('total_length') or 0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _build_formula_wire_detail(
+    code: str,
+    formula: Dict[str, Any],
+    existing_detail: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    base = dict(existing_detail or {})
+    base.update({
+        'code': code,
+        'instruction': formula['instruction'],
+        'expected_count': formula['count'],
+        'matched_count': formula['count'],
+        'single_length': formula['single_length'],
+        'total_length': formula['total_length'],
+        'view': base.get('view') or 'top_view',
+        'slider_angle': base.get('slider_angle', 0),
+        'is_additional': bool(base.get('is_additional', False)),
+        'cone': base.get('cone', 'f'),
+        'area_num': int(base.get('area_num') or formula['count']),
+        'matched_line_ids': base.get('matched_line_ids') or [],
+        'formula_fallback': True,
+        'calculation_method': 'diameter_count_pi',
+        'diameter': formula['diameter'],
+    })
+    return base
+
+
+def _remove_resolved_wire_formula_anomalies(
+    anomalies: List[Dict[str, Any]],
+    resolved_codes: set,
+    details: List[Dict[str, Any]],
+) -> List[Dict[str, Any]]:
+    if not resolved_codes:
+        return anomalies
+
+    filtered = []
+    for anomaly in anomalies or []:
+        anomaly_code = anomaly.get('code')
+        description = anomaly.get('description', '')
+        if anomaly_code in resolved_codes:
+            continue
+        if any(f"工艺编号 {code}" in description for code in resolved_codes):
+            continue
+        if anomaly.get('type') == 'missing_red_lines':
+            anomaly_codes = {str(code) for code in anomaly.get('wire_cut_codes', [])}
+            if anomaly_codes and anomaly_codes.issubset(resolved_codes):
+                continue
+        filtered.append(anomaly)
+    return filtered
+
+
+def _apply_diameter_wire_formula_fallback(
+    processing_instructions: Dict[str, str],
+    wire_cut_details: List[Dict[str, Any]],
+    wire_cut_anomalies: List[Dict[str, Any]],
+    view_wire_lengths: Dict[str, Any],
+) -> Dict[str, Any]:
+    formula_by_code = {}
+    for code, instruction in (processing_instructions or {}).items():
+        formula = _parse_diameter_wire_formula(instruction)
+        if formula:
+            formula_by_code[str(code)] = formula
+
+    if not formula_by_code:
+        return {
+            'wire_cut_details': wire_cut_details,
+            'wire_cut_anomalies': wire_cut_anomalies,
+            'applied_codes': [],
+        }
+
+    positive_codes = {
+        str(detail.get('code'))
+        for detail in wire_cut_details or []
+        if _detail_total_length(detail) > 0
+    }
+    existing_codes = {str(detail.get('code')) for detail in wire_cut_details or []}
+    applied_codes = set()
+    new_details = []
+
+    for detail in wire_cut_details or []:
+        code = str(detail.get('code'))
+        formula = formula_by_code.get(code)
+        if formula and code not in positive_codes and _detail_total_length(detail) <= 0:
+            formula_detail = _build_formula_wire_detail(code, formula, detail)
+            new_details.append(formula_detail)
+            applied_codes.add(code)
+        else:
+            new_details.append(detail)
+
+    for code, formula in formula_by_code.items():
+        if code not in existing_codes and code not in positive_codes:
+            new_details.append(_build_formula_wire_detail(code, formula))
+            applied_codes.add(code)
+
+    if not applied_codes:
+        return {
+            'wire_cut_details': wire_cut_details,
+            'wire_cut_anomalies': wire_cut_anomalies,
+            'applied_codes': [],
+        }
+
+    added_length = sum(
+        detail['total_length']
+        for detail in new_details
+        if detail.get('formula_fallback') and str(detail.get('code')) in applied_codes
+    )
+    view_wire_lengths['top_view_wire_length'] = (
+        float(view_wire_lengths.get('top_view_wire_length') or 0) + added_length
+    )
+
+    for code in sorted(applied_codes):
+        formula = formula_by_code[code]
+        logging.info(
+            "线割公式兜底: code=%s, count=%s, diameter=%.2f, single=%.2fmm, total=%.2fmm",
+            code,
+            formula['count'],
+            formula['diameter'],
+            formula['single_length'],
+            formula['total_length'],
+        )
+
+    return {
+        'wire_cut_details': new_details,
+        'wire_cut_anomalies': _remove_resolved_wire_formula_anomalies(
+            wire_cut_anomalies,
+            applied_codes,
+            new_details,
+        ),
+        'applied_codes': sorted(applied_codes),
+    }
+
+
+def _wire_detail_has_positive_length(detail: Dict[str, Any]) -> bool:
+    try:
+        return float(detail.get('total_length') or 0) > 0
+    except (TypeError, ValueError):
+        return False
+
+
+def _matched_line_count(lines: List[Dict[str, Any]]) -> int:
+    connectivity_groups = set()
+    individual_count = 0
+    for line in lines or []:
+        if 'connectivity_group_id' in line:
+            connectivity_groups.add(line['connectivity_group_id'])
+        else:
+            individual_count += 1
+    return len(connectivity_groups) + individual_count
+
+
+def _remove_unmatched_red_line_anomalies(anomalies: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    return [
+        anomaly
+        for anomaly in anomalies or []
+        if anomaly.get('type') != 'unmatched_red_lines'
+    ]
+
+
+def _apply_auto_material_red_line_fallback(
+    has_auto_material: bool,
+    wire_cut_details: List[Dict[str, Any]],
+    wire_cut_anomalies: List[Dict[str, Any]],
+    view_wire_lengths: Dict[str, Any],
+) -> Dict[str, Any]:
+    if not has_auto_material:
+        return {
+            'wire_cut_details': wire_cut_details,
+            'wire_cut_anomalies': wire_cut_anomalies,
+            'applied': False,
+            'generated_details': [],
+        }
+
+    if any(_wire_detail_has_positive_length(detail) for detail in wire_cut_details or []):
+        return {
+            'wire_cut_details': wire_cut_details,
+            'wire_cut_anomalies': wire_cut_anomalies,
+            'applied': False,
+            'generated_details': [],
+        }
+
+    unmatched_red_lines = view_wire_lengths.get('unmatched_red_lines') or []
+    generated_details = []
+    view_mapping = {
+        'top_view': 'top_view_wire_length',
+        'front_view': 'front_view_wire_length',
+        'side_view': 'side_view_wire_length',
+    }
+
+    for view_data in unmatched_red_lines:
+        view_name = view_data.get('view')
+        lines = view_data.get('lines') or []
+        if not view_name or not lines:
+            continue
+
+        total_length = sum(float(line.get('length') or 0) for line in lines)
+        if total_length <= 0:
+            continue
+
+        matched_count = _matched_line_count(lines)
+        single_length = total_length / matched_count if matched_count > 0 else total_length
+        view_field = view_mapping.get(view_name)
+        if view_field:
+            view_wire_lengths[view_field] = float(view_wire_lengths.get(view_field) or 0) + total_length
+
+        generated_details.append({
+            'code': '自找料红色线割',
+            'instruction': '自找料红色线割',
+            'expected_count': matched_count,
+            'matched_count': matched_count,
+            'single_length': round(single_length, 2),
+            'total_length': round(total_length, 2),
+            'view': view_name,
+            'slider_angle': 0,
+            'is_additional': True,
+            'cone': 'f',
+            'area_num': 0,
+            'matched_line_ids': [id(line.get('entity')) for line in lines if line.get('entity') is not None],
+            'auto_material_red_line_fallback': True,
+        })
+
+    if not generated_details:
+        return {
+            'wire_cut_details': wire_cut_details,
+            'wire_cut_anomalies': wire_cut_anomalies,
+            'applied': False,
+            'generated_details': [],
+        }
+
+    view_wire_lengths['unmatched_red_lines'] = []
+    for detail in generated_details:
+        logging.info(
+            "自找料红色线割兜底: view=%s, matched_count=%s, total_length=%.2fmm",
+            detail['view'],
+            detail['matched_count'],
+            detail['total_length'],
+        )
+
+    return {
+        'wire_cut_details': list(wire_cut_details or []) + generated_details,
+        'wire_cut_anomalies': _remove_unmatched_red_line_anomalies(wire_cut_anomalies),
+        'applied': True,
+        'generated_details': generated_details,
+    }
 
 
 def get_db_connection():
@@ -537,6 +891,38 @@ def analyze_dxf_features(dxf_file_path: str, job_id: Optional[str] = None) -> Op
                         'message': '零件尺寸不完整，跳过补线'
                     }
                     logging.info("板料线补线跳过: %s", plate_line_generation)
+
+            formula_fallback_result = _apply_diameter_wire_formula_fallback(
+                processing_instructions_old,
+                wire_cut_details,
+                wire_cut_anomalies,
+                view_wire_lengths,
+            )
+            if formula_fallback_result.get('applied_codes'):
+                wire_cut_details = formula_fallback_result['wire_cut_details']
+                wire_cut_anomalies = formula_fallback_result['wire_cut_anomalies']
+                logging.info(
+                    "线割公式兜底完成: applied_codes=%s, top_view_wire_length=%.2fmm",
+                    formula_fallback_result['applied_codes'],
+                    view_wire_lengths['top_view_wire_length'],
+                )
+
+            auto_material_red_line_fallback = _apply_auto_material_red_line_fallback(
+                has_auto_material,
+                wire_cut_details,
+                wire_cut_anomalies,
+                view_wire_lengths,
+            )
+            if auto_material_red_line_fallback.get('applied'):
+                wire_cut_details = auto_material_red_line_fallback['wire_cut_details']
+                wire_cut_anomalies = auto_material_red_line_fallback['wire_cut_anomalies']
+                logging.info(
+                    "自找料红色线割兜底完成: generated=%s, top=%.2fmm, front=%.2fmm, side=%.2fmm",
+                    len(auto_material_red_line_fallback.get('generated_details', [])),
+                    view_wire_lengths['top_view_wire_length'],
+                    view_wire_lengths['front_view_wire_length'],
+                    view_wire_lengths['side_view_wire_length'],
+                )
 
             view_anomalies = _build_view_anomalies(views)
             

@@ -4,6 +4,7 @@
 
 查询流程：
 查询 job_price_snapshots 表，获取 category 为 'special' 和 'rule' 的价格信息
+返回字段包含 min_num 和 note，其中 min_num 可用于后续按最长边动态匹配价格区间
 注：查询时忽略 subgraph_id 字段，只根据 job_id 查询
 """
 from typing import List, Dict, Any
@@ -17,7 +18,7 @@ logger = logging.getLogger(__name__)
 # MCP 工具元数据
 MCP_TOOL_META = {
     "name": "search_wire_special_by_job_id",
-    "description": "按job_id查询线割特殊价格：从job_price_snapshots获取special和rule类别的价格信息（注：subgraph_ids参数被忽略，因为线割特殊价格是全局配置）",
+    "description": "按job_id查询线割特殊价格：从job_price_snapshots获取special和rule类别的价格信息，包含min_num区间和note（注：subgraph_ids参数被忽略，因为线割特殊价格是全局配置）",
     "inputSchema": {
         "type": "object",
         "properties": {
@@ -54,7 +55,7 @@ async def search_by_job_id(job_id: str, subgraph_ids: List[str] = None) -> Dict[
     # 注意：subgraph_ids 参数被忽略，因为线割特殊价格是全局配置，不按零件存储
     logger.info(f"Searching wire special prices for job_id: {job_id} (subgraph_ids ignored)")
     
-    # 查询价格表 - category 为 special、rule
+    # 查询价格表 - category 为 special、rule，保留 min_num/note 供计算脚本动态匹配区间和记录明细
     price_data = await _fetch_price_data(job_id)
     
     # 按 category 分组价格
@@ -75,11 +76,11 @@ async def _fetch_price_data(job_id: str) -> List[Dict]:
     """
     查询 job_price_snapshots 表
     条件: job_id + category IN ('special', 'rule')
-    获取: category, sub_category, price, unit
+    获取: category, sub_category, price, unit, min_num, note
     注：忽略 subgraph_id 字段
     """
     sql = """
-        SELECT DISTINCT category, sub_category, price, unit
+        SELECT DISTINCT category, sub_category, price, unit, min_num, note
         FROM job_price_snapshots
         WHERE job_id = $1::uuid AND category IN ('special', 'rule')
     """
@@ -121,8 +122,8 @@ if __name__ == "__main__":
     
     print("\n--- Special 价格列表 ---")
     for p in results["special_prices"]:
-        print(f"  sub_category: {p['sub_category']}, price: {p['price']}, unit: {p['unit']}")
+        print(f"  sub_category: {p['sub_category']}, price: {p['price']}, unit: {p['unit']}, min_num: {p.get('min_num', 'N/A')}, note: {p.get('note', 'N/A')}")
     
     print("\n--- Rule 价格列表 ---")
     for p in results["rule_prices"]:
-        print(f"  sub_category: {p['sub_category']}, price: {p['price']}, unit: {p['unit']}")
+        print(f"  sub_category: {p['sub_category']}, price: {p['price']}, unit: {p['unit']}, min_num: {p.get('min_num', 'N/A')}, note: {p.get('note', 'N/A')}")

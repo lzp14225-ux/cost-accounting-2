@@ -4,18 +4,19 @@
 
 计算流程：
 1. 调用 base_itemcode_search 获取零件基础信息（length_mm, width_mm, thickness_mm, metadata, quantity）
-2. 调用 wire_special_search 获取特殊价格信息（special1_template, special1_component, special2）
+2. 调用 wire_special_search 获取特殊价格信息（sub_category、price、min_num、note 等）
 3. 检查 metadata 是否为空，为空则跳过计算返回0
-4. 判断是否为模板：任意尺寸 > 400mm
-5. 计算 special1：模板(80元) 或 零件(40元)
-6. 计算 special2：如果有侧割（front_view 或 side_view 的 total_length 不为0），加 20元
-7. 计算公式：special_base_cost = (special1 + special2) × 数量
+4. 根据 template_component 配置判断是否为模板：任意尺寸 > 阈值
+5. 计算 special1：按线割类型、模板/零件类型、最长边匹配 min_num 区间后取动态价格
+6. 计算 special2：如果有侧割（front_view 或 side_view 的 total_length 不为0），按线割类型和最长边匹配动态价格
+7. 计算公式：special_base_cost = special1 + special2
 8. 更新 processing_cost_calculation_details 表的 special_base_cost 字段和步骤字段
 """
 from typing import List, Dict, Any
 import logging
 import asyncio
 import json
+import re
 
 from api_gateway.database import db
 from ._batch_update_helper import batch_upsert_with_steps
@@ -25,7 +26,7 @@ logger = logging.getLogger(__name__)
 # MCP 工具元数据
 MCP_TOOL_META = {
     "name": "calculate_wire_special_price",
-    "description": "计算线割特殊价格：根据零件尺寸和侧割情况计算特殊加工费用",
+    "description": "计算线割特殊价格：根据线割类型、模板/零件类型、最长边区间和侧割情况计算特殊加工费用",
     "inputSchema": {
         "type": "object",
         "properties": {
@@ -76,7 +77,7 @@ async def calculate(
     
     logger.info(f"Calculating wire special price for job_id: {job_id}, parts count: {len(base_data.get('parts', []))}")
     
-    # Step 3: 构建价格映射
+    # Step 3: 构建价格映射，保留 min_num 区间和 note 用于动态匹配与明细记录
     price_map = _build_price_map(special_data.get("special_prices", []))
     
     # Step 4: 计算每个零件的价格（不写数据库）
@@ -112,22 +113,17 @@ async def calculate(
     }
 
 
-def _build_price_map(special_prices: List[Dict]) -> Dict[str, float]:
+def _build_price_map(special_prices: List[Dict]) -> Dict[str, Any]:
     """
-    构建特殊价格映射
+    构建特殊价格映射。
+    同一个 sub_category 可以有多条价格规则，通过 min_num 区间动态匹配最长边。
     
     Returns:
         {
             "template_threshold": 400,
-            "slow_template": 80,
-            "slow_component": 40,
-            "slow_side": 20,
-            "medium_template": 40,
-            "medium_component": 20,
-            "medium_side": 20,
-            "fast_template": 40,
-            "fast_component": 20,
-            "fast_side": 20
+            "slow_template": [{"price": 80, "min_num": None, ...}],
+            "medium_template": [{"price": 60, "min_num": "[400,800)", ...}, ...],
+            ...
         }
     """
     price_map = {
@@ -137,17 +133,96 @@ def _build_price_map(special_prices: List[Dict]) -> Dict[str, float]:
     for price in special_prices:
         sub_category = price.get("sub_category")
         price_value = price.get("price")
+        min_num = price.get("min_num")
+        note = price.get("note")
         
         try:
             if sub_category == "template_component":
                 price_map["template_threshold"] = float(price_value)
             else:
-                # 直接使用 sub_category 作为 key
-                price_map[sub_category] = float(price_value)
+                rule = {
+                    "price": float(price_value),
+                    "min_num": min_num,
+                    "note": note
+                }
+                interval = _parse_interval(min_num)
+                has_min_num = min_num is not None and str(min_num).strip().lower() not in ("", "none", "null")
+                if has_min_num and not interval:
+                    logger.warning(f"Skipping wire special rule with invalid min_num: {sub_category}, min_num={min_num}")
+                    continue
+                if interval:
+                    rule.update(interval)
+                
+                price_map.setdefault(sub_category, []).append(rule)
         except (ValueError, TypeError) as e:
             logger.warning(f"Failed to parse price for {sub_category}: {price_value}, error: {e}")
     
     return price_map
+
+
+def _parse_interval(min_num: Any) -> Dict[str, Any] | None:
+    """
+    解析 min_num 区间，格式如: [400,800)、[800,99999)
+    支持左右开闭区间。
+    """
+    if min_num is None:
+        return None
+
+    min_num_str = str(min_num).strip()
+    if not min_num_str:
+        return None
+
+    match = re.match(r'([\[\(])\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?|[+∞∞]+)\s*([\]\)])', min_num_str)
+    if not match:
+        logger.warning(f"Invalid wire special min_num format: {min_num}")
+        return None
+
+    min_bracket = match.group(1)
+    min_val = float(match.group(2))
+    max_str = match.group(3)
+    max_bracket = match.group(4)
+    max_val = float("inf") if "+" in max_str or "∞" in max_str else float(max_str)
+
+    return {
+        "min": min_val,
+        "max": max_val,
+        "min_inclusive": min_bracket == "[",
+        "max_inclusive": max_bracket == "]"
+    }
+
+
+def _matches_interval(value: float, rule: Dict[str, Any]) -> bool:
+    """判断最长边是否命中规则区间。"""
+    if "min" not in rule or "max" not in rule:
+        return True
+
+    min_ok = value >= rule["min"] if rule["min_inclusive"] else value > rule["min"]
+    max_ok = value <= rule["max"] if rule["max_inclusive"] else value < rule["max"]
+    return min_ok and max_ok
+
+
+def _get_price_by_dimension(price_map: Dict[str, Any], fee_key: str, max_dimension: float) -> tuple[float, Dict[str, Any] | None]:
+    """
+    按 fee_key 和最长边匹配价格。
+    如果规则带 min_num，则按区间匹配；没有 min_num 的规则作为固定价兼容。
+    """
+    rules = price_map.get(fee_key, [])
+    if isinstance(rules, (int, float)):
+        return float(rules), None
+
+    fallback_rule = None
+    for rule in rules:
+        if "min" not in rule or "max" not in rule:
+            fallback_rule = rule
+            continue
+        if _matches_interval(max_dimension, rule):
+            return rule["price"], rule
+
+    if fallback_rule:
+        return fallback_rule["price"], fallback_rule
+
+    logger.warning(f"No wire special price matched for {fee_key}, max_dimension={max_dimension}")
+    return 0, None
 
 
 def _get_wire_type(wire_process_note: str) -> str:
@@ -174,8 +249,8 @@ def _get_wire_type(wire_process_note: str) -> str:
 
 def _is_template(length_mm: float, width_mm: float, thickness_mm: float, threshold: float) -> tuple[bool, bool]:
     """
-    判断是否为模板
-    任意一个尺寸 > threshold 则为模板
+    判断是否为模板。
+    任意一个尺寸 > threshold 则为模板，threshold 来自 template_component 配置。
     
     Returns:
         tuple: (is_template, is_valid)
@@ -349,17 +424,19 @@ async def _calculate_part_price(
         "reason": f"最大尺寸{max_dimension}mm {'>' if is_template else '<='} {template_threshold}mm"
     })
     
-    # Step 3: 计算 special1（模板费或零件费）
+    # Step 3: 计算 special1（模板费或零件费），按最长边匹配 min_num 区间
     if is_template:
         fee_key = f"{wire_type}_template"
-        special1 = price_map.get(fee_key, 0)
     else:
         fee_key = f"{wire_type}_component"
-        special1 = price_map.get(fee_key, 0)
+    special1, special1_rule = _get_price_by_dimension(price_map, fee_key, max_dimension)
     
     calculation_steps.append({
         "step": "计算基础费用(special1)",
         "fee_type": fee_key,
+        "max_dimension": max_dimension,
+        "matched_min_num": special1_rule.get("min_num") if special1_rule else None,
+        "matched_note": special1_rule.get("note") if special1_rule else None,
         "amount": special1
     })
     
@@ -383,14 +460,21 @@ async def _calculate_part_price(
         "has_side_cut": has_side_cut
     })
     
-    # Step 5: 计算 special2（侧割费）
+    # Step 5: 计算 special2（侧割费），有侧割时按最长边匹配 min_num 区间
     side_cut_key = f"{wire_type}_side"
-    special2 = price_map.get(side_cut_key, 0) if has_side_cut else 0
+    special2_rule = None
+    if has_side_cut:
+        special2, special2_rule = _get_price_by_dimension(price_map, side_cut_key, max_dimension)
+    else:
+        special2 = 0
     
     calculation_steps.append({
         "step": "计算侧割费用(special2)",
         "fee_type": side_cut_key if has_side_cut else "无侧割",
         "has_side_cut": has_side_cut,
+        "max_dimension": max_dimension if has_side_cut else None,
+        "matched_min_num": special2_rule.get("min_num") if special2_rule else None,
+        "matched_note": special2_rule.get("note") if special2_rule else None,
         "amount": special2
     })
     

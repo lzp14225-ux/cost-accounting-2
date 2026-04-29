@@ -416,6 +416,24 @@ class WireCutFilter:
                 
                 return min_dist
             
+            elif entity_type == 'SPLINE':
+                points = self._get_spline_points(entity)
+                if len(points) < 2:
+                    return float('inf')
+
+                min_dist = float('inf')
+                for i in range(len(points) - 1):
+                    p1 = points[i]
+                    p2 = points[i + 1]
+                    dist = self._point_to_line_distance(
+                        text_x, text_y,
+                        p1[0], p1[1],
+                        p2[0], p2[1]
+                    )
+                    min_dist = min(min_dist, dist)
+
+                return min_dist
+            
             else:
                 # 不支持的实体类型，返回无穷大
                 return float('inf')
@@ -423,6 +441,21 @@ class WireCutFilter:
         except Exception as e:
             logging.debug(f"计算到实体的距离失败: {e}")
             return float('inf')
+
+    def _get_spline_points(self, entity, distance: float = 0.1) -> List[Tuple[float, float]]:
+        """将 SPLINE 采样为二维点序列。"""
+        try:
+            points = list(entity.flattening(distance))
+            if points:
+                return [(point.x, point.y) for point in points]
+        except Exception as exc:
+            logging.debug(f"[SPLINE] flattening 失败，改用控制点: {exc}")
+
+        try:
+            return [(float(point[0]), float(point[1])) for point in entity.control_points]
+        except Exception as exc:
+            logging.debug(f"[SPLINE] 读取控制点失败: {exc}")
+            return []
     
     def _point_to_line_distance(
         self,

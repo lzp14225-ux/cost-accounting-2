@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO)
 class ViewWireCalculator:
     """视图线割计算协调器 - 协调各模块完成整体业务逻辑"""
     
-    def __init__(self, tolerance: float = 10.0, proximity_threshold: float = 50.0, text_search_expand_margin: float = 15.0):
+    def __init__(self, tolerance: float = 10.0, proximity_threshold: float = 50.0, text_search_expand_margin: float = 18.0):
         """
         Args:
             tolerance: 尺寸匹配容差（单位：mm）

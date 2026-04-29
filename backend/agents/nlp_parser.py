@@ -965,6 +965,9 @@ class NLPParser:
             # 🆕 处理工艺代码映射（针对 filter 中的中文工艺名称）
             if "filter" in change:
                 change = self._resolve_process_filter(change)
+
+            # 🆕 线割工艺默认值：用户只说“慢丝/中丝/快丝”时补成完整工艺
+            change = self._normalize_wire_process_change(change)
             
             # 🆕 处理包含匹配过滤器
             if "filter" in change and "part_name_contains" in change["filter"]:
@@ -2702,7 +2705,7 @@ class NLPParser:
                         "table": "subgraphs",
                         "id": subgraph_id,
                         "field": "wire_process_note",
-                        "value": value,  # 保持原始描述
+                        "value": self._normalize_process_description(value),
                         "original_text": text
                     })
                 else:
@@ -2873,6 +2876,8 @@ class NLPParser:
         Returns:
             工艺代码（如"slow_and_three"）
         """
+        description = self._normalize_process_description(description)
+
         # 工艺描述到代码的映射
         process_mapping = {
             # 慢丝
@@ -2880,9 +2885,11 @@ class NLPParser:
             "慢丝割一修二": "slow_and_two",
             "慢丝割一修一": "slow_and_one",
             "慢丝割一刀": "slow_cut",
+            "慢丝": "slow_and_one",
             # 中丝
             "中丝割一修一": "middle_and_one",
             "中丝割一刀": "middle_cut",
+            "中丝": "middle_and_one",
             # 快丝
             "快丝割一刀": "fast_cut",
             "快丝": "fast_cut",
@@ -2903,10 +2910,42 @@ class NLPParser:
         code = process_mapping.get(normalized_desc)
         if code:
             return code
+
+        if normalized_desc in set(process_mapping.values()):
+            return normalized_desc
         
         # 如果没有匹配，返回原始描述（让后续处理）
         logger.warning(f"⚠️  未找到工艺描述 '{description}' 的映射，返回原始值")
         return description
+
+    def _normalize_process_description(self, description: Any) -> Any:
+        """
+        将线割工艺简称补全为业务默认工艺说明。
+
+        用户自然语言里常会只说“慢丝/中丝/快丝”，落库到 wire_process_note
+        时需要保存完整说明，避免后续计价和报表看到不完整工艺。
+        """
+        if not isinstance(description, str):
+            return description
+
+        normalized_desc = description.strip()
+        default_mapping = {
+            "慢丝": "慢丝割一修一",
+            "中丝": "中丝割一修一",
+            "快丝": "快丝割一刀",
+        }
+        return default_mapping.get(normalized_desc, description)
+
+    def _normalize_wire_process_change(self, change: Dict[str, Any]) -> Dict[str, Any]:
+        """标准化工艺修改中的 wire_process / wire_process_note 值。"""
+        field = change.get("field")
+
+        if field == "wire_process":
+            change["value"] = self._map_process_description_to_code(change.get("value"))
+        elif field == "wire_process_note":
+            change["value"] = self._normalize_process_description(change.get("value"))
+
+        return change
     
     def _infer_table_from_field(self, field: str) -> str:
         """

@@ -123,6 +123,13 @@ class RedLineCalculator:
                             start_point = (points[0][0], points[0][1])
                             end_point = (points[-1][0], points[-1][1])
                     
+                    elif entity_type == 'SPLINE':
+                        spline_points = self._get_spline_points(entity)
+                        length = self._calculate_spline_length_from_points(spline_points)
+                        if spline_points:
+                            start_point = spline_points[0]
+                            end_point = spline_points[-1]
+                    
                     if length > 0:
                         center = self._get_entity_center(entity)
                         red_lines.append({
@@ -228,6 +235,13 @@ class RedLineCalculator:
                             start_point = (points[0][0], points[0][1])
                             end_point = (points[-1][0], points[-1][1])
                     
+                    elif entity_type == 'SPLINE':
+                        spline_points = self._get_spline_points(entity)
+                        length = self._calculate_spline_length_from_points(spline_points)
+                        if spline_points:
+                            start_point = spline_points[0]
+                            end_point = spline_points[-1]
+                    
                     if length > 0:
                         center = self._get_entity_center(entity)
                         red_lines.append({
@@ -301,6 +315,13 @@ class RedLineCalculator:
                     ys = [p[1] for p in points]
                     return (sum(xs) / len(xs), sum(ys) / len(ys))
             
+            elif entity_type == 'SPLINE':
+                points = self._get_spline_points(entity)
+                if points:
+                    xs = [p[0] for p in points]
+                    ys = [p[1] for p in points]
+                    return (sum(xs) / len(xs), sum(ys) / len(ys))
+            
         except Exception:
             pass
         
@@ -369,6 +390,34 @@ class RedLineCalculator:
             logging.debug(f"[多段线长度] 炸开法失败，使用手动计算: {e}")
             # 方法2：手动计算法（备用）
             return self._calculate_polyline_by_vertices(entity)
+
+    def _get_spline_points(self, entity, distance: float = 0.1) -> List[Tuple[float, float]]:
+        """将 SPLINE 采样为二维点序列，用于长度、中心和距离计算。"""
+        try:
+            points = list(entity.flattening(distance))
+            if points:
+                return [(point.x, point.y) for point in points]
+        except Exception as exc:
+            logging.debug(f"[SPLINE] flattening 失败，改用控制点: {exc}")
+
+        try:
+            return [(float(point[0]), float(point[1])) for point in entity.control_points]
+        except Exception as exc:
+            logging.debug(f"[SPLINE] 读取控制点失败: {exc}")
+            return []
+
+    def _calculate_spline_length_from_points(self, points: List[Tuple[float, float]]) -> float:
+        """按采样点折线长度近似计算 SPLINE 长度。"""
+        if len(points) < 2:
+            return 0.0
+
+        total_length = 0.0
+        for index in range(len(points) - 1):
+            x1, y1 = points[index]
+            x2, y2 = points[index + 1]
+            total_length += math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+
+        return total_length
     
     def _calculate_polyline_by_explode(self, entity) -> float:
         """使用 virtual_entities() 炸开多段线并计算长度"""

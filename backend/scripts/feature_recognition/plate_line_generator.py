@@ -1,30 +1,23 @@
 # -*- coding: utf-8 -*-
-"""Plate-line supplementation adapter.
-
-This module keeps the current backend interface, but the supplementation rules
-are aligned with the implementation from `sheet_line/dxf_auto_sheetline.py`.
-"""
+"""Plate-line supplementation using the full banliaoxian.py plate-line workflow."""
 
 from __future__ import annotations
 
+import importlib.util
 import logging
-from typing import Any, Dict, List, Optional, Tuple
+import sys
+import types
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 
 logger = logging.getLogger("scripts.feature_recognition.plate_line_generator")
 
 
-Bounds = Dict[str, float]
-
-VIEW_TYPE_MAP = {
-    "top_view": "主视图",
-    "front_view": "俯视图",
-    "side_view": "侧视图",
-}
-
-
 class PlateLineGenerator:
-    """Supplement plate lines by reusing the old sheet_line logic."""
+    """Run banliaoxian.py's full material-line recognition/generation logic in-place."""
+
+    _projector_class = None
 
     def __init__(
         self,
@@ -36,6 +29,7 @@ class PlateLineGenerator:
         self.tolerance = tolerance
         self.color = color
         self.linetype = linetype
+        # Kept for the backend interface. The full banliaoxian flow draws on PROJ_MATERIAL.
         self.layer_name = layer_name
 
     def ensure_plate_lines(
@@ -49,14 +43,6 @@ class PlateLineGenerator:
             for view_name, view_data in (views or {}).items()
             if isinstance(view_data, dict) and view_data.get("bounds")
         )
-        logger.info(
-            "板料线补线开始: input_views=%s, dimensions=%s, tolerance=%s, layer=%s",
-            input_views,
-            dimensions,
-            self.tolerance,
-            self.layer_name,
-        )
-
         result = {
             "status": "skipped",
             "input_views": input_views,
@@ -67,266 +53,228 @@ class PlateLineGenerator:
             "message": "",
         }
 
-        if not input_views:
-            result["message"] = "未识别到可补线的视图边界，跳过补线"
-            logger.info("板料线补线跳过: %s", result["message"])
-            return result
+        logger.info(
+            "板料线补线开始(banliaoxian完整逻辑): input_views=%s, dimensions=%s, tolerance=%s, color=%s",
+            input_views,
+            dimensions,
+            self.tolerance,
+            self.color,
+        )
 
-        if not dimensions or not all(dimensions.get(key) for key in ("L", "W", "T")):
+        lwt = self._normalize_dimensions(dimensions)
+        if not lwt:
             result["status"] = "failed"
-            result["message"] = "缺少完整的 L/W/T，无法按旧补线逻辑执行"
+            result["message"] = "缺少完整的 L/W/T，无法执行 banliaoxian 补板料线逻辑"
             logger.info("板料线补线失败: %s", result["message"])
             return result
 
-        msp = doc.modelspace()
-        matching_regions = []
-
-        for view_name in input_views:
-            bounds = views[view_name].get("bounds")
-            if not self._is_valid_bounds(bounds):
-                result["skipped_views"].append(view_name)
-                logger.info(
-                    "板料线补线跳过视图: view=%s, reason=invalid_bounds, bounds=%s",
-                    view_name,
-                    bounds,
-                )
-                continue
-
-            bbox = self._bounds_to_bbox(bounds)
-            if self.check_existing_material_lines_in_bbox(msp, bbox):
-                result["already_existing_views"].append(view_name)
-                logger.info("板料线已存在: view=%s, bounds=%s", view_name, bounds)
-                continue
-
-            matching_regions.append(
-                {
-                    "bbox": bbox,
-                    "view_type": VIEW_TYPE_MAP.get(view_name, view_name),
-                }
-            )
-
-        if matching_regions:
-            part_info = {
-                "matching_regions": matching_regions,
-                "confidence": 1.0,
-                "count": 1,
-                "positions": [self._calculate_position(matching_regions)],
-            }
-            lines_added = self.add_material_lines_for_part(
-                msp,
-                dimensions,
-                part_info["positions"][0],
-                self.layer_name,
-                part_info,
-            )
-            result["generated_views"] = [
-                view_name
-                for view_name in input_views
-                if view_name not in result["already_existing_views"]
-                and view_name not in result["skipped_views"]
-            ]
-            result["added_count"] = int(lines_added)
-            for view_name in result["generated_views"]:
-                logger.info("板料线已补画: view=%s", view_name)
-
-        if result["added_count"] > 0 and not result["skipped_views"]:
-            result["status"] = "success"
-        elif result["added_count"] > 0:
-            result["status"] = "partial"
-        elif result["already_existing_views"]:
-            result["status"] = "skipped"
-        else:
+        try:
+            projector = self._build_banliaoxian_projector(doc, lwt)
+        except Exception as exc:
             result["status"] = "failed"
+            result["message"] = f"加载 banliaoxian 补板料线逻辑失败: {exc}"
+            logger.warning(result["message"])
+            return result
 
-        result["message"] = self._build_message(result)
-        logger.info("板料线补线汇总: %s", result)
-        return result
-
-    def calculate_dynamic_tolerance(self, dimension: float, relative_error: float = 0.05) -> float:
-        min_tolerance = 2.0
-        max_tolerance = 20.0
-        tolerance = dimension * relative_error
-        return max(min_tolerance, min(tolerance, max_tolerance))
-
-    def check_existing_material_lines_in_bbox(
-        self,
-        msp,
-        bbox: Tuple[float, float, float, float],
-        tolerance: float = 10.0,
-    ) -> bool:
-        """Logic aligned with sheet_line/dxf_auto_sheetline.py."""
-        x_min, y_min, x_max, y_max = bbox
-        search_bbox = (x_min - tolerance, y_min - tolerance, x_max + tolerance, y_max + tolerance)
-
-        for entity in msp.query("LINE LWPOLYLINE POLYLINE"):
-            layer = getattr(entity.dxf, "layer", "") or ""
-            if "MATERIAL_LINE" not in layer.upper():
-                continue
-
-            entity_bbox = self._entity_bbox(entity)
-            if not entity_bbox:
-                continue
-
-            if (
-                entity_bbox[2] > search_bbox[0]
-                and entity_bbox[0] < search_bbox[2]
-                and entity_bbox[3] > search_bbox[1]
-                and entity_bbox[1] < search_bbox[3]
-            ):
-                return True
-        return False
-
-    def draw_material_box_with_cad_standard(
-        self,
-        msp,
-        bbox: Tuple[float, float, float, float],
-        layer_name: str,
-        color: int = 252,
-        linetype: str = "DASHED",
-    ) -> int:
-        """Logic aligned with sheet_line/dxf_auto_sheetline.py."""
         try:
-            x1, y1, x2, y2 = bbox
-            doc = msp.doc
+            before_count = self._entity_count(doc)
 
-            if linetype not in doc.linetypes:
-                try:
-                    doc.linetypes.new(
-                        linetype,
-                        dxfattribs={
-                            "description": "Dashed line",
-                            "pattern": [6.0, -3.0],
-                        },
-                    )
-                except Exception as exc:
-                    logger.warning("创建线型失败，使用 CONTINUOUS: %s", exc)
-                    linetype = "CONTINUOUS"
+            logger.info("banliaoxian步骤1: 查找所有闭合区域")
+            regions = projector.find_view_contours_with_filtering()
+            logger.info("banliaoxian步骤1完成: regions=%s", len(regions or []))
+            if not regions:
+                result["status"] = "failed"
+                result["message"] = "banliaoxian未找到任何有效闭合区域"
+                logger.info("板料线补线失败: %s", result["message"])
+                return result
 
-            if layer_name not in doc.layers:
-                doc.layers.new(
-                    layer_name,
-                    dxfattribs={
-                        "color": color,
-                        "linetype": linetype,
-                    },
-                )
+            logger.info("banliaoxian步骤2: 按L/W/T识别主视图、侧视图和正视图")
+            identified = projector.identify_views_with_alignment(regions)
+            if not identified or not projector.views or "main_view" not in projector.views:
+                result["status"] = "failed"
+                result["message"] = "banliaoxian未能识别主视图，无法补板料线"
+                logger.info("板料线补线失败: %s", result["message"])
+                return result
 
-            polyline = msp.add_lwpolyline(
-                [(x1, y1), (x2, y1), (x2, y2), (x1, y2)],
-                close=True,
-                dxfattribs={
-                    "layer": layer_name,
-                    "color": color,
-                    "linetype": linetype,
-                },
+            validation_error = self._validate_banliaoxian_views(projector.views, lwt)
+            if validation_error:
+                result["status"] = "failed"
+                result["message"] = validation_error
+                logger.info("板料线补线失败: %s", result["message"])
+                return result
+
+            logger.info("banliaoxian步骤3: 基于视图闭合区域边界生成板料线")
+            projector.generate_material_lines_from_bbox()
+
+            after_count = self._entity_count(doc)
+            added_count = max(0, after_count - before_count)
+            result["added_count"] = added_count
+            result["generated_views"] = self._generated_backend_view_names(projector.views)
+            result["status"] = "success" if added_count > 0 else "skipped"
+            result["message"] = (
+                f"已按banliaoxian完整逻辑对 {len(result['generated_views'])} 个视图补画板料线"
+                if added_count > 0
+                else "banliaoxian完整逻辑未新增板料线"
             )
-            return 1 if polyline else 0
+            result["query_views"] = self._summarize_banliaoxian_views(projector.views)
+
+            for view_name in result["generated_views"]:
+                logger.info("板料线已补画(banliaoxian): view=%s", view_name)
+            logger.info("板料线补线汇总: %s", result)
+            return result
+
         except Exception as exc:
-            logger.warning("绘制板料线失败: bbox=%s, error=%s", bbox, exc)
-            return 0
+            logger.exception("banliaoxian完整补板料线逻辑执行失败")
+            result["status"] = "failed"
+            result["message"] = f"banliaoxian完整补板料线逻辑执行失败: {exc}"
+            return result
 
-    def add_material_lines_for_part(
-        self,
-        msp,
-        lwt: Dict[str, float],
-        position: Tuple[float, float],
-        layer_name: str,
-        part_info: Dict[str, Any],
-    ) -> int:
-        """Reuse the matching-regions supplementation branch from sheet_line."""
-        try:
-            matching_regions = part_info.get("matching_regions", [])
-            logger.info(
-                "板料线旧逻辑补线: position=%s, matching_regions=%s, lwt=%s",
-                position,
-                len(matching_regions),
-                lwt,
-            )
-            if not matching_regions:
-                return 0
+    def _build_banliaoxian_projector(self, doc, lwt: Dict[str, float]):
+        projector_class = self._load_banliaoxian_projector_class()
+        projector = projector_class.__new__(projector_class)
+        projector.doc = doc
+        projector.msp = doc.modelspace()
+        projector.lwt_info = lwt
+        projector.log_file_dir = None
+        projector.need_centering = False
+        projector.config = {
+            "min_area": 1.0,
+            "min_area_ratio": 0.6,
+            "max_area_ratio": 1.1,
+            "angle_tolerance": 5,
+            "alignment_tolerance": 0.3,
+            "material_layer_color": self.color,
+            "material_linetype": self.linetype,
+            "new_layer_prefix": "PROJ_",
+            "radius_threshold": 2.0,
+            "tolerance": 0.01,
+            "material_line_tolerance": 0.6,
+            "classify_area_tolerance": 5.0,
+            "overlap_area_tolerance": 1e-2,
+        }
+        projector.views = {}
+        projector.material_lines = []
+        projector.projected_lines = []
+        projector.is_valid_material_line = False
+        projector.ordinate_0_0 = {}
+        projector._ensure_resources()
+        return projector
 
-            lines_added = 0
-            view_types_added = set()
+    @classmethod
+    def _load_banliaoxian_projector_class(cls):
+        if cls._projector_class is not None:
+            return cls._projector_class
 
-            for index, region in enumerate(matching_regions):
-                bbox = region.get("bbox")
-                view_type = region.get("view_type", f"VIEW_{index + 1}")
-                view_type_base = view_type.replace("(LINE)", "").replace("旋转", "")
+        current = Path(__file__).resolve()
+        query_path = None
+        for parent in current.parents:
+            candidate = parent / "banliaoxian.py"
+            if candidate.exists():
+                query_path = candidate
+                break
+        if query_path is None:
+            raise FileNotFoundError("未找到 banliaoxian.py")
 
-                if view_type_base in view_types_added:
-                    continue
-                if not bbox:
-                    continue
-                if self.check_existing_material_lines_in_bbox(msp, bbox):
-                    view_types_added.add(view_type_base)
-                    continue
+        spec = importlib.util.spec_from_file_location("backend_banliaoxian", query_path)
+        if spec is None or spec.loader is None:
+            raise ImportError(f"无法加载 banliaoxian.py: {query_path}")
 
-                lines_added += self.draw_material_box_with_cad_standard(
-                    msp,
-                    bbox,
-                    f"{layer_name}_{view_type_base.upper()}",
-                    color=self.color,
-                    linetype=self.linetype,
-                )
-                view_types_added.add(view_type_base)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = module
+        if importlib.util.find_spec("pandas") is None and "pandas" not in sys.modules:
+            # banliaoxian imports pandas only for CSV reading. The backend passes L/W/T directly.
+            sys.modules["pandas"] = types.ModuleType("pandas")
+        spec.loader.exec_module(module)
+        projector_class = getattr(module, "MaterialLineProjector", None)
+        if projector_class is None:
+            raise AttributeError("banliaoxian.py 中未找到 MaterialLineProjector")
 
-            return lines_added
-        except Exception as exc:
-            logger.warning("旧补线逻辑执行失败: %s", exc)
-            return 0
+        cls._projector_class = projector_class
+        logger.info("已加载banliaoxian完整补板料线逻辑: %s", query_path)
+        return projector_class
 
-    def _entity_bbox(self, entity) -> Optional[Tuple[float, float, float, float]]:
-        try:
-            if entity.dxftype() == "LINE":
-                return (
-                    min(float(entity.dxf.start[0]), float(entity.dxf.end[0])),
-                    min(float(entity.dxf.start[1]), float(entity.dxf.end[1])),
-                    max(float(entity.dxf.start[0]), float(entity.dxf.end[0])),
-                    max(float(entity.dxf.start[1]), float(entity.dxf.end[1])),
-                )
-
-            if entity.dxftype() in {"LWPOLYLINE", "POLYLINE"}:
-                try:
-                    points = list(entity.get_points(format="xy"))
-                except TypeError:
-                    points = [(point[0], point[1]) for point in entity.get_points()]
-                if not points:
-                    return None
-                xs = [float(point[0]) for point in points]
-                ys = [float(point[1]) for point in points]
-                return (min(xs), min(ys), max(xs), max(ys))
-        except Exception:
+    def _normalize_dimensions(self, dimensions: Optional[Dict[str, float]]) -> Optional[Dict[str, float]]:
+        if not dimensions:
             return None
-        return None
+        try:
+            lwt = {
+                "L": float(dimensions.get("L") or 0),
+                "W": float(dimensions.get("W") or 0),
+                "T": float(dimensions.get("T") or 0),
+            }
+        except (TypeError, ValueError):
+            return None
+        if not all(lwt.values()):
+            return None
+        return lwt
 
-    def _is_valid_bounds(self, bounds: Optional[Bounds]) -> bool:
-        if not isinstance(bounds, dict):
-            return False
-        required_keys = {"min_x", "max_x", "min_y", "max_y"}
-        if not required_keys.issubset(bounds):
-            return False
-        return bounds["max_x"] > bounds["min_x"] and bounds["max_y"] > bounds["min_y"]
+    def _validate_banliaoxian_views(self, views: Dict[str, Any], lwt: Dict[str, float]) -> str:
+        tolerance = 0.6
+        checks = {
+            "main_view": ("L/W", lwt["L"], lwt["W"]),
+            "side_view": ("T/W", lwt["T"], lwt["W"]),
+            "front_view": ("L/T", lwt["L"], lwt["T"]),
+        }
+        for view_name, (label, expected_w, expected_h) in checks.items():
+            view_list = views.get(view_name) or []
+            if not view_list:
+                # banliaoxian will create missing side/front during generate_material_lines_from_bbox.
+                if view_name == "main_view":
+                    return "banliaoxian未能识别主视图，无法补板料线"
+                continue
+            bbox = view_list[0].bbox
+            width = float(bbox[2] - bbox[0])
+            height = float(bbox[3] - bbox[1])
+            if view_name == "main_view":
+                if abs(width - expected_w) > tolerance or abs(height - expected_h) > tolerance:
+                    return (
+                        f"banliaoxian识别到的主视图尺寸不匹配: {width:.3f}x{height:.3f}, "
+                        f"期望{label}={expected_w}/{expected_h}"
+                    )
+            elif view_name == "side_view":
+                if abs(width - expected_w) > tolerance:
+                    return (
+                        f"banliaoxian识别到的侧视图宽度不匹配: {width:.3f}, "
+                        f"期望T={expected_w}"
+                    )
+            elif view_name == "front_view":
+                if abs(height - expected_h) > tolerance:
+                    return (
+                        f"banliaoxian识别到的正视图高度不匹配: {height:.3f}, "
+                        f"期望T={expected_h}"
+                    )
+        return ""
 
-    def _bounds_to_bbox(self, bounds: Bounds) -> Tuple[float, float, float, float]:
-        return (
-            float(bounds["min_x"]),
-            float(bounds["min_y"]),
-            float(bounds["max_x"]),
-            float(bounds["max_y"]),
-        )
+    def _entity_count(self, doc) -> int:
+        try:
+            return sum(1 for _ in doc.modelspace())
+        except Exception:
+            return 0
 
-    def _calculate_position(self, matching_regions: List[Dict[str, Any]]) -> Tuple[float, float]:
-        first_bbox = matching_regions[0]["bbox"]
-        return ((first_bbox[0] + first_bbox[2]) / 2, (first_bbox[1] + first_bbox[3]) / 2)
+    def _generated_backend_view_names(self, query_views: Dict[str, Any]):
+        mapping = {
+            "main_view": "top_view",
+            "front_view": "front_view",
+            "side_view": "side_view",
+        }
+        return [
+            backend_name
+            for query_name, backend_name in mapping.items()
+            if query_views.get(query_name)
+        ]
 
-    def _build_message(self, result: Dict[str, Any]) -> str:
-        if result["generated_views"]:
-            return (
-                f"已按旧板料线逻辑对 {len(result['generated_views'])} 个视图补画板料线，"
-                "未为缺失视图创建新框"
-            )
-        if result["already_existing_views"]:
-            return "目标视图范围内已存在板料线，无需补线"
-        if result["skipped_views"]:
-            return "部分视图边界无效，未执行补线"
-        return "未生成板料线"
+    def _summarize_banliaoxian_views(self, query_views: Dict[str, Any]) -> Dict[str, Dict[str, float]]:
+        summary = {}
+        for name, view_list in (query_views or {}).items():
+            if not view_list:
+                continue
+            bbox = view_list[0].bbox
+            summary[name] = {
+                "min_x": float(bbox[0]),
+                "min_y": float(bbox[1]),
+                "max_x": float(bbox[2]),
+                "max_y": float(bbox[3]),
+                "width": float(bbox[2] - bbox[0]),
+                "height": float(bbox[3] - bbox[1]),
+            }
+        return summary

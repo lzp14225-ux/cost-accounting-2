@@ -1,6 +1,9 @@
 """
 报表导出API路由 - xlsxwriter 版本
 性能比 openpyxl 快 20-30%
+标题行：worksheet.set_row(0, 30)
+表头行：worksheet.set_row(1, 40)
+数据行：在数据循环里加 worksheet.set_row(row, 你想要的高度)
 """
 from fastapi import APIRouter, HTTPException, Depends, BackgroundTasks
 from fastapi.responses import StreamingResponse, JSONResponse
@@ -501,6 +504,7 @@ def generate_excel_report(job_data: dict) -> BytesIO:
     
     for idx, subgraph in enumerate(subgraphs, start=1):
         row = idx + 1  # 从第3行开始（0-based: row 2）
+        worksheet.set_row(row, 23)
         feature = features_dict.get(subgraph.subgraph_id)
         normalized_part_code = _normalize_code(subgraph.part_code)
         is_nc_failed_row = normalized_part_code in nc_failed_part_codes
@@ -735,17 +739,21 @@ def _order_subgraphs_for_export(subgraphs, features_dict):
         key=lambda item: _subgraph_export_sort_key(item[0], item[1])
     )
     part_code_to_subgraph_ids = {}
+    part_lookup = {}
     original_index_map = {}
 
     for original_index, subgraph in indexed_subgraphs:
         original_index_map[subgraph.subgraph_id] = original_index
+        for key in _subgraph_lookup_keys(subgraph):
+            part_lookup.setdefault(key, subgraph.subgraph_id)
+
         normalized_code = _normalize_code(subgraph.part_code)
-        if not normalized_code:
-            continue
-        part_code_to_subgraph_ids.setdefault(normalized_code, []).append(subgraph.subgraph_id)
+        if normalized_code:
+            part_code_to_subgraph_ids.setdefault(normalized_code, []).append(subgraph.subgraph_id)
 
     children_by_parent_id = {}
     child_subgraph_ids = set()
+    subgraph_by_id = {subgraph.subgraph_id: subgraph for _, subgraph in indexed_subgraphs}
 
     for _, subgraph in indexed_subgraphs:
         feature = features_dict.get(subgraph.subgraph_id)
@@ -762,13 +770,49 @@ def _order_subgraphs_for_export(subgraphs, features_dict):
             continue
 
         children = children_by_parent_id.setdefault(parent_id, [])
-        children.append(subgraph.subgraph_id)
+        if subgraph.subgraph_id not in children:
+            children.append(subgraph.subgraph_id)
         child_subgraph_ids.add(subgraph.subgraph_id)
+
+    for _, subgraph in indexed_subgraphs:
+        if subgraph.subgraph_id in child_subgraph_ids:
+            continue
+
+        feature = features_dict.get(subgraph.subgraph_id)
+        common_targets = _extract_common_output_targets(
+            getattr(feature, "processing_instructions", None)
+        )
+        if not common_targets:
+            continue
+
+        for target_code in common_targets:
+            target_id = part_lookup.get(_normalize_code(target_code))
+            if not target_id or target_id == subgraph.subgraph_id:
+                continue
+
+            target_subgraph = subgraph_by_id.get(target_id)
+            if not target_subgraph:
+                continue
+
+            child_id, parent_id = _select_common_output_child_parent(
+                subgraph,
+                features_dict.get(subgraph.subgraph_id),
+                target_subgraph,
+                features_dict.get(target_id),
+            )
+            if not child_id or not parent_id:
+                continue
+            if child_id in child_subgraph_ids:
+                continue
+
+            children = children_by_parent_id.setdefault(parent_id, [])
+            if child_id not in children:
+                children.append(child_id)
+            child_subgraph_ids.add(child_id)
 
     for parent_id, child_ids in children_by_parent_id.items():
         child_ids.sort(key=lambda item: original_index_map.get(item, float("inf")))
 
-    subgraph_by_id = {subgraph.subgraph_id: subgraph for _, subgraph in indexed_subgraphs}
     ordered_subgraphs = []
     emitted_ids = set()
 
@@ -794,6 +838,68 @@ def _order_subgraphs_for_export(subgraphs, features_dict):
         emit_with_children(subgraph.subgraph_id)
 
     return ordered_subgraphs
+
+
+def _subgraph_lookup_keys(subgraph: Subgraph) -> set[str]:
+    keys = set()
+    for value in [
+        getattr(subgraph, "subgraph_id", None),
+        getattr(subgraph, "part_code", None),
+        getattr(subgraph, "part_name", None),
+    ]:
+        normalized = _normalize_code(value)
+        if normalized:
+            keys.add(normalized)
+
+    part_name = str(getattr(subgraph, "part_name", None) or "")
+    if "." in part_name:
+        normalized_stem = _normalize_code(part_name.rsplit(".", 1)[0])
+        if normalized_stem:
+            keys.add(normalized_stem)
+    return keys
+
+
+def _extract_common_output_targets(processing_instructions) -> list[str]:
+    text = _flatten_processing_instructions(processing_instructions)
+    if not text:
+        return []
+
+    targets = []
+    for match in re.finditer(r"与\s*([A-Za-z0-9][A-Za-z0-9_－-]*)\s*共出", text, re.IGNORECASE):
+        target = match.group(1).strip().upper().replace("－", "-")
+        if target:
+            targets.append(target)
+    return targets
+
+
+def _feature_area(feature: Feature | None) -> float:
+    if not feature:
+        return 0.0
+    try:
+        length = float(feature.length_mm or 0)
+        width = float(feature.width_mm or 0)
+    except (TypeError, ValueError):
+        return 0.0
+    if length <= 0 or width <= 0:
+        return 0.0
+    return length * width
+
+
+def _select_common_output_child_parent(
+    subgraph_a: Subgraph,
+    feature_a: Feature | None,
+    subgraph_b: Subgraph,
+    feature_b: Feature | None,
+) -> tuple[str | None, str | None]:
+    area_a = _feature_area(feature_a)
+    area_b = _feature_area(feature_b)
+    if area_a <= 0 or area_b <= 0:
+        return None, None
+    if abs(area_a - area_b) < 0.001:
+        return None, None
+    if area_a < area_b:
+        return subgraph_a.subgraph_id, subgraph_b.subgraph_id
+    return subgraph_b.subgraph_id, subgraph_a.subgraph_id
 
 
 def _subgraph_export_sort_key(original_index, subgraph):
