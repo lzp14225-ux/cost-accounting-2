@@ -8,6 +8,8 @@ import math
 import re
 from typing import Dict, List, Tuple, Optional
 
+logger = logging.getLogger("scripts.feature_recognition.wire_cut_filter")
+
 
 class WireCutFilter:
     """线割过滤器 - 根据加工说明过滤线割实线"""
@@ -38,7 +40,7 @@ class WireCutFilter:
         for code, instruction in processing_instructions.items():
             if '割' in instruction:
                 wire_cut_codes.append(code)
-                logging.debug(f"线割工艺: {code} - {instruction}")
+                logger.debug(f"线割工艺: {code} - {instruction}")
         
         return wire_cut_codes
     
@@ -82,7 +84,7 @@ class WireCutFilter:
                     count = int(match.group(1))
             
             wire_cut_info[code] = count
-            logging.info(f"线割工艺: {code} - 数量: {count} - 指令: {instruction}")
+            logger.info(f"线割工艺: {code} - 数量: {count} - 指令: {instruction}")
         
         return wire_cut_info
     
@@ -102,7 +104,7 @@ class WireCutFilter:
             额外的线割工艺编号列表，如 ['实数线割', '慢走丝线割', '快丝拉断']
         """
         if not all_texts:
-            logging.debug("all_texts 为空，无法提取额外线割工艺")
+            logger.debug("all_texts 为空，无法提取额外线割工艺")
             return []
         
         # 获取加工说明中已有的编号
@@ -115,7 +117,7 @@ class WireCutFilter:
         # 统计包含"割"字或"快丝拉断"的文本数量（用于调试）
         texts_with_cut = [t for t in all_texts if '割' in t or '快丝拉断' in t]
         if texts_with_cut:
-            logging.debug(f"在 {len(all_texts)} 条文本中找到 {len(texts_with_cut)} 条包含'割'字或'快丝拉断'的文本")
+            logger.debug(f"在 {len(all_texts)} 条文本中找到 {len(texts_with_cut)} 条包含'割'字或'快丝拉断'的文本")
         
         for text in all_texts:
             text = text.strip()
@@ -130,24 +132,24 @@ class WireCutFilter:
             
             # 跳过已在加工说明中的编号
             if text in existing_codes:
-                logging.debug(f"跳过已在加工说明中的文本: '{text}'")
+                logger.debug(f"跳过已在加工说明中的文本: '{text}'")
                 continue
             
             # 跳过包含加工说明格式的文本（如 "L :2 -%%C12.00割,单+0.008(合销)"）
             # 这些文本通常以编号开头，后面跟着冒号和详细说明
             import re
             if re.match(r'^[A-Z][A-Z0-9]?\s*:', text):
-                logging.debug(f"跳过加工说明格式的文本: '{text}'")
+                logger.debug(f"跳过加工说明格式的文本: '{text}'")
                 continue
             
             # 跳过以冒号开头的文本（如 ":2 -线割加工"），这些是加工说明的一部分
             if text.startswith(':'):
-                logging.debug(f"跳过以冒号开头的文本: '{text}'")
+                logger.debug(f"跳过以冒号开头的文本: '{text}'")
                 continue
             
             # 跳过已经添加过的
             if text in seen:
-                logging.debug(f"跳过重复的文本: '{text}'")
+                logger.debug(f"跳过重复的文本: '{text}'")
                 continue
             
             # 跳过太长的文本（可能是完整的说明文字，不是编号）
@@ -155,17 +157,17 @@ class WireCutFilter:
             # "外形红色线实数线割"是10个字，"外形红色线实数线割,背面按3D精铣"是17个字
             # 设置合理的上限为20个字符，避免将整段说明文字误识别为工艺编号
             if len(text) > 20:
-                logging.debug(f"跳过太长的文本 ({len(text)}字符): '{text}'")
+                logger.debug(f"跳过太长的文本 ({len(text)}字符): '{text}'")
                 continue
             
             # 跳过只有一个"割"字的
             if text == '割':
-                logging.debug("跳过单独的'割'字")
+                logger.debug("跳过单独的'割'字")
                 continue
             
             additional_codes.append(text)
             seen.add(text)
-            logging.info(f"发现额外的线割工艺文字: '{text}'")
+            logger.info(f"发现额外的线割工艺文字: '{text}'")
         
         return additional_codes
     
@@ -199,7 +201,7 @@ class WireCutFilter:
         }
         
         if expand_margin > 0:
-            logging.debug(
+            logger.debug(
                 f"扩展边界用于查找文本: "
                 f"原始 [{bounds['min_x']:.1f}, {bounds['max_x']:.1f}] x [{bounds['min_y']:.1f}, {bounds['max_y']:.1f}], "
                 f"扩展后 [{expanded_bounds['min_x']:.1f}, {expanded_bounds['max_x']:.1f}] x "
@@ -224,38 +226,118 @@ class WireCutFilter:
                     if content not in target_texts:
                         continue
                     
-                    # 获取文本位置
-                    if hasattr(entity.dxf, 'insert'):
-                        pos = entity.dxf.insert
-                        x, y = pos.x, pos.y
-                    elif hasattr(entity.dxf, 'position'):
-                        pos = entity.dxf.position
-                        x, y = pos.x, pos.y
-                    else:
-                        continue
-                    
-                    # 检查是否在扩展边界内
-                    if (expanded_bounds['min_x'] <= x <= expanded_bounds['max_x'] and 
-                        expanded_bounds['min_y'] <= y <= expanded_bounds['max_y']):
+                    candidate_points = self._get_text_candidate_points(entity)
+                    selected_point = None
+                    selected_source = None
+
+                    for point_source, (x, y) in candidate_points:
+                        if (expanded_bounds['min_x'] <= x <= expanded_bounds['max_x'] and
+                            expanded_bounds['min_y'] <= y <= expanded_bounds['max_y']):
+                            selected_point = (x, y)
+                            selected_source = point_source
+                            break
+
+                    if selected_point:
+                        x, y = selected_point
                         text_positions[content].append((x, y))
                         
                         # 判断是否在原始边界内
                         in_original = (bounds['min_x'] <= x <= bounds['max_x'] and 
                                       bounds['min_y'] <= y <= bounds['max_y'])
                         location_info = "边界内" if in_original else "扩展区域"
-                        logging.debug(f"找到文本 '{content}' 在位置 ({x:.2f}, {y:.2f}) [{location_info}]")
+                        logger.debug(
+                            f"找到文本 '{content}' 在位置 ({x:.2f}, {y:.2f}) "
+                            f"[{location_info}, source={selected_source}]"
+                        )
+                    else:
+                        point_debug = ", ".join(
+                            f"{source}=({x:.2f},{y:.2f})" for source, (x, y) in candidate_points
+                        ) or "no-point"
+                        logger.debug(
+                            f"文本 '{content}' 未落入当前搜索范围: {point_debug}, "
+                            f"bounds=({expanded_bounds['min_x']:.2f},{expanded_bounds['min_y']:.2f})-"
+                            f"({expanded_bounds['max_x']:.2f},{expanded_bounds['max_y']:.2f})"
+                        )
                 
                 except Exception as e:
-                    logging.debug(f"处理文本实体失败: {e}")
+                    logger.debug(f"处理文本实体失败: {e}")
                     continue
         
         except Exception as e:
-            logging.error(f"查找文本位置失败: {e}")
+            logger.error(f"查找文本位置失败: {e}")
         
         # 移除没有找到的编号
         text_positions = {k: v for k, v in text_positions.items() if v}
+
+        if target_texts:
+            found_summary = {
+                code: [f"({x:.2f}, {y:.2f})" for x, y in positions]
+                for code, positions in sorted(text_positions.items())
+            }
+            missing_codes = sorted(set(target_texts) - set(text_positions.keys()))
+            logger.info(
+                f"线割编号文本定位结果: found={found_summary}, missing={missing_codes}, "
+                f"bounds=({bounds['min_x']:.2f},{bounds['min_y']:.2f})-({bounds['max_x']:.2f},{bounds['max_y']:.2f}), "
+                f"expand_margin={expand_margin:.2f}"
+            )
         
         return text_positions
+
+    def _get_text_candidate_points(self, entity) -> List[Tuple[str, Tuple[float, float]]]:
+        """获取文本实体用于搜索的候选定位点。"""
+        candidates: List[Tuple[str, Tuple[float, float]]] = []
+        seen = set()
+
+        def add_candidate(source: str, x: float, y: float) -> None:
+            key = (round(float(x), 6), round(float(y), 6))
+            if key in seen:
+                return
+            seen.add(key)
+            candidates.append((source, (float(x), float(y))))
+
+        if hasattr(entity.dxf, 'insert'):
+            pos = entity.dxf.insert
+            add_candidate('insert', pos.x, pos.y)
+
+        if hasattr(entity.dxf, 'position'):
+            pos = entity.dxf.position
+            add_candidate('position', pos.x, pos.y)
+
+        # 对于某些 TEXT/MTEXT，显示位置和 insert/position 可能不一致；
+        # 补一个 bbox 中心作为兜底点，降低 dim 标注漏识别概率。
+        try:
+            from ezdxf import bbox
+            ext = bbox.extents([entity])
+            if ext.has_data:
+                center_x = (ext.extmin.x + ext.extmax.x) / 2.0
+                center_y = (ext.extmin.y + ext.extmax.y) / 2.0
+                add_candidate('bbox_center', center_x, center_y)
+        except Exception as exc:
+            logger.debug(f"计算文本 bbox 失败: type={entity.dxftype()}, error={exc}")
+
+        return candidates
+
+    def _format_line_brief(self, line: Dict, idx: Optional[int] = None) -> str:
+        """格式化线割实体的关键调试信息。"""
+        parts = []
+        if idx is not None:
+            parts.append(f"idx={idx}")
+        parts.append(f"type={line.get('type')}")
+        parts.append(f"len={line.get('length', 0.0):.2f}")
+        center = line.get('center')
+        if center:
+            parts.append(f"center=({center[0]:.2f},{center[1]:.2f})")
+        start = line.get('start')
+        if start:
+            parts.append(f"start=({start[0]:.2f},{start[1]:.2f})")
+        end = line.get('end')
+        if end:
+            parts.append(f"end=({end[0]:.2f},{end[1]:.2f})")
+        entity = line.get('entity')
+        if entity is not None:
+            parts.append(f"layer={getattr(entity.dxf, 'layer', '')}")
+            parts.append(f"color={getattr(entity.dxf, 'color', '')}")
+        return ", ".join(parts)
     
     def match_lines_to_codes(
         self, 
@@ -297,7 +379,7 @@ class WireCutFilter:
             if closest_code and min_distance <= self.proximity_threshold:
                 matched_lines.append(line)
                 used_codes.add(closest_code)
-                logging.debug(
+                logger.debug(
                     f"线割实线 (中心: {line_x:.1f}, {line_y:.1f}) "
                     f"与工艺编号 '{closest_code}' 配对成功, 距离: {min_distance:.2f}mm"
                 )
@@ -305,7 +387,7 @@ class WireCutFilter:
         # 报告未配对的工艺编号
         unmatched_codes = set(text_positions.keys()) - used_codes
         if unmatched_codes:
-            logging.warning(f"以下工艺编号未找到配对的线割实线: {unmatched_codes}")
+            logger.warning(f"以下工艺编号未找到配对的线割实线: {unmatched_codes}")
         
         return matched_lines
     
@@ -439,7 +521,7 @@ class WireCutFilter:
                 return float('inf')
         
         except Exception as e:
-            logging.debug(f"计算到实体的距离失败: {e}")
+            logger.debug(f"计算到实体的距离失败: {e}")
             return float('inf')
 
     def _get_spline_points(self, entity, distance: float = 0.1) -> List[Tuple[float, float]]:
@@ -449,12 +531,12 @@ class WireCutFilter:
             if points:
                 return [(point.x, point.y) for point in points]
         except Exception as exc:
-            logging.debug(f"[SPLINE] flattening 失败，改用控制点: {exc}")
+            logger.debug(f"[SPLINE] flattening 失败，改用控制点: {exc}")
 
         try:
             return [(float(point[0]), float(point[1])) for point in entity.control_points]
         except Exception as exc:
-            logging.debug(f"[SPLINE] 读取控制点失败: {exc}")
+            logger.debug(f"[SPLINE] 读取控制点失败: {exc}")
             return []
     
     def _point_to_line_distance(
@@ -576,12 +658,12 @@ class WireCutFilter:
         
         if len(connected_groups) == 1:
             # 所有线段都连接成一组
-            logging.info(f"  所有 {len(candidate_lines)} 条线段首尾相连成一组")
+            logger.info(f"  所有 {len(candidate_lines)} 条线段首尾相连成一组")
             matched_lines.extend(candidate_lines)
             code_matched_lines[code] = candidate_lines
         else:
             # 分成多组，选择离编号最近的一组
-            logging.info(f"  线段分为 {len(connected_groups)} 组，选择离编号最近的一组")
+            logger.info(f"  线段分为 {len(connected_groups)} 组，选择离编号最近的一组")
             
             best_group = None
             best_distance = float('inf')
@@ -603,7 +685,7 @@ class WireCutFilter:
             if best_group:
                 matched_lines.extend(best_group)
                 code_matched_lines[code] = best_group
-                logging.info(
+                logger.info(
                     f"  选择了包含 {len(best_group)} 条线段的组，"
                     f"距离编号 {best_distance:.2f}mm"
                 )
@@ -655,7 +737,7 @@ class WireCutFilter:
                         })
                 # CIRCLE 和 ARC 不参与首尾相连
             except Exception as e:
-                logging.debug(f"获取线段端点失败: {e}")
+                logger.debug(f"获取线段端点失败: {e}")
                 continue
         
         if not line_endpoints:
@@ -715,11 +797,11 @@ class WireCutFilter:
             if line not in [l for group in groups for l in group]:
                 groups.append([line])
         
-        logging.debug(f"首尾相连结果: {len(lines)} 条线段分为 {len(groups)} 组")
+        logger.debug(f"首尾相连结果: {len(lines)} 条线段分为 {len(groups)} 组")
         for idx, group in enumerate(groups):
             if len(group) > 1:
                 total_length = sum(l['length'] for l in group)
-                logging.debug(f"  组 {idx+1}: {len(group)} 条线段，总长度 {total_length:.2f}mm")
+                logger.debug(f"  组 {idx+1}: {len(group)} 条线段，总长度 {total_length:.2f}mm")
         
         return groups
     
@@ -773,7 +855,7 @@ class WireCutFilter:
         code_matched_lines = {code: [] for code in wire_cut_info.keys()}
         used_line_indices = set()  # 记录已使用的线割实线索引
         
-        logging.info("🔍 基于位置的一对一匹配策略")
+        logger.info("🔍 基于位置的一对一匹配策略")
         
         # 判断每个编号是否为孔工艺
         hole_process_codes = {}
@@ -783,7 +865,7 @@ class WireCutFilter:
                 is_hole = self._is_hole_process(instruction)
                 hole_process_codes[code] = is_hole
                 if is_hole:
-                    logging.info(f"🔵 编号 '{code}' 识别为孔工艺，只能匹配圆形（CIRCLE）实体")
+                    logger.info(f"🔵 编号 '{code}' 识别为孔工艺，只能匹配圆形（CIRCLE）实体")
         
         # 为每个编号的每个位置独立匹配线割实线
         for code, positions in text_positions.items():
@@ -791,14 +873,16 @@ class WireCutFilter:
             is_hole_process = hole_process_codes.get(code, False)
             
             if len(positions) != expected_count:
-                logging.warning(
+                logger.warning(
                     f"⚠️ 编号 '{code}' 在图纸中出现 {len(positions)} 次，"
                     f"但期望数量为 {expected_count}"
                 )
             
             # 为每个位置匹配线割实线
             for pos_idx, (text_x, text_y) in enumerate(positions):
-                logging.debug(f"为编号 '{code}' 的第 {pos_idx + 1} 个位置 ({text_x:.1f}, {text_y:.1f}) 匹配线割实线")
+                logger.debug(f"为编号 '{code}' 的第 {pos_idx + 1} 个位置 ({text_x:.1f}, {text_y:.1f}) 匹配线割实线")
+
+                center_candidates = []
                 
                 # 找到距离该位置最近的未使用线割实线
                 best_line = None
@@ -820,11 +904,26 @@ class WireCutFilter:
                     
                     line_x, line_y = line['center']
                     distance = math.sqrt((line_x - text_x)**2 + (line_y - text_y)**2)
+                    center_candidates.append((distance, idx, line))
                     
                     if distance < best_distance:
                         best_distance = distance
                         best_line = line
                         best_line_idx = idx
+
+                if center_candidates:
+                    center_candidates.sort(key=lambda item: item[0])
+                    top_candidates = "; ".join(
+                        f"d={distance:.2f}, {self._format_line_brief(line, idx)}"
+                        for distance, idx, line in center_candidates[:5]
+                    )
+                    logger.info(
+                        f"编号 '{code}' 位置 {pos_idx + 1} 中心点候选 Top{min(5, len(center_candidates))}: {top_candidates}"
+                    )
+                else:
+                    logger.info(
+                        f"编号 '{code}' 位置 {pos_idx + 1} 没有可用于中心点匹配的候选实体"
+                    )
                 
                 # 如果找到了符合条件的线割实线
                 if best_line and best_distance <= self.proximity_threshold:
@@ -835,7 +934,7 @@ class WireCutFilter:
                     )
                     
                     if should_try_connectivity:
-                        logging.debug(
+                        logger.debug(
                             f"  找到小实体 ({best_line['length']:.2f}mm)，"
                             f"尝试连通性分析"
                         )
@@ -862,7 +961,7 @@ class WireCutFilter:
                             code_matched_lines[code].extend(connected_lines)
                             used_line_indices.update(connected_indices)
                             
-                            logging.info(
+                            logger.info(
                                 f"✅ 编号 '{code}' 位置 {pos_idx + 1} 通过连通性分析匹配到 "
                                 f"{len(connected_indices)} 个连通实体，总长度 {total_length:.2f}mm"
                             )
@@ -872,7 +971,7 @@ class WireCutFilter:
                             code_matched_lines[code].append(best_line)
                             used_line_indices.add(best_line_idx)
                             
-                            logging.info(
+                            logger.info(
                                 f"✅ 编号 '{code}' 位置 {pos_idx + 1} 匹配到 1 条线割实线，"
                                 f"长度 {best_line['length']:.2f}mm，距离 {best_distance:.2f}mm"
                             )
@@ -882,19 +981,19 @@ class WireCutFilter:
                         code_matched_lines[code].append(best_line)
                         used_line_indices.add(best_line_idx)
                         
-                        logging.info(
+                        logger.info(
                             f"✅ 编号 '{code}' 位置 {pos_idx + 1} 匹配到 1 条线割实线，"
                             f"长度 {best_line['length']:.2f}mm，距离 {best_distance:.2f}mm"
                         )
                 else:
                     # 没有找到符合条件的线割实线
                     if best_line:
-                        logging.warning(
+                        logger.warning(
                             f"⚠️ 编号 '{code}' 位置 {pos_idx + 1} 最近的线割实线距离 "
                             f"{best_distance:.2f}mm 超过阈值 {self.proximity_threshold}mm"
                         )
                     else:
-                        logging.warning(
+                        logger.warning(
                             f"⚠️ 编号 '{code}' 位置 {pos_idx + 1} 未找到可用的线割实线"
                         )
         
@@ -907,7 +1006,7 @@ class WireCutFilter:
                 unmatched_positions.append((code, positions))
         
         if unmatched_positions:
-            logging.info("🔄 启动兜底机制：使用最近点距离进行二次匹配")
+            logger.info("🔄 启动兜底机制：使用最近点距离进行二次匹配")
             
             for code, positions in unmatched_positions:
                 # 获取当前编号的孔工艺状态
@@ -919,12 +1018,13 @@ class WireCutFilter:
                     if len(code_matched_lines.get(code, [])) >= wire_cut_info.get(code, 1):
                         continue
                     
-                    logging.debug(f"兜底匹配：为编号 '{code}' 的第 {pos_idx + 1} 个位置 ({text_x:.1f}, {text_y:.1f}) 使用最近点距离")
+                    logger.debug(f"兜底匹配：为编号 '{code}' 的第 {pos_idx + 1} 个位置 ({text_x:.1f}, {text_y:.1f}) 使用最近点距离")
                     
                     # 使用最近点距离查找线割实线
                     best_line = None
                     best_line_idx = None
                     best_min_distance = float('inf')
+                    min_distance_candidates = []
                     
                     for idx, line in enumerate(red_lines):
                         if idx in used_line_indices:
@@ -940,11 +1040,26 @@ class WireCutFilter:
                         min_distance = self._calculate_min_distance_to_entity(
                             line['entity'], text_x, text_y
                         )
+                        min_distance_candidates.append((min_distance, idx, line))
                         
                         if min_distance < best_min_distance:
                             best_min_distance = min_distance
                             best_line = line
                             best_line_idx = idx
+
+                    if min_distance_candidates:
+                        min_distance_candidates.sort(key=lambda item: item[0])
+                        top_candidates = "; ".join(
+                            f"d={distance:.2f}, {self._format_line_brief(line, idx)}"
+                            for distance, idx, line in min_distance_candidates[:5]
+                        )
+                        logger.info(
+                            f"编号 '{code}' 位置 {pos_idx + 1} 最近点候选 Top{min(5, len(min_distance_candidates))}: {top_candidates}"
+                        )
+                    else:
+                        logger.info(
+                            f"编号 '{code}' 位置 {pos_idx + 1} 没有可用于最近点兜底的候选实体"
+                        )
                     
                     # 如果找到了符合条件的线割实线
                     if best_line and best_min_distance <= self.proximity_threshold:
@@ -955,7 +1070,7 @@ class WireCutFilter:
                         )
                         
                         if should_try_connectivity:
-                            logging.debug(
+                            logger.debug(
                                 f"  找到小实体 ({best_line['length']:.2f}mm)，"
                                 f"尝试连通性分析"
                             )
@@ -982,7 +1097,7 @@ class WireCutFilter:
                                 code_matched_lines[code].extend(connected_lines)
                                 used_line_indices.update(connected_indices)
                                 
-                                logging.info(
+                                logger.info(
                                     f"✅ [兜底] 编号 '{code}' 位置 {pos_idx + 1} 通过连通性分析匹配到 "
                                     f"{len(connected_indices)} 个连通实体，总长度 {total_length:.2f}mm，最近点距离 {best_min_distance:.2f}mm"
                                 )
@@ -992,7 +1107,7 @@ class WireCutFilter:
                                 code_matched_lines[code].append(best_line)
                                 used_line_indices.add(best_line_idx)
                                 
-                                logging.info(
+                                logger.info(
                                     f"✅ [兜底] 编号 '{code}' 位置 {pos_idx + 1} 匹配到 1 条线割实线，"
                                     f"长度 {best_line['length']:.2f}mm，最近点距离 {best_min_distance:.2f}mm"
                                 )
@@ -1002,14 +1117,14 @@ class WireCutFilter:
                             code_matched_lines[code].append(best_line)
                             used_line_indices.add(best_line_idx)
                             
-                            logging.info(
+                            logger.info(
                                 f"✅ [兜底] 编号 '{code}' 位置 {pos_idx + 1} 匹配到 1 条线割实线，"
                                 f"长度 {best_line['length']:.2f}mm，最近点距离 {best_min_distance:.2f}mm"
                             )
                     else:
                         # 仍然没有找到符合条件的线割实线
                         if best_line:
-                            logging.warning(
+                            logger.warning(
                                 f"⚠️ [兜底] 编号 '{code}' 位置 {pos_idx + 1} 最近点距离 "
                                 f"{best_min_distance:.2f}mm 仍超过阈值 {self.proximity_threshold}mm"
                             )
@@ -1043,15 +1158,15 @@ class WireCutFilter:
                 
                 # 注释掉详细的警告日志，避免日志过多
                 # if actual_count == 0:
-                #     logging.warning(
+                #     logger.warning(
                 #         f"⚠️ 工艺编号 '{code}' 期望 {expected_count} 个线割实线，但未找到任何配对"
                 #     )
                 # else:
-                #     logging.warning(
+                #     logger.warning(
                 #         f"⚠️ 工艺编号 '{code}' 期望 {expected_count} 个线割实线，实际找到 {actual_count} 个"
                 #     )
             else:
-                logging.debug(
+                logger.debug(
                     f"✅ 工艺编号 '{code}' 配对成功: {actual_count}/{expected_count} 个线割实线"
                 )
         
@@ -1078,7 +1193,7 @@ class WireCutFilter:
         """
         # 如果没有提供线割工艺编号，返回所有线割实线
         if not wire_cut_codes:
-            logging.debug(f"未提供线割编号，保留所有 {len(red_lines)} 条线割实线")
+            logger.debug(f"未提供线割编号，保留所有 {len(red_lines)} 条线割实线")
             return red_lines
         
         # 查找线割工艺编号的位置（扩展边界以查找可能在边界外的文本）
@@ -1087,15 +1202,15 @@ class WireCutFilter:
         )
         
         if not text_positions:
-            logging.warning(f"在视图边界内未找到线割工艺编号 {wire_cut_codes}，返回空列表")
+            logger.warning(f"在视图边界内未找到线割工艺编号 {wire_cut_codes}，返回空列表")
             return []
         
-        logging.info(f"在视图中找到 {len(text_positions)} 个线割工艺编号")
+        logger.info(f"在视图中找到 {len(text_positions)} 个线割工艺编号")
         
         # 将线割实线与工艺编号配对
         matched_lines = self.match_lines_to_codes(red_lines, text_positions)
         
-        logging.info(
+        logger.info(
             f"配对结果: {len(matched_lines)}/{len(red_lines)} 条线割实线与工艺编号配对成功"
         )
         
@@ -1124,7 +1239,7 @@ class WireCutFilter:
         """
         # 如果没有提供线割工艺信息，返回所有线割实线
         if not wire_cut_info:
-            logging.debug(f"未提供线割编号，保留所有 {len(red_lines)} 条线割实线")
+            logger.debug(f"未提供线割编号，保留所有 {len(red_lines)} 条线割实线")
             return red_lines, [], {}
         
         # 查找线割工艺编号的位置（扩展边界以查找可能在边界外的文本）
@@ -1134,24 +1249,24 @@ class WireCutFilter:
         )
         
         if not text_positions:
-            logging.warning(f"在视图边界内未找到线割工艺编号 {wire_cut_codes}，返回空列表")
+            logger.warning(f"在视图边界内未找到线割工艺编号 {wire_cut_codes}，返回空列表")
             # 如果在这个视图中没有找到任何工艺编号文本，不生成数量不匹配异常
             # 因为这可能是正常的（工艺编号可能在其他视图中）
             return [], [], {}
         
-        logging.info(f"在视图中找到 {len(text_positions)} 个线割工艺编号")
+        logger.info(f"在视图中找到 {len(text_positions)} 个线割工艺编号")
         
         # 将线割实线与工艺编号配对，并验证数量
         matched_lines, count_mismatches, code_matched_lines = self.match_lines_to_codes_with_count(
             red_lines, text_positions, wire_cut_info, processing_instructions
         )
         
-        logging.info(
+        logger.info(
             f"配对结果: {len(matched_lines)}/{len(red_lines)} 条线割实线与工艺编号配对成功"
         )
         
         if count_mismatches:
-            logging.warning(f"发现 {len(count_mismatches)} 个数量不匹配的工艺编号")
+            logger.warning(f"发现 {len(count_mismatches)} 个数量不匹配的工艺编号")
         
         return matched_lines, count_mismatches, code_matched_lines
     
@@ -1178,7 +1293,7 @@ class WireCutFilter:
         """
         # 如果没有提供线割工艺信息，返回空列表（未匹配的线割实线将在额外工艺匹配阶段处理）
         if not wire_cut_info:
-            logging.debug(f"未提供线割编号，返回空列表（线割实线将在额外工艺匹配阶段处理）")
+            logger.debug(f"未提供线割编号，返回空列表（线割实线将在额外工艺匹配阶段处理）")
             return [], {}, [], {}
         
         # 查找线割工艺编号的位置（支持同一编号多次出现，扩展边界以查找可能在边界外的文本）
@@ -1188,7 +1303,7 @@ class WireCutFilter:
         )
         
         if not text_positions:
-            logging.warning(f"在视图边界内未找到线割工艺编号 {wire_cut_codes}，返回空列表")
+            logger.warning(f"在视图边界内未找到线割工艺编号 {wire_cut_codes}，返回空列表")
             # 如果在这个视图中没有找到任何工艺编号文本，返回空的出现次数
             return [], {}, [], {}
         
@@ -1196,16 +1311,16 @@ class WireCutFilter:
         code_occurrences = {code: len(positions) for code, positions in text_positions.items()}
         total_occurrences = sum(code_occurrences.values())
         
-        logging.info(f"在视图中找到 {len(text_positions)} 个线割工艺编号，共 {total_occurrences} 个实例")
+        logger.info(f"在视图中找到 {len(text_positions)} 个线割工艺编号，共 {total_occurrences} 个实例")
         for code, count in code_occurrences.items():
-            logging.info(f"  编号 '{code}' 在此视图中出现 {count} 次")
+            logger.info(f"  编号 '{code}' 在此视图中出现 {count} 次")
         
         # 将线割实线与工艺编号配对（使用带兜底机制的方法）
         matched_lines, count_mismatches, code_matched_lines = self.match_lines_to_codes_with_count(
             red_lines, text_positions, wire_cut_info, processing_instructions
         )
         
-        logging.info(
+        logger.info(
             f"配对结果: {len(matched_lines)}/{len(red_lines)} 条线割实线与工艺编号配对成功"
         )
         
@@ -1224,7 +1339,7 @@ class WireCutFilter:
         
         for code in text_positions.keys():
             line_count = code_line_counts.get(code, 0)
-            logging.info(f"  编号 '{code}' 在此视图中匹配到 {line_count} 条线割实线")
+            logger.info(f"  编号 '{code}' 在此视图中匹配到 {line_count} 条线割实线")
         
         return matched_lines, code_occurrences, count_mismatches, code_matched_lines
 

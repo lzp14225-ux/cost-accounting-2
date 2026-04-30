@@ -10,6 +10,7 @@ from typing import Optional, Dict, List, Tuple
 # 导入封闭区域检测器
 from .closed_area_detector import ClosedAreaDetector
 
+logger = logging.getLogger("scripts.feature_recognition.red_line_calculator")
 
 class RedLineCalculator:
     """线割实线计算器 - 计算边界内线割工艺实线的总长度（支持001/220/190色号）"""
@@ -145,7 +146,7 @@ class RedLineCalculator:
                     continue
             
         except Exception as e:
-            logging.error(f"获取边界内线割实线失败: {str(e)}")
+            logger.error(f"获取边界内线割实线失败: {str(e)}")
         
         return red_lines
     
@@ -256,7 +257,30 @@ class RedLineCalculator:
                 except Exception:
                     continue
             
-            logging.debug(f"边界内找到 {len(red_lines)} 条线割实线（初步筛选）")
+            logger.debug(f"边界内找到 {len(red_lines)} 条线割实线（初步筛选）")
+            if red_lines:
+                line_summary = "; ".join(
+                    (
+                        f"type={line['type']}, len={line['length']:.2f}, "
+                        f"center=({line['center'][0]:.2f},{line['center'][1]:.2f})"
+                        if line.get('center')
+                        else f"type={line['type']}, len={line['length']:.2f}, center=None"
+                    ) + (
+                        f", layer={getattr(line['entity'].dxf, 'layer', '')}, "
+                        f"color={getattr(line['entity'].dxf, 'color', '')}"
+                    )
+                    for line in red_lines[:20]
+                )
+                logger.info(
+                    f"线割候选实体汇总: count={len(red_lines)}, "
+                    f"bounds=({bounds['min_x']:.2f},{bounds['min_y']:.2f})-({bounds['max_x']:.2f},{bounds['max_y']:.2f}), "
+                    f"sample={line_summary}"
+                )
+            else:
+                logger.info(
+                    f"线割候选实体汇总: count=0, "
+                    f"bounds=({bounds['min_x']:.2f},{bounds['min_y']:.2f})-({bounds['max_x']:.2f},{bounds['max_y']:.2f})"
+                )
             
             # 2. 使用线割过滤器进行过滤（统计编号出现次数和配对失败信息）
             filtered_lines, code_occurrences, count_mismatches, code_matched_lines = wire_cut_filter.filter_red_lines_and_count_occurrences(
@@ -267,7 +291,7 @@ class RedLineCalculator:
             total_length = sum(line['length'] for line in filtered_lines)
             red_line_count = len(filtered_lines)
             
-            logging.debug(f"最终计算: {red_line_count} 条线割实线, 总长度: {total_length:.2f}mm")
+            logger.debug(f"最终计算: {red_line_count} 条线割实线, 总长度: {total_length:.2f}mm")
             
             if return_count:
                 return float(total_length), red_line_count, code_occurrences, count_mismatches, code_matched_lines
@@ -275,7 +299,7 @@ class RedLineCalculator:
                 return float(total_length)
             
         except Exception as e:
-            logging.error(f"计算边界内线割实线长度失败: {str(e)}")
+            logger.error(f"计算边界内线割实线长度失败: {str(e)}")
             if return_count:
                 return 0.0, 0, {}, [], {}
             else:
@@ -387,7 +411,7 @@ class RedLineCalculator:
             # 方法1：炸开法（推荐）
             return self._calculate_polyline_by_explode(entity)
         except Exception as e:
-            logging.debug(f"[多段线长度] 炸开法失败，使用手动计算: {e}")
+            logger.debug(f"[多段线长度] 炸开法失败，使用手动计算: {e}")
             # 方法2：手动计算法（备用）
             return self._calculate_polyline_by_vertices(entity)
 
@@ -398,12 +422,12 @@ class RedLineCalculator:
             if points:
                 return [(point.x, point.y) for point in points]
         except Exception as exc:
-            logging.debug(f"[SPLINE] flattening 失败，改用控制点: {exc}")
+            logger.debug(f"[SPLINE] flattening 失败，改用控制点: {exc}")
 
         try:
             return [(float(point[0]), float(point[1])) for point in entity.control_points]
         except Exception as exc:
-            logging.debug(f"[SPLINE] 读取控制点失败: {exc}")
+            logger.debug(f"[SPLINE] 读取控制点失败: {exc}")
             return []
 
     def _calculate_spline_length_from_points(self, points: List[Tuple[float, float]]) -> float:

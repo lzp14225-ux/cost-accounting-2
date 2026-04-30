@@ -18,7 +18,7 @@ import time
 import ezdxf
 from pathlib import Path
 from dotenv import load_dotenv
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 import sys
 from urllib.parse import urlparse
 
@@ -45,7 +45,7 @@ from .material_info_extractor import (
 )
 from .view_wire_calculator import ViewWireCalculator
 from .frame_text_extractor import extract_frame_texts, parse_frame_texts_from_extracted
-from .text_extractor import extract_all_texts
+from .text_extractor import extract_all_texts, clean_text_content
 from .boring_calculator import calculate_boring_num
 from .material_preparation_extractor import extract_material_preparation
 from .water_mill_calculator import get_water_mill_data, should_calculate_water_mill
@@ -377,26 +377,149 @@ def _build_formula_wire_detail(
     code: str,
     formula: Dict[str, Any],
     existing_detail: Optional[Dict[str, Any]] = None,
+    view_name: Optional[str] = None,
+    total_length: Optional[float] = None,
+    matched_count: Optional[int] = None,
 ) -> Dict[str, Any]:
     base = dict(existing_detail or {})
+    detail_total_length = round(float(total_length), 2) if total_length is not None else formula['total_length']
+    detail_matched_count = int(matched_count) if matched_count is not None else formula['count']
+    detail_single_length = (
+        round(detail_total_length / detail_matched_count, 2)
+        if detail_matched_count > 0
+        else formula['single_length']
+    )
     base.update({
         'code': code,
         'instruction': formula['instruction'],
         'expected_count': formula['count'],
-        'matched_count': formula['count'],
-        'single_length': formula['single_length'],
-        'total_length': formula['total_length'],
-        'view': base.get('view') or 'top_view',
+        'matched_count': detail_matched_count,
+        'single_length': detail_single_length,
+        'total_length': detail_total_length,
+        'view': view_name or base.get('view') or 'top_view',
         'slider_angle': base.get('slider_angle', 0),
         'is_additional': bool(base.get('is_additional', False)),
         'cone': base.get('cone', 'f'),
-        'area_num': int(base.get('area_num') or formula['count']),
+        'area_num': int(base.get('area_num') or detail_matched_count),
         'matched_line_ids': base.get('matched_line_ids') or [],
         'formula_fallback': True,
         'calculation_method': 'diameter_count_pi',
         'diameter': formula['diameter'],
     })
     return base
+
+
+VIEW_WIRE_LENGTH_FIELDS = {
+    'top_view': 'top_view_wire_length',
+    'front_view': 'front_view_wire_length',
+    'side_view': 'side_view_wire_length',
+}
+
+
+def _is_point_in_bounds(x: float, y: float, bounds: Dict[str, Any], margin: float = 0.0) -> bool:
+    return (
+        bounds.get('min_x', 0) - margin <= x <= bounds.get('max_x', 0) + margin
+        and bounds.get('min_y', 0) - margin <= y <= bounds.get('max_y', 0) + margin
+    )
+
+
+def _get_entity_text_and_position(entity) -> Tuple[Optional[str], Optional[Tuple[float, float]]]:
+    try:
+        if entity.dxftype() == 'MTEXT':
+            raw_text = entity.text if hasattr(entity, 'text') else entity.dxf.text
+        else:
+            raw_text = entity.dxf.text
+        text = clean_text_content(raw_text).strip()
+
+        if hasattr(entity.dxf, 'insert'):
+            pos = entity.dxf.insert
+        elif hasattr(entity.dxf, 'position'):
+            pos = entity.dxf.position
+        else:
+            return text, None
+
+        return text, (float(pos.x), float(pos.y))
+    except Exception:
+        return None, None
+
+
+def _find_code_view_occurrences(
+    doc,
+    views: Optional[Dict[str, Dict[str, Any]]],
+    code: str,
+    expand_margin: float = 18.0,
+) -> Dict[str, int]:
+    if not doc or not views or not code:
+        return {}
+
+    occurrences = {view_name: 0 for view_name in VIEW_WIRE_LENGTH_FIELDS}
+    try:
+        for entity in doc.modelspace().query('TEXT MTEXT'):
+            text, position = _get_entity_text_and_position(entity)
+            if text != code or not position:
+                continue
+
+            x, y = position
+            for view_name in VIEW_WIRE_LENGTH_FIELDS:
+                bounds = (views.get(view_name) or {}).get('bounds')
+                if bounds and _is_point_in_bounds(x, y, bounds, margin=expand_margin):
+                    occurrences[view_name] += 1
+    except Exception as exc:
+        logging.warning("线割公式兜底查找编号视图失败: code=%s, error=%s", code, exc)
+        return {}
+
+    return {view_name: count for view_name, count in occurrences.items() if count > 0}
+
+
+def _allocate_formula_length_by_view(
+    formula: Dict[str, Any],
+    view_occurrences: Dict[str, int],
+) -> List[Dict[str, Any]]:
+    if not view_occurrences:
+        return [{
+            'view': 'top_view',
+            'matched_count': formula['count'],
+            'total_length': formula['total_length'],
+        }]
+
+    if len(view_occurrences) == 1:
+        view_name = next(iter(view_occurrences))
+        return [{
+            'view': view_name,
+            'matched_count': formula['count'],
+            'total_length': formula['total_length'],
+        }]
+
+    total_occurrences = sum(view_occurrences.values())
+    if total_occurrences <= 0:
+        return [{
+            'view': 'top_view',
+            'matched_count': formula['count'],
+            'total_length': formula['total_length'],
+        }]
+
+    allocations = []
+    remaining_length = formula['total_length']
+    remaining_count = formula['count']
+    items = list(view_occurrences.items())
+    for idx, (view_name, occurrence_count) in enumerate(items):
+        if idx == len(items) - 1:
+            matched_count = max(remaining_count, 1)
+            total_length = remaining_length
+        else:
+            matched_count = max(1, round(formula['count'] * occurrence_count / total_occurrences))
+            matched_count = min(matched_count, max(remaining_count - (len(items) - idx - 1), 1))
+            total_length = round(formula['total_length'] * occurrence_count / total_occurrences, 2)
+            remaining_count -= matched_count
+            remaining_length = round(remaining_length - total_length, 2)
+
+        allocations.append({
+            'view': view_name,
+            'matched_count': matched_count,
+            'total_length': total_length,
+        })
+
+    return allocations
 
 
 def _remove_resolved_wire_formula_anomalies(
@@ -428,6 +551,8 @@ def _apply_diameter_wire_formula_fallback(
     wire_cut_details: List[Dict[str, Any]],
     wire_cut_anomalies: List[Dict[str, Any]],
     view_wire_lengths: Dict[str, Any],
+    doc=None,
+    views: Optional[Dict[str, Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
     formula_by_code = {}
     for code, instruction in (processing_instructions or {}).items():
@@ -455,15 +580,32 @@ def _apply_diameter_wire_formula_fallback(
         code = str(detail.get('code'))
         formula = formula_by_code.get(code)
         if formula and code not in positive_codes and _detail_total_length(detail) <= 0:
-            formula_detail = _build_formula_wire_detail(code, formula, detail)
-            new_details.append(formula_detail)
+            view_occurrences = _find_code_view_occurrences(doc, views, code)
+            for allocation in _allocate_formula_length_by_view(formula, view_occurrences):
+                formula_detail = _build_formula_wire_detail(
+                    code,
+                    formula,
+                    detail,
+                    view_name=allocation['view'],
+                    total_length=allocation['total_length'],
+                    matched_count=allocation['matched_count'],
+                )
+                new_details.append(formula_detail)
             applied_codes.add(code)
         else:
             new_details.append(detail)
 
     for code, formula in formula_by_code.items():
         if code not in existing_codes and code not in positive_codes:
-            new_details.append(_build_formula_wire_detail(code, formula))
+            view_occurrences = _find_code_view_occurrences(doc, views, code)
+            for allocation in _allocate_formula_length_by_view(formula, view_occurrences):
+                new_details.append(_build_formula_wire_detail(
+                    code,
+                    formula,
+                    view_name=allocation['view'],
+                    total_length=allocation['total_length'],
+                    matched_count=allocation['matched_count'],
+                ))
             applied_codes.add(code)
 
     if not applied_codes:
@@ -473,14 +615,22 @@ def _apply_diameter_wire_formula_fallback(
             'applied_codes': [],
         }
 
-    added_length = sum(
-        detail['total_length']
-        for detail in new_details
-        if detail.get('formula_fallback') and str(detail.get('code')) in applied_codes
-    )
-    view_wire_lengths['top_view_wire_length'] = (
-        float(view_wire_lengths.get('top_view_wire_length') or 0) + added_length
-    )
+    added_lengths_by_view = {view_name: 0.0 for view_name in VIEW_WIRE_LENGTH_FIELDS}
+    for detail in new_details:
+        if not detail.get('formula_fallback') or str(detail.get('code')) not in applied_codes:
+            continue
+        view_name = detail.get('view') or 'top_view'
+        if view_name not in added_lengths_by_view:
+            view_name = 'top_view'
+        added_lengths_by_view[view_name] += float(detail.get('total_length') or 0)
+
+    for view_name, added_length in added_lengths_by_view.items():
+        if added_length <= 0:
+            continue
+        field_name = VIEW_WIRE_LENGTH_FIELDS[view_name]
+        view_wire_lengths[field_name] = (
+            float(view_wire_lengths.get(field_name) or 0) + added_length
+        )
 
     for code in sorted(applied_codes):
         formula = formula_by_code[code]
@@ -897,14 +1047,18 @@ def analyze_dxf_features(dxf_file_path: str, job_id: Optional[str] = None) -> Op
                 wire_cut_details,
                 wire_cut_anomalies,
                 view_wire_lengths,
+                doc=doc,
+                views=views,
             )
             if formula_fallback_result.get('applied_codes'):
                 wire_cut_details = formula_fallback_result['wire_cut_details']
                 wire_cut_anomalies = formula_fallback_result['wire_cut_anomalies']
                 logging.info(
-                    "线割公式兜底完成: applied_codes=%s, top_view_wire_length=%.2fmm",
+                    "线割公式兜底完成: applied_codes=%s, top=%.2fmm, front=%.2fmm, side=%.2fmm",
                     formula_fallback_result['applied_codes'],
                     view_wire_lengths['top_view_wire_length'],
+                    view_wire_lengths['front_view_wire_length'],
+                    view_wire_lengths['side_view_wire_length'],
                 )
 
             auto_material_red_line_fallback = _apply_auto_material_red_line_fallback(
@@ -976,6 +1130,33 @@ def analyze_dxf_features(dxf_file_path: str, job_id: Optional[str] = None) -> Op
                     
             except Exception as e:
                 logging.warning(f"⚠️ 滑块工艺计算失败: {e}")
+                import traceback
+                logging.debug(traceback.format_exc())
+
+            # 侧视图与主视图重合的无效红色线过滤（在滑块计算之后）
+            try:
+                from .wire_view_overlap_filter import WireViewOverlapFilter
+
+                view_overlap_filter = WireViewOverlapFilter(
+                    overlap_tolerance=0.5,
+                    full_overlap_ratio=0.95,
+                )
+                wire_cut_details, view_length_adjustments = (
+                    view_overlap_filter.filter_side_view_overlaps_with_top_view(
+                        doc, wire_cut_details, views
+                    )
+                )
+
+                for view_field, adjustment in view_length_adjustments.items():
+                    if adjustment != 0:
+                        view_wire_lengths[view_field] += adjustment
+                        logging.info(
+                            f"✅ {view_field} 调整后长度: {view_wire_lengths[view_field]:.2f}mm "
+                            f"(调整量: {adjustment:.2f}mm)"
+                        )
+
+            except Exception as e:
+                logging.warning(f"⚠️ 跨视图线割重合过滤失败: {e}")
                 import traceback
                 logging.debug(traceback.format_exc())
             

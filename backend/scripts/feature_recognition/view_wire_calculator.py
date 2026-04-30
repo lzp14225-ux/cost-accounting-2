@@ -6,7 +6,7 @@
 import logging
 import math
 import re
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 from .view_identifier import ViewIdentifier
 from .red_line_calculator import RedLineCalculator
 from .wire_cut_filter import WireCutFilter
@@ -33,7 +33,213 @@ class ViewWireCalculator:
             text_search_expand_margin=text_search_expand_margin
         )
         self.spatial_analyzer = SpatialWireCutAnalyzer(connection_tolerance=0.5)
-    
+
+    def _calculate_matched_count(self, lines: List[Dict]) -> int:
+        """Count connected groups as one matched item."""
+        connectivity_groups = set()
+        individual_count = 0
+
+        for line in lines or []:
+            if 'connectivity_group_id' in line:
+                connectivity_groups.add(line['connectivity_group_id'])
+            else:
+                individual_count += 1
+
+        return len(connectivity_groups) + individual_count
+
+    def _get_polyline_bounds(self, entity) -> Optional[Dict[str, float]]:
+        try:
+            points = list(entity.get_points('xy'))
+            if not points:
+                return None
+            xs = [p[0] for p in points]
+            ys = [p[1] for p in points]
+            return {
+                'min_x': min(xs),
+                'max_x': max(xs),
+                'min_y': min(ys),
+                'max_y': max(ys),
+            }
+        except Exception:
+            return None
+
+    def _bounds_overlap(self, first: Dict, second: Dict, tolerance: float = 1.0) -> bool:
+        return not (
+            first['max_x'] < second['min_x'] - tolerance or
+            first['min_x'] > second['max_x'] + tolerance or
+            first['max_y'] < second['min_y'] - tolerance or
+            first['min_y'] > second['max_y'] + tolerance
+        )
+
+    def _find_partial_front_view_bounds(
+        self,
+        msp,
+        length: float,
+        thickness: float,
+        views: Optional[Dict[str, Dict]],
+    ) -> List[Dict[str, float]]:
+        """
+        Find partial front-view material-line boxes.
+
+        Some drawings include local front/section views with width ~= L but height
+        smaller than T. They are valid places for front-view wire marks, but the
+        standard LxT view recognizer skips them.
+        """
+        candidates = []
+        size_tolerance = max(5.0, self.view_identifier.tolerance * 2)
+        min_height = 2.0
+
+        existing_bounds = [
+            view_data.get('bounds')
+            for view_data in (views or {}).values()
+            if isinstance(view_data, dict) and view_data.get('bounds')
+        ]
+
+        try:
+            for entity in msp.query('LWPOLYLINE'):
+                color = getattr(entity.dxf, 'color', 256)
+                linetype = getattr(entity.dxf, 'linetype', 'ByLayer')
+                if color != 252:
+                    continue
+                if linetype.lower() not in ['dashed', 'acad_iso02w100', 'acad_iso10w100']:
+                    continue
+
+                bounds = self._get_polyline_bounds(entity)
+                if not bounds:
+                    continue
+
+                width = bounds['max_x'] - bounds['min_x']
+                height = bounds['max_y'] - bounds['min_y']
+                if abs(width - length) > size_tolerance:
+                    continue
+                if height < min_height or height >= thickness - 1.0:
+                    continue
+                if any(self._bounds_overlap(bounds, existing) for existing in existing_bounds):
+                    continue
+
+                candidates.append(bounds)
+        except Exception as exc:
+            logging.debug(f"查找局部正视图板料线失败: {exc}")
+
+        candidates.sort(key=lambda item: (item['min_x'], -item['min_y']))
+        if candidates:
+            logging.info(
+                "🔍 找到 %s 个局部 front_view 候选框: %s",
+                len(candidates),
+                [
+                    (
+                        round(b['min_x'], 2),
+                        round(b['min_y'], 2),
+                        round(b['max_x'], 2),
+                        round(b['max_y'], 2),
+                    )
+                    for b in candidates
+                ],
+            )
+
+        return candidates
+
+    def _apply_partial_front_view_wire_fallback(
+        self,
+        msp,
+        length: float,
+        thickness: float,
+        views: Optional[Dict[str, Dict]],
+        wire_cut_info: Dict[str, int],
+        processing_instructions: Optional[Dict[str, str]],
+        result: Dict,
+        code_details_by_view: Dict,
+        code_wire_lengths: Dict,
+        all_red_lines_for_length: List[Dict],
+        code_red_lines: Dict[str, List[Dict]],
+    ) -> bool:
+        """Match still-unmatched wire codes in partial front-view boxes."""
+        unmatched_codes = []
+        for code in wire_cut_info.keys():
+            matched_count = sum(
+                detail.get('matched_count', 0)
+                for detail in code_details_by_view.get(code, [])
+            )
+            if matched_count == 0:
+                unmatched_codes.append(code)
+
+        if not unmatched_codes:
+            return False
+
+        partial_front_bounds = self._find_partial_front_view_bounds(
+            msp, length, thickness, views
+        )
+        if not partial_front_bounds:
+            return False
+
+        applied = False
+        used_fallback_line_ids = set()
+
+        for bounds in partial_front_bounds:
+            for code in list(unmatched_codes):
+                if code not in unmatched_codes:
+                    continue
+
+                single_code_info = {code: wire_cut_info[code]}
+                wire_length, red_line_count, _, _, code_matched_lines = (
+                    self.red_line_calculator.calculate_red_lines_in_bounds(
+                        msp,
+                        bounds,
+                        self.wire_cut_filter,
+                        single_code_info,
+                        processing_instructions,
+                        return_count=True,
+                    )
+                )
+
+                lines = code_matched_lines.get(code, [])
+                if not lines:
+                    continue
+
+                line_ids = {id(line['entity']) for line in lines}
+                if line_ids & used_fallback_line_ids:
+                    continue
+                used_fallback_line_ids.update(line_ids)
+
+                view_total_length = sum(line['length'] for line in lines)
+                single_length = view_total_length / len(lines) if lines else 0.0
+                matched_count = self._calculate_matched_count(lines)
+
+                result['front_view_wire_length'] += view_total_length
+                if code not in code_details_by_view:
+                    code_details_by_view[code] = []
+                code_details_by_view[code].append({
+                    'view': 'front_view',
+                    'matched_count': matched_count,
+                    'single_length': round(single_length, 2),
+                    'total_length': round(view_total_length, 2),
+                    'matched_line_ids': [id(line['entity']) for line in lines],
+                    'partial_front_view_fallback': True,
+                })
+
+                for line in lines:
+                    code_wire_lengths[code] += line['length']
+                    all_red_lines_for_length.append(line)
+                    if code in code_red_lines:
+                        code_red_lines[code].append(line)
+
+                unmatched_codes.remove(code)
+                applied = True
+                logging.info(
+                    "✅ 局部 front_view 兜底匹配: 编号 '%s' 匹配 %s 个, 总长 %.2fmm, "
+                    "bounds=(%.2f,%.2f)-(%.2f,%.2f), 候选红线=%s",
+                    code,
+                    matched_count,
+                    view_total_length,
+                    bounds['min_x'],
+                    bounds['min_y'],
+                    bounds['max_x'],
+                    bounds['max_y'],
+                    red_line_count,
+                )
+
+        return applied
+
     def calculate_wire_lengths_by_views(
         self, 
         doc, 
@@ -241,7 +447,23 @@ class ViewWireCalculator:
                     logging.info(f"✅ {view_name} 线割长度: {wire_length:.2f}mm (线割实线数: {red_line_count})")
                 else:
                     logging.warning(f"⚠️ 未识别到 {view_name}")
-            
+
+            partial_front_applied = self._apply_partial_front_view_wire_fallback(
+                msp=msp,
+                length=length,
+                thickness=thickness,
+                views=views,
+                wire_cut_info=wire_cut_info,
+                processing_instructions=processing_instructions,
+                result=result,
+                code_details_by_view=code_details_by_view,
+                code_wire_lengths=code_wire_lengths,
+                all_red_lines_for_length=all_red_lines_for_length,
+                code_red_lines=code_red_lines,
+            )
+            if partial_front_applied:
+                has_red_lines = True
+
             # 4. 检测异常情况
             if wire_cut_codes and not has_red_lines:
                 # 异常情况1：有线割文字说明（加工说明中有"割"），但没有线割实线
