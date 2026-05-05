@@ -1121,7 +1121,8 @@ class MaterialLineProjector:
             
             if is_closed:
                 region = extract_polyline_info(polyline)
-                regions.append(region)
+                if region is not None:
+                    regions.append(region)
 
         return regions
 
@@ -1133,6 +1134,9 @@ class MaterialLineProjector:
         length_tolerance = self.config.get('material_line_tolerance', 0.6)
 
         for region in regions:
+            if region is None or not hasattr(region, 'bbox'):
+                continue
+
             x_range = region.bbox[2] - region.bbox[0]
             y_range = region.bbox[3] - region.bbox[1]
 
@@ -1193,6 +1197,9 @@ class MaterialLineProjector:
         # 使用新列表构建的方式，避免在原列表上原地修改带来的副作用
         new_unique: List[ViewInfo] = []
         for region in regions:
+            if region is None or not hasattr(region, 'bbox'):
+                continue
+
             skip_region = False
             replace_indices: List[int] = []
 

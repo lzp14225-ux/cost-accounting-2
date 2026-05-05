@@ -487,6 +487,8 @@ class PlateLineViewIdentifier:
             Dict: {view_name: {'bounds': ...}} 或 None（匹配失败）
         """
         try:
+            from itertools import combinations, permutations
+
             L = dimensions['L']
             W = dimensions['W']
             T = dimensions['T']
@@ -498,54 +500,93 @@ class PlateLineViewIdentifier:
             
             # 尺寸匹配容差（5mm）
             size_tolerance = self.tolerance
-            
+
+            view_dimensions = {
+                'top_view': [(L, W), (W, L)],
+                'front_view': [(L, T), (T, L)],
+                'side_view': [(W, T), (T, W)],
+            }
+            view_names = list(view_dimensions.keys())
+            n_to_match = min(len(rectangles), len(view_names))
+
+            avg_x = sum(rect['center'][0] for rect in rectangles) / len(rectangles)
+            avg_y = sum(rect['center'][1] for rect in rectangles) / len(rectangles)
+
+            def dimension_score(rect: Dict, view_name: str) -> Tuple[float, Optional[Tuple[float, float]]]:
+                best_diff = float('inf')
+                best_expected = None
+                for expected_w, expected_h in view_dimensions[view_name]:
+                    diff = abs(rect['width'] - expected_w) + abs(rect['height'] - expected_h)
+                    if diff < best_diff:
+                        best_diff = diff
+                        best_expected = (expected_w, expected_h)
+                return best_diff, best_expected
+
+            def position_penalty(rect: Dict, view_name: str) -> float:
+                cx, cy = rect['center']
+                is_left = cx <= avg_x + 0.01
+                is_top = cy >= avg_y - 0.01
+
+                if view_name == 'top_view' and is_left and is_top:
+                    return 0.0
+                if view_name == 'front_view' and is_left and not is_top:
+                    return 0.0
+                if view_name == 'side_view' and (not is_left) and is_top:
+                    return 0.0
+                return 1000.0
+
+            best_assignment = None
+            best_score = float('inf')
+            best_dim_total = float('inf')
+
+            for selected_views in combinations(view_names, n_to_match):
+                for rect_indices in combinations(range(len(rectangles)), n_to_match):
+                    for rect_order in permutations(rect_indices):
+                        assignment = {}
+                        dim_total = 0.0
+                        pos_total = 0.0
+                        valid = True
+
+                        for view_name, rect_idx in zip(selected_views, rect_order):
+                            rect = rectangles[rect_idx]
+                            diff, expected = dimension_score(rect, view_name)
+                            if diff > size_tolerance * 2:
+                                valid = False
+                                break
+                            dim_total += diff
+                            pos_total += position_penalty(rect, view_name)
+                            assignment[view_name] = {
+                                'rect_idx': rect_idx,
+                                'rect': rect,
+                                'diff': diff,
+                                'expected': expected,
+                            }
+
+                        if not valid:
+                            continue
+
+                        # 尺寸是主判据；位置只用于 L/T 接近时打破平局，避免侧视图被俯视图先吃掉。
+                        score = dim_total * 100.0 + pos_total
+                        if score < best_score or (score == best_score and dim_total < best_dim_total):
+                            best_score = score
+                            best_dim_total = dim_total
+                            best_assignment = assignment
+
             views = {}
-            matched_indices = set()
-            
-            # 匹配俯视图 (L×W 或 W×L)
-            for idx, rect in enumerate(rectangles):
-                width = rect['width']
-                height = rect['height']
-                
-                # 检查是否匹配 L×W
-                if (abs(width - L) <= size_tolerance and abs(height - W) <= size_tolerance) or \
-                   (abs(width - W) <= size_tolerance and abs(height - L) <= size_tolerance):
-                    views['top_view'] = {'bounds': rect['bounds']}
-                    matched_indices.add(idx)
-                    logging.info(f"✅ 俯视图匹配成功: 矩形{idx+1} ({width:.1f}×{height:.1f}mm)")
-                    break
-            
-            # 匹配正视图 (L×T 或 T×L)
-            for idx, rect in enumerate(rectangles):
-                if idx in matched_indices:
-                    continue
-                
-                width = rect['width']
-                height = rect['height']
-                
-                # 检查是否匹配 L×T
-                if (abs(width - L) <= size_tolerance and abs(height - T) <= size_tolerance) or \
-                   (abs(width - T) <= size_tolerance and abs(height - L) <= size_tolerance):
-                    views['front_view'] = {'bounds': rect['bounds']}
-                    matched_indices.add(idx)
-                    logging.info(f"✅ 正视图匹配成功: 矩形{idx+1} ({width:.1f}×{height:.1f}mm)")
-                    break
-            
-            # 匹配侧视图 (W×T 或 T×W)
-            for idx, rect in enumerate(rectangles):
-                if idx in matched_indices:
-                    continue
-                
-                width = rect['width']
-                height = rect['height']
-                
-                # 检查是否匹配 W×T
-                if (abs(width - W) <= size_tolerance and abs(height - T) <= size_tolerance) or \
-                   (abs(width - T) <= size_tolerance and abs(height - W) <= size_tolerance):
-                    views['side_view'] = {'bounds': rect['bounds']}
-                    matched_indices.add(idx)
-                    logging.info(f"✅ 侧视图匹配成功: 矩形{idx+1} ({width:.1f}×{height:.1f}mm)")
-                    break
+            if best_assignment:
+                logging.info(f"✅ 根据尺寸找到全局最优视图分配，总尺寸差异={best_dim_total:.2f}mm")
+                for view_name, info in best_assignment.items():
+                    rect = info['rect']
+                    views[view_name] = {'bounds': rect['bounds']}
+                    logging.info(
+                        f"✅ {view_name}匹配成功: 矩形{info['rect_idx'] + 1} "
+                        f"({rect['width']:.1f}×{rect['height']:.1f}mm), "
+                        f"期望={info['expected'][0]:.1f}×{info['expected'][1]:.1f}mm, "
+                        f"差异={info['diff']:.2f}mm"
+                    )
+            else:
+                logging.warning("⚠️ 根据尺寸未匹配到任何视图")
+                return None
             
             # 检查匹配结果
             if len(views) == 3:

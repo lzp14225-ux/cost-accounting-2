@@ -373,6 +373,24 @@ def _detail_total_length(detail: Dict[str, Any]) -> float:
         return 0.0
 
 
+def _detail_matched_count(detail: Dict[str, Any]) -> int:
+    try:
+        return int(detail.get('matched_count') or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def _should_apply_diameter_formula_fallback(
+    detail: Dict[str, Any],
+    formula: Dict[str, Any],
+) -> bool:
+    total_length = _detail_total_length(detail)
+    matched_count = _detail_matched_count(detail)
+    if total_length <= 0:
+        return True
+    return 0 < matched_count < int(formula.get('count') or 0)
+
+
 def _build_formula_wire_detail(
     code: str,
     formula: Dict[str, Any],
@@ -567,19 +585,23 @@ def _apply_diameter_wire_formula_fallback(
             'applied_codes': [],
         }
 
-    positive_codes = {
-        str(detail.get('code'))
-        for detail in wire_cut_details or []
-        if _detail_total_length(detail) > 0
-    }
     existing_codes = {str(detail.get('code')) for detail in wire_cut_details or []}
     applied_codes = set()
     new_details = []
+    length_adjustments_by_view = {view_name: 0.0 for view_name in VIEW_WIRE_LENGTH_FIELDS}
 
     for detail in wire_cut_details or []:
         code = str(detail.get('code'))
         formula = formula_by_code.get(code)
-        if formula and code not in positive_codes and _detail_total_length(detail) <= 0:
+        if formula and code in applied_codes:
+            continue
+
+        if formula and _should_apply_diameter_formula_fallback(detail, formula):
+            old_view_name = detail.get('view') or 'top_view'
+            if old_view_name not in length_adjustments_by_view:
+                old_view_name = 'top_view'
+            length_adjustments_by_view[old_view_name] -= _detail_total_length(detail)
+
             view_occurrences = _find_code_view_occurrences(doc, views, code)
             for allocation in _allocate_formula_length_by_view(formula, view_occurrences):
                 formula_detail = _build_formula_wire_detail(
@@ -591,21 +613,34 @@ def _apply_diameter_wire_formula_fallback(
                     matched_count=allocation['matched_count'],
                 )
                 new_details.append(formula_detail)
+                allocation_view = formula_detail.get('view') or 'top_view'
+                if allocation_view not in length_adjustments_by_view:
+                    allocation_view = 'top_view'
+                length_adjustments_by_view[allocation_view] += float(
+                    formula_detail.get('total_length') or 0
+                )
             applied_codes.add(code)
         else:
             new_details.append(detail)
 
     for code, formula in formula_by_code.items():
-        if code not in existing_codes and code not in positive_codes:
+        if code not in existing_codes:
             view_occurrences = _find_code_view_occurrences(doc, views, code)
             for allocation in _allocate_formula_length_by_view(formula, view_occurrences):
-                new_details.append(_build_formula_wire_detail(
+                formula_detail = _build_formula_wire_detail(
                     code,
                     formula,
                     view_name=allocation['view'],
                     total_length=allocation['total_length'],
                     matched_count=allocation['matched_count'],
-                ))
+                )
+                new_details.append(formula_detail)
+                allocation_view = formula_detail.get('view') or 'top_view'
+                if allocation_view not in length_adjustments_by_view:
+                    allocation_view = 'top_view'
+                length_adjustments_by_view[allocation_view] += float(
+                    formula_detail.get('total_length') or 0
+                )
             applied_codes.add(code)
 
     if not applied_codes:
@@ -615,21 +650,12 @@ def _apply_diameter_wire_formula_fallback(
             'applied_codes': [],
         }
 
-    added_lengths_by_view = {view_name: 0.0 for view_name in VIEW_WIRE_LENGTH_FIELDS}
-    for detail in new_details:
-        if not detail.get('formula_fallback') or str(detail.get('code')) not in applied_codes:
-            continue
-        view_name = detail.get('view') or 'top_view'
-        if view_name not in added_lengths_by_view:
-            view_name = 'top_view'
-        added_lengths_by_view[view_name] += float(detail.get('total_length') or 0)
-
-    for view_name, added_length in added_lengths_by_view.items():
-        if added_length <= 0:
+    for view_name, adjustment in length_adjustments_by_view.items():
+        if abs(adjustment) < 0.005:
             continue
         field_name = VIEW_WIRE_LENGTH_FIELDS[view_name]
         view_wire_lengths[field_name] = (
-            float(view_wire_lengths.get(field_name) or 0) + added_length
+            float(view_wire_lengths.get(field_name) or 0) + adjustment
         )
 
     for code in sorted(applied_codes):
