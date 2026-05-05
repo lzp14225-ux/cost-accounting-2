@@ -64,15 +64,15 @@ from .plate_line_generator import PlateLineGenerator
 
 # 配置日志
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
-LOG_FILE = os.getenv('LOG_FILE', 'feature_recognition.log')
+LOG_FILE = os.getenv('LOG_FILE')
+LOG_HANDLERS = [logging.StreamHandler()]
+if LOG_FILE:
+    LOG_HANDLERS.insert(0, logging.FileHandler(LOG_FILE, encoding='utf-8'))
 
 logging.basicConfig(
     level=getattr(logging, LOG_LEVEL.upper()),
     format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler(LOG_FILE, encoding='utf-8'),
-        logging.StreamHandler()
-    ]
+    handlers=LOG_HANDLERS
 )
 logger = logging.getLogger("scripts.feature_recognition")
 # Keep standalone basicConfig above, but route subsequent module log calls to

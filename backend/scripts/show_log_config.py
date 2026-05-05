@@ -18,10 +18,10 @@ print(f"\n当前工作目录: {cwd}")
 log_files = [
     {
         "name": "特征识别日志",
-        "file": "feature_recognition.log",
+        "file": None,
         "module": "feature_recognition/feature_recognition.py",
         "env_var": "LOG_FILE",
-        "default": "feature_recognition.log"
+        "default": None
     },
     {
         "name": "滑块红色面日志",
@@ -46,14 +46,18 @@ for log_info in log_files:
             print(f"  环境变量: {log_info['env_var']}={env_value}")
             log_path = Path(env_value)
         else:
-            print(f"  环境变量: {log_info['env_var']} (未设置，使用默认值)")
-            log_path = cwd / log_info['default']
+            if log_info['default']:
+                print(f"  环境变量: {log_info['env_var']} (未设置，使用默认值)")
+                log_path = cwd / log_info['default']
+            else:
+                print(f"  环境变量: {log_info['env_var']} (未设置，不生成独立日志文件)")
+                log_path = None
     else:
         log_path = cwd / log_info['file']
     
-    print(f"  日志路径: {log_path}")
+    print(f"  日志路径: {log_path if log_path else '未启用'}")
     
-    if log_path.exists():
+    if log_path and log_path.exists():
         size_kb = log_path.stat().st_size / 1024
         mtime = log_path.stat().st_mtime
         from datetime import datetime
@@ -61,6 +65,8 @@ for log_info in log_files:
         print(f"  文件状态: ✅ 存在")
         print(f"  文件大小: {size_kb:.2f} KB")
         print(f"  最后修改: {mtime_str}")
+    elif not log_path:
+        print(f"  文件状态: 未启用")
     else:
         print(f"  文件状态: ❌ 不存在")
 
@@ -82,7 +88,7 @@ print("如何查看日志")
 print("=" * 80)
 print("""
 1. 查看文件日志:
-   - feature_recognition.log: 特征识别的详细日志
+   - logs/scripts.log: 服务运行时的脚本日志，包含特征识别详细日志
    - slider_red_face.log: 滑块红色面处理日志
 
 2. 查看控制台日志:
@@ -90,10 +96,10 @@ print("""
    - 或使用重定向保存: python unified_api.py > api.log 2>&1
 
 3. 实时监控日志:
-   - PowerShell: Get-Content feature_recognition.log -Wait -Tail 50
-   - 或使用: tail -f feature_recognition.log (如果有 Git Bash)
+   - PowerShell: Get-Content logs/scripts.log -Wait -Tail 50
+   - 或使用: tail -f logs/scripts.log (如果有 Git Bash)
 
-4. 自定义日志位置:
+4. 需要单独的特征识别日志时:
    - 在 .env 文件中设置: LOG_FILE=path/to/your.log
 """)
 
