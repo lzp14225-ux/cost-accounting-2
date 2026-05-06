@@ -11,16 +11,16 @@ NC时间计算脚本
    - nc_base：基础工时（模板/零件）
    - nc_template_clamp / nc_component_clamp：装夹工时（模板/零件）
    - nc_daobu：带“开加刀补/刀补”关键词的程序时间倍数
-   - nc_drilling：钻孔/钻床时间倍数
+   - nc_drilling：钻孔时间倍数
    - nc_hole：满足条件的镗/铰/搪孔按“分钟/孔”替换计算
    - side_hole：模座侧孔按“分钟/孔”替换计算
 3. 调用 wire_base_search 获取模板/零件判断阈值
 4. 检查 nc_time_cost 是否为空，为空则跳过计算返回 0
 5. 如果 process_description 为空，按原逻辑计算：
    - 按 face_code 分组
-   - 分类统计：精铣（精铣、半精、全精）、开粗（开粗）、钻孔/钻床（其他所有 code）
+   - 分类统计：精铣（精铣、半精、全精）、开粗（开粗）、钻孔（其他所有 code）
    - 带“开加刀补/刀补”的明细先乘 nc_daobu 倍数
-   - 钻孔/钻床分类汇总后再乘 nc_drilling 倍数
+   - 钻孔分类汇总后再乘 nc_drilling 倍数
    - 满足 nc_hole 条件的镗/铰/搪孔，不再取 nc_time_cost 的原始时间，改按“分钟/孔”计算
    - 模座的 C/C_B/Z_VIEW/B_VIEW 面侧孔，不再取 nc_time_cost 的原始时间，改按 side_hole 的“分钟/孔”计算
    - 将该 face_code 下的所有 value 相加后从分钟转换为小时
@@ -64,7 +64,7 @@ FACE_CODE_TO_FIELD = {
 DETAIL_CATEGORY_LABELS = {
     "roughing": "开粗",
     "milling": "精铣",
-    "drilling": "钻孔/钻床"
+    "drilling": "钻孔"
 }
 
 # 工艺说明中的 NC 工艺映射
@@ -223,7 +223,7 @@ def _build_nc_time_config(nc_prices: List[Dict]) -> Dict[str, Any]:
 
 
 def _classify_detail_code(code: str) -> str:
-    """将 nc_details 中的 code 归类为 开粗 / 精铣 / 钻孔(钻床)。"""
+    """将 nc_details 中的 code 归类为 开粗 / 精铣 / 钻孔。"""
     if code in ["精铣", "半精", "全精"]:
         return "milling"
     if code == "开粗":
@@ -643,7 +643,7 @@ def _calculate_face_time_legacy(
             "summary": {
                 "开粗_minutes": round(roughing_minutes, 2),
                 "精铣_minutes": round(milling_minutes, 2),
-                "钻孔_钻床_minutes": round(drilling_minutes, 2)
+                "钻孔_minutes": round(drilling_minutes, 2)
             },
             "total_minutes": round(total_minutes, 2),
             "formula": (
@@ -740,7 +740,7 @@ def _calculate_face_time_by_process(
             "summary_hours": {
                 "开粗": round(category_hours["roughing"], 2),
                 "精铣": round(category_hours["milling"], 2),
-                "钻孔_钻床": round(category_hours["drilling"], 2)
+                "钻孔": round(category_hours["drilling"], 2)
             },
             "process_groups": group_results,
             "total_hours": round(face_total_hours, 2),
