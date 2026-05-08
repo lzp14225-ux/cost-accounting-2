@@ -18,6 +18,10 @@ price_items_bp = Blueprint('price_items', __name__, url_prefix='/api/price-items
 class PriceItemService:
     """价格项服务类"""
     
+    BORING_CATEGORY = "boring_machine"
+    BORING_SOURCE_TABLE = "boring_calculate"
+    BORING_TYPES = ("drillig_chamfer", "attack_tooth")
+    
     def __init__(self):
         self.db = db_manager
     
@@ -48,9 +52,172 @@ class PriceItemService:
             return []
         return [self._format_item_data(item) for item in items]
     
+    def _is_boring_item(self, item_data):
+        return (
+            item_data.get('source_table') == self.BORING_SOURCE_TABLE
+            or item_data.get('category') == self.BORING_CATEGORY
+        )
+    
+    def _format_boring_item_data(self, item):
+        if not item:
+            return None
+        
+        row = dict(item)
+        return {
+            'id': row.get('id'),
+            'version_id': None,
+            'category': row.get('boring_type'),
+            'sub_category': row.get('boring_type'),
+            'price': row.get('time_cost'),
+            'unit': row.get('unit'),
+            'work_hours': None,
+            'min_num': row.get('interval'),
+            'add_price': None,
+            'weight_num': None,
+            'note': row.get('note'),
+            'instruction': None,
+            'is_active': True,
+            'created_by': None,
+            'created_at': None,
+            'updated_at': None,
+            'source_table': self.BORING_SOURCE_TABLE,
+        }
+    
+    def _format_boring_items_list(self, items):
+        if not items:
+            return []
+        return [self._format_boring_item_data(item) for item in items]
+    
+    def _get_boring_type(self, item_data):
+        boring_type = item_data.get('boring_type') or item_data.get('sub_category')
+        if boring_type not in self.BORING_TYPES:
+            raise ValueError("钻床类别必须是 drillig_chamfer 或 attack_tooth")
+        return boring_type
+    
+    def create_boring_item(self, item_data):
+        """创建钻床管理价格项。"""
+        try:
+            boring_type = self._get_boring_type(item_data)
+            query = """
+            INSERT INTO boring_calculate
+            (id, boring_type, time_cost, unit, "interval", note)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            RETURNING id, boring_type, time_cost, unit, "interval", note
+            """
+            params = (
+                item_data['id'],
+                boring_type,
+                item_data.get('price'),
+                item_data.get('unit'),
+                item_data.get('min_num'),
+                item_data.get('note'),
+            )
+            result = self.db.execute_query(query, params, fetch_one=True)
+            return True, "钻床管理价格项创建成功", self._format_boring_item_data(result)
+        except Exception as e:
+            logger.error(f"创建钻床管理价格项失败: {e}")
+            return False, f"创建钻床管理价格项失败: {str(e)}", None
+    
+    def get_boring_items(self, page=1, page_size=20):
+        """查询钻床管理价格项。"""
+        count_query = """
+        SELECT COUNT(*) as total
+        FROM boring_calculate
+        WHERE boring_type IN %s
+        """
+        count_result = self.db.execute_query(count_query, (self.BORING_TYPES,), fetch_one=True)
+        total = count_result['total'] if count_result else 0
+        
+        offset = (page - 1) * page_size
+        query = """
+        SELECT id, boring_type, time_cost, unit, "interval", note
+        FROM boring_calculate
+        WHERE boring_type IN %s
+        ORDER BY id
+        LIMIT %s OFFSET %s
+        """
+        results = self.db.execute_query(query, (self.BORING_TYPES, page_size, offset), fetch_all=True)
+        
+        return {
+            'total': total,
+            'page': page,
+            'page_size': page_size,
+            'total_pages': (total + page_size - 1) // page_size,
+            'data': self._format_boring_items_list(results)
+        }
+    
+    def update_boring_item(self, item_id, update_data):
+        """更新钻床管理价格项。"""
+        try:
+            update_fields = []
+            params = []
+            
+            if 'sub_category' in update_data or 'boring_type' in update_data:
+                update_fields.append("boring_type = %s")
+                params.append(self._get_boring_type(update_data))
+            if 'price' in update_data:
+                update_fields.append("time_cost = %s")
+                params.append(update_data.get('price'))
+            if 'unit' in update_data:
+                update_fields.append("unit = %s")
+                params.append(update_data.get('unit'))
+            if 'min_num' in update_data:
+                update_fields.append('"interval" = %s')
+                params.append(update_data.get('min_num'))
+            if 'note' in update_data:
+                update_fields.append("note = %s")
+                params.append(update_data.get('note'))
+            
+            if not update_fields:
+                return False, "没有需要更新的字段", None
+            
+            params.append(item_id)
+            query = f"""
+            UPDATE boring_calculate
+            SET {', '.join(update_fields)}
+            WHERE id = %s
+            RETURNING id, boring_type, time_cost, unit, "interval", note
+            """
+            result = self.db.execute_query(query, tuple(params), fetch_one=True)
+            
+            if result:
+                return True, "钻床管理价格项更新成功", self._format_boring_item_data(result)
+            return False, "钻床管理价格项不存在", None
+        except Exception as e:
+            logger.error(f"更新钻床管理价格项失败: {e}")
+            return False, f"更新钻床管理价格项失败: {str(e)}", None
+    
+    def delete_boring_item(self, item_id):
+        """删除钻床管理价格项。"""
+        try:
+            query = "DELETE FROM boring_calculate WHERE id = %s RETURNING id"
+            result = self.db.execute_query(query, (item_id,), fetch_one=True)
+            
+            if result:
+                return True, "钻床管理价格项删除成功", None
+            return False, "钻床管理价格项不存在", None
+        except Exception as e:
+            logger.error(f"删除钻床管理价格项失败: {e}")
+            return False, f"删除钻床管理价格项失败: {str(e)}", None
+    
+    def batch_delete_boring_items(self, item_ids):
+        """批量删除钻床管理价格项。"""
+        try:
+            placeholders = ','.join(['%s'] * len(item_ids))
+            query = f"DELETE FROM boring_calculate WHERE id IN ({placeholders}) RETURNING id"
+            results = self.db.execute_query(query, tuple(item_ids), fetch_all=True)
+            deleted_count = len(results) if results else 0
+            return True, f"成功删除 {deleted_count} 条钻床管理价格项", {'deleted_count': deleted_count}
+        except Exception as e:
+            logger.error(f"批量删除钻床管理价格项失败: {e}")
+            return False, f"批量删除钻床管理价格项失败: {str(e)}", None
+    
     def create_item(self, item_data):
         """创建价格项"""
         try:
+            if self._is_boring_item(item_data):
+                return self.create_boring_item(item_data)
+            
             query = """
             INSERT INTO price_items 
             (id, version_id, category, sub_category, price, unit, work_hours, 
@@ -114,6 +281,9 @@ class PriceItemService:
     def get_items(self, filters=None, page=1, page_size=20):
         """获取价格项列表（支持分页和筛选）"""
         try:
+            if filters and filters.get('category') == self.BORING_CATEGORY:
+                return True, "获取成功", self.get_boring_items(page, page_size)
+            
             # 构建查询条件
             conditions = []
             params = []
@@ -178,6 +348,9 @@ class PriceItemService:
     def update_item(self, item_id, update_data):
         """更新价格项"""
         try:
+            if self._is_boring_item(update_data):
+                return self.update_boring_item(item_id, update_data)
+            
             # 构建更新字段
             update_fields = []
             params = []
@@ -235,9 +408,12 @@ class PriceItemService:
             logger.error(f"删除价格项失败: {e}")
             return False, f"删除价格项失败: {str(e)}", None
     
-    def soft_delete_item(self, item_id):
+    def soft_delete_item(self, item_id, source_table=None):
         """软删除价格项（将is_active设为false）"""
         try:
+            if source_table == self.BORING_SOURCE_TABLE:
+                return self.delete_boring_item(item_id)
+            
             query = """
             UPDATE price_items
             SET is_active = false, updated_at = %s
@@ -271,9 +447,12 @@ class PriceItemService:
             logger.error(f"批量删除价格项失败: {e}")
             return False, f"批量删除价格项失败: {str(e)}", None
     
-    def batch_soft_delete_items(self, item_ids):
+    def batch_soft_delete_items(self, item_ids, source_table=None):
         """批量软删除价格项（将is_active设为false）"""
         try:
+            if source_table == self.BORING_SOURCE_TABLE:
+                return self.batch_delete_boring_items(item_ids)
+            
             placeholders = ','.join(['%s'] * len(item_ids))
             query = f"""
             UPDATE price_items
@@ -533,7 +712,10 @@ def soft_delete_item(item_id):
     使用PUT或PATCH方法访问: /api/price-items/{item_id}/soft-delete
     """
     try:
-        success, message, result = item_service.soft_delete_item(item_id)
+        success, message, result = item_service.soft_delete_item(
+            item_id,
+            source_table=request.args.get('source_table')
+        )
         
         if success:
             return jsonify({
@@ -627,7 +809,10 @@ def batch_soft_delete_items():
                 'message': 'ids必须是非空数组'
             }), 400
         
-        success, message, result = item_service.batch_soft_delete_items(item_ids)
+        success, message, result = item_service.batch_soft_delete_items(
+            item_ids,
+            source_table=data.get('source_table')
+        )
         
         if success:
             return jsonify({

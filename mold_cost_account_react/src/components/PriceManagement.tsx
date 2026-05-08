@@ -51,6 +51,11 @@ const { TextArea } = Input
 let isLoadingCache = false
 let lastLoadTime = 0
 const LOAD_DEBOUNCE_TIME = 300 // 300ms 内的重复请求会被忽略
+const BORING_SOURCE_TABLE = 'boring_calculate'
+const BORING_TYPE_OPTIONS = [
+  { label: 'drillig_chamfer', value: 'drillig_chamfer' },
+  { label: 'attack_tooth', value: 'attack_tooth' },
+]
 
 const PriceManagement: React.FC = () => {
   const { token } = theme.useToken()
@@ -76,6 +81,8 @@ const PriceManagement: React.FC = () => {
   const [submitting, setSubmitting] = useState(false) // 提交状态
   
   const [form] = Form.useForm()
+  const selectedFormCategory = Form.useWatch('category', form)
+  const isBoringForm = selectedFormCategory === PriceCategory.BORING_MACHINE
   
   // 用于跟踪是否是首次加载
   const isFirstLoad = useRef(true)
@@ -154,6 +161,7 @@ const PriceManagement: React.FC = () => {
     setEditingItem(null)
     form.resetFields() // 清除表单数据
     form.setFieldsValue({
+      category: filters.category === PriceCategory.BORING_MACHINE ? PriceCategory.BORING_MACHINE : undefined,
       is_active: true,
     })
     setModalVisible(true)
@@ -164,7 +172,15 @@ const PriceManagement: React.FC = () => {
     setModalMode('edit')
     setEditingItem(record)
     form.resetFields() // 清除表单数据
-    form.setFieldsValue(record) // 设置编辑数据
+    form.setFieldsValue(
+      record.source_table === BORING_SOURCE_TABLE
+        ? {
+            ...record,
+            category: PriceCategory.BORING_MACHINE,
+            sub_category: record.sub_category || record.category,
+          }
+        : record
+    ) // 设置编辑数据
     setModalVisible(true)
   }
 
@@ -174,12 +190,16 @@ const PriceManagement: React.FC = () => {
       const values = await form.validateFields()
       
       setSubmitting(true)
+      const isBoringSubmit = values.category === PriceCategory.BORING_MACHINE
+      const submitValues = isBoringSubmit
+        ? { ...values, source_table: BORING_SOURCE_TABLE }
+        : values
       
       if (modalMode === 'create') {
-        await createPriceItem(values as CreatePriceItemParams)
+        await createPriceItem(submitValues as CreatePriceItemParams)
         message.success('价格项创建成功')
       } else {
-        await updatePriceItem(editingItem!.id, values as UpdatePriceItemParams)
+        await updatePriceItem(editingItem!.id, submitValues as UpdatePriceItemParams)
         message.success('价格项更新成功')
       }
       
@@ -198,9 +218,9 @@ const PriceManagement: React.FC = () => {
   }
 
   // 删除单个价格项
-  const handleDelete = async (itemId: string) => {
+  const handleDelete = async (record: PriceItem) => {
     try {
-      await deletePriceItem(itemId)
+      await deletePriceItem(record.id, record.source_table)
       message.success('价格项删除成功')
       loadItems()
     } catch (error: any) {
@@ -223,7 +243,14 @@ const PriceManagement: React.FC = () => {
       cancelText: '取消',
       onOk: async () => {
         try {
-          await batchDeletePriceItems(selectedRowKeys as string[])
+          const selectedItems = items.filter((item) => selectedRowKeys.includes(item.id))
+          const sourceTables = Array.from(new Set(selectedItems.map((item) => item.source_table || 'price_items')))
+          if (sourceTables.length > 1) {
+            message.warning('请不要同时选择钻床管理和其他价格项进行批量删除')
+            return
+          }
+          const sourceTable = sourceTables[0] === BORING_SOURCE_TABLE ? BORING_SOURCE_TABLE : undefined
+          await batchDeletePriceItems(selectedRowKeys as string[], sourceTable)
           message.success(`成功删除 ${selectedRowKeys.length} 条价格项`)
           setSelectedRowKeys([])
           loadItems()
@@ -251,9 +278,9 @@ const PriceManagement: React.FC = () => {
       key: 'category',
       width: 120,
       align: 'center' as const,
-      render: (category: PriceCategory) => {
+      render: (category: PriceCategory | string) => {
         if (!category) return '-'
-        const label = PriceCategoryLabels[category] || category
+        const label = PriceCategoryLabels[category as PriceCategory] || category
         const colorMap: Record<string, string> = {
           wire: 'blue',
           special: 'orange',
@@ -268,6 +295,9 @@ const PriceManagement: React.FC = () => {
           screw: 'geekblue',
           stop_screw: 'cyan',
           density: 'blue',
+          boring_machine: 'default',
+          drillig_chamfer: 'default',
+          attack_tooth: 'default',
         }
         return <Tag color={colorMap[category] || 'default'}>{label}</Tag>
       },
@@ -323,7 +353,7 @@ const PriceManagement: React.FC = () => {
           </Button>
           <Popconfirm
             title="确定要删除这条价格项吗？"
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record)}
             okText="删除"
             cancelText="取消"
           >
@@ -630,6 +660,9 @@ const PriceManagement: React.FC = () => {
           >
             <Select
               placeholder="请选择类别"
+              onChange={() => {
+                form.setFieldValue('sub_category', undefined)
+              }}
               options={Object.entries(PriceCategoryLabels).map(([key, label]) => ({
                 label,
                 value: key,
@@ -637,14 +670,18 @@ const PriceManagement: React.FC = () => {
             />
           </Form.Item>
 
-          {/* 子类字段只在新增时显示 */}
-          {modalMode === 'create' && (
+          {/* 子类字段只在新增时显示；钻床管理编辑时用于维护 boring_type */}
+          {(modalMode === 'create' || isBoringForm) && (
             <Form.Item
-              label="子类"
+              label={isBoringForm ? '钻床类别' : '子类'}
               name="sub_category"
-              rules={[{ required: true, message: '请输入子类' }]}
+              rules={[{ required: true, message: isBoringForm ? '请选择钻床类别' : '请输入子类' }]}
             >
-              <Input placeholder="请输入子类" />
+              {isBoringForm ? (
+                <Select placeholder="请选择钻床类别" options={BORING_TYPE_OPTIONS} />
+              ) : (
+                <Input placeholder="请输入子类" />
+              )}
             </Form.Item>
           )}
 

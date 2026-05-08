@@ -52,6 +52,7 @@ export enum PriceCategory {
   SCREW = 'screw',                  // 普通螺丝
   STOP_SCREW = 'stop_screw',        // 止付螺丝
   DENSITY = 'density',              // 材质密度
+  BORING_MACHINE = 'boring_machine', // 钻床管理
 }
 
 // 类别显示名称
@@ -69,13 +70,14 @@ export const PriceCategoryLabels: Record<PriceCategory, string> = {
   [PriceCategory.SCREW]: '普通螺丝',
   [PriceCategory.STOP_SCREW]: '止付螺丝',
   [PriceCategory.DENSITY]: '材质密度',
+  [PriceCategory.BORING_MACHINE]: '钻床管理',
 }
 
 // 价格项接口
 export interface PriceItem {
   id: string
   version_id?: string
-  category?: PriceCategory
+  category?: PriceCategory | string
   sub_category?: string
   price?: string
   unit?: string
@@ -90,6 +92,7 @@ export interface PriceItem {
   created_by?: string
   created_at: string
   updated_at: string
+  source_table?: string
 }
 
 // 创建价格项参数
@@ -109,6 +112,7 @@ export interface CreatePriceItemParams {
   instruction?: string
   is_active?: boolean
   created_by?: string
+  source_table?: string
 }
 
 // 更新价格项参数
@@ -127,6 +131,7 @@ export interface UpdatePriceItemParams {
   instruction?: string
   is_active?: boolean
   created_by?: string
+  source_table?: string
 }
 
 // 查询参数
@@ -176,13 +181,21 @@ export const updatePriceItem = async (itemId: string, params: UpdatePriceItemPar
 }
 
 // 5. 软删除价格项（单个）
-export const deletePriceItem = async (itemId: string): Promise<ApiResponse> => {
-  return apiClient.put(`/api/price-items/${itemId}/soft-delete`)
+export const deletePriceItem = async (itemId: string, sourceTable?: string): Promise<ApiResponse> => {
+  return apiClient.put(`/api/price-items/${itemId}/soft-delete`, null, {
+    params: sourceTable ? { source_table: sourceTable } : undefined,
+  })
 }
 
 // 6. 批量软删除价格项
-export const batchDeletePriceItems = async (ids: string[]): Promise<ApiResponse<{ deleted_count: number }>> => {
-  return apiClient.post('/api/price-items/batch-soft-delete', { ids })
+export const batchDeletePriceItems = async (
+  ids: string[],
+  sourceTable?: string
+): Promise<ApiResponse<{ deleted_count: number }>> => {
+  return apiClient.post('/api/price-items/batch-soft-delete', {
+    ids,
+    source_table: sourceTable,
+  })
 }
 
 // 7. 根据版本和类别获取价格项

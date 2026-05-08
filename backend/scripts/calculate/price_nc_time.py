@@ -14,6 +14,7 @@ NC时间计算脚本
    - nc_drilling：钻孔时间倍数
    - nc_hole：满足条件的镗/铰/搪孔按“分钟/孔”替换计算
    - side_hole：模座侧孔按“分钟/孔”替换计算
+   - boring_calculate：钻床攻牙/螺纹时间配置
 3. 调用 wire_base_search 获取模板/零件判断阈值
 4. 检查 nc_time_cost 是否为空，为空则跳过计算返回 0
 5. 如果 process_description 为空，按原逻辑计算：
@@ -27,12 +28,15 @@ NC时间计算脚本
 6. 如果 process_description 不为空，按工艺分段计算：
    - 先根据尺寸和 wire_base 阈值判断模板/零件
    - 动态获取对应的基础工时和装夹工时
-   - 从 process_description 中识别“钻孔 / CNC开粗 / CNC精铣”
+   - 从 process_description 中识别“钻孔 / CNC开粗 / CNC精铣”（“钻床”不按钻孔处理）
    - 连续出现的上述工艺视为同一段；中间被其他工艺打断则重新起一段
+   - 钻孔时间不单独形成最终 NC 面时间，统一并入 CNC 开粗段计算
    - 对每个 face_code 的每一段计算：
-     max(该段相关 NC 时间 + 装夹工时, 基础工时)
+    CNC开粗段按 max(开粗时间 + 钻孔时间 + 该面钻床时间 + 装夹工时, 基础工时)
+     其他段按 max(该段相关 NC 时间 + 装夹工时, 基础工时)
    - 该 face_code 的最终时间 = 各段结果之和
-7. 更新 processing_cost_calculation_details 表的对应字段：
+7. 根据加工说明中的攻牙/螺纹规则单独计算钻床时间，并写入 subgraphs.milling_machine_time
+8. 更新 processing_cost_calculation_details 表的对应字段：
    - Z -> nc_z_cost
    - B -> nc_b_cost
    - C -> nc_c_cost
@@ -40,13 +44,14 @@ NC时间计算脚本
    - Z_VIEW -> nc_z_view_cost
    - B_VIEW -> nc_b_view_cost
 """
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Optional
 import logging
 import asyncio
 import re
 
 from ._batch_update_helper import batch_upsert_with_steps
 from .price_nc_base import _build_nc_base_config, _get_template_threshold, _determine_part_type
+from api_gateway.database import db
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +84,7 @@ SIDE_HOLE_FACE_CODES = {"C", "C_B", "Z_VIEW", "B_VIEW"}
 # MCP 工具元数据
 MCP_TOOL_META = {
     "name": "calculate_nc_time_cost",
-    "description": "计算NC时间：根据工艺说明按段汇总各面的NC时间；若无工艺说明则回退到原始汇总逻辑",
+    "description": "计算NC时间：钻孔并入CNC开粗段，钻床按加工说明单独计算；若无工艺说明则回退到原始汇总逻辑",
     "inputSchema": {
         "type": "object",
         "properties": {
@@ -222,8 +227,32 @@ def _build_nc_time_config(nc_prices: List[Dict]) -> Dict[str, Any]:
     return config
 
 
+def _build_boring_machine_config(boring_calculate: List[Dict]) -> Dict[str, Any]:
+    """从 boring_calculate 检索结果构建钻床时间配置。"""
+    config = {
+        "attack_tooth_minutes": 0.0,
+        "drillig_chamfer_minutes": 0.0,
+        "rules": boring_calculate or []
+    }
+
+    for item in boring_calculate or []:
+        boring_type = str(item.get("boring_type") or "").strip()
+        try:
+            time_cost = float(item.get("time_cost") or 0)
+        except (ValueError, TypeError):
+            logger.warning("Invalid boring_calculate time_cost: %s", item)
+            continue
+
+        if boring_type == "attack_tooth":
+            config["attack_tooth_minutes"] = time_cost
+        elif boring_type == "drillig_chamfer":
+            config["drillig_chamfer_minutes"] = time_cost
+
+    return config
+
+
 def _classify_detail_code(code: str) -> str:
-    """将 nc_details 中的 code 归类为 开粗 / 精铣 / 钻孔。"""
+    """将 nc_details 中的 code 归类为 开粗 / 精铣 / 钻孔；钻孔后续会并入 CNC 开粗段。"""
     if code in ["精铣", "半精", "全精"]:
         return "milling"
     if code == "开粗":
@@ -235,6 +264,7 @@ def _identify_process_type(process_name: str) -> str:
     """识别 process_description 中的 NC 相关工艺类型。"""
     normalized = str(process_name or "").replace(" ", "")
 
+    # 注意：不要把“钻床”当作“钻孔”，钻床按加工说明单独计算。
     if "钻孔" in normalized:
         return "drilling"
     if "CNC开粗" in normalized or normalized.startswith("开粗"):
@@ -488,6 +518,176 @@ def _extract_side_hole_replacements(
     return replacements
 
 
+def _is_boring_machine_instruction(line: str) -> bool:
+    """判断加工说明行是否属于钻床攻牙/螺纹时间。"""
+    text = str(line or "").strip()
+    if not text:
+        return False
+
+    if re.search(r"(?i)M\d+[X*]?P\d*\.?\d+", text):
+        return True
+
+    keywords = ["螺纹", "螺丝", "止付螺丝", "起吊螺纹", "牙孔", "攻"]
+    return any(keyword in text for keyword in keywords)
+
+
+def _extract_boring_machine_faces(line: str) -> Tuple[List[str], str]:
+    """根据正攻/背攻/正反面攻先判断归属面，再把该条钻床时间累加到对应 Z/B 面。"""
+    normalized = str(line or "").replace(" ", "")
+
+    if "正反面" in normalized and "攻" in normalized:
+        return ["Z", "B"], "正反面攻，该条时间分别计入Z面和B面"
+    if "背攻" in normalized or "背面攻" in normalized:
+        return ["B"], "背攻/背面攻，该条时间计入B面"
+    if "正攻" in normalized or "正面攻" in normalized:
+        return ["Z"], "正攻/正面攻，该条时间计入Z面"
+
+    return ["Z", "B"], "未识别正攻/背攻，该条时间默认分别计入Z面和B面"
+
+
+def _calculate_boring_machine_time(
+    processing_instructions: Any,
+    boring_machine_config: Dict[str, Any]
+) -> Dict[str, Any]:
+    """从加工说明计算钻床时间，单位最终输出为小时。"""
+    attack_minutes = float(boring_machine_config.get("attack_tooth_minutes", 0) or 0)
+    chamfer_minutes = float(boring_machine_config.get("drillig_chamfer_minutes", 0) or 0)
+    face_attack_minutes = {"Z": 0.0, "B": 0.0}
+    face_has_boring = {"Z": False, "B": False}
+    matched_items = []
+
+    normalized = _normalize_processing_instructions(processing_instructions)
+    for frame_name, lines in normalized.items():
+        for raw_line in lines:
+            line = str(raw_line or "").strip()
+            if not _is_boring_machine_instruction(line):
+                continue
+
+            count_match = re.match(r"^\s*[A-Za-z][A-Za-z0-9_]*\s*:\s*(\d+)", line)
+            if not count_match:
+                matched_items.append({
+                    "frame": frame_name,
+                    "source_line": line,
+                    "skipped": True,
+                    "reason": "命中钻床关键词但无法解析孔数"
+                })
+                continue
+
+            hole_count = int(count_match.group(1))
+            faces, face_reason = _extract_boring_machine_faces(line)
+            attack_minutes_total = hole_count * attack_minutes
+
+            for face_code in faces:
+                face_attack_minutes[face_code] = face_attack_minutes.get(face_code, 0.0) + attack_minutes_total
+                face_has_boring[face_code] = True
+
+            matched_items.append({
+                "frame": frame_name,
+                "source_line": line,
+                "hole_count": hole_count,
+                "faces": faces,
+                "face_reason": face_reason,
+                "attack_tooth_minutes_per_hole": round(attack_minutes, 2),
+                "drillig_chamfer_minutes": round(chamfer_minutes, 2),
+                "minutes_per_face": round(attack_minutes_total, 2),
+                "formula": (
+                    f"{hole_count}*{round(attack_minutes, 2)} = "
+                    f"{round(attack_minutes_total, 2)}分钟/面"
+                )
+            })
+
+    face_chamfer_minutes = {
+        face_code: (chamfer_minutes if face_has_boring.get(face_code) else 0.0)
+        for face_code in face_attack_minutes.keys()
+    }
+    face_minutes = {
+        face_code: face_attack_minutes.get(face_code, 0.0) + face_chamfer_minutes.get(face_code, 0.0)
+        for face_code in face_attack_minutes.keys()
+    }
+    total_minutes = sum(face_minutes.values())
+    return {
+        "face_minutes": {k: round(v, 2) for k, v in face_minutes.items()},
+        "face_attack_minutes": {k: round(v, 2) for k, v in face_attack_minutes.items()},
+        "face_chamfer_minutes": {k: round(v, 2) for k, v in face_chamfer_minutes.items()},
+        "total_minutes": round(total_minutes, 2),
+        "total_hours": round(total_minutes / 60.0, 2),
+        "matched_items": matched_items,
+        "config": {
+            "attack_tooth_minutes": round(attack_minutes, 2),
+            "drillig_chamfer_minutes": round(chamfer_minutes, 2)
+        }
+    }
+
+
+def _calculate_boring_only_face_costs(
+    part: Dict[str, Any],
+    boring_machine_result: Dict[str, Any],
+    nc_time_config: Dict[str, Any],
+    template_threshold: float
+) -> Tuple[Dict[str, float], List[Dict[str, Any]]]:
+    """没有NC明细时，仍按Z/B面把钻床时间计入对应面工时。"""
+    face_costs = {face: 0 for face in FACE_CODE_TO_FIELD.keys()}
+    steps = []
+    face_minutes = boring_machine_result.get("face_minutes") or {}
+
+    length_mm = part.get("length_mm") or 0
+    width_mm = part.get("width_mm") or 0
+    thickness_mm = part.get("thickness_mm") or 0
+    part_type, part_type_desc = _determine_part_type(
+        length_mm, width_mm, thickness_mm, template_threshold
+    )
+    nc_base_hours = nc_time_config.get("nc_base_hours", {}).get(part_type, 0) or 0
+    clamp_hours = nc_time_config.get("clamp_hours", {}).get(part_type, 0) or 0
+
+    for face_code in ("Z", "B"):
+        boring_hours = float(face_minutes.get(face_code, 0) or 0) / 60.0
+        if boring_hours <= 0:
+            continue
+
+        final_hours = max(boring_hours + clamp_hours, nc_base_hours)
+        face_costs[face_code] = round(final_hours, 2)
+        steps.append({
+            "step": f"按钻床计算 {face_code} 面",
+            "face_code": face_code,
+            "details": [],
+            "summary_hours": {
+                "开粗": 0,
+                "精铣": 0,
+                "钻孔": 0,
+                "钻床": round(boring_hours, 2)
+            },
+            "process_groups": [{
+                "group_index": 1,
+                "group_sequence": "钻床",
+                "group_processes": ["钻床"],
+                "included_items": [{
+                    "process_type": "boring_machine",
+                    "process_name": "钻床",
+                    "hours": round(boring_hours, 2),
+                    "face_code": face_code,
+                    "face_minutes": round(boring_hours * 60, 2),
+                    "note": "钻床时间来自加工说明中的攻牙/螺纹规则，不是NC明细钻孔"
+                }],
+                "raw_processing_hours": round(boring_hours, 2),
+                "clamp_hours": round(clamp_hours, 2),
+                "combined_hours_before_base": round(boring_hours + clamp_hours, 2),
+                "nc_base_hours": round(nc_base_hours, 2),
+                "final_hours": round(final_hours, 2),
+                "formula": (
+                    f"max(钻床{round(boring_hours, 2)} + 装夹{round(clamp_hours, 2)}, "
+                    f"基础工时{round(nc_base_hours, 2)}) = {round(final_hours, 2)}"
+                ),
+                "note": "没有NC明细时，钻床仍按加工说明计入对应面的NC面工时"
+            }],
+            "total_hours": round(final_hours, 2),
+            "part_type": part_type,
+            "part_type_description": part_type_desc,
+            "note": "nc_time_cost为空或nc_details为空，仅按钻床加工说明形成该面工时"
+        })
+
+    return face_costs, steps
+
+
 def _apply_detail_adjustments(
     detail: Dict[str, Any],
     nc_time_config: Dict[str, Any]
@@ -669,7 +869,8 @@ def _calculate_face_time_by_process(
     detail_breakdown: List[Dict[str, Any]],
     process_groups: List[Dict[str, Any]],
     nc_base_hours: float,
-    clamp_hours: float
+    clamp_hours: float,
+    boring_machine_hours: float = 0.0
 ) -> Tuple[float, Dict[str, Any]]:
     """按工艺段计算单个面的 NC 时间。"""
     category_hours = {
@@ -679,22 +880,77 @@ def _calculate_face_time_by_process(
 
     group_results = []
     face_total_hours = 0.0
+    merge_drilling_to_roughing = any(
+        "roughing" in group["process_types"]
+        for group in process_groups
+    )
+    merged_boring_machine = False
 
     for index, group in enumerate(process_groups, start=1):
         included_items = []
         raw_processing_hours = 0.0
 
-        for process_type in group["process_types"]:
-            current_hours = category_hours.get(process_type, 0.0)
-            if current_hours <= 0:
-                continue
-
-            included_items.append({
+        def append_included_item(
+            process_type: str,
+            process_name: str,
+            hours: float,
+            note: Optional[str] = None,
+            extra: Optional[Dict[str, Any]] = None
+        ) -> None:
+            nonlocal raw_processing_hours
+            if hours <= 0:
+                return
+            item = {
                 "process_type": process_type,
-                "process_name": PROCESS_TYPE_LABELS[process_type],
-                "hours": round(current_hours, 2)
-            })
-            raw_processing_hours += current_hours
+                "process_name": process_name,
+                "hours": round(hours, 2)
+            }
+            if note:
+                item["note"] = note
+            if extra:
+                item.update(extra)
+            included_items.append(item)
+            raw_processing_hours += hours
+
+        for process_type in group["process_types"]:
+            if process_type == "roughing":
+                roughing_hours = category_hours.get("roughing", 0.0)
+                drilling_hours = category_hours.get("drilling", 0.0) if merge_drilling_to_roughing else 0.0
+                boring_hours = boring_machine_hours
+                merged_boring_machine = boring_hours > 0
+                append_included_item(
+                    "roughing",
+                    PROCESS_TYPE_LABELS["roughing"],
+                    roughing_hours,
+                    extra={"note": "CNC开粗时间"}
+                )
+                append_included_item(
+                    "drilling",
+                    PROCESS_TYPE_LABELS["drilling"],
+                    drilling_hours,
+                    note="钻孔时间来自NC明细，按规则并入CNC开粗段"
+                )
+                append_included_item(
+                    "boring_machine",
+                    "钻床",
+                    boring_hours,
+                    note=f"钻床时间来自加工说明中的攻牙/螺纹规则，已计入{face_code}面开粗段",
+                    extra={
+                        "face_code": face_code,
+                        "face_minutes": round(boring_hours * 60, 2)
+                    }
+                )
+                continue
+            elif process_type == "drilling" and merge_drilling_to_roughing:
+                continue
+            else:
+                current_hours = category_hours.get(process_type, 0.0)
+
+            append_included_item(
+                process_type,
+                PROCESS_TYPE_LABELS[process_type],
+                current_hours
+            )
 
         if raw_processing_hours <= 0:
             group_results.append({
@@ -714,6 +970,12 @@ def _calculate_face_time_by_process(
             f"{item['process_name']}{item['hours']}"
             for item in included_items
         )
+        item_text_with_unit = " + ".join(
+            f"{item['process_name']}{item['hours']}h"
+            for item in included_items
+        )
+        process_sequence_parts = [item["process_name"] for item in included_items]
+        process_sequence_parts.append("装夹")
 
         group_results.append({
             "group_index": index,
@@ -729,7 +991,38 @@ def _calculate_face_time_by_process(
                 f"max(({item_text}) + 装夹{round(clamp_hours, 2)}, "
                 f"基础工时{round(nc_base_hours, 2)}) = {round(final_hours, 2)}"
             ),
+            "formula_with_units": (
+                f"max({item_text_with_unit} + 装夹{round(clamp_hours, 2)}h, "
+                f"基础工时{round(nc_base_hours, 2)}h) = {round(final_hours, 2)}h"
+            ),
+            "process_sequence_display": " + ".join(process_sequence_parts),
+            "ordered_process_text": f"{item_text_with_unit} + 装夹{round(clamp_hours, 2)}h",
             "note": "同一连续工艺段只计一次装夹工时，再与基础工时比较取最大值"
+        })
+
+    if boring_machine_hours > 0 and not merged_boring_machine:
+        final_hours = max(boring_machine_hours + clamp_hours, nc_base_hours)
+        face_total_hours += final_hours
+        group_results.append({
+            "group_index": len(group_results) + 1,
+            "group_sequence": "钻床",
+            "group_processes": ["钻床"],
+            "included_items": [{
+                "process_type": "boring_machine",
+                "process_name": "钻床",
+                "hours": round(boring_machine_hours, 2),
+                "note": "钻床时间来自加工说明中的攻牙/螺纹规则，不是NC明细钻孔"
+            }],
+            "raw_processing_hours": round(boring_machine_hours, 2),
+            "clamp_hours": round(clamp_hours, 2),
+            "combined_hours_before_base": round(boring_machine_hours + clamp_hours, 2),
+            "nc_base_hours": round(nc_base_hours, 2),
+            "final_hours": round(final_hours, 2),
+            "formula": (
+                f"max(钻床{round(boring_machine_hours, 2)} + 装夹{round(clamp_hours, 2)}, "
+                f"基础工时{round(nc_base_hours, 2)}) = {round(final_hours, 2)}"
+            ),
+            "note": "该面未识别到可并入的开粗段，钻床作为该面的单独工艺段计入NC面工时"
         })
 
     if face_total_hours > 0:
@@ -740,11 +1033,13 @@ def _calculate_face_time_by_process(
             "summary_hours": {
                 "开粗": round(category_hours["roughing"], 2),
                 "精铣": round(category_hours["milling"], 2),
-                "钻孔": round(category_hours["drilling"], 2)
+                "钻孔": round(category_hours["drilling"], 2),
+                "钻床": round(boring_machine_hours, 2),
+                "开粗段合计": round(category_hours["roughing"] + category_hours["drilling"] + (boring_machine_hours if merge_drilling_to_roughing else 0), 2)
             },
             "process_groups": group_results,
             "total_hours": round(face_total_hours, 2),
-            "note": "连续的钻孔/CNC开粗/CNC精铣合并计算；被其他工艺打断后重新计装夹和基础工时"
+            "note": "钻孔时间并入CNC开粗段；钻床时间按加工说明计算后并入对应面的NC面工时，同时汇总写入milling_machine_time"
         }
     else:
         step = {
@@ -786,6 +1081,7 @@ async def calculate(
 
     # 构建 NC 时间配置
     nc_time_config = _build_nc_time_config(nc_data.get("nc_prices", []))
+    boring_machine_config = _build_boring_machine_config(nc_data.get("boring_calculate", []))
     template_threshold = _get_template_threshold(wire_base_data.get("rule_prices", []))
 
     # Step 1: 计算每个零件的NC时间
@@ -797,6 +1093,7 @@ async def calculate(
             job_id,
             part,
             nc_time_config,
+            boring_machine_config,
             template_threshold
         )
         results.append(result)
@@ -816,6 +1113,24 @@ async def calculate(
                 for d in db_updates
             ]
             await batch_upsert_with_steps(updates, f"nc_{face_code.lower()}", field_name)
+
+        milling_machine_updates = [
+            (
+                d.get("milling_machine_time", 0),
+                d["subgraph_id"],
+                d["job_id"]
+            )
+            for d in db_updates
+        ]
+        await db.execute_many(
+            """
+            UPDATE subgraphs
+            SET milling_machine_time = $1
+            WHERE subgraph_id = $2::text
+              AND job_id = $3::uuid
+            """,
+            milling_machine_updates
+        )
     
     logger.info(f"Completed NC time calculation for {len(results)} parts")
     
@@ -829,6 +1144,7 @@ async def _calculate_part_nc_time_cost(
     job_id: str,
     part: Dict,
     nc_time_config: Dict[str, Any],
+    boring_machine_config: Dict[str, Any],
     template_threshold: float
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """
@@ -847,21 +1163,52 @@ async def _calculate_part_nc_time_cost(
 
     # 检查 nc_time_cost 数据
     if not nc_time_cost_data:
+        boring_machine_result = _calculate_boring_machine_time(
+            processing_instructions,
+            boring_machine_config
+        )
+        logger.info(
+            "钻床时间计算完成: part=%s, subgraph_id=%s, milling_machine_time=%.2f h, matched_items=%d",
+            part_name,
+            subgraph_id,
+            boring_machine_result["total_hours"],
+            len(boring_machine_result["matched_items"])
+        )
+        boring_machine_step = {
+            "step": "计算钻床时间",
+            "common_step": True,
+            "face_minutes": boring_machine_result["face_minutes"],
+            "face_attack_minutes": boring_machine_result["face_attack_minutes"],
+            "face_chamfer_minutes": boring_machine_result["face_chamfer_minutes"],
+            "total_minutes": boring_machine_result["total_minutes"],
+            "total_hours": boring_machine_result["total_hours"],
+            "matched_items": boring_machine_result["matched_items"],
+            "config": boring_machine_result["config"],
+            "note": "钻床时间只从加工说明中的攻牙/螺纹识别，区别于NC明细中的钻孔时间"
+        }
+        face_costs, boring_face_steps = _calculate_boring_only_face_costs(
+            part,
+            boring_machine_result,
+            nc_time_config,
+            template_threshold
+        )
         logger.info(f"No nc_time_cost data for {part_name}, skipping calculation")
         return {
             "subgraph_id": subgraph_id,
             "part_name": part_name,
-            "face_costs": {},
-            "note": "nc_time_cost数据为空，跳过计算"
+            "face_costs": face_costs,
+            "milling_machine_time": boring_machine_result["total_hours"],
+            "note": "nc_time_cost数据为空，NC明细时间跳过；钻床时间按加工说明计入对应面"
         }, {
             "job_id": job_id,
             "subgraph_id": subgraph_id,
-            "face_costs": {face: 0 for face in FACE_CODE_TO_FIELD.keys()},
+            "face_costs": face_costs,
+            "milling_machine_time": boring_machine_result["total_hours"],
             "calculation_steps": [{
                 "step": "检查nc_time_cost",
                 "common_step": True,
-                "note": "nc_time_cost数据为空，跳过NC时间计算"
-            }]
+                "note": "nc_time_cost数据为空，跳过NC面时间计算；钻床时间仍按加工说明单独计算"
+            }, boring_machine_step] + boring_face_steps
         }
     
     # 如果 nc_time_cost_data 是字符串，解析为 JSON
@@ -891,25 +1238,79 @@ async def _calculate_part_nc_time_cost(
     # 获取 nc_details
     nc_details = nc_time_cost_data.get("nc_details", [])
     if not nc_details:
+        boring_machine_result = _calculate_boring_machine_time(
+            processing_instructions,
+            boring_machine_config
+        )
+        logger.info(
+            "钻床时间计算完成: part=%s, subgraph_id=%s, milling_machine_time=%.2f h, matched_items=%d",
+            part_name,
+            subgraph_id,
+            boring_machine_result["total_hours"],
+            len(boring_machine_result["matched_items"])
+        )
+        boring_machine_step = {
+            "step": "计算钻床时间",
+            "common_step": True,
+            "face_minutes": boring_machine_result["face_minutes"],
+            "face_attack_minutes": boring_machine_result["face_attack_minutes"],
+            "face_chamfer_minutes": boring_machine_result["face_chamfer_minutes"],
+            "total_minutes": boring_machine_result["total_minutes"],
+            "total_hours": boring_machine_result["total_hours"],
+            "matched_items": boring_machine_result["matched_items"],
+            "config": boring_machine_result["config"],
+            "note": "钻床时间只从加工说明中的攻牙/螺纹识别，区别于NC明细中的钻孔时间"
+        }
+        face_costs, boring_face_steps = _calculate_boring_only_face_costs(
+            part,
+            boring_machine_result,
+            nc_time_config,
+            template_threshold
+        )
         logger.info(f"No nc_details in nc_time_cost for {part_name}, skipping calculation")
         return {
             "subgraph_id": subgraph_id,
             "part_name": part_name,
-            "face_costs": {},
+            "face_costs": face_costs,
+            "milling_machine_time": boring_machine_result["total_hours"],
             "note": "nc_details为空，跳过计算"
         }, {
             "job_id": job_id,
             "subgraph_id": subgraph_id,
-            "face_costs": {face: 0 for face in FACE_CODE_TO_FIELD.keys()},
+            "face_costs": face_costs,
+            "milling_machine_time": boring_machine_result["total_hours"],
             "calculation_steps": [{
                 "step": "检查nc_details",
                 "common_step": True,
-                "note": "nc_details为空，跳过NC时间计算"
-            }]
+                "note": "nc_details为空，跳过NC明细时间计算；钻床时间仍按加工说明计入对应面"
+            }, boring_machine_step] + boring_face_steps
         }
 
     calculation_steps = []
     face_costs = {}  # 存储每个 face_code 的总值
+    boring_machine_result = _calculate_boring_machine_time(
+        processing_instructions,
+        boring_machine_config
+    )
+    logger.info(
+        "钻床时间计算完成: part=%s, subgraph_id=%s, milling_machine_time=%.2f h, matched_items=%d",
+        part_name,
+        subgraph_id,
+        boring_machine_result["total_hours"],
+        len(boring_machine_result["matched_items"])
+    )
+    calculation_steps.append({
+        "step": "计算钻床时间",
+        "common_step": True,
+        "face_minutes": boring_machine_result["face_minutes"],
+        "face_attack_minutes": boring_machine_result["face_attack_minutes"],
+        "face_chamfer_minutes": boring_machine_result["face_chamfer_minutes"],
+        "total_minutes": boring_machine_result["total_minutes"],
+        "total_hours": boring_machine_result["total_hours"],
+        "matched_items": boring_machine_result["matched_items"],
+        "config": boring_machine_result["config"],
+        "note": "钻床时间只从加工说明中的攻牙/螺纹识别，区别于NC明细中的钻孔时间"
+    })
     special_hole_replacements = _extract_special_hole_replacements(
         processing_instructions,
         nc_time_config.get("hole_rule", {})
@@ -1070,13 +1471,17 @@ async def _calculate_part_nc_time_cost(
         )
 
         if use_process_group_logic:
+            boring_machine_hours = float(
+                (boring_machine_result.get("face_minutes") or {}).get(face_code, 0) or 0
+            ) / 60.0
             face_total_hours, step = _calculate_face_time_by_process(
                 face_code,
                 category_minutes,
                 detail_breakdown,
                 process_groups,
                 nc_base_hours,
-                clamp_hours
+                clamp_hours,
+                boring_machine_hours
             )
         else:
             face_total_hours, step = _calculate_face_time_legacy(
@@ -1084,10 +1489,42 @@ async def _calculate_part_nc_time_cost(
                 category_minutes,
                 detail_breakdown
             )
+            boring_machine_hours = float(
+                (boring_machine_result.get("face_minutes") or {}).get(face_code, 0) or 0
+            ) / 60.0
+            if boring_machine_hours > 0:
+                face_total_hours = round(face_total_hours + boring_machine_hours, 2)
+                step["boring_machine_hours_added"] = round(boring_machine_hours, 2)
+                step["total_hours"] = face_total_hours
+                step["note"] = (
+                    f"{step.get('note', '')}；钻床时间{round(boring_machine_hours, 2)}小时"
+                    "来自加工说明中的攻牙/螺纹规则，已计入该面NC工时"
+                )
 
         step["applied_rules"] = face_rule_summary
         face_costs[face_code] = face_total_hours
         calculation_steps.append(step)
+
+    if use_process_group_logic:
+        for face_code in ("Z", "B"):
+            if face_code in face_costs:
+                continue
+            boring_machine_hours = float(
+                (boring_machine_result.get("face_minutes") or {}).get(face_code, 0) or 0
+            ) / 60.0
+            if boring_machine_hours <= 0:
+                continue
+            face_total_hours, step = _calculate_face_time_by_process(
+                face_code,
+                {"roughing": 0.0, "milling": 0.0, "drilling": 0.0},
+                [],
+                process_groups,
+                nc_base_hours,
+                clamp_hours,
+                boring_machine_hours
+            )
+            face_costs[face_code] = face_total_hours
+            calculation_steps.append(step)
 
     # 确保所有 face_code 都有值（即使为0）
     for face_code in FACE_CODE_TO_FIELD.keys():
@@ -1110,11 +1547,13 @@ async def _calculate_part_nc_time_cost(
 
     if part_type:
         result["part_type"] = part_type
+    result["milling_machine_time"] = boring_machine_result["total_hours"]
 
     db_data = {
         "job_id": job_id,
         "subgraph_id": subgraph_id,
         "face_costs": face_costs,
+        "milling_machine_time": boring_machine_result["total_hours"],
         "calculation_steps": calculation_steps
     }
 

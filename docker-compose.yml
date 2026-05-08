@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: chengben-postgres
+    restart: always
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: mold_cost_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+
+  redis:
+    image: redis:7
+    container_name: chengben-redis
+    restart: always
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./data/redis:/data
+    command: redis-server --appendonly yes
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: chengben-rabbitmq
+    restart: always
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: 12345678
+
+  minio:
+    image: minio/minio
+    container_name: chengben-minio
+    restart: always
+    ports:
+      - "9002:9000"
+      - "9003:9001"
+    volumes:
+      - ./data/minio:/data
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: 12345678
+    command: server /data --console-address ":9001"
+
+networks:
+  default:
+    name: chengben-network

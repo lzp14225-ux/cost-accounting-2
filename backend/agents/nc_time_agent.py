@@ -1121,7 +1121,7 @@ class NCTimeAgent(BaseAgent):
             break
 
     def _summarize_actual_nc_times(self, nc_details: List[Dict[str, Any]]) -> Dict[str, float]:
-        """汇总 NC 原始明细中的开粗/精铣/钻床实际加工时间，不乘数量。"""
+        """汇总 NC 原始明细中的开粗/精铣/钻孔实际加工时间，不乘数量。"""
         roughing_minutes = Decimal("0")
         milling_minutes = Decimal("0")
         drilling_minutes = Decimal("0")

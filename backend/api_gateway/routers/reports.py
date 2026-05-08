@@ -43,7 +43,7 @@ HEADERS = [
     '序号', '编号', '零件名称', '材质', '备料于', '数量', '长/mm', '宽/mm', '厚/mm', '重量/kg',
     '热处理', '工艺', '材料单价', '材料费（元）', '开粗后体积', '开粗后重量', '热处理单价', '热处理费（元）',
     '单件加工费合计（元）', '热处理+加工费（元）', '加工费（按重量计算）', '单件费用合计（元）', '费用合计（元） 材料费+热处理+加工费',
-    'NC开粗时间(单件/h)', 'NC精铣时间(单件/h)', 'NC钻孔时间(单件/h)', 'NC加工面数量',
+    'NC开粗时间(单件/h)', 'NC精铣时间(单件/h)', 'NC钻床时间(单件/h)', 'NC加工面数量',
     'A面(单件/h)', 'B面(单件/h)', 'C面(单件/h)', 'D面(单件/h)', 'E面(单件/h)', 'F面(单件/h)',
     'NC加工费（单件/元）',
     '小磨床 YM(h)', '小磨床（元）', '大水磨 M(h)', '大水磨（元）',
@@ -58,7 +58,7 @@ SUM_COLUMNS = [
     13,  # 材料费（元）
     16, 17,                          # 开粗后重量/热处理费
     18, 19, 20, 21, 22,              # 加工费/单独计费/费用合计
-    23, 24, 25,                      # NC开粗/精铣/钻孔时间
+    23, 24, 25,                      # NC开粗/精铣/钻床时间
     27, 28, 29, 30, 31, 32,          # A-F面工时
     33,                              # NC加工费（单件/元）
     34, 35, 36, 37,                  # 磨床
@@ -678,9 +678,9 @@ def _build_row_data(idx: int, subgraph: Subgraph, feature: Feature, is_nc_failed
         safe_float(subgraph.separate_item_cost),
         per_piece(subgraph.total_cost),
         safe_float(subgraph.total_cost),
-        safe_float(subgraph.nc_roughing_time),
+        safe_float(subgraph.nc_roughing_time) + safe_float(subgraph.drilling_time),
         safe_float(subgraph.nc_milling_time),
-        safe_float(subgraph.drilling_time),
+        safe_float(getattr(subgraph, "milling_machine_time", None)),
         nc_face_count,
         per_piece(subgraph.nc_z_time),  # A面时间
         per_piece(subgraph.nc_b_time),  # B面时间

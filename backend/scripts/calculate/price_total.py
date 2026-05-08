@@ -612,7 +612,7 @@ async def _update_process_descriptions(job_id: str, subgraph_ids: List[str], nc_
     - NC工艺（从nc_time_cost判断）：
       - S: 开粗（code为"开粗"）
       - SS: 精铣（code为"精铣"、"半精"、"全精"）
-      - Z: 钻床（其他所有code，如M、T、L、A、D等）
+      - Z: process_description 原始工艺描述中的“钻床”
     - heat_treatment ->
       - HRC -> PTR
       - 调质 -> 调质
@@ -748,7 +748,8 @@ def _determine_nc_processes(nc_time_cost: Any) -> List[str]:
     判断规则：
     - 开粗（S）：code 为 "开粗"
     - 精铣（SS）：code 为 "精铣"、"半精"、"全精"
-    - 钻床（Z）：其他所有 code（如 M、T、L、A、D、ZXZ、M1、M-1、ABC 等）
+    注：钻床 Z 只从 subgraphs.process_description 原始工艺描述中识别；
+    nc_time_cost 明细中的 M、T、L、A、D 等 code 不再兜底映射为 Z。
     
     Args:
         nc_time_cost: NC时间成本数据
@@ -772,10 +773,9 @@ def _determine_nc_processes(nc_time_cost: Any) -> List[str]:
     if not nc_details:
         return []
     
-    # 判断是否有开粗、精铣、钻床
+    # 判断是否有开粗、精铣
     has_roughing = False  # 开粗 -> S
     has_milling = False   # 精铣 -> SS
-    has_drilling = False  # 钻床 -> Z
     
     # 遍历所有面的所有details
     for nc_detail in nc_details:
@@ -789,20 +789,15 @@ def _determine_nc_processes(nc_time_cost: Any) -> List[str]:
                         has_roughing = True
                     elif code in ["精铣", "半精", "全精"]:
                         has_milling = True
-                    else:
-                        # 其他所有code都归为钻床（M、T、L、A、D、ZXZ等）
-                        has_drilling = True
             except (ValueError, TypeError):
                 continue
     
-    # 按顺序返回NC工艺：S -> SS -> Z
+    # 按顺序返回NC工艺：S -> SS；Z 由原始 process_description 中的“钻床”提供。
     nc_processes = []
     if has_roughing:
         nc_processes.append("S")
     if has_milling:
         nc_processes.append("SS")
-    if has_drilling:
-        nc_processes.append("Z")
     
     return nc_processes
 
@@ -828,7 +823,7 @@ def _looks_like_raw_process_description(text: Any) -> bool:
         return False
 
     raw_markers = [
-        "->", "CNC", "钻孔", "热处理", "大水磨", "小磨床",
+        "->", "CNC", "钻床", "热处理", "大水磨", "小磨床",
         "慢丝", "中丝", "快丝", "放电", "雕刻", "质检"
     ]
     return any(marker in normalized_text for marker in raw_markers)
@@ -864,7 +859,7 @@ def _map_raw_process_segment(segment: str) -> Optional[Tuple[str, str]]:
         return "wire", "WZ"
     if "快丝" in normalized_segment:
         return "wire", "WC"
-    if "钻孔" in normalized_segment:
+    if "钻床" in normalized_segment:
         return "drilling", "Z"
     if "CNC开粗" in normalized_segment or "开粗" in normalized_segment:
         return "nc_roughing", "S"

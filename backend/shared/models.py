@@ -114,7 +114,10 @@ class Subgraph(Base):
     nc_c_b_time = Column(DECIMAL(10, 2))
     nc_roughing_time = Column(DECIMAL(10, 2))
     nc_milling_time = Column(DECIMAL(10, 2))
+    # NC 明细中的钻孔时间；导出时并入 NC 开粗时间
     drilling_time = Column(DECIMAL(10, 2))
+    # 钻床时间；按加工说明中的攻牙/螺纹规则单独计算
+    milling_machine_time = Column(DECIMAL(10, 2))
     large_grinding_time = Column(DECIMAL(10, 2))
     small_grinding_time = Column(DECIMAL(10, 2))
     edm_time = Column(DECIMAL(10, 2))

@@ -51,6 +51,11 @@ class BatchIdsRequest(BaseModel):
     ids: list[str]
 
 
+class BatchPriceItemIdsRequest(BaseModel):
+    ids: list[str]
+    source_table: Optional[str] = None
+
+
 def _get_client_ip(request: Request) -> str:
     forwarded = request.headers.get("X-Forwarded-For")
     if forwarded:
@@ -305,14 +310,17 @@ async def update_price_item(item_id: str, payload: dict = Body(...)):
 
 @router.put("/api/price-items/{item_id}/soft-delete")
 @router.patch("/api/price-items/{item_id}/soft-delete")
-async def soft_delete_price_item(item_id: str):
-    success, message, data = price_item_service.soft_delete_item(item_id)
+async def soft_delete_price_item(item_id: str, source_table: Optional[str] = None):
+    success, message, data = price_item_service.soft_delete_item(item_id, source_table=source_table)
     return {"success": success, "message": message, "data": data}
 
 
 @router.post("/api/price-items/batch-soft-delete")
-async def batch_soft_delete_price_items(payload: BatchIdsRequest):
-    success, message, data = price_item_service.batch_soft_delete_items(payload.ids)
+async def batch_soft_delete_price_items(payload: BatchPriceItemIdsRequest):
+    success, message, data = price_item_service.batch_soft_delete_items(
+        payload.ids,
+        source_table=payload.source_table,
+    )
     return {"success": success, "message": message, "data": data}
 
 

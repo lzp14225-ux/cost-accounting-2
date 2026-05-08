@@ -711,14 +711,24 @@ class QueryDetailsHandler(BaseActionHandler):
    - 🔴 如果某个面的步骤里有 `process_groups`，必须展开每个分段的计算过程，不能只回答 total_hours
    - 分段展开时要写清：该段包含哪些工序、原始加工时间、装夹时间、基础工时、取大后的实际工时
    - 优先使用 `process_groups[].formula` 中已有公式，不要自己重算或改写数值
+
+5. ✅ **第五步：提取钻床时间（必须检查）**
+   - 在所有 NC 相关 category 的 `steps` 中查找 `step="计算钻床时间"` 的公共步骤
+   - 如果存在，必须输出 `total_hours` 作为“NC钻床时间”
+   - 同时说明 `face_minutes` 的 Z/B 面结果，以及 `matched_items` 中命中的加工说明、归属面和公式
+   - 钻床时间取自加工说明并汇总写入 `subgraphs.milling_machine_time`，不要和 NC 明细里的钻孔时间混为一谈
+   - 钻孔时间已经并入 CNC 开粗段；钻床时间按每条加工说明归属到对应面。回答 Z 面/B 面时，必须使用该面自己的钻床时间，不能把钻床总时间或另一个面的时间写到该面
+   - 不能说“钻床只单独列支、不并入主视图/背面”或“不额外叠加钻床时间”
    
-5. ✅ **第五步：提取费用信息**
+6. ✅ **第六步：提取费用信息**
    - 从 nc_total 类别的 final_fees 中提取各面费用
    - 汇总得到 NC 总费用
    
-6. ✅ **第六步：组织回答**
+7. ✅ **第七步：组织回答**
    - 说明基础工时
    - 列出各面的实际工时和费用
+   - 如果存在钻床时间，说明每个面的钻床时间是多少，并说明已计入对应面的 NC 面工时；`milling_machine_time` 保存钻床总时间
+   - 当前 NC 总费用汇总 nc_total 里的各面费用；这些面费用应基于已并入钻床后的面工时
    - 说明比较取最大值的逻辑
    - 给出总费用
 
@@ -758,7 +768,7 @@ class QueryDetailsHandler(BaseActionHandler):
 
 ### 对象类型
 - **dimensions**: {{"length_mm": 长度, "width_mm": 宽度, "thickness_mm": 厚度}} - 尺寸信息
-- **summary**: {{"jing_xi_hours": 精铣工时, "kai_cu_hours": 开粗工时, "drill_hours": 钻床工时}} - 工时汇总
+- **summary**: {{"jing_xi_hours": 精铣工时, "kai_cu_hours": 开粗工时, "drill_hours": 钻孔工时}} - 工时汇总
 - **view_totals**: {{"top_view": 价格, "front_view": 价格, "side_view": 价格}} - 各视图总价
 - **perimeter_by_view**: {{"top_view": 周长, "front_view": 周长, "side_view": 周长}} - 按视图分组的周长
 
@@ -841,7 +851,7 @@ class QueryDetailsHandler(BaseActionHandler):
 2. **nc_z, nc_b, nc_c 等**: 按面代码分别计算各面的 NC 时间
    - 从 metadata 中提取各面的工序数据（details 数组）
    - 每个工序有 code（如 ZXZ, C1, M, 开粗, 半精, 全精）和 value（时间，单位：分钟）
-   - 按分类汇总：精铣（半精、全精）、开粗、钻床（其他所有 code）
+   - 按分类汇总：精铣（半精、全精）、开粗、钻孔（其他所有 code）
    - 将分钟转换为小时：total_hours = total_minutes / 60
    - 如果步骤中有 `process_groups`，表示已经按工艺路线分段计算：
      - `included_items` 是该段参与计算的工序和小时数
@@ -867,11 +877,11 @@ class QueryDetailsHandler(BaseActionHandler):
       "step": "计算 Z 面",
       "face_code": "Z",
       "details": [
-        {{"code": "ZXZ", "value": 1.52, "category": "钻床"}},
+        {{"code": "ZXZ", "value": 1.52, "category": "钻孔"}},
         {{"code": "开粗", "value": 172.20, "category": "开粗"}},
         {{"code": "半精", "value": 14.24, "category": "精铣"}}
       ],
-      "summary": {{"精铣": 14.24, "开粗": 172.20, "钻床": 1.52}},
+      "summary": {{"精铣": 14.24, "开粗": 172.20, "钻孔": 1.52}},
       "total_minutes": 187.96,
       "total_hours": 3.13,
       "formula": "(14.24 + 172.20 + 1.52) / 60 = 3.13"
@@ -885,8 +895,15 @@ class QueryDetailsHandler(BaseActionHandler):
   1. 先说明 nc_base（基础工时）
   2. 如果各面步骤里存在 `process_groups`，必须按工艺段展开，例如“开粗/钻孔段：开粗0.4h + 钻孔0.2h + 装夹0.2h = 0.8h，与基础工时0.5h比较，取0.8h”
   3. 然后列出各面的实际总工时（每个工艺段 final_hours 相加）
-  4. 最后给出各面费用和总费用（从 nc_total 的 final_fees 中获取）
+  4. 必须检查并列出 `step="计算钻床时间"` 的公共步骤：钻床总小时、每个面的钻床分钟/小时、命中的加工说明及归属面；回答各面工时时必须把该面自己的钻床小时写进该面公式
+  5. 最后给出各面费用和总费用（从 nc_total 的 final_fees 中获取）
 - **如果存在 process_groups，不要只写“经工艺分段、装夹合并、倍率调整后”，必须把每个分段的公式和取大结果列出来**
+- **如果用表格回答 NC**：`关键说明` 列必须直接展示该面的 `process_groups[].formula`，不能只写“含开粗+钻孔+精铣+钻床时间”。例如必须写成 `公式：max((钻孔8.4 + 钻床6.92 + CNC精铣0.94) + 装夹0.2, 基础工时0.5) = 16.46`
+- **NC工艺顺序必须写对**：中文说明按该面实际参与计算的工序动态生成，缺少的工序不要写；相对顺序固定为 `CNC开粗 -> 钻孔 -> 钻床 -> CNC精铣 -> 装夹`，不能把钻床写到精铣后面
+- **开粗和钻孔时间必须拆开说**：不能把 `CNC开粗 + 钻孔` 合并成一个数字。必须使用 `process_groups[].included_items` 逐项列出，例如 `CNC开粗1.2h + 钻孔8.4h + 钻床5.5h + CNC精铣0.94h + 装夹0.2h`；如果某项为 0 或不存在，就不要写该项
+- **不要把“开粗段合计”再和钻床重复相加**：如果公式里已经出现 `钻床6.92`，总工时以 `process_groups[].formula` 的结果为准；不要自行把关键说明里的钻床时间再次叠加或改写
+- **钻床和钻孔必须区分**：钻孔时间并入 CNC 开粗段；钻床时间来自 `计算钻床时间` 步骤和 `milling_machine_time`。回答主视图/背面时，必须使用该面自己的钻床时间，例如 Z 面 240 分钟就写 4h，B 面 60 分钟就写 1h
+- **不要说钻床只单独列支或不额外叠加**：用户当前规则是该面工时 = 该面开粗 + 钻孔 + 钻床 + 精铣（如果都有，再按工艺段和基础工时规则取值）
 - **如果用户问"主视图的时间"或"Z面的时间"**：从 `nc_z` 类别中找 `total_hours` 字段
 - **如果用户问"背面的时间"或"B面的时间"**：从 `nc_b` 类别中找 `total_hours` 字段
 - **如果用户问"侧面的时间"或"C面的时间"**：从 `nc_c` 类别中找 `total_hours` 字段
@@ -1298,7 +1315,7 @@ PU-02 的 NC（数控铣削）费用计算如下：
             "nc_base": "NC基本费用",
             "nc_roughing": "NC开粗费用",
             "nc_milling": "NC精铣费用",
-            "nc_drilling": "NC钻床费用",
+            "nc_drilling": "NC钻孔费用",
             "water_mill_high": "水磨高度费",
             "water_mill_long_strip": "水磨长条费",
             "water_mill_chamfer": "水磨倒角费",
@@ -1347,7 +1364,7 @@ PU-02 的 NC（数控铣削）费用计算如下：
             "material_additional_cost": "额外材料费(元)",
             "nc_roughing_cost": "开粗费用(元)",
             "nc_milling_cost": "精铣费用(元)",
-            "nc_drilling_cost": "钻床费用(元)",
+            "nc_drilling_cost": "钻孔费用(元)",
             "long_strip_cost": "长条费(小时)",
             "base_price": "基础价格(元)",
             "final_price": "最终价格(元)",
@@ -1358,7 +1375,7 @@ PU-02 的 NC（数控铣削）费用计算如下：
             "nc_base_hours": "NC基本工时(小时)",
             "kai_cu_hours": "开粗工时(小时)",
             "jing_xi_hours": "精铣工时(小时)",
-            "drill_hours": "钻床工时(小时)",
+            "drill_hours": "钻孔工时(小时)",
             "hours": "工时(小时)",
             
             # 材料相关
@@ -1431,7 +1448,7 @@ PU-02 的 NC（数控铣削）费用计算如下：
             "mid_wire_cost": "中丝费用(元)",
             "fast_wire_cost": "快丝费用(元)",
             "edm_cost": "EDM费用(元)",
-            "drilling_cost": "钻床费用(元)",
+            "drilling_cost": "钻孔费用(元)",
             "processing_cost_total": "加工成本总计(元)",
             "total_cost": "总价(元)",
             "items": "包含的项目数组",
@@ -1705,7 +1722,7 @@ PU-02 的 NC（数控铣削）费用计算如下：
                 "nc_total": "NC总费用计算",  # 🆕 UPDATE 2026-02-07
                 "nc_roughing": "NC开粗费用",  # 🆕 P0
                 "nc_milling": "NC精铣费用",  # 🆕 P0
-                "nc_drilling": "NC钻床费用",  # 🆕 P0
+                "nc_drilling": "NC钻孔费用",  # 🆕 P0
                 # 🆕 P2 水磨相关
                 "water_mill_high": "水磨高度费",
                 "water_mill_long_strip": "水磨长条费",
@@ -1732,7 +1749,10 @@ PU-02 的 NC（数控铣削）费用计算如下：
                     step_desc = step.get("step", "")
                     
                     # 根据不同的字段格式化输出
-                    if "process_groups" in step:
+                    if step_desc == "计算钻床时间" or "milling_machine_time" in step:
+                        lines.extend(self._format_boring_machine_step(step))
+
+                    elif "process_groups" in step:
                         lines.extend(self._format_nc_process_groups_step(step))
                     
                     elif "formula" in step:
@@ -1831,6 +1851,7 @@ PU-02 的 NC（数控铣削）费用计算如下：
                 lines.append(f"    说明: {step.get('note') or step.get('reason')}")
             return lines
 
+        face_boring_hours = 0.0
         for group in process_groups:
             group_sequence = group.get("group_sequence") or group.get("group_processes") or f"第{group.get('group_index', '')}段"
             included_items = group.get("included_items") or []
@@ -1838,7 +1859,23 @@ PU-02 的 NC（数控铣削）费用计算如下：
             for item in included_items:
                 process_name = item.get("process_name") or item.get("process_type") or "工序"
                 hours = item.get("hours", 0)
-                item_parts.append(f"{process_name}{hours:g}h")
+                try:
+                    hours_value = float(hours or 0)
+                except (TypeError, ValueError):
+                    hours_value = 0
+                if item.get("process_type") == "boring_machine" or process_name == "钻床":
+                    face_boring_hours += hours_value
+                    face_minutes = item.get("face_minutes")
+                    try:
+                        face_minutes_value = float(face_minutes or 0)
+                    except (TypeError, ValueError):
+                        face_minutes_value = 0
+                    if face_minutes_value > 0:
+                        item_parts.append(f"{process_name}{hours_value:g}h（{face_minutes_value:g}分钟）")
+                    else:
+                        item_parts.append(f"{process_name}{hours_value:g}h")
+                else:
+                    item_parts.append(f"{process_name}{hours:g}h")
 
             if item_parts:
                 lines.append(f"    {group_sequence}: {' + '.join(item_parts)}")
@@ -1861,7 +1898,87 @@ PU-02 的 NC（数控铣削）费用计算如下：
             if note:
                 lines.append(f"      说明: {note}")
 
+        if face_boring_hours > 0:
+            face_boring_minutes = face_boring_hours * 60
+            lines.append(
+                f"    该面钻床时间: {face_boring_hours:g} 小时（{face_boring_minutes:g} 分钟），已计入该面 NC 时间"
+            )
         lines.append(f"    该面实际 NC 时间: {total_hours:g} 小时")
+        return lines
+
+    def _format_boring_machine_step(self, step: Dict[str, Any]) -> List[str]:
+        """格式化钻床时间计算步骤。"""
+        face_labels = {
+            "Z": "主视图（Z面）",
+            "B": "背面（B面）",
+        }
+        lines = ["  计算钻床时间"]
+
+        total_hours = step.get("total_hours", 0) or 0
+        total_minutes = step.get("total_minutes", 0) or 0
+        lines.append(f"    钻床总时间: {total_hours:g} 小时（{total_minutes:g} 分钟）")
+
+        face_minutes = step.get("face_minutes") or {}
+        face_attack_minutes = step.get("face_attack_minutes") or {}
+        face_chamfer_minutes = step.get("face_chamfer_minutes") or {}
+        if isinstance(face_minutes, dict) and face_minutes:
+            face_parts = []
+            for face_code, minutes in face_minutes.items():
+                try:
+                    minutes_value = float(minutes or 0)
+                except (TypeError, ValueError):
+                    minutes_value = 0
+                if minutes_value <= 0:
+                    continue
+                face_name = face_labels.get(face_code, face_code)
+                attack_value = 0
+                chamfer_value = 0
+                if isinstance(face_attack_minutes, dict):
+                    try:
+                        attack_value = float(face_attack_minutes.get(face_code, 0) or 0)
+                    except (TypeError, ValueError):
+                        attack_value = 0
+                if isinstance(face_chamfer_minutes, dict):
+                    try:
+                        chamfer_value = float(face_chamfer_minutes.get(face_code, 0) or 0)
+                    except (TypeError, ValueError):
+                        chamfer_value = 0
+                if attack_value > 0 or chamfer_value > 0:
+                    face_parts.append(
+                        f"{face_name}: {minutes_value / 60:g} 小时（{minutes_value:g} 分钟，"
+                        f"攻牙{attack_value:g}分钟 + 倒角{chamfer_value:g}分钟）"
+                    )
+                else:
+                    face_parts.append(f"{face_name}: {minutes_value / 60:g} 小时（{minutes_value:g} 分钟）")
+            if face_parts:
+                lines.append(f"    各面钻床时间: {'；'.join(face_parts)}")
+
+        matched_items = step.get("matched_items") or []
+        valid_items = [
+            item for item in matched_items
+            if isinstance(item, dict) and not item.get("skipped")
+        ]
+        if valid_items:
+            lines.append("    命中的加工说明:")
+            for item in valid_items:
+                source_line = item.get("source_line", "")
+                formula = item.get("formula", "")
+                faces = item.get("faces") or []
+                face_names = [face_labels.get(face, face) for face in faces]
+                face_text = "、".join(face_names) if face_names else "未指定面"
+                lines.append(f"      - {source_line}")
+                face_reason = item.get("face_reason")
+                if face_reason:
+                    lines.append(f"        归属面: {face_text}（{face_reason}）")
+                else:
+                    lines.append(f"        归属面: {face_text}")
+                if formula:
+                    lines.append(f"        计算: {formula}")
+
+        note = step.get("note")
+        if note:
+            lines.append(f"    说明: {note}")
+
         return lines
 
     def _build_price_scope_summary(
@@ -1958,10 +2075,10 @@ PU-02 的 NC（数控铣削）费用计算如下：
             'nc_base_hours': 'NC基本工时(小时)',
             'kai_cu_hours': '开粗工时(小时)',
             'jing_xi_hours': '精铣工时(小时)',
-            'drill_hours': '钻床工时(小时)',
+            'drill_hours': '钻孔工时(小时)',
             'nc_roughing_cost': 'NC开粗费用(元)',
             'nc_milling_cost': 'NC精铣费用(元)',
-            'nc_drilling_cost': 'NC钻床费用(元)',
+            'nc_drilling_cost': 'NC钻孔费用(元)',
             'wire_process': '工艺代码',
             'boring_num': '孔数',
             'standard_base_cost': '标准基本费(元)',
@@ -2121,7 +2238,7 @@ PU-02 的 NC（数控铣削）费用计算如下：
                 "nc_total": "NC总费用计算",  # 🆕 UPDATE 2026-02-07
                 "nc_roughing": "NC开粗费用",  # 🆕 P0
                 "nc_milling": "NC精铣费用",  # 🆕 P0
-                "nc_drilling": "NC钻床费用",  # 🆕 P0
+                "nc_drilling": "NC钻孔费用",  # 🆕 P0
                 # 🆕 P2 水磨相关
                 "water_mill_high": "水磨高度费",
                 "water_mill_long_strip": "水磨长条费",
@@ -2148,7 +2265,10 @@ PU-02 的 NC（数控铣削）费用计算如下：
             for step in target_item.get("steps", []):
                 step_desc = step.get("step", "")
                 
-                if "process_groups" in step:
+                if step_desc == "计算钻床时间" or "milling_machine_time" in step:
+                    lines.extend(self._format_boring_machine_step(step))
+
+                elif "process_groups" in step:
                     lines.extend(self._format_nc_process_groups_step(step))
 
                 elif "formula" in step:

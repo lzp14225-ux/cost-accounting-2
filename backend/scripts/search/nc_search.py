@@ -4,6 +4,7 @@ NC价格检索脚本
 
 查询流程：
 Step 1: job_price_snapshots表 -> 查询 category 为 NC 的 sub_category、price、unit
+Step 2: boring_calculate表 -> 查询 boring_type 为 drillig_chamfer / attack_tooth 的钻床时间配置
 注：查询时忽略 subgraph_id 字段，只根据 job_id 查询
 """
 from typing import List, Dict, Any
@@ -17,7 +18,7 @@ logger = logging.getLogger(__name__)
 # MCP 工具元数据
 MCP_TOOL_META = {
     "name": "search_nc_by_job_id",
-    "description": "按job_id查询NC价格数据：从job_price_snapshots获取所有 category=NC 的价格（注：subgraph_ids参数被忽略，因为NC价格是全局配置）",
+    "description": "按job_id查询NC价格数据：从job_price_snapshots获取所有 category=NC 的价格，并获取 boring_calculate 中 drillig_chamfer / attack_tooth 的钻床时间配置（注：subgraph_ids参数被忽略，因为NC价格是全局配置）",
     "inputSchema": {
         "type": "object",
         "properties": {
@@ -47,7 +48,8 @@ async def search_by_job_id(job_id: str, subgraph_ids: List[str] = None) -> Dict[
         
     Returns:
         Dict: {
-            "nc_prices": [...]  # NC 价格列表
+            "nc_prices": [...],  # NC 价格列表
+            "boring_calculate": [...]  # 钻床时间配置
         }
     """
     # 注意：subgraph_ids 参数被忽略，因为NC价格数据是全局配置，不按零件存储
@@ -55,13 +57,17 @@ async def search_by_job_id(job_id: str, subgraph_ids: List[str] = None) -> Dict[
     
     # Step 1: 查询价格表 - category 为 NC
     nc_prices = await _fetch_price_data(job_id)
+    boring_calculate = await _fetch_boring_calculate_data()
     
-    logger.info(f"Found {len(nc_prices)} NC prices")
+    logger.info(
+        f"Found {len(nc_prices)} NC prices and {len(boring_calculate)} boring calculate rows"
+    )
     
     return {
         "data_type": "nc",
         "job_id": job_id,
-        "nc_prices": nc_prices
+        "nc_prices": nc_prices,
+        "boring_calculate": boring_calculate
     }
 
 
@@ -82,6 +88,27 @@ async def _fetch_price_data(job_id: str) -> List[Dict]:
         return [dict(row) for row in rows]
     except Exception as e:
         logger.error(f"Fetch NC price data failed: {e}")
+        raise
+
+
+async def _fetch_boring_calculate_data() -> List[Dict]:
+    """
+    Step 2: 查询 boring_calculate 表
+    条件: boring_type IN ('drillig_chamfer', 'attack_tooth') AND is_activate = true
+    获取: boring_type, subclass, f_value, interval, time_cost, unit
+    """
+    sql = """
+        SELECT boring_type, subclass, f_value, "interval", time_cost, unit
+        FROM boring_calculate
+        WHERE boring_type IN ('drillig_chamfer', 'attack_tooth')
+          AND COALESCE(is_activate, true) = true
+        ORDER BY id
+    """
+    try:
+        rows = await db.fetch_all(sql)
+        return [dict(row) for row in rows]
+    except Exception as e:
+        logger.error(f"Fetch boring calculate data failed: {e}")
         raise
 
 
@@ -116,3 +143,12 @@ if __name__ == "__main__":
     print("\n--- NC 价格列表 ---")
     for p in results["nc_prices"]:
         print(f"  sub_category: {p['sub_category']}, price: {p['price']}, unit: {p['unit']}, min_num: {p.get('min_num', 'N/A')}")
+
+    print("\n--- 钻床时间配置 boring_calculate ---")
+    for row in results["boring_calculate"]:
+        print(
+            f"  boring_type: {row['boring_type']}, subclass: {row['subclass']}, "
+            f"f_value: {row['f_value']}, interval: {row['interval']}, "
+            f"time_cost: {row['time_cost']}, unit: {row['unit']}"
+        )
+
